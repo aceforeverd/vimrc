@@ -51,7 +51,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'rdnetto/YCM-Generator'
 Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'Quramy/tsuquyomi'
 " Plugin 'leafgarland/typescript-vim'
 Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'Quramy/vim-js-pretty-template'
@@ -60,15 +59,13 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'kannokanno/previm'
 Plugin 'tyru/open-browser.vim'
 Plugin 'raimondi/delimitmate'
-Plugin 'nsf/gocode'
+" Plugin 'nsf/gocode', {'rtp': 'vim/'}
 Plugin 'fatih/vim-go'
 Plugin 'groenewege/vim-less'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'mattn/emmet-vim'
 Plugin 'mattn/webapi-vim'
 " Plugin 'python-mode/python-mode'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'ternjs/tern_for_vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 " Plugin 'jelera/vim-javascript-syntax'
@@ -78,9 +75,14 @@ Plugin 'sophacles/vim-bundle-mako'
 Plugin 'jceb/vim-orgmode'
 Plugin 'vimwiki/vimwiki'
 Plugin 'thaerkh/vim-workspace'
-Plugin 'othree/csscomplete.vim'
 Plugin 'ap/vim-css-color'
 Plugin 'mhinz/vim-startify'
+Plugin 'junegunn/goyo.vim'
+Plugin 'neomake/neomake'
+Plugin 'sbdchd/neoformat'
+"Plugin 'mhinz/vim-signify'
+Plugin 'lambdalisue/gina.vim'
+Plugin 'airblade/vim-gitgutter'
 
 " snippets
 " Plugin 'SirVer/ultisnips'
@@ -103,7 +105,7 @@ Plugin 'tpope/vim-scriptease'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-vinegar'
 
-" syntax & language
+" syntax
 " Plugin 'sheerun/vim-polyglot'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'ekalinin/dockerfile.vim'
@@ -130,6 +132,7 @@ Plugin 'elixir-lang/vim-elixir'
 Plugin 'posva/vim-vue'
 Plugin 'wlangstroth/vim-racket'
 Plugin 'stephpy/vim-yaml'
+Plugin 'stanangeloff/php.vim'
 
 Plugin 'Shougo/neocomplete'
 Plugin 'Shougo/vimshell.vim'
@@ -140,7 +143,15 @@ Plugin 'Shougo/neoinclude.vim'
 Plugin 'Shougo/context_filetype.vim'
 Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/denite.nvim'
+
+" completions
 Plugin 'artur-shaik/vim-javacomplete2'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'ternjs/tern_for_vim'
+Plugin 'othree/csscomplete.vim'
+Plugin 'Quramy/tsuquyomi'
+Plugin 'shawncplus/phpcomplete.vim'
+Plugin 'racer-rust/vim-racer'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -261,20 +272,21 @@ inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.php = 
+    \ '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
+let g:neocomplete#sources#omni#input_patterns.java = '\h\w*\.\w*'
 
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=tern#Complete
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
-
 autocmd Filetype python setlocal omnifunc=jedi#completions
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
@@ -284,8 +296,6 @@ let g:neocomplete#force_omni_input_patterns.python =
 
 let g:neocomplete#force_omni_input_patterns.typescript = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
-let g:neocomplete#force_omni_input_patterns.java =
-        \ '\%(\h\w*\|)\)\.\w*'
 
 
 " vim-javascript
