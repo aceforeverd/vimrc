@@ -49,7 +49,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'rdnetto/YCM-Generator'
 Plugin 'jistr/vim-nerdtree-tabs'
-" Plugin 'leafgarland/typescript-vim'
 Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'Quramy/vim-js-pretty-template'
 Plugin 'godlygeek/tabular'
@@ -66,7 +65,6 @@ Plugin 'mattn/webapi-vim'
 " Plugin 'python-mode/python-mode'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
-" Plugin 'jelera/vim-javascript-syntax'
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'mru.vim'
 Plugin 'sophacles/vim-bundle-mako'
@@ -78,13 +76,12 @@ Plugin 'mhinz/vim-startify'
 Plugin 'junegunn/goyo.vim'
 Plugin 'neomake/neomake'
 Plugin 'sbdchd/neoformat'
-"Plugin 'mhinz/vim-signify'
 Plugin 'lambdalisue/gina.vim'
 Plugin 'airblade/vim-gitgutter'
 
 " snippets
-" Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-commentary'
@@ -104,7 +101,6 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-vinegar'
 
 " syntax
-" Plugin 'sheerun/vim-polyglot'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'ekalinin/dockerfile.vim'
 Plugin 'rust-lang/rust.vim'
@@ -141,6 +137,7 @@ Plugin 'Shougo/neoinclude.vim'
 Plugin 'Shougo/context_filetype.vim'
 Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/denite.nvim'
+Plugin 'Shougo/vinarise.vim'
 
 " completions
 Plugin 'artur-shaik/vim-javacomplete2'
@@ -150,6 +147,9 @@ Plugin 'othree/csscomplete.vim'
 Plugin 'Quramy/tsuquyomi'
 Plugin 'shawncplus/phpcomplete.vim'
 Plugin 'racer-rust/vim-racer'
+Plugin 'osyo-manga/vim-reunions'
+Plugin 'osyo-manga/vim-marching'
+Plugin 'eagletmt/neco-ghc'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -195,8 +195,12 @@ au Filetype typescript JsPreTmpl markdown
 " for vim-typescript only 
 " au Filetype typescript syn clear foldBraces
 
-
-source ~/.vim_runtime/neocomplete.vim
+" utilsnips
+let g:UltiSnipsExpandTrigger = "<leader>et"
+let g:UltiSnipsJumpForwardTrigger = "<c-b>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
+" split window while :UtilSnipsEdit
+let g:UltiSnipsEditSplit = "vertical"
 
 
 " vim-javascript
@@ -206,7 +210,5 @@ let g:used_javascript_libs = 'jquery,react,vue,angularjs,angularui,angularuirout
 
 autocmd BufNewFile,BufRead .tern-project setlocal filetype=json
 
-" python-mode
-"let g:pymode_rope_lookup_project = 1
-"let g:pymode_rope_complete_on_dot = 1
-"let g:pymode_rope_autoimport = 1
+source ~/.vim_runtime/neocomplete.vim
+

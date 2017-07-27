@@ -76,8 +76,12 @@ if !exists('g:neocomplete#sources#omni#input_patterns')
 endif
 let g:neocomplete#sources#omni#input_patterns.php = 
     \ '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = 
+    \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
+let g:neocomplete#sources#omni#input_patterns.cpp = 
+    \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+let g:neocomplete#force_omni_input_patterns.objcpp =
+    \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
 let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
 let g:neocomplete#sources#omni#input_patterns.java = '\h\w*\.\w*'
 
@@ -99,3 +103,25 @@ let g:neocomplete#force_omni_input_patterns.python =
 let g:neocomplete#force_omni_input_patterns.typescript = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 
+
+if !exists('g:neocomplete#delimiter_patterns')
+    let g:neocomplete#delimiter_patterns= {}
+endif
+let g:neocomplete#delimiter_patterns.vim = ['#']
+let g:neocomplete#delimiter_patterns.cpp = ['::']
+
+
+" neoinclude 
+if !exists('g:neoinclude#exts')
+    let g:neoinclude#exts = {}
+endif
+let g:neoinclude#exts.cpp = ['', 'h', 'hpp', 'hxx']
+
+
+if !exists('g:neoinclude#paths')
+    let g:neoinclude#paths = {}
+endif
+
+let g:neoinclude#paths.c = ".,/usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include/,/usr/local/include/,/usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include-fixed/,/usr/include/,,"
+
+let g:neoinclude#paths.cpp = ".,/usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include/,/usr/local/include/, /usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include-fixed/, /usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include/g++-v6/, /usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include/g++-v6/backward, /usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include/g++-v6/x86_64-pc-linux-gnu/, /usr/include/,,"
