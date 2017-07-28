@@ -99,9 +99,9 @@ let g:jedi#auto_vim_configuration = 0
 let g:jedi#smart_auto_mappings = 0
 let g:neocomplete#force_omni_input_patterns.python =
 	\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-
 let g:neocomplete#force_omni_input_patterns.typescript = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
+let g:neocomplete#force_omni_input_patterns.erlang = '\<[[:digit:][:alnum:]_-]\+:[[:digit:][:alnum:]_-]*'
 
 
 if !exists('g:neocomplete#delimiter_patterns')
@@ -122,6 +122,6 @@ if !exists('g:neoinclude#paths')
     let g:neoinclude#paths = {}
 endif
 
-let g:neoinclude#paths.c = ".,/usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include/,/usr/local/include/,/usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include-fixed/,/usr/include/,,"
+let g:neoinclude#paths.c = ".,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,/usr/local/include/,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include-fixed/,/usr/include/,,"
 
-let g:neoinclude#paths.cpp = ".,/usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include/,/usr/local/include/, /usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include-fixed/, /usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include/g++-v6/, /usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include/g++-v6/backward, /usr/lib/gcc/x86_64-pc-linux-gnu/6.3.0/include/g++-v6/x86_64-pc-linux-gnu/, /usr/include/,,"
+let g:neoinclude#paths.cpp = ".,/usr/include/c++/*/,/usr/include/c++/*/x86_64-pc-linux-gnu/,/usr/include/c++/*/backward/,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,/usr/local/include/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include-fixed/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/backward, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/x86_64-pc-linux-gnu/, /usr/include/,,"

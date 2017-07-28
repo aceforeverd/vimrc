@@ -336,7 +336,6 @@ let g:ctrlp_show_hidden = 1
 
 " Nerd Tree
 let g:NERDTreeWinPos = "left"
-let NERDTreeShowHidden=0
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeWinSize=25
 map <leader>nn :NERDTreeToggle<cr>
@@ -367,6 +366,9 @@ let g:syntastic_javascript_checkers = ['jshint']
 " Go
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
+
+" typescript
+let g:syntastic_typescript_checkers = ['tsuquyomi']
 
 " Custom CoffeeScript SyntasticCheck
 func! SyntasticCheckCoffeescript()
