@@ -1,12 +1,12 @@
-set runtimepath+=/home/ace/.vim/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.vim/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('/home/ace/.vim')
-  call dein#begin('/home/ace/.vim')
+if dein#load_state('~/.vim')
+  call dein#begin('~/.vim')
 
   " Let dein manage dein
   " Required:
-  call dein#add('/home/ace/.vim/repos/github.com/Shougo/dein.vim')
+  call dein#add('~/.vim/repos/github.com/Shougo/dein.vim')
   
   call dein#add('Shougo/vimproc.vim', {'build': 'make'})
 

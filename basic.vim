@@ -122,6 +122,22 @@ endtry
 set laststatus=2
 " set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
+" cursor shape
+" Use a blinking upright bar cursor in Insert mode, a blinking block in normal
+autocmd VimLeave * let &t_te .= "\<Esc>[3 q"
+if &term == 'xterm-256color' || &term == 'screen-256color'
+    " when start insert mode - blinking vertical bar
+    let &t_SI = "\<Esc>[5 q"
+    " when end insert/replace mode(common) - blinking block
+    let &t_EI = "\<Esc>[1 q"
+    " when start replace mode
+    let &t_SR = "\<Esc>[4 q"
+endif
+
+if exists('$TMUX')
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+endif
 
 if has("mac") || has("macunix")
   nmap <D-j> <M-j>
