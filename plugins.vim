@@ -1,25 +1,46 @@
-set runtimepath+=~/.vim/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.vim/dein.vim/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('~/.vim')
-  call dein#begin('~/.vim')
+if dein#load_state('~/.vim/dein.vim')
+    call dein#begin('~/.vim/dein.vim')
 
-  " Let dein manage dein
-  " Required:
-  call dein#add('~/.vim/repos/github.com/Shougo/dein.vim')
-  
-  call dein#add('Shougo/vimproc.vim', {'build': 'make'})
+    " Let dein manage dein
+    " Required:
+    call dein#add('~/.vim/dein.vim/repos/github.com/Shougo/dein.vim')
 
-  " Add or remove your plugins here:
-  " call dein#add('Shougo/neosnippet.vim')
-  " call dein#add('Shougo/neosnippet-snippets')
+    call dein#add('Shougo/neocomplete.vim')
+    call dein#add('Shougo/neoinclude.vim')
+    call dein#add('Shougo/context_filetype.vim')
+    call dein#add('Shougo/neosnippet.vim')
+    call dein#add('Shougo/neosnippet-snippets')
+    call dein#add('Shougo/vimproc.vim', {'build': 'make'})
+    call dein#add('Shougo/neco-syntax')
+    call dein#add('Shougo/vinarise.vim')
+    call dein#add('Shougo/unite.vim')
+    call dein#add('Shougo/denite.nvim')
+    call dein#add('Shougo/neomru.vim')
+    call dein#add('Shougo/vimshell.vim')
+    call dein#add('Shougo/vimfiler.vim')
+    call dein#add('Shougo/neco-vim')
+    call dein#add('Shougo/vimproc.vim', {'build': 'make'})
 
-  " You can specify revision/branch/tag.
-  " call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+    " tools
+    call dein#add('tpope/vim-pathogen')
+    call dein#add('tpope/vim-fugitive')
+    call dein#add('gregsexton/gitv')
+    call dein#add('junegunn/gv.vim')
+    call dein#add('idanarye/vim-merginal')
+    call dein#add('KabbAmine/vCoolor.vim')
+    call dein#add('haya14busa/dein-command.vim')
+    call dein#add('jamessan/vim-gnupg')
+    call dein#add('tomtom/tlib_vim')
+    call dein#add('tomtom/tcomment_vim')
+    call dein#add('mattn/gist-vim')
 
-  " Required:
-  call dein#end()
-  call dein#save_state()
+
+    " Required:
+    call dein#end()
+    call dein#save_state()
 endif
 
 " Required:
@@ -35,7 +56,7 @@ endif
 " vim-plug
 call plug#begin('~/.vim/plugged')
 
-Plug 'tpope/vim-fugitive'
+Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -63,7 +84,6 @@ Plugin 'groenewege/vim-less'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'mattn/emmet-vim'
 Plugin 'mattn/webapi-vim'
-" Plugin 'python-mode/python-mode'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'maksimr/vim-jsbeautify'
@@ -75,7 +95,7 @@ Plugin 'thaerkh/vim-workspace'
 Plugin 'ap/vim-css-color'
 Plugin 'mhinz/vim-startify'
 Plugin 'junegunn/goyo.vim'
-Plugin 'neomake/neomake'
+"Plugin 'neomake/neomake'
 Plugin 'sbdchd/neoformat'
 Plugin 'lambdalisue/gina.vim'
 Plugin 'airblade/vim-gitgutter'
@@ -127,17 +147,6 @@ Plugin 'posva/vim-vue'
 Plugin 'wlangstroth/vim-racket'
 Plugin 'stephpy/vim-yaml'
 Plugin 'stanangeloff/php.vim'
-
-Plugin 'Shougo/neocomplete'
-Plugin 'Shougo/vimshell.vim'
-Plugin 'Shougo/neco-vim'
-Plugin 'Shougo/neosnippet.vim'
-Plugin 'Shougo/neosnippet-snippets'
-Plugin 'Shougo/neoinclude.vim'
-Plugin 'Shougo/context_filetype.vim'
-Plugin 'Shougo/unite.vim'
-Plugin 'Shougo/denite.nvim'
-Plugin 'Shougo/vinarise.vim'
 
 " completions
 Plugin 'artur-shaik/vim-javacomplete2'

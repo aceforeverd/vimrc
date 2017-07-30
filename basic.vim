@@ -52,7 +52,6 @@ set novisualbell
 set t_vb=
 set tm=500
 
-" Properly disable sound on errors on MacVim
 if has("gui_macvim")
     autocmd GUIEnter * set vb t_vb=
 endif
@@ -335,17 +334,13 @@ let MRU_Max_Entries = 400
 map <leader>f :MRU<CR>
 
 
-
 " CTRL-P
 let g:ctrlp_working_path_mode = 'rw'
-
 let g:ctrlp_map = '<c-f>'
-" map <leader>j :CtrlP<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 let g:ctrlp_max_depth = 20
-" search hidden file
 let g:ctrlp_show_hidden = 1
 
 
@@ -354,6 +349,7 @@ let g:ctrlp_show_hidden = 1
 let g:NERDTreeWinPos = "left"
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeWinSize=25
+let g:NERDTreeShowHidden = 1
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark
 map <leader>nf :NERDTreeFind<cr>
@@ -366,32 +362,4 @@ let g:multi_cursor_next_key="\<C-s>"
 " surround.vim
 vmap Si S(i_<esc>f)
 au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
-
-
-" Vim-go
-let g:go_fmt_command = "goimports"
-
-
-" Syntastic (syntax checker)
-" Python
-let g:syntastic_python_checkers=['pyflakes']
-
-" Javascript
-let g:syntastic_javascript_checkers = ['jshint']
-
-" Go
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
-
-" typescript
-let g:syntastic_typescript_checkers = ['tsuquyomi']
-
-" Custom CoffeeScript SyntasticCheck
-func! SyntasticCheckCoffeescript()
-    let l:filename = substitute(expand("%:p"), '\(\w\+\)\.coffee', '.coffee.\1.js', '')
-    execute "tabedit " . l:filename
-    execute "SyntasticCheck"
-    execute "Errors"
-endfunc
-nnoremap <silent> <leader>c :call SyntasticCheckCoffeescript()<cr>
 

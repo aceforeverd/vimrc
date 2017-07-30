@@ -27,11 +27,7 @@ python3 from powerline.vim import setup as powerline_setup
 python3 powerline_setup()
 python3 del powerline_setup
 
-let NERDTreeShowHidden = 1
-
 "youcompleteme
-" since python3 is the default choice from Arch, that may cause 
-" Ycm failed to run
 " let g:ycm_server_python_interpreter = '/usr/bin/python2'
 " let g:ycm_min_num_of_chars_for_completion = 2 
 " let g:ycm_min_num_identifier_candidate_chars = 0
