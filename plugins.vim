@@ -4,8 +4,6 @@ set runtimepath+=~/.vim/dein.vim/repos/github.com/Shougo/dein.vim
 if dein#load_state('~/.vim/dein.vim')
     call dein#begin('~/.vim/dein.vim')
 
-    " Let dein manage dein
-    " Required:
     call dein#add('~/.vim/dein.vim/repos/github.com/Shougo/dein.vim')
 
     call dein#add('Shougo/neocomplete.vim')
@@ -25,19 +23,123 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
 
-    " tools
+    call dein#add('tpope/vim-endwise')
+    call dein#add('tpope/vim-commentary')
+    call dein#add('tpope/vim-ragtag')
+    call dein#add('tpope/vim-dispatch')
+    call dein#add('tpope/vim-rhubarb')
+    call dein#add('tpope/tpope-vim-abolish')
+    call dein#add('tpope/vim-repeat')
+    call dein#add('tpope/vim-haml')
+    call dein#add('tpope/vim-bundler')
+    call dein#add('tpope/vim-rails')
+    call dein#add('tpope/vim-rake')
+    call dein#add('tpope/vim-fireplace')
+    call dein#add('tpope/vim-scriptease')
+    call dein#add('tpope/vim-unimpaired')
+    call dein#add('tpope/vim-vinegar')
     call dein#add('tpope/vim-pathogen')
-    call dein#add('tpope/vim-fugitive')
-    call dein#add('gregsexton/gitv')
-    call dein#add('junegunn/gv.vim')
-    call dein#add('idanarye/vim-merginal')
+
+    " Tools
     call dein#add('KabbAmine/vCoolor.vim')
     call dein#add('haya14busa/dein-command.vim')
     call dein#add('jamessan/vim-gnupg')
     call dein#add('tomtom/tlib_vim')
     call dein#add('tomtom/tcomment_vim')
-    call dein#add('mattn/gist-vim')
+    call dein#add('jceb/vim-orgmode')
+    call dein#add('vimwiki/vimwiki')
+    call dein#add('thaerkh/vim-workspace')
+    call dein#add('sbdchd/neoformat')
+    call dein#add('mattn/emmet-vim')
+    call dein#add('mattn/webapi-vim')
+    call dein#add('terryma/vim-multiple-cursors')
+    call dein#add('mru.vim')
+    call dein#add('sophacles/vim-bundle-mako')
+    call dein#add('junegunn/goyo.vim')
+    call dein#add('godlygeek/tabular')
+    call dein#add('raimondi/delimitmate')
+    call dein#add('groenewege/vim-less')
 
+    " Interface
+    call dein#add('mhinz/vim-startify')
+    call dein#add('jistr/vim-nerdtree-tabs')
+
+    " VCS
+    call dein#add('tpope/vim-fugitive')
+    call dein#add('gregsexton/gitv')
+    call dein#add('junegunn/gv.vim')
+    call dein#add('idanarye/vim-merginal')
+    call dein#add('airblade/vim-gitgutter')
+    call dein#add('mattn/gist-vim')
+    call dein#add('lambdalisue/gina.vim')
+
+    " Snips
+    call dein#add('SirVer/ultisnips')
+    call dein#add('honza/vim-snippets')
+
+    " Languages
+    " C family
+    call dein#add('octol/vim-cpp-enhanced-highlight')
+    call dein#add('osyo-manga/vim-reunions')
+    call dein#add('osyo-manga/vim-marching')
+    " Javascript
+    call dein#add('pangloss/vim-javascript')
+    call dein#add('mxw/vim-jsx')
+    call dein#add('maksimr/vim-jsbeautify')
+    call dein#add('othree/javascript-libraries-syntax')
+    call dein#add('posva/vim-vue')
+    call dein#add('Quramy/vim-js-pretty-template')
+    call dein#add('ternjs/tern_for_vim')
+    call dein#add('kchmck/vim-coffee-script')
+    " Typescript
+    call dein#add('HerringtonDarkholme/yats.vim')
+    call dein#add('Quramy/tsuquyomi')
+    " CSS/SCSS
+    call dein#add('ap/vim-css-color')
+    call dein#add('hail2u/vim-css3-syntax')
+    call dein#add('cakebaker/scss-syntax.vim')
+    call dein#add('othree/csscomplete.vim')
+    " Go
+    call dein#add('fatih/vim-go')
+    " Php
+    call dein#add('stanangeloff/php.vim')
+    call dein#add('shawncplus/phpcomplete.vim')
+    " Markdown
+    call dein#add('plasticboy/vim-markdown')
+    call dein#add('kannokanno/previm')
+    call dein#add('tyru/open-browser.vim')
+    " Erlang
+    call dein#add('vim-erlang/vim-erlang-runtime')
+    call dein#add('vim-erlang/vim-erlang-omnicomplete')
+    " Ruby/Perl
+    call dein#add('vim-ruby/vim-ruby')
+    call dein#add('vim-perl/vim-perl')
+    " Rust
+    call dein#add('rust-lang/rust.vim')
+    call dein#add('racer-rust/vim-racer')
+    " Java
+    call dein#add('artur-shaik/vim-javacomplete2')
+    " Python
+    call dein#add('davidhalter/jedi-vim')
+    " Haskell
+    call dein#add('eagletmt/neco-ghc')
+    " Elixir
+    call dein#add('elixir-lang/vim-elixir')
+    " Others
+    call dein#add('derekwyatt/vim-scala')
+    call dein#add('wlangstroth/vim-racket')
+    call dein#add('elmcast/elm-vim')
+    call dein#add('guns/vim-clojure-static')
+    call dein#add('stephpy/vim-yaml')
+    call dein#add('rhysd/vim-crystal')
+    call dein#add('slim-template/vim-slim')
+    call dein#add('dart-lang/dart-vim-plugin')
+    call dein#add('ekalinin/dockerfile.vim')
+    call dein#add('matt-deacalion/vim-systemd-syntax')
+    call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
+    call dein#add('pearofducks/ansible-vim')
+    call dein#add('isobit/vim-caddyfile')
+    call dein#add('tpope/vim-cucumber')
 
     " Required:
     call dein#end()
@@ -73,94 +175,10 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'HerringtonDarkholme/yats.vim'
-Plugin 'Quramy/vim-js-pretty-template'
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'kannokanno/previm'
-Plugin 'tyru/open-browser.vim'
-Plugin 'raimondi/delimitmate'
-Plugin 'fatih/vim-go'
-Plugin 'groenewege/vim-less'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'mattn/emmet-vim'
-Plugin 'mattn/webapi-vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'mru.vim'
-Plugin 'sophacles/vim-bundle-mako'
-Plugin 'jceb/vim-orgmode'
-Plugin 'vimwiki/vimwiki'
-Plugin 'thaerkh/vim-workspace'
-Plugin 'ap/vim-css-color'
-Plugin 'mhinz/vim-startify'
-Plugin 'junegunn/goyo.vim'
-Plugin 'sbdchd/neoformat'
-Plugin 'lambdalisue/gina.vim'
-Plugin 'airblade/vim-gitgutter'
 
-" snippets
-" Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
-
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-ragtag'
-Plugin 'tpope/vim-dispatch'
-Plugin 'tpope/vim-rhubarb'
-Plugin 'tpope/tpope-vim-abolish'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-haml'
-Plugin 'tpope/vim-bundler'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-rake'
-Plugin 'tpope/vim-fireplace'
-Plugin 'tpope/vim-scriptease'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-vinegar'
 
 " syntax
-Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'ekalinin/dockerfile.vim'
-Plugin 'rust-lang/rust.vim'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'vim-perl/vim-perl'
-Plugin 'matt-deacalion/vim-systemd-syntax'
-Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'pearofducks/ansible-vim'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'isobit/vim-caddyfile'
-Plugin 'guns/vim-clojure-static'
-Plugin 'rhysd/vim-crystal'
-Plugin 'tpope/vim-cucumber'
-Plugin 'dart-lang/dart-vim-plugin'
-Plugin 'elmcast/elm-vim'
-Plugin 'vim-erlang/vim-erlang-runtime'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'slim-template/vim-slim'
-Plugin 'elixir-lang/vim-elixir'
-Plugin 'posva/vim-vue'
-Plugin 'wlangstroth/vim-racket'
-Plugin 'stephpy/vim-yaml'
-Plugin 'stanangeloff/php.vim'
-
 " completions
-Plugin 'artur-shaik/vim-javacomplete2'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'ternjs/tern_for_vim'
-Plugin 'othree/csscomplete.vim'
-Plugin 'Quramy/tsuquyomi'
-Plugin 'shawncplus/phpcomplete.vim'
-Plugin 'racer-rust/vim-racer'
-Plugin 'osyo-manga/vim-reunions'
-Plugin 'osyo-manga/vim-marching'
-Plugin 'eagletmt/neco-ghc'
-Plugin 'vim-erlang/vim-erlang-omnicomplete'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -174,7 +192,7 @@ Plugin 'vim-erlang/vim-erlang-omnicomplete'
 " different version somewhere else.
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+cal vundle#end()            " required
 filetype plugin indent on    " required
 syntax enable
 " To ignore plugin indent changes, instead use:
