@@ -22,7 +22,8 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('Shougo/vimshell.vim')
     call dein#add('Shougo/vimfiler.vim')
     call dein#add('Shougo/neco-vim')
-    call dein#add('Shougo/vimproc.vim', {'build': 'make'})
+    call dein#add('Shougo/neoyank.vim')
+    call dein#add('Shougo/echodoc.vim')
 
     " tools
     call dein#add('tpope/vim-pathogen')
@@ -57,6 +58,8 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'w0rp/ale'
+Plug 'flazz/vim-colorschemes'
+Plug 'kovisoft/slimv'
 
 call plug#end()
 
@@ -70,7 +73,6 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'rdnetto/YCM-Generator'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'Quramy/vim-js-pretty-template'
@@ -95,7 +97,6 @@ Plugin 'thaerkh/vim-workspace'
 Plugin 'ap/vim-css-color'
 Plugin 'mhinz/vim-startify'
 Plugin 'junegunn/goyo.vim'
-"Plugin 'neomake/neomake'
 Plugin 'sbdchd/neoformat'
 Plugin 'lambdalisue/gina.vim'
 Plugin 'airblade/vim-gitgutter'

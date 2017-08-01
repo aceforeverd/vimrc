@@ -37,13 +37,13 @@ set smartcase
 
 set hlsearch
 
-set incsearch 
+set incsearch
 
-set lazyredraw 
+set lazyredraw
 
 set magic
 
-set showmatch 
+set showmatch
 set mat=2
 
 " No annoying sound on errors
@@ -56,15 +56,13 @@ if has("gui_macvim")
     autocmd GUIEnter * set vb t_vb=
 endif
 
-syntax enable 
+syntax enable
 
 " Enable 256 colors palette in Gnome Terminal
 if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
 
-
-set background=dark
 
 if has("gui_running")
     set guioptions-=T
@@ -159,7 +157,7 @@ function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
     emenu Foo.Bar
     unmenu Foo
-endfunction 
+endfunction
 
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
@@ -256,7 +254,7 @@ func! DeleteTillSlash()
         else
             let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
         endif
-    endif   
+    endif
 
     return g:cmd_edited
 endfunc
@@ -271,20 +269,6 @@ au FileType python syn keyword pythonDecorator True None False self
 au BufNewFile,BufRead *.jinja set syntax=htmljinja
 au BufNewFile,BufRead *.mako set ft=mako
 
-au FileType python map <buffer> F :set foldmethod=indent<cr>
-
-au FileType python inoremap <buffer> $r return 
-au FileType python inoremap <buffer> $i import 
-au FileType python inoremap <buffer> $p print 
-au FileType python inoremap <buffer> $f #--- <esc>a
-au FileType python map <buffer> <leader>1 /class 
-au FileType python map <buffer> <leader>2 /def 
-au FileType python map <buffer> <leader>C ?class 
-au FileType python map <buffer> <leader>D ?def 
-au FileType python set cindent
-au FileType python set cinkeys-=0#
-au FileType python set indentkeys-=0#
-
 
 au FileType javascript setl fen
 au FileType javascript setl nocindent
@@ -292,10 +276,10 @@ au FileType javascript setl nocindent
 au FileType javascript imap <c-t> $log();<esc>hi
 au FileType javascript imap <c-a> alert();<esc>hi
 
-au FileType javascript inoremap <buffer> $r return 
+au FileType javascript inoremap <buffer> $r return
 au FileType javascript inoremap <buffer> $f //--- PH<esc>FP2xi
 
-function! JavaScriptFold() 
+function! JavaScriptFold()
     setl foldmethod=syntax
     setl foldlevelstart=1
     syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
@@ -307,21 +291,19 @@ function! JavaScriptFold()
 endfunction
 
 
-" CoffeeScript
-function! CoffeeScriptFold()
-    setl foldmethod=indent
-    setl foldlevelstart=1
-endfunction
-au FileType coffee call CoffeeScriptFold()
-
 au FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
 
-if exists('$TMUX') 
-    set term=screen-256color 
+if exists('$TMUX')
+    set term=screen-256color
 endif
 
-call pathogen#helptags()
+
+" =====================================================================================
+"   Plugins
+" =====================================================================================
+
+" call pathogen#helptags()
 
 let g:bufExplorerDefaultHelp=0
 let g:bufExplorerShowRelativePath=1
@@ -336,7 +318,7 @@ map <leader>f :MRU<CR>
 
 " CTRL-P
 let g:ctrlp_working_path_mode = 'rw'
-let g:ctrlp_map = '<c-f>'
+let g:ctrlp_map = '<c-p>'
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
@@ -355,11 +337,35 @@ map <leader>nb :NERDTreeFromBookmark
 map <leader>nf :NERDTreeFind<cr>
 
 
-" vim-multiple-cursors
-let g:multi_cursor_next_key="\<C-s>"
+" tmux navigator
+" disable default mappings
+let g:tmux_navigator_no_mappings = 1
 
 
-" surround.vim
-vmap Si S(i_<esc>f)
-au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
+" Utilsnips
+let g:UltiSnipsExpandTrigger = "<leader>e"
+let g:UltiSnipsListSnippets = "<c-l>"
+let g:UltiSnipsJumpForwardTrigger = "<c-b>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
+let g:UltiSnipsEditSplit = "vertical"
 
+
+" editorconfig
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
+
+
+"" see help delimitMateExpansion
+let delimitMate_expand_cr = 2
+let delimitMate_expand_space = 1
+let delimitMate_jump_expansion = 1
+let delimitMate_balance_matchpairs = 1
+
+
+" javascript-libraries-syntax
+let g:used_javascript_libs = 'jquery,react,angularjs,angularui,angularuirouter'
+
+
+" vim-javascript
+let g:javascript_plugin_ngdoc = 1
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_flow = 1

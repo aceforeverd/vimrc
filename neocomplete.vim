@@ -1,6 +1,6 @@
 " configuration for neocomplete 
 " Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-let g:acp_enableAtStartup = 1
+let g:acp_enableAtStartup = 0
 " Use neocomplete.
 let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
@@ -24,7 +24,7 @@ endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 if !exists('g:neocomplete#force_omni_input_patterns')
-	  let g:neocomplete#force_omni_input_patterns = {}
+    let g:neocomplete#force_omni_input_patterns = {}
 endif
 
 " Plugin key-mappings.
@@ -48,41 +48,41 @@ function! s:check_back_space() "{{{
 endfunction"}}}
 
 function! Tab_Snippet_Complete()
-  let snippet = UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res > 0
-    return snippet
-  endif
-  if <SID>check_back_space()
-    return "\<TAB>"
-  endif
-  let manualcomplete = neocomplete#start_manual_complete()
-  return manualcomplete
+    let snippet = UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res > 0
+        return snippet
+    endif
+    if <SID>check_back_space()
+        return "\<TAB>"
+    endif
+    let manualcomplete = neocomplete#start_manual_complete()
+    return manualcomplete
 endfunction
 
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ neocomplete#start_manual_complete()
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ neocomplete#start_manual_complete()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" :
-        \ "\<S-TAB>"
+            \ "\<S-TAB>"
 
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
-        \  delimitMate#BS()
+            \  delimitMate#BS()
 
 "" Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
 let g:neocomplete#sources#omni#input_patterns.php = 
-    \ '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+            \ '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 let g:neocomplete#sources#omni#input_patterns.c = 
-    \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
 let g:neocomplete#sources#omni#input_patterns.cpp = 
-    \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 let g:neocomplete#force_omni_input_patterns.objcpp =
-    \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+            \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
 let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
 let g:neocomplete#sources#omni#input_patterns.java = '\h\w*\.\w*'
 
@@ -99,7 +99,7 @@ let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#smart_auto_mappings = 0
 let g:neocomplete#force_omni_input_patterns.python =
-	\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+            \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 let g:neocomplete#force_omni_input_patterns.typescript = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 let g:neocomplete#force_omni_input_patterns.erlang = '\<[[:digit:][:alnum:]_-]\+:[[:digit:][:alnum:]_-]*'
@@ -126,3 +126,11 @@ endif
 let g:neoinclude#paths.c = ".,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,/usr/local/include/,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include-fixed/,/usr/include/,,"
 
 let g:neoinclude#paths.cpp = ".,/usr/include/c++/*/,/usr/include/c++/*/x86_64-pc-linux-gnu/,/usr/include/c++/*/backward/,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,/usr/local/include/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include-fixed/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/backward, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/x86_64-pc-linux-gnu/, /usr/include/,,"
+
+" neosnips
+imap <c-k> <Plug>(neosnippet_expand_or_jump)
+smap <c-k> <Plug>(neosnippet_expand_or_jump)>
+xmap <c-k> <Plug>(neosnippet_expand_or_jump)>
+let g:neosnippet#disable_runtime_snippets = {
+            \    '_': 1
+            \}
