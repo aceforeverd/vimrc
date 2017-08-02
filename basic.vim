@@ -108,7 +108,7 @@ let g:lasttab = 1
 au TabLeave * let g:lasttab = tabpagenr()
 
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
   set switchbuf=useopen,usetab,newtab
   set stal=2
@@ -117,7 +117,6 @@ endtry
 
 
 set laststatus=2
-" set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
 " cursor shape
 " Use a blinking upright bar cursor in Insert mode, a blinking block in normal
@@ -270,14 +269,8 @@ au BufNewFile,BufRead *.jinja set syntax=htmljinja
 au BufNewFile,BufRead *.mako set ft=mako
 
 
-au FileType javascript setl fen
 au FileType javascript setl nocindent
 
-au FileType javascript imap <c-t> $log();<esc>hi
-au FileType javascript imap <c-a> alert();<esc>hi
-
-au FileType javascript inoremap <buffer> $r return
-au FileType javascript inoremap <buffer> $f //--- PH<esc>FP2xi
 
 function! JavaScriptFold()
     setl foldmethod=syntax
@@ -335,7 +328,12 @@ let g:NERDTreeWinPos = "left"
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeWinSize=25
 let g:NERDTreeShowHidden = 1
-map <leader>nn :NERDTreeToggle<cr>
+" Nerd tabs
+let g:nerdtree_tabs_open_on_gui_startup = 1
+let g:nerdtree_tabs_open_on_console_startup = 0
+let g:nerdtree_tabs_no_startup_for_diff = 1
+let g:nerdtree_tabs_smart_startup_focus = 1
+map <leader>nt :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark
 map <leader>nf :NERDTreeFind<cr>
 

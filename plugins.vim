@@ -41,7 +41,9 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('tpope/vim-pathogen')
 
     " Tools
+    call dein#add('editorconfig/editorconfig-vim')
     call dein#add('KabbAmine/vCoolor.vim')
+    call dein#add('sjl/gundo.vim')
     call dein#add('haya14busa/dein-command.vim')
     call dein#add('jamessan/vim-gnupg')
     call dein#add('tomtom/tlib_vim')
@@ -53,12 +55,13 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('mattn/emmet-vim')
     call dein#add('mattn/webapi-vim')
     call dein#add('terryma/vim-multiple-cursors')
-    call dein#add('mru.vim')
+    call dein#add('vim-scripts/mru.vim')
     call dein#add('sophacles/vim-bundle-mako')
     call dein#add('junegunn/goyo.vim')
     call dein#add('godlygeek/tabular')
     call dein#add('raimondi/delimitmate')
     call dein#add('groenewege/vim-less')
+    call dein#add('ntpeters/vim-better-whitespace')
 
     " Interface
     call dein#add('mhinz/vim-startify')
@@ -121,10 +124,15 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('artur-shaik/vim-javacomplete2')
     " Python
     call dein#add('davidhalter/jedi-vim')
+    call dein#add('nvie/vim-flake8')
+    call dein#add('hynek/vim-python-pep8-indent')
     " Haskell
     call dein#add('eagletmt/neco-ghc')
     " Elixir
     call dein#add('elixir-lang/vim-elixir')
+    " Latex
+    call dein#add('lervag/vimtex')
+    call dein#add('xuhdev/vim-latex-live-preview')
     " Others
     call dein#add('derekwyatt/vim-scala')
     call dein#add('wlangstroth/vim-racket')
@@ -192,7 +200,7 @@ Plugin 'VundleVim/Vundle.vim'
 " different version somewhere else.
 
 " All of your Plugins must be added before the following line
-cal vundle#end()            " required
+call vundle#end()            " required
 filetype plugin indent on    " required
 syntax enable
 " To ignore plugin indent changes, instead use:
