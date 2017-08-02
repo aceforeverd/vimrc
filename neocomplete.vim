@@ -1,4 +1,4 @@
-" configuration for neocomplete 
+" configuration for neocomplete
 " Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
@@ -75,11 +75,11 @@ inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
-let g:neocomplete#sources#omni#input_patterns.php = 
+let g:neocomplete#sources#omni#input_patterns.php =
             \ '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-let g:neocomplete#sources#omni#input_patterns.c = 
+let g:neocomplete#sources#omni#input_patterns.c =
             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
-let g:neocomplete#sources#omni#input_patterns.cpp = 
+let g:neocomplete#sources#omni#input_patterns.cpp =
             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 let g:neocomplete#force_omni_input_patterns.objcpp =
             \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
@@ -112,7 +112,7 @@ let g:neocomplete#delimiter_patterns.vim = ['#']
 let g:neocomplete#delimiter_patterns.cpp = ['::']
 
 
-" neoinclude 
+" neoinclude
 if !exists('g:neoinclude#exts')
     let g:neoinclude#exts = {}
 endif

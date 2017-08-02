@@ -62,6 +62,7 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('raimondi/delimitmate')
     call dein#add('groenewege/vim-less')
     call dein#add('ntpeters/vim-better-whitespace')
+    call dein#add('alvan/vim-closetag')
 
     " Interface
     call dein#add('mhinz/vim-startify')

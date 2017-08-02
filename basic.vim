@@ -8,9 +8,9 @@ set autoread
 let mapleader = ","
 let g:mapleader = ","
 
-set so=7
+set so=4
 
-let $LANG='en' 
+let $LANG='en'
 set langmenu=en
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
@@ -286,6 +286,8 @@ endfunction
 
 au FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
+au BufRead,BufNewFile *.ts setlocal filetype=typescript
+
 
 if exists('$TMUX')
     set term=screen-256color
@@ -360,6 +362,13 @@ let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1
 let delimitMate_jump_expansion = 1
 let delimitMate_balance_matchpairs = 1
+
+let delimitMate_matchpairs = "(:),[:],{:},<:>"
+au FileType html,xml,xhtml let b:delimitMate_matchpairs = "(:),[:],{:}"
+
+" vim-closetag
+let g:closetag_filenames = "*.html,*.xhtml,*.xml"
+let g:closetag_emptyTags_caseSensitive = 1
 
 
 " javascript-libraries-syntax
