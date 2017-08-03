@@ -171,6 +171,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'w0rp/ale'
 Plug 'flazz/vim-colorschemes'
 Plug 'kovisoft/slimv'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --key-bindings --no-completion'}
+Plug 'junegunn/fzf.vim'
+Plug 'WolfgangMehner/bash-support'
 
 call plug#end()
 

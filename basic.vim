@@ -46,6 +46,8 @@ set magic
 set showmatch
 set mat=2
 
+set cursorline
+
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
@@ -335,6 +337,7 @@ let g:nerdtree_tabs_open_on_gui_startup = 1
 let g:nerdtree_tabs_open_on_console_startup = 0
 let g:nerdtree_tabs_no_startup_for_diff = 1
 let g:nerdtree_tabs_smart_startup_focus = 1
+let g:nerdtree_tabs_startup_cd = 1
 map <leader>nt :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark
 map <leader>nf :NERDTreeFind<cr>
@@ -379,3 +382,17 @@ let g:used_javascript_libs = 'jquery,react,angularjs,angularui,angularuirouter'
 let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_flow = 1
+
+" startify
+let g:startify_session_dir = '~/.vim/sessions/'
+"let g:startify_list_order = ['files', 'dir', 'bookmarks', 'sessions', 'commands']
+let g:startify_update_oldfiles = 1
+let g:startify_session_autoload = 1
+let g:startify_session_persistence = 1
+let g:startify_change_to_vcs_root = 1
+let g:startify_skiplist = [
+      \ '/tmp',
+      \ ]
+let g:startify_fortune_use_unicode = 1
+let g:startify_session_sort = 1
+let g:startify_relative_path = 1
