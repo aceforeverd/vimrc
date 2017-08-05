@@ -90,10 +90,14 @@ let g:neocomplete#sources#omni#input_patterns.java = '\h\w*\.\w*'
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" Tern for vim
 autocmd FileType javascript setlocal omnifunc=tern#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" Java complete2
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
+" neco-ghc
 autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
+" jedi
 autocmd Filetype python setlocal omnifunc=jedi#completions
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0

@@ -2,11 +2,11 @@
 ### Includes some basic config and massive plugins.
 
 ## Installation
-simply run follow command:
+simply run:
 
     curl https://raw.githubusercontent.com/aceforeverd/vimrc/master/install.sh | bash
 
-Your OS should already installed
+Your system should already installed
 + curl
 + git
 + wget

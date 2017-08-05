@@ -286,9 +286,10 @@ function! JavaScriptFold()
 endfunction
 
 
-au FileType gitcommit call setpos('.', [0, 1, 1, 0])
+autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
-au BufRead,BufNewFile *.ts setlocal filetype=typescript
+autocmd BufRead,BufNewFile *.ts setlocal filetype=typescript
+autocmd BufNewFile,BufRead .tern-project setlocal filetype=json
 
 
 if exists('$TMUX')
@@ -377,6 +378,10 @@ let g:closetag_emptyTags_caseSensitive = 1
 " javascript-libraries-syntax
 let g:used_javascript_libs = 'jquery,react,angularjs,angularui,angularuirouter'
 
+" JS pretty template
+au Filetype javascript JsPreTmpl html
+au Filetype typescript JsPreTmpl markdown
+
 
 " vim-javascript
 let g:javascript_plugin_ngdoc = 1
@@ -396,3 +401,12 @@ let g:startify_skiplist = [
 let g:startify_fortune_use_unicode = 1
 let g:startify_session_sort = 1
 let g:startify_relative_path = 1
+
+" Ale 
+
+
+" Airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_detect_modified=1
+let g:airline_detect_paste=1
+let g:airline_theme='onedark'
