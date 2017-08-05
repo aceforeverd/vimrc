@@ -23,6 +23,7 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
 
+    call dein#add('tpope/vim-surround')
     call dein#add('tpope/vim-endwise')
     call dein#add('tpope/vim-commentary')
     call dein#add('tpope/vim-ragtag')
@@ -39,8 +40,10 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('tpope/vim-unimpaired')
     call dein#add('tpope/vim-vinegar')
     call dein#add('tpope/vim-pathogen')
+    call dein#add('tpope/vim-eunuch')
 
     " Tools
+    call dein#add('mhinz/vim-grepper')
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('KabbAmine/vCoolor.vim')
     call dein#add('sjl/gundo.vim')
@@ -63,10 +66,11 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('groenewege/vim-less')
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('alvan/vim-closetag')
+    call dein#add('vim-scripts/dbext.vim')
+    call dein#add('jsfaint/gen_tags.vim')
 
     " Interface
     call dein#add('mhinz/vim-startify')
-    call dein#add('jistr/vim-nerdtree-tabs')
 
     " VCS
     call dein#add('tpope/vim-fugitive')
@@ -86,11 +90,12 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('octol/vim-cpp-enhanced-highlight')
     call dein#add('osyo-manga/vim-reunions')
     call dein#add('osyo-manga/vim-marching')
+    call dein#add('rhysd/vim-clang-format')
     " Javascript
     call dein#add('pangloss/vim-javascript')
     call dein#add('mxw/vim-jsx')
     call dein#add('maksimr/vim-jsbeautify')
-    call dein#add('othree/javascript-libraries-syntax')
+    call dein#add('othree/javascript-libraries-syntax.vim')
     call dein#add('posva/vim-vue')
     call dein#add('Quramy/vim-js-pretty-template')
     call dein#add('ternjs/tern_for_vim')
@@ -108,10 +113,12 @@ if dein#load_state('~/.vim/dein.vim')
     " Php
     call dein#add('stanangeloff/php.vim')
     call dein#add('shawncplus/phpcomplete.vim')
+    call dein#add('noahfrederick/vim-composer')
     " Markdown
     call dein#add('plasticboy/vim-markdown')
-    call dein#add('kannokanno/previm')
     call dein#add('tyru/open-browser.vim')
+    call dein#add('vim-pandoc/vim-pandoc')
+    call dein#add('vim-pandoc/vim-pandoc-syntax')
     " Erlang
     call dein#add('vim-erlang/vim-erlang-runtime')
     call dein#add('vim-erlang/vim-erlang-omnicomplete')
@@ -121,20 +128,32 @@ if dein#load_state('~/.vim/dein.vim')
     " Rust
     call dein#add('rust-lang/rust.vim')
     call dein#add('racer-rust/vim-racer')
-    " Java
+    " Java/Kotlin
     call dein#add('artur-shaik/vim-javacomplete2')
+    call dein#add('udalov/kotlin-vim')
     " Python
     call dein#add('davidhalter/jedi-vim')
     call dein#add('nvie/vim-flake8')
     call dein#add('hynek/vim-python-pep8-indent')
     " Haskell
+    call dein#add('neovimhaskell/haskell-vim')
     call dein#add('eagletmt/neco-ghc')
     " Elixir
     call dein#add('elixir-lang/vim-elixir')
+    call dein#add('slashmili/alchemist.vim')
     " Latex
     call dein#add('lervag/vimtex')
     call dein#add('xuhdev/vim-latex-live-preview')
+    " Lisp
+    call dein#add('kovisoft/slimv')
     " Others
+    call dein#add('exu/pgsql.vim')
+    call dein#add('zah/nim.vim')
+    call dein#add('tbastos/vim-lua')
+    call dein#add('jparise/vim-graphql')
+    call dein#add('PotatoesMaster/i3-vim-syntax')
+    call dein#add('arrufat/vala.vim')
+    call dein#add('cespare/vim-toml')
     call dein#add('derekwyatt/vim-scala')
     call dein#add('wlangstroth/vim-racket')
     call dein#add('elmcast/elm-vim')
@@ -145,10 +164,14 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('dart-lang/dart-vim-plugin')
     call dein#add('ekalinin/dockerfile.vim')
     call dein#add('matt-deacalion/vim-systemd-syntax')
-    call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
     call dein#add('pearofducks/ansible-vim')
     call dein#add('isobit/vim-caddyfile')
     call dein#add('tpope/vim-cucumber')
+    call dein#add('tpope/vim-liquid')
+    call dein#add('ekalinin/dockerfile.vim')
+    call dein#add('solarnz/thrift.vim')
+    call dein#add('vim-scripts/LanguageTool')
+
 
     " Required:
     call dein#end()
@@ -170,12 +193,32 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'w0rp/ale'
 Plug 'flazz/vim-colorschemes'
-Plug 'kovisoft/slimv'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --key-bindings --no-completion'}
 Plug 'junegunn/fzf.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'WolfgangMehner/bash-support'
+Plug 'easymotion/vim-easymotion'
+Plug 'diepm/vim-rest-console'
+
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+" problem integrate with startify
+" Plug 'jistr/vim-nerdtree-tabs'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+function! BuildComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    if has('nvim')
+      !cargo build --release
+    else
+      !cargo build --release --no-default-features --features json-rpc
+    endif
+  endif
+endfunction
+
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 
 call plug#end()
 
