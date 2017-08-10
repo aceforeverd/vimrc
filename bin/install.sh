@@ -20,10 +20,10 @@
 set -o nounset                                  # Treat unset variables as an error
 
 GIT=$(command -v git)
-WGET=$(command -t wget)
+WGET=$(command -v wget)
 
 VIMPLUG=https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-INSTALL_PATH=$HOME/.vim/autoload
+VIMPLUG_PATH=$HOME/.vim/autoload
 DEIN_URL=https://github.com/Shougo/dein.vim.git
 DEIN_PATH=$INSTALL_PATH/dein.vim/repos/github.com/Shougo/dein.vim
 VIMRC_PATH=$HOME/.vim_runtime
