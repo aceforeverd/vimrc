@@ -25,7 +25,7 @@ WGET=$(command -v wget)
 VIMPLUG=https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 VIMPLUG_PATH=$HOME/.vim/autoload
 DEIN_URL=https://github.com/Shougo/dein.vim.git
-DEIN_PATH=$INSTALL_PATH/dein.vim/repos/github.com/Shougo/dein.vim
+DEIN_PATH=$HOME/.vim/dein.vim/repos/github.com/Shougo/dein.vim
 VIMRC_PATH=$HOME/.vim_runtime
 VIMRC_URL=https://github.com/aceforeverd/vimrc.git
 
@@ -48,7 +48,7 @@ function install_vim_plug {
         mkdir -p "$VIMPLUG_PATH"
     fi
 
-    "$WGET" "$VIMPLUG" -o "$VIMPLUG_PATH"/plug.vim && \
+    "$WGET" "$VIMPLUG" -O "$VIMPLUG_PATH"/plug.vim && \
         echo "vim plug installed at $VIMPLUG_PATH"
     echo ""
 }
