@@ -67,7 +67,6 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('alvan/vim-closetag')
     call dein#add('vim-scripts/dbext.vim')
-    call dein#add('jsfaint/gen_tags.vim')
 
     " Interface
     call dein#add('mhinz/vim-startify')
@@ -218,7 +217,11 @@ function! BuildComposer(info)
   endif
 endfunction
 
-Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+" uncomment this only if you've installed cargo
+" Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+"
+" uncomment this only if you've install gnu global
+" Plug 'jsfaint/gen_tags.vim'
 
 call plug#end()
 
