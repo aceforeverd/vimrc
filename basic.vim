@@ -5,8 +5,11 @@ filetype indent on
 
 set autoread
 
+" global leader
 let mapleader = ","
 let g:mapleader = ","
+" local leader
+let maplocalleader = '\\'
 
 set so=4
 
@@ -410,3 +413,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline_theme='onedark'
+
+" vim-markdown
+let g:vim_markdown_folding_disabled = 1
