@@ -382,8 +382,8 @@ let g:closetag_emptyTags_caseSensitive = 1
 let g:used_javascript_libs = 'jquery,react,angularjs,angularui,angularuirouter'
 
 " JS pretty template
-au Filetype javascript JsPreTmpl html
-au Filetype typescript JsPreTmpl markdown
+au FileType javascript JsPreTmpl html
+au FileType typescript JsPreTmpl markdown
 
 
 " vim-javascript
