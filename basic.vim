@@ -306,8 +306,6 @@ endif
 
 " call pathogen#helptags()
 
-" Fugitive
-set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
 let g:bufExplorerDefaultHelp=0
 let g:bufExplorerShowRelativePath=1
