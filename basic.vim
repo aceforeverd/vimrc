@@ -49,8 +49,6 @@ set magic
 set showmatch
 set mat=2
 
-set cursorline
-
 " No annoying sound on errors
 set noerrorbells
 set novisualbell

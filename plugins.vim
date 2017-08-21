@@ -115,8 +115,6 @@ if dein#load_state('~/.vim/dein.vim')
     " Markdown
     call dein#add('plasticboy/vim-markdown')
     call dein#add('tyru/open-browser.vim')
-    call dein#add('vim-pandoc/vim-pandoc')
-    call dein#add('vim-pandoc/vim-pandoc-syntax')
     " Erlang
     call dein#add('vim-erlang/vim-erlang-runtime')
     call dein#add('vim-erlang/vim-erlang-omnicomplete')
@@ -169,6 +167,7 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('ekalinin/dockerfile.vim')
     call dein#add('solarnz/thrift.vim')
     call dein#add('vim-scripts/LanguageTool')
+    call dein#add('elzr/vim-json')
 
 
     " Required:
