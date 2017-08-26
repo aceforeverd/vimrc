@@ -166,8 +166,9 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('tpope/vim-liquid')
     call dein#add('ekalinin/dockerfile.vim')
     call dein#add('solarnz/thrift.vim')
-    call dein#add('vim-scripts/LanguageTool')
     call dein#add('elzr/vim-json')
+    " LanguageTool
+    call dein#add('rhysd/vim-grammarous')
 
 
     " Required:

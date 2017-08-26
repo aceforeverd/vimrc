@@ -94,6 +94,9 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
+" To the first non-blank character of the line.
+nnoremap <Leader>lh ^
+
 
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
@@ -330,7 +333,7 @@ let g:ctrlp_show_hidden = 1
 " Nerd Tree
 let g:NERDTreeWinPos = "left"
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-let g:NERDTreeWinSize=25
+let g:NERDTreeWinSize=30
 let g:NERDTreeShowHidden = 1
 " Nerd tabs
 let g:nerdtree_tabs_open_on_gui_startup = 1
@@ -410,5 +413,7 @@ let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline_theme='onedark'
 
-" vim-markdown
+" markdown
 let g:vim_markdown_folding_disabled = 1
+
+let g:markdown_composer_open_browser = 0
