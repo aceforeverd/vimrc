@@ -1,6 +1,6 @@
 " configuration for neocomplete
 " Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-let g:acp_enableAtStartup = 0
+" let g:acp_enableAtStartup = 0
 " Use neocomplete.
 let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
@@ -99,9 +99,12 @@ autocmd FileType java setlocal omnifunc=javacomplete#Complete
 autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
 " jedi
 autocmd Filetype python setlocal omnifunc=jedi#completions
+autocmd FileType typescript setlocal omnifunc=tsuquyomi#complete
+
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#smart_auto_mappings = 0
+
 let g:neocomplete#force_omni_input_patterns.python =
             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 let g:neocomplete#force_omni_input_patterns.typescript = '[^. *\t]\.\w*\|\h\w*::'

@@ -100,10 +100,12 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('kchmck/vim-coffee-script')
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
-    call dein#add('Quramy/tsuquyomi')
+    call dein#add('Quramy/tsuquyomi', {'on_ft': 'typescript'})
     " CSS/SCSS
-    call dein#add('ap/vim-css-color')
-    call dein#add('hail2u/vim-css3-syntax')
+    "" merged: 0, conflict with othree/html5
+    call dein#add('hail2u/vim-css3-syntax', {'merged': 0})
+    "" merged: 0, conflict with othree/html5 and many
+    call dein#add('ap/vim-css-color', {'merged': 0})
     call dein#add('cakebaker/scss-syntax.vim')
     call dein#add('othree/csscomplete.vim')
     " Go

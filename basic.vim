@@ -378,7 +378,7 @@ let g:closetag_emptyTags_caseSensitive = 1
 
 
 " javascript-libraries-syntax
-let g:used_javascript_libs = 'jquery,react,angularjs,angularui,angularuirouter'
+let g:used_javascript_libs = 'jquery,angularjs,angularui,angularuirouter'
 
 " JS pretty template
 au FileType javascript JsPreTmpl html
@@ -386,9 +386,7 @@ au FileType typescript JsPreTmpl markdown
 
 
 " vim-javascript
-let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_flow = 1
 
 " startify
 let g:startify_session_dir = '~/.vim/sessions/'
@@ -417,3 +415,7 @@ let g:airline_theme='onedark'
 let g:vim_markdown_folding_disabled = 1
 
 let g:markdown_composer_open_browser = 0
+
+" tsuquyomi
+let g:tsuquyomi_definition_split = 3   "tabedit
+let g:tsuquyomi_single_quote_import = 1
