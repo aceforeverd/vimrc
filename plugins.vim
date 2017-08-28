@@ -69,6 +69,7 @@ if dein#load_state('~/.vim/dein.vim')
 
     " Interface
     call dein#add('mhinz/vim-startify')
+    call dein#add('luochen1990/rainbow')
 
     " VCS
     call dein#add('tpope/vim-fugitive')
@@ -122,7 +123,11 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('vim-erlang/vim-erlang-omnicomplete')
     " Ruby/Perl
     call dein#add('vim-ruby/vim-ruby')
-    call dein#add('vim-perl/vim-perl')
+    call dein#add('vim-perl/vim-perl', {
+        \ 'rev': 'dev',
+        \ 'build': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny'
+        \ })
+    call dein#add('vim-perl/vim-perl6')
     " Rust
     call dein#add('rust-lang/rust.vim')
     call dein#add('racer-rust/vim-racer')

@@ -301,9 +301,7 @@ if exists('$TMUX')
 endif
 
 
-" =====================================================================================
 "   Plugins
-" =====================================================================================
 
 " call pathogen#helptags()
 
@@ -419,3 +417,7 @@ let g:markdown_composer_open_browser = 0
 " tsuquyomi
 let g:tsuquyomi_definition_split = 3   "tabedit
 let g:tsuquyomi_single_quote_import = 1
+" autocmd FileType typescript inoremap <C-space> <C-x><C-o>
+
+" rainbow
+let g:rainbow_active = 1

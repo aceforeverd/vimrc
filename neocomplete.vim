@@ -81,10 +81,7 @@ let g:neocomplete#sources#omni#input_patterns.c =
             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
 let g:neocomplete#sources#omni#input_patterns.cpp =
             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-let g:neocomplete#force_omni_input_patterns.objcpp =
-            \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
-let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
-let g:neocomplete#sources#omni#input_patterns.java = '\h\w*\.\w*'
+
 
 
 " Enable omni completion.
@@ -96,9 +93,9 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 " Java complete2
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 " neco-ghc
-autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 " jedi
-autocmd Filetype python setlocal omnifunc=jedi#completions
+autocmd FileType python setlocal omnifunc=jedi#completions
 autocmd FileType typescript setlocal omnifunc=tsuquyomi#complete
 
 let g:jedi#completions_enabled = 0
@@ -110,6 +107,10 @@ let g:neocomplete#force_omni_input_patterns.python =
 let g:neocomplete#force_omni_input_patterns.typescript = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 let g:neocomplete#force_omni_input_patterns.erlang = '\<[[:digit:][:alnum:]_-]\+:[[:digit:][:alnum:]_-]*'
+let g:neocomplete#force_omni_input_patterns.objcpp =
+            \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
+let g:neocomplete#sources#omni#input_patterns.java = '\h\w*\.\w*'
 
 
 if !exists('g:neocomplete#delimiter_patterns')
