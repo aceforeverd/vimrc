@@ -9,14 +9,14 @@ set autoread
 let mapleader = ","
 let g:mapleader = ","
 " local leader
-let maplocalleader = '\\'
+let maplocalleader = '\'
 
 set so=4
 
 let $LANG='en'
 set langmenu=en
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
+" source $VIMRUNTIME/delmenu.vim
+" source $VIMRUNTIME/menu.vim
 
 set wildmenu
 
@@ -95,7 +95,7 @@ set si "Smart indent
 set wrap "Wrap lines
 
 " To the first non-blank character of the line.
-nnoremap <Leader>lh ^
+" nnoremap <Leader>lh ^
 
 
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
@@ -351,9 +351,9 @@ let g:tmux_navigator_no_mappings = 1
 
 " Utilsnips
 let g:UltiSnipsExpandTrigger = "<leader>e"
-let g:UltiSnipsListSnippets = "<c-l>"
-let g:UltiSnipsJumpForwardTrigger = "<c-b>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
+let g:UltiSnipsListSnippets = "<Leader>l"
+let g:UltiSnipsJumpForwardTrigger = "<Leader>ub"
+let g:UltiSnipsJumpBackwardTrigger = "<Leader>uz"
 let g:UltiSnipsEditSplit = "vertical"
 
 
