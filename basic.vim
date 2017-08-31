@@ -94,23 +94,23 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
-" To the first non-blank character of the line.
-" nnoremap <Leader>lh ^
+" vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+" vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
-
-vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-
-map <silent> <leader><cr> :noh<cr>
+" map <silent> <leader><cr> :noh<cr>
 nnoremap <leader>tn :tabnew<cr>
 nnoremap <leader>to :tabonly<cr>
 nnoremap <leader>tc :tabclose<cr>
 nnoremap <leader>tm :tabmove<cr>
 nnoremap <leader>tl :tabnext<cr>
 nnoremap <leader>th :tabprevious<cr>
+"
+nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 
 let g:lasttab = 1
+" swith to last active tab
+nnoremap <Leader>ts :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 
 
@@ -421,3 +421,5 @@ let g:tsuquyomi_single_quote_import = 1
 
 " rainbow
 let g:rainbow_active = 1
+
+
