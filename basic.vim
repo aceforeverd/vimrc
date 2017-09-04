@@ -6,12 +6,11 @@ filetype indent on
 set autoread
 
 " global leader
-let mapleader = ","
-let g:mapleader = ","
+let g:mapleader = ','
 " local leader
-let maplocalleader = '\'
+let g:maplocalleader = '\'
 
-set so=4
+set scrolloff=4
 
 let $LANG='en'
 set langmenu=en
@@ -22,7 +21,7 @@ set wildmenu
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
-if has("win16") || has("win32")
+if has('win16') || has('win32')
     set wildignore+=.git\*,.hg\*,.svn\*
 else
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
@@ -32,7 +31,7 @@ set ruler
 
 set cmdheight=2
 
-set hid
+set hidden
 
 set ignorecase
 
@@ -47,15 +46,15 @@ set lazyredraw
 set magic
 
 set showmatch
-set mat=2
+set matchtime=2
 
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
 set t_vb=
-set tm=500
+set timeoutlen=500
 
-if has("gui_macvim")
+if has('gui_macvim')
     autocmd GUIEnter * set vb t_vb=
 endif
 
@@ -67,7 +66,7 @@ if $COLORTERM == 'gnome-terminal'
 endif
 
 
-if has("gui_running")
+if has('gui_running')
     set guioptions-=T
     set guioptions-=e
     set t_Co=256
@@ -76,9 +75,9 @@ endif
 
 set encoding=utf8
 
-set ffs=unix,dos,mac
+set fileformats=unix,dos,mac
 
-set nu
+set number
 
 set expandtab
 set smarttab
@@ -87,11 +86,11 @@ set smarttab
 set shiftwidth=4
 set tabstop=4
 
-set lbr
-set tw=500
+set linebreak
+set textwidth=500
 
-set ai "Auto indent
-set si "Smart indent
+set autoindent "Auto indent
+set smartindent "Smart indent
 set wrap "Wrap lines
 
 " vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
@@ -111,13 +110,13 @@ nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 let g:lasttab = 1
 " swith to last active tab
 nnoremap <Leader>ts :exe "tabn ".g:lasttab<CR>
-au TabLeave * let g:lasttab = tabpagenr()
+autocmd TabLeave * let g:lasttab = tabpagenr()
 
 
 " Specify the behavior when switching between buffers
 try
   set switchbuf=useopen,usetab,newtab
-  set stal=2
+  set showtabline=2
 catch
 endtry
 
@@ -141,7 +140,7 @@ if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 endif
 
-if has("mac") || has("macunix")
+if has('mac') || has('macunix')
   nmap <D-j> <M-j>
   nmap <D-k> <M-k>
   vmap <D-j> <M-j>
@@ -212,20 +211,20 @@ function! <SID>BufcloseCloseIt()
 endfunction
 
 " Make VIM remember position in file after reopen
-if has("autocmd")
+if has('autocmd')
    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-if has("mac") || has("macunix")
-    set gfn=Hack:h14,Source\ Code\ Pro:h15,Menlo:h15
-elseif has("win16") || has("win32")
-    set gfn=Hack:h14,Source\ Code\ Pro:h12,Bitstream\ Vera\ Sans\ Mono:h11
-elseif has("gui_gtk2")
-    set gfn=Hack\ 14,Source\ Code\ Pro\ 12,Bitstream\ Vera\ Sans\ Mono\ 11
-elseif has("linux")
-    set gfn=Hack\ 14,Source\ Code\ Pro\ 12,Bitstream\ Vera\ Sans\ Mono\ 11
-elseif has("unix")
-    set gfn=Source\ Code\ Pro\ Medium\ 12
+if has('mac') || has('macunix')
+    set guifont=Hack:h14,Source\ Code\ Pro:h15,Menlo:h15
+elseif has('win16') || has('win32')
+    set guifont=Hack:h14,Source\ Code\ Pro:h12,Bitstream\ Vera\ Sans\ Mono:h11
+elseif has('gui_gtk2')
+    set guifont=Hack\ 14,Source\ Code\ Pro\ 12,Bitstream\ Vera\ Sans\ Mono\ 11
+elseif has('linux')
+    set guifont=Hack\ 14,Source\ Code\ Pro\ 12,Bitstream\ Vera\ Sans\ Mono\ 11
+elseif has('unix')
+    set guifont=Source\ Code\ Pro\ Medium\ 12
 endif
 
 try
@@ -268,7 +267,6 @@ func! CurrentFileDir(cmd)
     return a:cmd . " " . expand("%:p:h") . "/"
 endfunc
 
-let python_highlight_all = 1
 au FileType python syn keyword pythonDecorator True None False self
 
 au BufNewFile,BufRead *.jinja set syntax=htmljinja
@@ -301,11 +299,6 @@ if exists('$TMUX')
 endif
 
 
-"   Plugins
-
-" call pathogen#helptags()
-
-
 let g:bufExplorerDefaultHelp=0
 let g:bufExplorerShowRelativePath=1
 let g:bufExplorerFindActive=1
@@ -321,6 +314,11 @@ let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 let g:ctrlp_max_depth = 20
 let g:ctrlp_show_hidden = 1
 
+" command-t
+nmap <silent> <C-t> <Plug>(CommandT)
+nmap <silent> <Leader>ft <Plug>(CommandT)
+nmap <silent> <Leader>fb <Plug>(CommandTBuffer)
+nmap <silent> <Leader>fj <Plug>(CommandTJump)
 
 
 " Nerd Tree
@@ -345,11 +343,11 @@ let g:tmux_navigator_no_mappings = 1
 
 
 " Utilsnips
-let g:UltiSnipsExpandTrigger = "<leader>e"
-let g:UltiSnipsListSnippets = "<Leader>l"
-let g:UltiSnipsJumpForwardTrigger = "<Leader>ub"
-let g:UltiSnipsJumpBackwardTrigger = "<Leader>uz"
-let g:UltiSnipsEditSplit = "vertical"
+let g:UltiSnipsExpandTrigger = '<leader>e'
+let g:UltiSnipsListSnippets = '<Leader>l'
+let g:UltiSnipsJumpForwardTrigger = '<Leader>ub'
+let g:UltiSnipsJumpBackwardTrigger = '<Leader>uz'
+let g:UltiSnipsEditSplit = 'vertical'
 
 
 " editorconfig
@@ -417,4 +415,37 @@ let g:tsuquyomi_single_quote_import = 1
 " rainbow
 let g:rainbow_active = 1
 
+
+" vim-signature
+let g:SignatureMap = {
+        \ 'Leader'             :  '<Leader>m',
+        \ 'PlaceNextMark'      :  '<Leader>m,',
+        \ 'ToggleMarkAtLine'   :  '<Leader>m.',
+        \ 'PurgeMarksAtLine'   :  '<Leader>m-',
+        \ 'DeleteMark'         :  '<Leader>dm',
+        \ 'PurgeMarks'         :  '<Leader>m<Space>',
+        \ 'PurgeMarkers'       :  '<Leader>m<BS>',
+        \ 'GotoNextLineAlpha'  :  '',
+        \ 'GotoPrevLineAlpha'  :  '',
+        \ 'GotoNextSpotAlpha'  :  '',
+        \ 'GotoPrevSpotAlpha'  :  '',
+        \ 'GotoNextLineByPos'  :  '',
+        \ 'GotoPrevLineByPos'  :  '',
+        \ 'GotoNextSpotByPos'  :  '',
+        \ 'GotoPrevSpotByPos'  :  '',
+        \ 'GotoNextMarker'     :  '',
+        \ 'GotoPrevMarker'     :  '',
+        \ 'GotoNextMarkerAny'  :  '',
+        \ 'GotoPrevMarkerAny'  :  '',
+        \ 'ListBufferMarks'    :  '',
+        \ 'ListBufferMarkers'  :  ''
+        \ }
+
+" incsearch.vim
+map <Leader>/ <Plug>(incsearch-forward)
+map <Leader>? <Plug>(incsearch-backward)
+map <Leader>g/ <Plug>(incsearch-stay)
+
+" vim-wiki
+let g:vimwiki_table_mappings = 0
 

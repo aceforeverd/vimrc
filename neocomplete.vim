@@ -159,4 +159,4 @@ smap <c-k> <Plug>(neosnippet_expand_or_jump)>
 xmap <c-k> <Plug>(neosnippet_expand_or_jump)>
 let g:neosnippet#disable_runtime_snippets = {
             \    '_': 1
-            \}
+            \    }

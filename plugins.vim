@@ -51,10 +51,9 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('dyng/ctrlsf.vim')
     call dein#add('google/vim-searchindex')
     call dein#add('wincent/ferret')
+    call dein#add('haya14busa/incsearch.vim')
     " Tools
     call dein#add('editorconfig/editorconfig-vim')
-    call dein#add('KabbAmine/vCoolor.vim')
-    call dein#add('sjl/gundo.vim')
     call dein#add('mbbill/undotree')
     call dein#add('haya14busa/dein-command.vim')
     call dein#add('jamessan/vim-gnupg')
@@ -65,7 +64,6 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('chrisbra/recover.vim')
     call dein#add('chrisbra/SudoEdit.vim')
     " comment
-    call dein#add('tomtom/tcomment_vim')
     call dein#add('scrooloose/nerdcommenter')
     " format
     call dein#add('sbdchd/neoformat')
@@ -107,6 +105,7 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('kshenoy/vim-signature')
     call dein#add('majutsushi/tagbar')
+    call dein#add('chrisbra/Colorizer')
 
     " VCS
     call dein#add('tpope/vim-fugitive')
@@ -116,6 +115,9 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('mhinz/vim-signify')
     call dein#add('mattn/gist-vim')
     call dein#add('lambdalisue/gina.vim')
+    call dein#add('rhysd/committia.vim')
+    call dein#add('jreybert/vimagit')
+    call dein#add('cohama/agit.vim')
     call dein#add('airblade/vim-rooter')
 
     " Snips
@@ -145,7 +147,7 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('othree/html5.vim')
     " CSS/SCSS
     "" merged: 0, conflict with othree/html5
-    call dein#add('hail2u/vim-css3-syntax', {'merged': 0})
+    call dein#add('hail2u/vim-css3-syntax', {'on_ft': ['css', 'scss', 'html']})
     "" merged: 0, conflict with othree/html5 and many
     call dein#add('ap/vim-css-color', {'merged': 0})
     call dein#add('othree/csscomplete.vim')
@@ -178,6 +180,9 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('davidhalter/jedi-vim')
     call dein#add('nvie/vim-flake8')
     call dein#add('hynek/vim-python-pep8-indent')
+    call dein#add('alfredodeza/pytest.vim')
+    call dein#add('python-rope/ropevim')
+    call dein#add('jmcantrell/vim-virtualenv')
     " Haskell
     call dein#add('neovimhaskell/haskell-vim')
     call dein#add('eagletmt/neco-ghc')
@@ -195,6 +200,8 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('vim-jp/vital.vim')
     " R
     call dein#add('jalvesaq/Nvim-R')
+    " Salt
+    call dein#add('saltstack/salt-vim')
     " Tmux
     call dein#add('benmills/vimux')
     call dein#add('christoomey/vim-tmux-navigator')
@@ -210,9 +217,14 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('PotatoesMaster/i3-vim-syntax')
     call dein#add('arrufat/vala.vim')
     call dein#add('cespare/vim-toml')
-    call dein#add('derekwyatt/vim-scala')
+    call dein#add('solarnz/thrift.vim')
+    call dein#add('hashivim/vim-terraform')
+    call dein#add('uarun/vim-protobuf')
+    call dein#add('matt-deacalion/vim-systemd-syntax')
+    call dein#add('lumiliet/vim-twig')
     call dein#add('wlangstroth/vim-racket')
     call dein#add('elmcast/elm-vim')
+    call dein#add('derekwyatt/vim-scala')
     " clojure
     call dein#add('guns/vim-clojure-static')
     call dein#add('guns/vim-sexp')
@@ -221,17 +233,19 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#add('slim-template/vim-slim')
     call dein#add('dart-lang/dart-vim-plugin')
     call dein#add('ekalinin/dockerfile.vim')
-    call dein#add('matt-deacalion/vim-systemd-syntax')
     " YAML playbooks, Jinja2 templates, and Ansible's hosts files.
     call dein#add('pearofducks/ansible-vim')
     call dein#add('stephpy/vim-yaml')
+    " npm
+    call dein#add('rhysd/npm-filetypes.vim')
 
     call dein#add('isobit/vim-caddyfile')
     call dein#add('tpope/vim-cucumber')
     call dein#add('tpope/vim-liquid')
     call dein#add('ekalinin/dockerfile.vim')
-    call dein#add('solarnz/thrift.vim')
     call dein#add('elzr/vim-json')
+    " csv
+    call dein#add('chrisbra/csv.vim')
     " LanguageTool
     call dein#add('rhysd/vim-grammarous')
 
@@ -241,15 +255,9 @@ if dein#load_state('~/.vim/dein.vim')
     call dein#save_state()
 endif
 
-" Required:
-" filetype plugin indent on
-" syntax enable
-
-" If you want to install not installed plugins on startup.
-"if dein#check_install()
-"  call dein#install()
-"endif
-
+" pathogen
+" add plugins in ~/.vim/bundle
+execute pathogen#infect('~/.vim/bundle/{}')
 
 " vim-plug
 call plug#begin('~/.vim/plugged')
@@ -260,6 +268,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --key-bindings --no-completion'}
 Plug 'junegunn/fzf.vim'
+Plug 'wincent/command-t', {'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'}
 
 Plug 'scrooloose/nerdtree'
 " problem integrate with startify
@@ -277,7 +286,7 @@ function! BuildComposer(info)
 endfunction
 
 " uncomment this only if you've installed cargo
-" Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 "
 " uncomment this only if you've install gnu global
 " Plug 'jsfaint/gen_tags.vim'

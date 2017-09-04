@@ -6,18 +6,11 @@ set runtimepath+=~/.vim_runtime
 
 source ~/.vim_runtime/plugins.vim
 
-
 source ~/.vim_runtime/basic.vim
 
-
-" Powerline
 let g:airline_powerline_fonts = 1
 
 colorscheme onedark
-
-" for vim-typescript only
-" au Filetype typescript syn clear foldBraces
-
 
 source ~/.vim_runtime/neocomplete.vim
 
