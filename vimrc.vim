@@ -92,13 +92,14 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('mattn/emmet-vim')
     call dein#add('mattn/webapi-vim')
-    call dein#add('godlygeek/tabular')
     call dein#add('rickhowe/diffchar.vim')
     call dein#add('will133/vim-dirdiff')
     call dein#add('Valloric/MatchTagAlways')
     call dein#add('itchyny/calendar.vim')
     call dein#add('diepm/vim-rest-console')
     call dein#add('vimoutliner/vimoutliner')
+    call dein#add('vim-utils/vim-man')
+    call dein#add('vim-utils/vim-troll-stopper')
     " buf
     call dein#add('jlanzarotta/bufexplorer')
     " generate helpfile from vimscript
@@ -107,6 +108,7 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('sbdchd/neoformat')
     call dein#add('rhysd/vim-clang-format')
     call dein#add('junegunn/vim-easy-align')
+    call dein#add('godlygeek/tabular')
     " debug/test
     call dein#add('janko-m/vim-test')
     call dein#add('idanarye/vim-vebugger')
@@ -143,6 +145,7 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('thaerkh/vim-workspace')
     " comment
     call dein#add('scrooloose/nerdcommenter')
+    call dein#add('tomtom/tcomment_vim')
 
     call dein#add('raimondi/delimitmate')
     call dein#add('alvan/vim-closetag')
@@ -316,8 +319,8 @@ Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --key-bindings --no-comp
 Plug 'junegunn/fzf.vim'
 Plug 'w0rp/ale'
 
-" Plug 'chrisbra/unicode.vim'
 Plug 'junegunn/vim-emoji'
+" Plug 'chrisbra/unicode.vim'
 " Plug 'scrooloose/nerdtree'
 " Plug 'jistr/vim-nerdtree-tabs'
 Plug 'alvan/vim-php-manual', {'for': 'php'}
@@ -345,8 +348,7 @@ Plug 'c9s/perlomni.vim', {'for': 'perl'}
 " (Syn)tax (cop)y-p(a)s(te)
 " Plug 'google/vim-syncopate'
 Plug 'Rykka/colorv.vim'
-
-" Plug 'justinmk/vim-dirvish'
+Plug 'justinmk/vim-dirvish'
 
 Plug 'johngrib/vim-game-code-break', {'on': 'VimGameCodeBreak'}
 
@@ -427,3 +429,11 @@ nmap g# g#<Plug>(anzu-update-search-status-with-echo)
 nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
 
 let g:workspace_autosave_ignore = ['gitcommit']
+
+let g:tcommentMaps = 0
+
+" dirvish
+nmap <Leader>v <Plug>(dirvish_up)
+
+" vim-troll-stopper
+" highlight TrollStopper ctermbg=blue guibg=#FF00AA

@@ -10,12 +10,10 @@ let g:mapleader = ','
 " local leader
 let g:maplocalleader = '\'
 
-set scrolloff=4
+set scrolloff=3
 
 let $LANG='en'
 set langmenu=en
-" source $VIMRUNTIME/delmenu.vim
-" source $VIMRUNTIME/menu.vim
 
 set wildmenu
 
@@ -100,9 +98,7 @@ nnoremap <leader>tc :tabclose<cr>
 nnoremap <leader>tm :tabmove<cr>
 nnoremap <leader>tl :tabnext<cr>
 nnoremap <leader>th :tabprevious<cr>
-"
 nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
-
 
 let g:lasttab = 1
 " swith to last active tab
@@ -134,13 +130,6 @@ endif
 if exists('$TMUX')
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-endif
-
-if has('mac') || has('macunix')
-  nmap <D-j> <M-j>
-  nmap <D-k> <M-k>
-  vmap <D-j> <M-j>
-  vmap <D-k> <M-k>
 endif
 
 
@@ -203,13 +192,10 @@ try
 catch
 endtry
 
-
 map ½ $
 cmap ½ $
 imap ½ $
-
-iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
-
+iab _date <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 func! DeleteTillSlash()
     let g:cmd = getcmdline()
@@ -231,15 +217,7 @@ func! DeleteTillSlash()
     return g:cmd_edited
 endfunc
 
-au FileType python syn keyword pythonDecorator True None False self
-
-au BufNewFile,BufRead *.jinja set syntax=htmljinja
-au BufNewFile,BufRead *.mako set ft=mako
-
-
 au FileType javascript setl nocindent
-
-autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
 autocmd BufRead,BufNewFile *.ts setlocal filetype=typescript
 autocmd BufNewFile,BufRead .tern-project setlocal filetype=json
@@ -272,8 +250,8 @@ nmap <silent> <Leader>fj <Plug>(CommandTJump)
 
 
 " Nerd Tree
-let g:NERDTreeWinPos = "left"
-let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+let g:NERDTreeWinPos = 'left'
+let g:NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeWinSize=30
 let g:NERDTreeShowHidden = 1
 " Nerd tabs
@@ -305,16 +283,16 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
 
 
 "" see help delimitMateExpansion
-let delimitMate_expand_cr = 2
-let delimitMate_expand_space = 1
-let delimitMate_jump_expansion = 1
-let delimitMate_balance_matchpairs = 1
+let g:delimitMate_expand_cr = 2
+let g:delimitMate_expand_space = 1
+let g:delimitMate_jump_expansion = 1
+let g:delimitMate_balance_matchpairs = 1
 
-let delimitMate_matchpairs = "(:),[:],{:},<:>"
-au FileType html,xml,xhtml let b:delimitMate_matchpairs = "(:),[:],{:}"
+let g:delimitMate_matchpairs = '(:),[:],{:},<:>'
+au FileType html,xml,xhtml let b:delimitMate_matchpairs = '(:),[:],{:}'
 
 " vim-closetag
-let g:closetag_filenames = "*.html,*.xhtml,*.xml"
+let g:closetag_filenames = '*.html,*.xhtml,*.xml'
 let g:closetag_emptyTags_caseSensitive = 1
 
 
@@ -324,7 +302,6 @@ let g:used_javascript_libs = 'jquery,angularjs,angularui,angularuirouter'
 " JS pretty template
 au FileType javascript JsPreTmpl html
 au FileType typescript JsPreTmpl markdown
-
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
@@ -440,3 +417,6 @@ map <Leader>g/ <Plug>(incsearch-stay)
 " vim-wiki
 let g:vimwiki_table_mappings = 0
 
+" vim-rooter
+let g:rooter_change_directory_for_non_project_files = ''
+let g:rooter_resolve_links = 1
