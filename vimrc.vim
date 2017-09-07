@@ -29,7 +29,7 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('Shougo/vimshell.vim')
     call dein#add('Shougo/vimfiler.vim')
     call dein#add('Shougo/neco-vim')
-    call dein#add('Shougo/neoyank.vim', {'depends': 'unite.vim'})
+    call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
     call dein#add('Shougo/unite-outline', {'depends': 'unite.vim'})
     call dein#add('Shougo/deol.nvim', {'on_if': '!has("gui_running")'})
@@ -70,7 +70,6 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
     call dein#add('flazz/vim-colorschemes')
-    call dein#add('altercation/vim-colors-solarized')
     call dein#add('rakr/vim-one')
     call dein#add('mhinz/vim-startify')
     call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
@@ -94,12 +93,12 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('mattn/webapi-vim')
     call dein#add('rickhowe/diffchar.vim')
     call dein#add('will133/vim-dirdiff')
-    call dein#add('Valloric/MatchTagAlways')
     call dein#add('itchyny/calendar.vim')
     call dein#add('diepm/vim-rest-console')
     call dein#add('vimoutliner/vimoutliner')
     call dein#add('vim-utils/vim-man')
     call dein#add('vim-utils/vim-troll-stopper')
+    call dein#add('lfv89/vim-interestingwords')
     " buf
     call dein#add('jlanzarotta/bufexplorer')
     " generate helpfile from vimscript
@@ -369,7 +368,6 @@ elseif $TERM=~'xterm-256color' || has('gui_running')
         let g:DevIconsEnableFolderExtensionPatternMatching = 1
     endif
 
-    " Highlight full name (not only icons).
     let g:NERDTreeFileExtensionHighlightFullName = 1
     let g:NERDTreeExactMatchHighlightFullName = 1
     let g:NERDTreePatternMatchHighlightFullName = 1
@@ -437,3 +435,7 @@ nmap <Leader>v <Plug>(dirvish_up)
 
 " vim-troll-stopper
 " highlight TrollStopper ctermbg=blue guibg=#FF00AA
+
+nnoremap <silent> <leader>k :call InterestingWords('n')<cr>
+nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
+let g:interestingWordsRandomiseColors = 1
