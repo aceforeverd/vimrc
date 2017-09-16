@@ -1,4 +1,4 @@
-set runtimepath+=~/.vim_runtime
+set runtimepath+=$HOME/.vim_runtime
 
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
@@ -125,7 +125,6 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
-    call dein#add('airblade/vim-rooter')
 
     " search
     call dein#add('ctrlpvim/ctrlp.vim')
@@ -134,7 +133,6 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('dyng/ctrlsf.vim')
     call dein#add('wincent/ferret')
     call dein#add('osyo-manga/vim-anzu')
-    " call dein#add('google/vim-searchindex')
 
     call dein#add('mbbill/undotree')
     call dein#add('haya14busa/dein-command.vim')
@@ -169,8 +167,10 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('fatih/vim-go')
     " c/c++/objc
     call dein#add('octol/vim-cpp-enhanced-highlight')
-    call dein#add('osyo-manga/vim-reunions')
-    call dein#add('osyo-manga/vim-marching')
+    " call dein#add('osyo-manga/vim-marching')
+    call dein#add('Rip-Rip/clang_complete', {
+                \ 'build': 'make install'
+                \ })
     "" Vim bindings for rtags, llvm/clang based c++ code indexer
     call dein#add('lyuts/vim-rtags', {'on_ft': 'cpp'})
     " Javascripts/Typescript/...
@@ -216,10 +216,6 @@ if dein#load_state('$HOME/.vim/dein')
     " Markdown
     call dein#add('tyru/open-browser.vim')
     call dein#add('plasticboy/vim-markdown')
-    call dein#add('euclio/vim-markdown-composer', {
-                \ 'on_ft': 'markdown',
-                \ 'build': 'cargo build --release --no-default-features --features json-rpc'
-                \ })
 
     " Php
     call dein#add('stanangeloff/php.vim')
@@ -241,7 +237,6 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('saltstack/salt-vim')
     " Erlang
     call dein#add('vim-erlang/vim-erlang-runtime')
-    call dein#add('vim-erlang/vim-erlang-tags')
     call dein#add('vim-erlang/vim-erlang-omnicomplete')
     " Tmux
     call dein#add('benmills/vimux')
@@ -320,7 +315,7 @@ Plug 'w0rp/ale'
 
 Plug 'junegunn/vim-emoji'
 " Plug 'chrisbra/unicode.vim'
-" Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 " Plug 'jistr/vim-nerdtree-tabs'
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 
@@ -336,10 +331,11 @@ function! BuildComposer(info)
   endif
 endfunction
 
-" Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 Plug 'xolox/vim-misc', {'for': 'lua'}
 Plug 'xolox/vim-lua-ftplugin', {'for': 'lua'}
 Plug 'c9s/perlomni.vim', {'for': 'perl'}
+Plug 'vhda/verilog_systemverilog.vim', {'for': 'verilog'}
 " plugin library
 " Plug 'google/vim-maktaba'
 " easy configuration of maktaba plugins.
@@ -401,7 +397,7 @@ highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
 let g:racer_cmd = '~/.local/bin/racer'
 
 let g:marching_enable_neocomplete =  1
-let g:marching_clang_command = '/usr/lib64/llvm/4/bin/clang'
+" let g:marching_clang_command = '/usr/lib64/llvm/5/bin/clang'
 
 let g:rtagsRcCmd = '/home/ace/.local/bin/rtags'
 

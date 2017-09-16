@@ -100,8 +100,8 @@ nnoremap <leader>tl :tabnext<cr>
 nnoremap <leader>th :tabprevious<cr>
 nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
-let g:lasttab = 1
 " swith to last active tab
+let g:lasttab = 1
 nnoremap <Leader>ts :exe "tabn ".g:lasttab<CR>
 autocmd TabLeave * let g:lasttab = tabpagenr()
 
@@ -420,3 +420,10 @@ let g:vimwiki_table_mappings = 0
 " vim-rooter
 let g:rooter_change_directory_for_non_project_files = ''
 let g:rooter_resolve_links = 1
+
+" easy-align
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
