@@ -72,8 +72,8 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" :
 
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
-            \  delimitMate#BS()
+" inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
+            " \  delimitMate#BS()
 
 "" Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')

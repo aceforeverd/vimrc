@@ -432,3 +432,8 @@ nmap <Leader>v <Plug>(dirvish_up)
 nnoremap <silent> <leader>k :call InterestingWords('n')<cr>
 nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
 let g:interestingWordsRandomiseColors = 1
+
+inoremap <C-Space> <C-x><c-o>
+if !has('gui_running')
+    inoremap <C-@> <C-x><C-o>
+endif
