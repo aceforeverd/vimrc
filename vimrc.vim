@@ -429,9 +429,6 @@ let g:tcommentMaps = 0
 " dirvish
 nmap <Leader>v <Plug>(dirvish_up)
 
-" vim-troll-stopper
-" highlight TrollStopper ctermbg=blue guibg=#FF00AA
-
 nnoremap <silent> <leader>k :call InterestingWords('n')<cr>
 nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
 let g:interestingWordsRandomiseColors = 1
