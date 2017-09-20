@@ -390,7 +390,7 @@ if !empty($TMUX)
 endif
 
 
-autocmd FileType gentoo-package-use,gentoo-package-keywords let b:delimitMate_matchpairs = "(:),[:],{:}"
+autocmd FileType cpp,gentoo-package-use,gentoo-package-keywords let b:delimitMate_matchpairs = "(:),[:],{:}"
 
 highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
 

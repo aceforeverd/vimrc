@@ -10,6 +10,10 @@ let g:neocomplete#enable_camel_case = 1
 " Set minimum syntax keyword length.
 let g:neocomplete#sources#syntax#min_keyword_length = 2
 
+let g:neocomplete#enable_auto_close_preview = 1
+
+set completeopt-=preview
+
 " Define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
             \ 'default' : '',
@@ -72,8 +76,8 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" :
 
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
-            " \  delimitMate#BS()
+inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
+             \  delimitMate#BS()
 
 "" Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
