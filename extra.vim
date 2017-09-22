@@ -288,9 +288,6 @@ let g:delimitMate_expand_space = 1
 let g:delimitMate_jump_expansion = 1
 let g:delimitMate_balance_matchpairs = 1
 
-let g:delimitMate_matchpairs = '(:),[:],{:},<:>'
-au FileType html,xml,xhtml let b:delimitMate_matchpairs = '(:),[:],{:}'
-
 " vim-closetag
 let g:closetag_filenames = '*.html,*.xhtml,*.xml'
 let g:closetag_emptyTags_caseSensitive = 1

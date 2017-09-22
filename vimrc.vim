@@ -260,6 +260,7 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('tbastos/vim-lua')
     " swift
     call dein#add('keith/swift.vim')
+
     call dein#add('jparise/vim-graphql')
     call dein#add('PotatoesMaster/i3-vim-syntax')
     call dein#add('tpope/vim-liquid')
@@ -389,8 +390,6 @@ if !empty($TMUX)
     set cursorline
 endif
 
-
-autocmd FileType cpp,gentoo-package-use,gentoo-package-keywords let b:delimitMate_matchpairs = "(:),[:],{:}"
 
 highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
 
