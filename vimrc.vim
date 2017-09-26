@@ -76,7 +76,6 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('junegunn/vim-journal')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('luochen1990/rainbow')
-    call dein#add('junegunn/rainbow_parentheses.vim')
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('majutsushi/tagbar')
     call dein#add('junegunn/goyo.vim')
@@ -167,6 +166,7 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('fatih/vim-go')
     " c/c++/objc
     call dein#add('octol/vim-cpp-enhanced-highlight')
+    call dein#add('nacitar/a.vim')
     " call dein#add('osyo-manga/vim-marching')
     call dein#add('Rip-Rip/clang_complete', {
                 \ 'build': 'make install'
@@ -395,9 +395,6 @@ highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
 
 let g:racer_cmd = '~/.local/bin/racer'
 
-let g:marching_enable_neocomplete =  1
-" let g:marching_clang_command = '/usr/lib64/llvm/5/bin/clang'
-
 let g:rtagsRcCmd = '/home/ace/.local/bin/rtags'
 
 " php-manual
@@ -436,3 +433,5 @@ inoremap <C-Space> <C-x><c-o>
 if !has('gui_running')
     inoremap <C-@> <C-x><C-o>
 endif
+
+let g:clang_library_path = '/usr/lib/llvm/5/lib64/libclang.so'

@@ -327,7 +327,7 @@ let g:ale_sign_error = emoji#for('rage')
 let g:ale_sign_warning = ':('
 nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
-" let g:ale_cpp_clangtidy_options = '-extra-arg="-std=c++14"'
+" let g:ale_cpp_clangtidy_options = '-std c++14'
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -425,3 +425,6 @@ vmap <Enter> <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+" vim-a
+nnoremap <Leader>is :A<CR>
