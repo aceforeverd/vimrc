@@ -243,7 +243,6 @@ let g:ctrlp_max_depth = 20
 let g:ctrlp_show_hidden = 1
 
 " command-t
-nmap <silent> <C-t> <Plug>(CommandT)
 nmap <silent> <Leader>ft <Plug>(CommandT)
 nmap <silent> <Leader>fb <Plug>(CommandTBuffer)
 nmap <silent> <Leader>fj <Plug>(CommandTJump)
@@ -344,8 +343,6 @@ let g:markdown_composer_open_browser = 0
 " tsuquyomi
 let g:tsuquyomi_definition_split = 3   "tabedit
 let g:tsuquyomi_single_quote_import = 1
-" autocmd FileType typescript inoremap <C-space> <C-x><C-o>
-
 
 " luochen1990/rainbow
 let g:rainbow_active = 1
@@ -415,14 +412,9 @@ map <Leader>g/ <Plug>(incsearch-stay)
 " vim-wiki
 let g:vimwiki_table_mappings = 0
 
-" vim-rooter
-let g:rooter_change_directory_for_non_project_files = ''
-let g:rooter_resolve_links = 1
-
 " easy-align
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
-
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 

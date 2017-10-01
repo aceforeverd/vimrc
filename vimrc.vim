@@ -51,7 +51,6 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('tpope/vim-fireplace')
     call dein#add('tpope/vim-scriptease')
     call dein#add('tpope/vim-unimpaired')
-    " call dein#add('tpope/vim-vinegar')
     call dein#add('tpope/vim-salve')
     call dein#add('tpope/vim-eunuch')
     call dein#add('tpope/vim-speeddating')
@@ -317,10 +316,9 @@ Plug 'w0rp/ale'
 Plug 'junegunn/vim-emoji'
 " Plug 'chrisbra/unicode.vim'
 Plug 'scrooloose/nerdtree'
-" Plug 'jistr/vim-nerdtree-tabs'
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 
-Plug 'wincent/command-t', {'do': 'cd ruby/command-t/ext/command-t && make clean && ruby extconf.rb && make'}
+Plug 'wincent/command-t', {'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'}
 
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
