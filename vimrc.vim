@@ -314,11 +314,10 @@ Plug 'junegunn/fzf.vim'
 Plug 'w0rp/ale'
 
 Plug 'junegunn/vim-emoji'
-" Plug 'chrisbra/unicode.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 
-Plug 'wincent/command-t', {'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'}
+" Plug 'wincent/command-t', {'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'}
 
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
