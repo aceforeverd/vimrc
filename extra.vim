@@ -1,3 +1,6 @@
+" File              : Dropbox/Linux/ArchVimrc/extra.vim
+" Date              : 03.10.2017
+" Last Modified Date: 03.10.2017
 set history=500
 
 filetype plugin on
@@ -243,9 +246,9 @@ let g:ctrlp_max_depth = 20
 let g:ctrlp_show_hidden = 1
 
 " command-t
-nmap <silent> <Leader>ft <Plug>(CommandT)
-nmap <silent> <Leader>fb <Plug>(CommandTBuffer)
-nmap <silent> <Leader>fj <Plug>(CommandTJump)
+nmap <silent> <Leader>tt <Plug>(CommandT)
+nmap <silent> <Leader>tb <Plug>(CommandTBuffer)
+nmap <silent> <Leader>tj <Plug>(CommandTJump)
 
 
 " Nerd Tree
@@ -285,7 +288,7 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
 let g:delimitMate_jump_expansion = 1
-let g:delimitMate_balance_matchpairs = 1
+" let g:delimitMate_balance_matchpairs = 1
 
 " vim-closetag
 let g:closetag_filenames = '*.html,*.xhtml,*.xml'

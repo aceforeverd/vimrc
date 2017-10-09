@@ -34,6 +34,7 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('Shougo/unite-outline', {'depends': 'unite.vim'})
     call dein#add('Shougo/deol.nvim', {'on_if': '!has("gui_running")'})
     call dein#add('ujihisa/neco-look')
+    call dein#add('hrsh7th/vim-neco-calc')
 
     " tpope
     call dein#add('tpope/vim-endwise')
@@ -71,6 +72,7 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('flazz/vim-colorschemes')
     call dein#add('rakr/vim-one')
     call dein#add('mhinz/vim-startify')
+    call dein#add('scrooloose/nerdtree')
     call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
     call dein#add('junegunn/vim-journal')
     call dein#add('ryanoasis/vim-devicons')
@@ -79,6 +81,7 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('majutsushi/tagbar')
     call dein#add('junegunn/goyo.vim')
     call dein#add('kshenoy/vim-signature')
+    call dein#add('MattesGroeger/vim-bookmarks')
     call dein#add('wincent/terminus')
     call dein#add('chrisbra/Colorizer')
 
@@ -96,11 +99,10 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('vimoutliner/vimoutliner')
     call dein#add('vim-utils/vim-man')
     call dein#add('vim-utils/vim-troll-stopper')
-    call dein#add('lfv89/vim-interestingwords')
-    " buf
-    call dein#add('jlanzarotta/bufexplorer')
-    " generate helpfile from vimscript
+
     call dein#add('google/vimdoc')
+    call dein#add('antoyo/vim-licenses')
+    call dein#add('alpertuna/vim-header')
     " code format
     call dein#add('sbdchd/neoformat')
     call dein#add('rhysd/vim-clang-format')
@@ -110,6 +112,7 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('janko-m/vim-test')
     call dein#add('idanarye/vim-vebugger')
     call dein#add('thinca/vim-quickrun')
+    call dein#add('skywind3000/asyncrun.vim')
 
     " VCS
     call dein#add('tpope/vim-fugitive')
@@ -130,7 +133,6 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('mhinz/vim-grepper')
     call dein#add('dyng/ctrlsf.vim')
     call dein#add('wincent/ferret')
-    call dein#add('osyo-manga/vim-anzu')
 
     call dein#add('mbbill/undotree')
     call dein#add('haya14busa/dein-command.vim')
@@ -159,6 +161,7 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('AndrewRadev/sideways.vim')
     call dein#add('chrisbra/NrrwRgn')
     call dein#add('machakann/vim-sandwich')
+    call dein#add('lfilho/cosco.vim')
 
     " Languages
     " Go
@@ -167,9 +170,7 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('octol/vim-cpp-enhanced-highlight')
     call dein#add('nacitar/a.vim')
     " call dein#add('osyo-manga/vim-marching')
-    call dein#add('Rip-Rip/clang_complete', {
-                \ 'build': 'make install'
-                \ })
+    call dein#add('Rip-Rip/clang_complete')
     "" Vim bindings for rtags, llvm/clang based c++ code indexer
     call dein#add('lyuts/vim-rtags', {'on_ft': 'cpp'})
     " Javascripts/Typescript/...
@@ -206,10 +207,8 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('ap/vim-css-color', {'merged': 0})
     call dein#add('othree/csscomplete.vim')
     " Python
-    call dein#add('nvie/vim-flake8')
     call dein#add('davidhalter/jedi-vim')
     call dein#add('alfredodeza/pytest.vim')
-    call dein#add('jmcantrell/vim-virtualenv')
     call dein#add('vimjas/vim-python-pep8-indent')
     call dein#add('python-rope/ropevim')
     " Markdown
@@ -312,12 +311,10 @@ call plug#begin('~/.vim/vimPlug')
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --key-bindings --no-completion'}
 Plug 'junegunn/fzf.vim'
 Plug 'w0rp/ale'
-
 Plug 'junegunn/vim-emoji'
-Plug 'scrooloose/nerdtree'
-Plug 'alvan/vim-php-manual', {'for': 'php'}
+Plug 'google/vim-searchindex'
 
-" Plug 'wincent/command-t', {'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'}
+Plug 'wincent/command-t', {'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'}
 
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -334,15 +331,7 @@ Plug 'xolox/vim-misc', {'for': 'lua'}
 Plug 'xolox/vim-lua-ftplugin', {'for': 'lua'}
 Plug 'c9s/perlomni.vim', {'for': 'perl'}
 Plug 'vhda/verilog_systemverilog.vim', {'for': 'verilog'}
-" plugin library
-" Plug 'google/vim-maktaba'
-" easy configuration of maktaba plugins.
-" Plug 'google/vim-glaive'
-" (Syn)tax (cop)y-p(a)s(te)
-" Plug 'google/vim-syncopate'
-Plug 'Rykka/colorv.vim'
 Plug 'justinmk/vim-dirvish'
-
 Plug 'johngrib/vim-game-code-break', {'on': 'VimGameCodeBreak'}
 
 call plug#end()
@@ -394,26 +383,10 @@ let g:racer_cmd = '~/.local/bin/racer'
 
 let g:rtagsRcCmd = '/home/ace/.local/bin/rtags'
 
-" php-manual
-let g:php_manual_online_search_shortcut = '<Leader>ph'
-
 " vim-sort-motion
 let g:sort_motion = '<Leader>sm'
 let g:sort_motion_lines = '<Leader>sml'
 let g:sort_motion_visual = '<Leader>sm'
-
-" colorv
-let g:colorv_no_global_map = 1
-
-" vim-anzu
-nmap n <Plug>(anzu-n-with-echo)
-nmap N <plug>(anzu-N-with-echo)
-nmap * <Plug>(anzu-star-with-echo)
-nmap # <Plug>(anzu-sharp-with-echo)
-nmap g* g*<Plug>(anzu-update-search-status-with-echo)
-nmap g# g#<Plug>(anzu-update-search-status-with-echo)
-
-nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
 
 let g:workspace_autosave_ignore = ['gitcommit']
 
@@ -422,13 +395,20 @@ let g:tcommentMaps = 0
 " dirvish
 nmap <Leader>v <Plug>(dirvish_up)
 
-nnoremap <silent> <leader>k :call InterestingWords('n')<cr>
-nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
-let g:interestingWordsRandomiseColors = 1
-
 inoremap <C-Space> <C-x><c-o>
 if !has('gui_running')
     inoremap <C-@> <C-x><C-o>
 endif
 
 let g:clang_library_path = '/usr/lib/llvm/5/lib64/libclang.so'
+
+" leaderF
+let g:Lf_ShortcutF = '<Leader>ff'
+let g:Lf_ShortcutB = '<Leader>fb'
+
+" vim-header
+let g:header_auto_add_header = 0
+
+" vim-bookmarks
+let g:bookmark_no_default_key_mappings = 1
+
