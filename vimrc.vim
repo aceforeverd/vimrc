@@ -1,5 +1,3 @@
-set runtimepath+=$HOME/.vim_runtime
-
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
 
@@ -337,7 +335,6 @@ Plug 'johngrib/vim-game-code-break', {'on': 'VimGameCodeBreak'}
 call plug#end()
 
 " =================== extra conf ============================= "
-set history=500
 
 filetype plugin on
 filetype indent on
@@ -347,11 +344,8 @@ let g:mapleader = ','
 " local leader
 let g:maplocalleader = '\'
 
-set scrolloff=3
 let $LANG='en'
 set langmenu=en
-
-set wildmenu
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
@@ -364,6 +358,7 @@ endif
 set autoread
 set ruler
 set cmdheight=2
+set scrolloff=3
 set hidden
 set ignorecase
 set smartcase
@@ -373,6 +368,8 @@ set lazyredraw
 set magic
 set showmatch
 set matchtime=2
+set history=1000
+set wildmenu
 
 " No annoying sound on errors
 set noerrorbells
@@ -391,7 +388,6 @@ if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
 
-
 if has('gui_running')
     set guioptions-=T
     set guioptions-=e
@@ -404,7 +400,6 @@ set encoding=utf8
 set fileformats=unix,dos,mac
 
 set number
-
 set expandtab
 set smarttab
 

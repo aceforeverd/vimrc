@@ -1,21 +1,4 @@
 #!/bin/bash -
-#===============================================================================
-#
-#          FILE: install.sh
-#
-#         USAGE: ./install.sh
-#
-#   DESCRIPTION: install script
-#
-#       OPTIONS: ---
-#  REQUIREMENTS: ---
-#          BUGS: ---
-#         NOTES: ---
-#        AUTHOR: ACE (), 
-#  ORGANIZATION: 
-#       CREATED: 08/04/2017 06:12:24 AM
-#      REVISION:  ---
-#===============================================================================
 
 set -o nounset                                  # Treat unset variables as an error
 
@@ -32,12 +15,12 @@ VIMRC_URL=https://github.com/aceforeverd/vimrc.git
 NOTFOUND=1
 
 function check_commands {
-    if [ -z ${GIT} ] ; then
+    if [ -z "$GIT" ] ; then
         echo 'git not found'
         exit ${NOTFOUND}
     fi
 
-    if [ -z ${WGET} ]; then
+    if [ -z "$WGET" ]; then
         echo 'wget not found'
         exit ${NOTFOUND}
     fi
@@ -47,7 +30,7 @@ function install_vim_plug {
     if [ ! -d "$VIMPLUG_PATH" ]; then
         mkdir -p "$VIMPLUG_PATH"
     elif [ -f "${VIMPLUG_PATH}/plug.vim" ] ; then
-        rm "${VIMPLUG_PATH}/plug.vim"
+        mv "${VIMPLUG_PATH}/plug.vim" "${VIMPLUG_PATH}/plug.vim.old"
     fi
 
     "$WGET" "$VIMPLUG" -O "$VIMPLUG_PATH"/plug.vim && \
@@ -71,35 +54,36 @@ function install_vimrc {
     if [ ! -d "$VIMRC_PATH" ] ; then
         mkdir -p "$VIMRC_PATH"
     else
-        rm -rf "$VIMRC_PATH"
+        mv "$VIMRC_PATH" "${VIMRC_PATH}.old"
     fi
 
     "$GIT" clone "$VIMRC_URL" "$VIMRC_PATH" && \
         echo "installed vimrc at $VIMRC_PATH"
     echo ""
 
-    if [ -f $HOME/.vimrc ] ; then
-        mv $HOME/.vimrc $HOME/.vimrc-backup
-        echo "moved your old vimrc file to $HOME/.vimrc-backup"
+    if [ -f "$HOME/.vimrc" ] ; then
+        mv "$HOME/.vimrc" "$HOME/.vimrc.old"
+        echo "moved your old vimrc file to $HOME/.vimrc.old"
     fi
 
     echo "source ~/.vim_runtime/vimrc.vim" > ~/.vimrc
 
     echo "=================================================================================="
     echo "installing plugins from vim-plug ..."
-    vim -c "PlugInstall | q" && \
+    vim -c "PlugInstall | q | q" && \
         echo "finished"
-    echo "==================================================================================\n"
+    echo -e "==================================================================================\n"
 
     echo "=================================================================================="
     echo "installing plugins from dein ..."
     vim -c "call dein#install() | q" && \
         echo "finished"
-    echo "==================================================================================\n"
+    echo -e "==================================================================================\n"
 
 }
 
 
+check_commands
 install_vim_plug
 install_dein
 install_vimrc
