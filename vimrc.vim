@@ -9,11 +9,11 @@ endif
 set runtimepath+=$HOME/.vim/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('$HOME/.vim/dein')
-    call dein#begin('$HOME/.vim/dein')
+if dein#load_state($HOME . '/.vim/dein')
+    call dein#begin($HOME . '/.vim/dein')
 
     " Let dein manage dein
-    call dein#add('$HOME/.vim/dein/repos/github.com/Shougo/dein.vim')
+    call dein#add($HOME . '/.vim/dein/repos/github.com/Shougo/dein.vim')
 
     call dein#add('Shougo/vimproc.vim', {'build': 'make'})
     call dein#add('Shougo/neocomplete.vim', {'merged': 0})
@@ -29,8 +29,8 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
-    call dein#add('Shougo/unite-outline', {'depends': 'unite.vim'})
     call dein#add('Shougo/deol.nvim', {'on_if': 'has("terminal")'})
+    call dein#add('Shougo/neopairs.vim')
     call dein#add('ujihisa/neco-look')
     call dein#add('hrsh7th/vim-neco-calc')
 
@@ -61,8 +61,6 @@ if dein#load_state('$HOME/.vim/dein')
     " snippets
     call dein#add('honza/vim-snippets')
     call dein#add('sirver/ultisnips')
-    call dein#add('Shougo/neosnippet.vim')
-    call dein#add('Shougo/neosnippet-snippets')
 
     " interface
     call dein#add('vim-airline/vim-airline')
@@ -107,6 +105,7 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('junegunn/vim-easy-align')
     call dein#add('godlygeek/tabular')
     " debug/test
+    call dein#add('w0rp/ale')
     call dein#add('janko-m/vim-test')
     call dein#add('idanarye/vim-vebugger')
     call dein#add('thinca/vim-quickrun')
@@ -276,9 +275,6 @@ if dein#load_state('$HOME/.vim/dein')
     call dein#add('rhysd/vim-crystal')
     call dein#add('wlangstroth/vim-racket')
     call dein#add('elmcast/elm-vim')
-    " plantuml
-    call dein#add('scrooloose/vim-slumlord')
-    call dein#add('aklt/plantuml-syntax')
     " clojure
     call dein#add('guns/vim-clojure-static')
     call dein#add('guns/vim-sexp')
@@ -309,7 +305,6 @@ call plug#begin('~/.vim/vimPlug')
 
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --key-bindings --no-completion --update-rc'}
 Plug 'junegunn/fzf.vim'
-Plug 'w0rp/ale'
 Plug 'junegunn/vim-emoji'
 Plug 'google/vim-searchindex'
 Plug 'wincent/command-t', {'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'}
@@ -329,7 +324,6 @@ Plug 'xolox/vim-misc', {'for': 'lua'}
 Plug 'xolox/vim-lua-ftplugin', {'for': 'lua'}
 Plug 'c9s/perlomni.vim', {'for': 'perl'}
 Plug 'vhda/verilog_systemverilog.vim', {'for': 'verilog'}
-Plug 'justinmk/vim-dirvish'
 Plug 'johngrib/vim-game-code-break', {'on': 'VimGameCodeBreak'}
 
 call plug#end()
@@ -348,7 +342,7 @@ let $LANG='en'
 set langmenu=en
 
 " Ignore compiled files
-set wildignore=*.o,*~,*.pyc
+set wildignore=*.o,*~,*.pyc,*.gch
 if has('win16') || has('win32')
     set wildignore+=.git\*,.hg\*,.svn\*
 else
@@ -517,7 +511,6 @@ endtry
 map ½ $
 cmap ½ $
 imap ½ $
-iab _date <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 func! DeleteTillSlash()
     let g:cmd = getcmdline()
@@ -554,7 +547,7 @@ let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_map = '<c-p>'
 
 let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
+let g:ctrlp_custom_ignore = '^node_modules\|^\.DS_Store\|^\.git\|^\.coffee\|^\.svn\|^cmake-build-debug\|^\.idea'
 let g:ctrlp_max_depth = 20
 let g:ctrlp_show_hidden = 1
 
@@ -562,7 +555,7 @@ let g:ctrlp_show_hidden = 1
 nmap <silent> <Leader>tt <Plug>(CommandT)
 nmap <silent> <Leader>tb <Plug>(CommandTBuffer)
 nmap <silent> <Leader>tj <Plug>(CommandTJump)
-
+let g:CommandTWildIgnore = &wildignore
 
 " Nerd Tree
 let g:NERDTreeWinPos = 'left'
@@ -596,8 +589,8 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
 "" see help delimitMateExpansion
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
-let g:delimitMate_jump_expansion = 1
-" let g:delimitMate_balance_matchpairs = 1
+" let g:delimitMate_jump_expansion = 1
+let g:delimitMate_balance_matchpairs = 1
 
 " vim-closetag
 let g:closetag_filenames = '*.html,*.xhtml,*.xml'
@@ -619,9 +612,10 @@ let g:startify_session_dir = '~/.vim/sessions/'
 let g:startify_update_oldfiles = 1
 let g:startify_session_autoload = 1
 let g:startify_session_persistence = 1
-let g:startify_change_to_vcs_root = 1
 let g:startify_skiplist = [
       \ '/tmp',
+      \ '/usr/share/vim/vim80/doc',
+      \ '/usr/share/vim/vimfiles/doc'
       \ ]
 let g:startify_fortune_use_unicode = 1
 let g:startify_session_sort = 1
@@ -860,15 +854,6 @@ let g:neoinclude#paths.c = '.,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,/usr/l
 
 let g:neoinclude#paths.cpp = '.,/usr/include/c++/*/,/usr/include/c++/*/x86_64-pc-linux-gnu/,/usr/include/c++/*/backward/,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,/usr/local/include/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include-fixed/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/backward, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/x86_64-pc-linux-gnu/, /usr/include/,,'
 
-" neosnips
-imap <c-k> <Plug>(neosnippet_expand_or_jump)
-smap <c-k> <Plug>(neosnippet_expand_or_jump)>
-xmap <c-k> <Plug>(neosnippet_expand_or_jump)>
-let g:neosnippet#disable_runtime_snippets = {
-            \    '_': 1
-            \    }
-
-
 " powerline & devicon
 if $TERM=~'linux'
     " disable
@@ -922,17 +907,10 @@ let g:workspace_autosave_ignore = ['gitcommit']
 
 let g:tcommentMaps = 0
 
-" dirvish
-nmap <Leader>v <Plug>(dirvish_up)
-
 inoremap <C-Space> <C-x><c-o>
 if !has('gui_running')
     inoremap <C-@> <C-x><C-o>
 endif
-
-" leaderF
-let g:Lf_ShortcutF = '<Leader>ff'
-let g:Lf_ShortcutB = '<Leader>fb'
 
 " vim-header
 let g:header_auto_add_header = 0
