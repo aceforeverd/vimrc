@@ -30,9 +30,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
     call dein#add('Shougo/deol.nvim', {'on_if': 'has("terminal")'})
-    call dein#add('Shougo/neopairs.vim')
     call dein#add('ujihisa/neco-look')
-    call dein#add('hrsh7th/vim-neco-calc')
 
     " tpope
     call dein#add('tpope/vim-endwise')
@@ -72,14 +70,14 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
     call dein#add('junegunn/vim-journal')
     call dein#add('ryanoasis/vim-devicons')
-    call dein#add('luochen1990/rainbow')
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('majutsushi/tagbar')
-    call dein#add('junegunn/goyo.vim')
     call dein#add('kshenoy/vim-signature')
     call dein#add('MattesGroeger/vim-bookmarks')
     call dein#add('wincent/terminus')
     call dein#add('chrisbra/Colorizer')
+    call dein#add('junegunn/rainbow_parentheses.vim')
+
 
     " motion
     call dein#add('easymotion/vim-easymotion')
@@ -94,7 +92,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('diepm/vim-rest-console')
     call dein#add('vimoutliner/vimoutliner')
     call dein#add('vim-utils/vim-man')
-    call dein#add('vim-utils/vim-troll-stopper')
 
     call dein#add('google/vimdoc')
     call dein#add('antoyo/vim-licenses')
@@ -125,6 +122,12 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('cohama/agit.vim')
 
     " search
+    call dein#add('junegunn/fzf', {
+                \ 'path': $HOME . '/.fzf',
+                \ 'build': './install --key-bindings --no-completion --update-rc',
+                \ 'merged': 0
+                \ })
+    call dein#add('junegunn/fzf.vim')
     call dein#add('ctrlpvim/ctrlp.vim')
     call dein#add('haya14busa/incsearch.vim')
     call dein#add('mhinz/vim-grepper')
@@ -138,7 +141,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('vimwiki/vimwiki')
     call dein#add('thaerkh/vim-workspace')
     " comment
-    call dein#add('scrooloose/nerdcommenter')
     call dein#add('tomtom/tcomment_vim')
 
     call dein#add('raimondi/delimitmate')
@@ -159,6 +161,8 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('chrisbra/NrrwRgn')
     call dein#add('machakann/vim-sandwich')
     call dein#add('lfilho/cosco.vim')
+    call dein#add('brooth/far.vim')
+    call dein#add('osyo-manga/vim-over')
 
     " Languages
     " Go
@@ -238,7 +242,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('benmills/vimux')
     call dein#add('christoomey/vim-tmux-navigator', {'on_if': '!empty($TMUX)'})
     call dein#add('tmux-plugins/vim-tmux')
-    call dein#add('edkolev/tmuxline.vim', {'on_if': '!empty($TMUX)'})
     " Lisp
     call dein#add('kovisoft/slimv')
     " Latex
@@ -303,11 +306,7 @@ execute pathogen#infect('~/.vim/bundle/{}')
 " ============================================================================================
 call plug#begin('~/.vim/vimPlug')
 
-Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --key-bindings --no-completion --update-rc'}
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/vim-emoji'
 Plug 'google/vim-searchindex'
-Plug 'wincent/command-t', {'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'}
 
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -422,7 +421,6 @@ let g:lasttab = 1
 nnoremap <Leader>ts :exe "tabn ".g:lasttab<CR>
 autocmd TabLeave * let g:lasttab = tabpagenr()
 
-
 " Specify the behavior when switching between buffers
 try
   set switchbuf=useopen,usetab,newtab
@@ -449,40 +447,12 @@ if exists('$TMUX')
 endif
 
 
-function! CmdLine(str)
-    exe "menu Foo.Bar :" . a:str
-    emenu Foo.Bar
-    unmenu Foo
-endfunction
-
-
 " Returns true if paste mode is enabled
 function! HasPaste()
     if &paste
         return 'PASTE MODE  '
     endif
     return ''
-endfunction
-
-" Don't close window, when deleting a buffer
-command! Bclose call <SID>BufcloseCloseIt()
-function! <SID>BufcloseCloseIt()
-   let l:currentBufNum = bufnr('%')
-   let l:alternateBufNum = bufnr('#')
-
-   if buflisted(l:alternateBufNum)
-     buffer #
-   else
-     bnext
-   endif
-
-   if bufnr('%') == l:currentBufNum
-     new
-   endif
-
-   if buflisted(l:currentBufNum)
-     execute('bdelete! '.l:currentBufNum)
-   endif
 endfunction
 
 " Make VIM remember position in file after reopen
@@ -507,10 +477,6 @@ try
     set undofile
 catch
 endtry
-
-map ½ $
-cmap ½ $
-imap ½ $
 
 func! DeleteTillSlash()
     let g:cmd = getcmdline()
@@ -545,17 +511,17 @@ endif
 " CTRL-P
 let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_map = '<c-p>'
-
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = '^node_modules\|^\.DS_Store\|^\.git\|^\.coffee\|^\.svn\|^cmake-build-debug\|^\.idea'
 let g:ctrlp_max_depth = 20
 let g:ctrlp_show_hidden = 1
 
-" command-t
-nmap <silent> <Leader>tt <Plug>(CommandT)
-nmap <silent> <Leader>tb <Plug>(CommandTBuffer)
-nmap <silent> <Leader>tj <Plug>(CommandTJump)
-let g:CommandTWildIgnore = &wildignore
+" fzf
+nnoremap <c-f> :FZF<CR>
+
+" fzf-vim
+command! Helptags :call fzf#vim#helptags(<bang>0)
+command! HelptagsGen :call pathogen#helptags()
 
 " Nerd Tree
 let g:NERDTreeWinPos = 'left'
@@ -568,9 +534,9 @@ let g:nerdtree_tabs_open_on_console_startup = 0
 let g:nerdtree_tabs_no_startup_for_diff = 1
 let g:nerdtree_tabs_smart_startup_focus = 1
 let g:nerdtree_tabs_startup_cd = 1
-map <leader>nt :NERDTreeToggle<cr>
-map <leader>nb :NERDTreeFromBookmark
-map <leader>nf :NERDTreeFind<cr>
+map <Leader>nt :NERDTreeToggle<CR>
+map <Leader>nb :NERDTreeFromBookmark<CR>
+map <Leader>nf :NERDTreeFind<CR>
 
 " tmux navigator
 " disable default mappings
@@ -627,11 +593,10 @@ let g:ale_linters = {
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_sign_error = emoji#for('rage')
-let g:ale_sign_warning = ':('
+let g:ale_sign_error = ':('
+let g:ale_sign_warning = ':P'
 nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
-" let g:ale_cpp_clangtidy_options = '-std c++14'
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -648,9 +613,6 @@ let g:markdown_composer_open_browser = 0
 " tsuquyomi
 let g:tsuquyomi_definition_split = 3   "tabedit
 let g:tsuquyomi_single_quote_import = 1
-
-" luochen1990/rainbow
-let g:rainbow_active = 1
 
 " vim-signature
 let g:SignatureMap = {
@@ -891,7 +853,6 @@ if !empty($TMUX)
     set cursorline
 endif
 
-
 highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
 
 let g:racer_cmd = '~/.local/bin/racer'
@@ -923,3 +884,12 @@ let g:bookmark_no_default_key_mappings = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 let g:cpp_concepts_highlight = 1
+
+" vim-go
+let g:go_template_autocreate = 0
+
+" rainbow
+augroup rainbow_lisp
+  autocmd!
+  autocmd FileType lisp,clojure,scheme RainbowParentheses
+augroup END
