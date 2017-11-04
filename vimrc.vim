@@ -1,19 +1,21 @@
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
 
-" dein.vim
 if &compatible
     set nocompatible
 endif
 
 set runtimepath+=$HOME/.vim/dein/repos/github.com/Shougo/dein.vim
 
-" Required:
 if dein#load_state($HOME . '/.vim/dein')
     call dein#begin($HOME . '/.vim/dein')
 
-    " Let dein manage dein
     call dein#add($HOME . '/.vim/dein/repos/github.com/Shougo/dein.vim')
+    " if !has('nvim')
+    "     call dein#add('Shougo/deoplete.nvim')
+    "     call dein#add('roxma/nvim-yarp')
+    "     call dein#add('roxma/vim-hug-neovim-rpc')
+    " endif
 
     call dein#add('Shougo/vimproc.vim', {'build': 'make'})
     call dein#add('Shougo/neocomplete.vim', {'merged': 0})
@@ -77,7 +79,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('wincent/terminus')
     call dein#add('chrisbra/Colorizer')
     call dein#add('junegunn/rainbow_parentheses.vim')
-
 
     " motion
     call dein#add('easymotion/vim-easymotion')
@@ -307,6 +308,8 @@ execute pathogen#infect('~/.vim/bundle/{}')
 call plug#begin('~/.vim/vimPlug')
 
 Plug 'google/vim-searchindex'
+Plug 'simnalamburt/vim-mundo'
+" Plug 'benekastah/neomake'
 
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -581,7 +584,10 @@ let g:startify_session_persistence = 1
 let g:startify_skiplist = [
       \ '/tmp',
       \ '/usr/share/vim/vim80/doc',
-      \ '/usr/share/vim/vimfiles/doc'
+      \ '/usr/share/vim/vimfiles/doc',
+      \ '/usr/local/share/vim/vim80/doc',
+      \ '/usr/local/share/vim/vimfiles/doc',
+      \ $HOME . '/.vim/dein/.cache/.vimrc/.dein/doc'
       \ ]
 let g:startify_fortune_use_unicode = 1
 let g:startify_session_sort = 1
@@ -640,9 +646,11 @@ let g:SignatureMap = {
         \ }
 
 " incsearch.vim
-map <Leader>/ <Plug>(incsearch-forward)
-map <Leader>? <Plug>(incsearch-backward)
-map <Leader>g/ <Plug>(incsearch-stay)
+if !has('patch-8.0-1241')
+    map <Leader>/ <Plug>(incsearch-forward)
+    map <Leader>? <Plug>(incsearch-backward)
+    map <Leader>g/ <Plug>(incsearch-stay)
+endif
 
 " vim-wiki
 let g:vimwiki_table_mappings = 0
@@ -736,8 +744,8 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" :
 
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
-             \  delimitMate#BS()
+" inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
+"              \  delimitMate#BS()
 
 "" Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -893,3 +901,6 @@ augroup rainbow_lisp
   autocmd!
   autocmd FileType lisp,clojure,scheme RainbowParentheses
 augroup END
+
+" quickrun
+let g:quickrun_no_default_key_mappings = 1

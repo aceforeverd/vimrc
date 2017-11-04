@@ -66,7 +66,7 @@ function install_vimrc {
         echo "moved your old vimrc file to $HOME/.vimrc.old"
     fi
 
-    echo "source ~/.vim_runtime/vimrc.vim" > ~/.vimrc
+    cp "$VIMRC_PATH/vimrc.vim" ~/.vimrc
 
     echo "=================================================================================="
     echo "installing plugins from vim-plug ..."
