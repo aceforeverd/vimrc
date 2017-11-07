@@ -93,6 +93,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('diepm/vim-rest-console')
     call dein#add('vimoutliner/vimoutliner')
     call dein#add('vim-utils/vim-man')
+    call dein#add('tweekmonster/startuptime.vim')
 
     call dein#add('google/vimdoc')
     call dein#add('antoyo/vim-licenses')
@@ -102,6 +103,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('rhysd/vim-clang-format')
     call dein#add('junegunn/vim-easy-align')
     call dein#add('godlygeek/tabular')
+    call dein#add('tweekmonster/braceless.vim')
     " debug/test
     call dein#add('w0rp/ale')
     call dein#add('janko-m/vim-test')
@@ -212,6 +214,8 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('alfredodeza/pytest.vim')
     call dein#add('vimjas/vim-python-pep8-indent')
     call dein#add('python-rope/ropevim')
+    " django
+    call dein#add('tweekmonster/django-plus.vim')
     " Markdown
     call dein#add('tyru/open-browser.vim')
     call dein#add('plasticboy/vim-markdown')
@@ -286,6 +290,8 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('rhysd/npm-filetypes.vim')
     " gentoo
     call dein#add('gentoo/gentoo-syntax')
+    " blade
+    call dein#add('jwalton512/vim-blade')
 
     call dein#add('dart-lang/dart-vim-plugin')
     call dein#add('derekwyatt/vim-scala')
@@ -366,6 +372,7 @@ set showmatch
 set matchtime=2
 set history=1000
 set wildmenu
+set backspace=indent,eol,start
 
 " No annoying sound on errors
 set noerrorbells
@@ -434,7 +441,6 @@ endtry
 set laststatus=2
 
 " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
-autocmd VimLeave * let &t_te .= "\<Esc>[3 q"
 if &term == 'xterm-256color' || &term == 'screen-256color'
     " when start insert mode - blinking vertical bar
     let &t_SI = "\<Esc>[5 q"
@@ -448,6 +454,15 @@ if exists('$TMUX')
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 endif
+
+set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+		\,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+		\,sm:block-blinkwait175-blinkoff150-blinkon175
+augroup cursor_shape
+    autocmd!
+    autocmd VimLeave * let &t_te .= "\<Esc>[3 q"
+    autocmd VimLeave * set guicursor=a:hor25-blinkon300
+augroup END
 
 
 " Returns true if paste mode is enabled
@@ -744,8 +759,8 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" :
 
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
-"              \  delimitMate#BS()
+inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
+             \  delimitMate#BS()
 
 "" Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
