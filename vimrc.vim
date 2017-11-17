@@ -175,7 +175,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('nacitar/a.vim')
     call dein#add('Rip-Rip/clang_complete')
     "" Vim bindings for rtags, llvm/clang based c++ code indexer
-    call dein#add('lyuts/vim-rtags', {'on_ft': 'cpp'})
+    " call dein#add('lyuts/vim-rtags', {'on_ft': 'cpp'})
     " Javascripts/Typescript/...
     call dein#add('pangloss/vim-javascript')
     call dein#add('othree/javascript-libraries-syntax.vim')
@@ -314,7 +314,7 @@ execute pathogen#infect('~/.vim/bundle/{}')
 call plug#begin('~/.vim/vimPlug')
 
 Plug 'google/vim-searchindex'
-Plug 'simnalamburt/vim-mundo'
+" Plug 'simnalamburt/vim-mundo'
 " Plug 'benekastah/neomake'
 
 function! BuildComposer(info)
@@ -535,7 +535,11 @@ let g:ctrlp_max_depth = 20
 let g:ctrlp_show_hidden = 1
 
 " fzf
-nnoremap <c-f> :FZF<CR>
+nnoremap <c-q> :FZF<CR>
+let g:fzf_action = {
+      \ 'ctrl-x': 'tab split',
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit' }
 
 " fzf-vim
 command! Helptags :call fzf#vim#helptags(<bang>0)
@@ -594,7 +598,6 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
 "" see help delimitMateExpansion
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
-" let g:delimitMate_jump_expansion = 1
 let g:delimitMate_balance_matchpairs = 1
 
 " vim-closetag
@@ -814,6 +817,10 @@ autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 " jedi
 autocmd FileType python setlocal omnifunc=jedi#completions
 autocmd FileType typescript setlocal omnifunc=tsuquyomi#complete
+
+" clang_complete
+let g:clang_complete_macros = 1
+let g:clang_complete_patterns = 1
 
 " jedi
 let g:jedi#completions_enabled = 0
