@@ -31,6 +31,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
+    call dein#add('Shougo/neossh.vim')
     call dein#add('Shougo/deol.nvim', {'on_if': 'has("terminal")'})
     call dein#add('ujihisa/neco-look')
 
@@ -71,7 +72,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('scrooloose/nerdtree')
     call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
     call dein#add('junegunn/vim-journal')
-    call dein#add('ryanoasis/vim-devicons')
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('majutsushi/tagbar')
     call dein#add('kshenoy/vim-signature')
@@ -151,7 +151,6 @@ if dein#load_state($HOME . '/.vim/dein')
 
     call dein#add('sophacles/vim-bundle-mako')
     call dein#add('chrisbra/recover.vim')
-    call dein#add('chrisbra/SudoEdit.vim')
     " text object manipulate
     call dein#add('terryma/vim-multiple-cursors')
     call dein#add('michaeljsmith/vim-indent-object')
@@ -218,7 +217,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('tweekmonster/django-plus.vim')
     " Markdown
     call dein#add('tyru/open-browser.vim')
-    call dein#add('plasticboy/vim-markdown')
+    call dein#add('tpope/vim-markdown')
     " glsl
     call dein#add('tikhomirov/vim-glsl')
 
@@ -568,18 +567,9 @@ endif
 
 " Nerd Tree
 let g:NERDTreeWinPos = 'left'
-let g:NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeWinSize=30
 let g:NERDTreeShowHidden = 1
-" Nerd tabs
-let g:nerdtree_tabs_open_on_gui_startup = 1
-let g:nerdtree_tabs_open_on_console_startup = 0
-let g:nerdtree_tabs_no_startup_for_diff = 1
-let g:nerdtree_tabs_smart_startup_focus = 1
-let g:nerdtree_tabs_startup_cd = 1
-map <Leader>nt :NERDTreeToggle<CR>
-map <Leader>nb :NERDTreeFromBookmark<CR>
-map <Leader>nf :NERDTreeFind<CR>
+let g:NERDTreeHijackNetrw = 0
 
 " tmux navigator
 " disable default mappings
@@ -702,6 +692,10 @@ nmap ga <Plug>(EasyAlign)
 
 " vim-a
 nnoremap <Leader>is :A<CR>
+
+" vimfiler
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_ignore_pattern = ['^\.', '\.o$']
 
 " echodoc
 let g:echodoc#enable_at_startup = 1
@@ -867,24 +861,12 @@ let g:neoinclude#paths.c = '.,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,/usr/l
 
 let g:neoinclude#paths.cpp = '.,/usr/include/c++/*/,/usr/include/c++/*/x86_64-pc-linux-gnu/,/usr/include/c++/*/backward/,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,/usr/local/include/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include-fixed/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/backward, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/x86_64-pc-linux-gnu/, /usr/include/,,'
 
-" powerline & devicon
 if $TERM=~'linux'
-    " disable
-    let g:webdevicons_enable = 0
     colorscheme torte
 elseif $TERM=~'xterm-256color' || has('gui_running')
-    " Enable Nerd tree folder icons
-    if has('gui_running')
-        let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-        let g:DevIconsEnableFolderExtensionPatternMatching = 1
-    endif
-
     let g:NERDTreeFileExtensionHighlightFullName = 1
     let g:NERDTreeExactMatchHighlightFullName = 1
     let g:NERDTreePatternMatchHighlightFullName = 1
-    " Highlight folders using exact match
-    let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
-    let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
 
     let g:airline_powerline_fonts = 1
 
@@ -947,3 +929,6 @@ augroup END
 
 " quickrun
 let g:quickrun_no_default_key_mappings = 1
+
+" vim-dirvish
+nmap ; <Plug>(dirvish_up)
