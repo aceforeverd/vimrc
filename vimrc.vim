@@ -131,7 +131,6 @@ if dein#load_state($HOME . '/.vim/dein')
                 \ 'merged': 0
                 \ })
     call dein#add('junegunn/fzf.vim')
-    call dein#add('ctrlpvim/ctrlp.vim')
     call dein#add('haya14busa/incsearch.vim')
     call dein#add('mhinz/vim-grepper')
     call dein#add('dyng/ctrlsf.vim')
@@ -525,16 +524,8 @@ if exists('$TMUX')
     set term=screen-256color
 endif
 
-" CTRL-P
-let g:ctrlp_working_path_mode = 'rw'
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = '^node_modules\|^\.DS_Store\|^\.git\|^\.coffee\|^\.svn\|^cmake-build-debug\|^\.idea'
-let g:ctrlp_max_depth = 20
-let g:ctrlp_show_hidden = 1
-
 " fzf
-nnoremap <c-q> :FZF<CR>
+nnoremap <c-p> :FZF<CR>
 let g:fzf_action = {
       \ 'ctrl-x': 'tab split',
       \ 'ctrl-s': 'split',
@@ -694,8 +685,18 @@ nmap ga <Plug>(EasyAlign)
 nnoremap <Leader>is :A<CR>
 
 " vimfiler
+call vimfiler#set_execute_file('vim', ['vim', 'nvim'])
+
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_ignore_pattern = ['^\.', '\.o$']
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_marked_file_icon = '*'
+
+call vimfiler#custom#profile('default', 'context', {
+            \ 'safe' : 0,
+            \ 'edit_action' : 'tabopen',
+            \ })
 
 " echodoc
 let g:echodoc#enable_at_startup = 1
@@ -931,4 +932,4 @@ augroup END
 let g:quickrun_no_default_key_mappings = 1
 
 " vim-dirvish
-nmap ; <Plug>(dirvish_up)
+" nmap ; <Plug>(dirvish_up)
