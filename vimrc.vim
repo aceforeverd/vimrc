@@ -1,21 +1,20 @@
-let g:dein#install_process_timeout = 180
-let g:dein#install_process_type = 'tabline'
-
 if &compatible
     set nocompatible
 endif
 
 set runtimepath+=$HOME/.vim/dein/repos/github.com/Shougo/dein.vim
 
+let g:dein#install_process_timeout = 180
+let g:dein#install_process_type = 'tabline'
 if dein#load_state($HOME . '/.vim/dein')
     call dein#begin($HOME . '/.vim/dein')
 
     call dein#add($HOME . '/.vim/dein/repos/github.com/Shougo/dein.vim')
-    " if !has('nvim')
+    if !has('nvim')
     "     call dein#add('Shougo/deoplete.nvim')
-    "     call dein#add('roxma/nvim-yarp')
-    "     call dein#add('roxma/vim-hug-neovim-rpc')
-    " endif
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+    endif
 
     call dein#add('Shougo/vimproc.vim', {'build': 'make'})
     call dein#add('Shougo/neocomplete.vim', {'merged': 0})
@@ -68,9 +67,8 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('vim-airline/vim-airline-themes')
     call dein#add('flazz/vim-colorschemes')
     call dein#add('rakr/vim-one')
+    call dein#add('ryanoasis/vim-devicons')
     call dein#add('mhinz/vim-startify')
-    call dein#add('scrooloose/nerdtree')
-    call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
     call dein#add('junegunn/vim-journal')
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('majutsushi/tagbar')
@@ -109,7 +107,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('janko-m/vim-test')
     call dein#add('idanarye/vim-vebugger')
     call dein#add('thinca/vim-quickrun')
-    call dein#add('skywind3000/asyncrun.vim')
 
     " VCS
     call dein#add('tpope/vim-fugitive')
@@ -132,7 +129,6 @@ if dein#load_state($HOME . '/.vim/dein')
                 \ })
     call dein#add('junegunn/fzf.vim')
     call dein#add('haya14busa/incsearch.vim')
-    call dein#add('mhinz/vim-grepper')
     call dein#add('dyng/ctrlsf.vim')
     call dein#add('wincent/ferret')
 
@@ -170,10 +166,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('fatih/vim-go')
     " c/c++/objc
     call dein#add('octol/vim-cpp-enhanced-highlight')
-    call dein#add('nacitar/a.vim')
     call dein#add('Rip-Rip/clang_complete')
-    "" Vim bindings for rtags, llvm/clang based c++ code indexer
-    " call dein#add('lyuts/vim-rtags', {'on_ft': 'cpp'})
     " Javascripts/Typescript/...
     call dein#add('pangloss/vim-javascript')
     call dein#add('othree/javascript-libraries-syntax.vim')
@@ -312,8 +305,6 @@ execute pathogen#infect('~/.vim/bundle/{}')
 call plug#begin('~/.vim/vimPlug')
 
 Plug 'google/vim-searchindex'
-" Plug 'simnalamburt/vim-mundo'
-" Plug 'benekastah/neomake'
 
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -462,15 +453,6 @@ augroup cursor_shape
     autocmd VimLeave * set guicursor=a:hor25-blinkon300
 augroup END
 
-
-" Returns true if paste mode is enabled
-function! HasPaste()
-    if &paste
-        return 'PASTE MODE  '
-    endif
-    return ''
-endfunction
-
 " Make VIM remember position in file after reopen
 if has('autocmd')
    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -514,10 +496,11 @@ func! DeleteTillSlash()
     return g:cmd_edited
 endfunc
 
-au FileType javascript setl nocindent
+autocmd FileType javascript setl nocindent
 
 autocmd BufRead,BufNewFile *.ts setlocal filetype=typescript
 autocmd BufNewFile,BufRead .tern-project setlocal filetype=json
+autocmd BufRead,BufNewFile *.h setlocal filetype=c
 
 
 if exists('$TMUX')
@@ -548,19 +531,25 @@ command! HelptagsGen :call pathogen#helptags()
 command! -bang -nargs=* Rg call fzf#vim#grep(
       \ 'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color=always '.shellescape(<q-args>), 1,
       \   <bang>0)
+command! -bang -nargs=* Ag
+      \ call fzf#vim#ag(<q-args>,
+      \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+      \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \                 <bang>0)
 command! -bang -nargs=? -complete=dir Files
       \ call fzf#vim#files(<q-args>, <bang>0)
-<
 
+
+nmap <Leader><Tab> <plug>(fzf-maps-n)
+imap <Leader><Tab> <plug>(fzf-maps-i)
+xmap <Leader><Tab> <plug>(fzf-maps-x)
+omap <Leader><Tab> <plug>(fzf-maps-o)
 if executable('rg')
     set grepprg=rg\ --vimgrep
 endif
 
-" Nerd Tree
-let g:NERDTreeWinPos = 'left'
-let g:NERDTreeWinSize=30
-let g:NERDTreeShowHidden = 1
-let g:NERDTreeHijackNetrw = 0
+" ferret
+let g:FerretMap = 0
 
 " tmux navigator
 " disable default mappings
@@ -588,9 +577,12 @@ let g:closetag_emptyTags_caseSensitive = 1
 " javascript-libraries-syntax
 let g:used_javascript_libs = 'jquery,angularjs,angularui,angularuirouter'
 
-" JS pretty template
-au FileType javascript JsPreTmpl html
-au FileType typescript JsPreTmpl markdown
+" JS-pretty template
+augroup JsPreTmpl
+    autocmd!
+    autocmd FileType javascript JsPreTmpl html
+    autocmd FileType typescript JsPreTmpl markdown
+augroup END
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
@@ -613,14 +605,18 @@ let g:startify_fortune_use_unicode = 1
 let g:startify_session_sort = 1
 let g:startify_relative_path = 1
 
+" signify
+let g:signify_sign_change = '~'
+
 " Ale
 let g:ale_linters = {
             \ }
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_sign_error = ':('
-let g:ale_sign_warning = ':P'
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '⚠'
+let g:ale_sign_info = 'ℹ'
 nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
 
