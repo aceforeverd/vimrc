@@ -236,7 +236,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('vim-erlang/vim-erlang-omnicomplete')
     " Tmux
     call dein#add('benmills/vimux')
-    call dein#add('christoomey/vim-tmux-navigator', {'on_if': '!empty($TMUX)'})
+    call dein#add('christoomey/vim-tmux-navigator')
     call dein#add('tmux-plugins/vim-tmux')
     " Lisp
     call dein#add('kovisoft/slimv')
@@ -305,6 +305,7 @@ execute pathogen#infect('~/.vim/bundle/{}')
 call plug#begin('~/.vim/vimPlug')
 
 Plug 'google/vim-searchindex'
+Plug 'wellle/tmux-complete.vim'
 
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -320,7 +321,7 @@ Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 Plug 'xolox/vim-misc', {'for': 'lua'}
 Plug 'xolox/vim-lua-ftplugin', {'for': 'lua'}
 Plug 'c9s/perlomni.vim', {'for': 'perl'}
-Plug 'vhda/verilog_systemverilog.vim', {'for': 'verilog'}
+Plug 'vhda/verilog_systemverilog.vim'
 Plug 'johngrib/vim-game-code-break', {'on': 'VimGameCodeBreak'}
 
 call plug#end()
@@ -439,10 +440,10 @@ if &term == 'xterm-256color' || &term == 'screen-256color'
     let &t_SR = "\<Esc>[4 q"
 endif
 
-if exists('$TMUX')
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-endif
+" if exists('$TMUX')
+"     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+"     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+" endif
 
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 		\,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
@@ -496,22 +497,22 @@ func! DeleteTillSlash()
     return g:cmd_edited
 endfunc
 
-autocmd FileType javascript setl nocindent
+augroup filetype_changes
+    autocmd!
+    autocmd FileType verilog,verilog_systemverilog setlocal nosmartindent
+    autocmd FileType javascript setlocal nocindent
+augroup END
 
 autocmd BufRead,BufNewFile *.ts setlocal filetype=typescript
 autocmd BufNewFile,BufRead .tern-project setlocal filetype=json
 autocmd BufRead,BufNewFile *.h setlocal filetype=c
-
-
-if exists('$TMUX')
-    set term=screen-256color
-endif
+autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
 
 " fzf
 nnoremap <c-p> :FZF<CR>
 let g:fzf_action = {
-      \ 'ctrl-x': 'tab split',
-      \ 'ctrl-s': 'split',
+      \ 'ctrl-a': 'tab split',
+      \ 'ctrl-x': 'split',
       \ 'ctrl-v': 'vsplit' }
 
 " fzf-vim
@@ -552,7 +553,6 @@ endif
 let g:FerretMap = 0
 
 " tmux navigator
-" disable default mappings
 let g:tmux_navigator_no_mappings = 1
 
 " Utilsnips
@@ -642,7 +642,7 @@ let g:SignatureMap = {
         \ 'PlaceNextMark'      :  '<Leader>m,',
         \ 'ToggleMarkAtLine'   :  '<Leader>m.',
         \ 'PurgeMarksAtLine'   :  '<Leader>m-',
-        \ 'DeleteMark'         :  '<Leader>dm',
+        \ 'DeleteMark'         :  '',
         \ 'PurgeMarks'         :  '<Leader>m<Space>',
         \ 'PurgeMarkers'       :  '<Leader>m<BS>',
         \ 'GotoNextLineAlpha'  :  '',
@@ -796,18 +796,21 @@ let g:neocomplete#sources#omni#input_patterns.perl =
 
 
 " Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" Tern for vim
-autocmd FileType javascript setlocal omnifunc=tern#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-" Java complete2
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-" neco-ghc
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-" jedi
-autocmd FileType python setlocal omnifunc=jedi#completions
-autocmd FileType typescript setlocal omnifunc=tsuquyomi#complete
+augroup omni_complete
+    autocmd!
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    " Tern for vim
+    autocmd FileType javascript setlocal omnifunc=tern#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    " Java complete2
+    autocmd FileType java setlocal omnifunc=javacomplete#Complete
+    " neco-ghc
+    autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+    " jedi
+    autocmd FileType python setlocal omnifunc=jedi#completions
+    autocmd FileType typescript setlocal omnifunc=tsuquyomi#complete
+augroup END
 
 " clang_complete
 let g:clang_complete_macros = 1
@@ -817,6 +820,8 @@ let g:clang_complete_patterns = 1
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#smart_auto_mappings = 0
+let g:jedi#use_tabs_not_buffers = 'winwidth'
+let g:jedi#usages_command = '<Leader>nn'
 let g:neocomplete#force_omni_input_patterns.python =
             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
@@ -877,10 +882,11 @@ elseif $TERM=~'xterm-256color' || has('gui_running')
 endif
 
 if !empty($TMUX)
+    set term=screen-256color
     set notermguicolors
     colorscheme onedark
     let g:airline_powerline_fonts = 1
-    set cursorline
+    " set cursorline
 endif
 
 highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
@@ -927,5 +933,9 @@ augroup END
 " quickrun
 let g:quickrun_no_default_key_mappings = 1
 
-" vim-dirvish
-" nmap ; <Plug>(dirvish_up)
+" speeddating
+" let g:speeddating_no_mappings = 1
+
+" tmux-complete
+let g:tmuxcomplete#trigger = ''
+
