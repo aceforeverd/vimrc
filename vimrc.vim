@@ -10,14 +10,12 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#begin($HOME . '/.vim/dein')
 
     call dein#add($HOME . '/.vim/dein/repos/github.com/Shougo/dein.vim')
-    if !has('nvim')
-    "     call dein#add('Shougo/deoplete.nvim')
-        call dein#add('roxma/nvim-yarp')
-        call dein#add('roxma/vim-hug-neovim-rpc')
-    endif
+
+    call dein#add('roxma/nvim-yarp')
+    call dein#add('roxma/vim-hug-neovim-rpc')
 
     call dein#add('Shougo/vimproc.vim', {'build': 'make'})
-    call dein#add('Shougo/neocomplete.vim', {'merged': 0})
+    call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neoinclude.vim')
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/neco-syntax')
@@ -164,23 +162,29 @@ if dein#load_state($HOME . '/.vim/dein')
     " Languages
     " Go
     call dein#add('fatih/vim-go')
+    call dein#add('zchee/deoplete-go')
     " c/c++/objc
     call dein#add('octol/vim-cpp-enhanced-highlight')
     call dein#add('Rip-Rip/clang_complete')
-    " Javascripts/Typescript/...
+    " Javascripts...
     call dein#add('pangloss/vim-javascript')
     call dein#add('othree/javascript-libraries-syntax.vim')
     call dein#add('Quramy/vim-js-pretty-template')
     call dein#add('maksimr/vim-jsbeautify')
     call dein#add('marijnh/tern_for_vim')
+    call dein#add('carlitux/deoplete-ternjs')
+    " Typescript
+    call dein#add('mhartington/nvim-typescript')
     call dein#add('HerringtonDarkholme/yats.vim')
-    call dein#add('Quramy/tsuquyomi', {'on_ft': 'typescript'})
+
     call dein#add('mxw/vim-jsx')
     call dein#add('kchmck/vim-coffee-script')
     call dein#add('posva/vim-vue')
     " Haskell
     call dein#add('neovimhaskell/haskell-vim')
     call dein#add('eagletmt/neco-ghc')
+    " zsh
+    call dein#add('zchee/deoplete-zsh')
     " Html
     call dein#add('othree/html5.vim')
     " vimL
@@ -202,6 +206,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('othree/csscomplete.vim')
     " Python
     call dein#add('davidhalter/jedi-vim')
+    call dein#add('zchee/deoplete-jedi')
     call dein#add('alfredodeza/pytest.vim')
     call dein#add('vimjas/vim-python-pep8-indent')
     call dein#add('python-rope/ropevim')
@@ -212,7 +217,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('tpope/vim-markdown')
     " glsl
     call dein#add('tikhomirov/vim-glsl')
-
     " Php
     call dein#add('stanangeloff/php.vim')
     call dein#add('shawncplus/phpcomplete.vim')
@@ -221,8 +225,10 @@ if dein#load_state($HOME . '/.vim/dein')
     " Rust
     call dein#add('rust-lang/rust.vim')
     call dein#add('racer-rust/vim-racer')
+    call dein#add('sebastianmarkow/deoplete-rust')
     " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
+    call dein#add('Shougo/deoplete-rct')
     call dein#add('vim-perl/vim-perl', {
         \ 'rev': 'dev',
         \ 'on_ft': 'perl',
@@ -304,6 +310,7 @@ execute pathogen#infect('~/.vim/bundle/{}')
 " ============================================================================================
 call plug#begin('~/.vim/vimPlug')
 
+Plug 'Shougo/neocomplete.vim'
 Plug 'google/vim-searchindex'
 Plug 'wellle/tmux-complete.vim'
 
@@ -423,8 +430,8 @@ autocmd TabLeave * let g:lasttab = tabpagenr()
 
 " Specify the behavior when switching between buffers
 try
-  set switchbuf=useopen,usetab,newtab
-  set showtabline=2
+    set switchbuf=useopen,usetab,newtab
+    set showtabline=2
 catch
 endtry
 
@@ -632,10 +639,6 @@ let g:vim_markdown_folding_disabled = 1
 
 let g:markdown_composer_open_browser = 0
 
-" tsuquyomi
-let g:tsuquyomi_definition_split = 3   "tabedit
-let g:tsuquyomi_single_quote_import = 1
-
 " vim-signature
 let g:SignatureMap = {
         \ 'Leader'             :  '<Leader>m',
@@ -677,9 +680,6 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-" vim-a
-nnoremap <Leader>is :A<CR>
-
 " vimfiler
 call vimfiler#set_execute_file('vim', ['vim', 'nvim'])
 
@@ -694,13 +694,63 @@ call vimfiler#custom#profile('default', 'context', {
             \ 'edit_action' : 'tabopen',
             \ })
 
+
+set completeopt-=preview
 " echodoc
 let g:echodoc#enable_at_startup = 1
 
+" deoplete
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_yarp = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#auto_complete_start_length = 2
+
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> pumvisible() ? deoplete#smart_close_popup()."\<C-h>" :
+            \ delimitMate#BS()
+
+" Tab complete
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ deoplete#mappings#manual_complete()
+inoremap <expr> <S-TAB>
+            \ pumvisible() ? "\<C-p>" :
+            \ "\<S-TAB>"
+function! s:check_back_space() abort "{{{
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+
+if !exists('g:deoplete#omni#input_patterns')
+    let g:deoplete#omni#input_patterns = {}
+endif
+let g:deoplete#omni#input_patterns.ruby =
+		\ ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::']
+let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
+let g:deoplete#omni#input_patterns.php =
+		\ '\w+|[^. \t]->\w*|\w+::\w*'
+
+if !exists('g:deoplete#omni#functions')
+	let g:deoplete#omni#functions = {}
+endif
+
+if !exists('g:deoplete#ignore_sources')
+    let g:deoplete#ignore_sources = {}
+endif
+let g:deoplete#ignore_sources.c = 'look'
+let g:deoplete#ignore_sources.cpp = 'look'
+
+if !exists('g:deoplete#keyword_patterns')
+    let g:deoplete#keyword_patterns = {}
+endif
+let g:deoplete#keyword_patterns.clojure = '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
+
 " ================ configuration for neocomplete ========================== "
-" let g:acp_enableAtStartup = 0
+let g:acp_enableAtStartup = 0
 " Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_at_startup = 0
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
 
@@ -709,8 +759,6 @@ let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 2
 
 let g:neocomplete#enable_auto_close_preview = 1
-
-set completeopt-=preview
 
 " Define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
@@ -734,8 +782,8 @@ if !exists('g:neocomplete#sources#omni#functions')
 endif
 
 " Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
+" inoremap <expr><C-g>     neocomplete#undo_completion()
+" inoremap <expr><C-l>     neocomplete#complete_common_string()
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
@@ -747,11 +795,6 @@ function! s:my_cr_function()
     " For no inserting <CR> key.
     "return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
-
-function! s:check_back_space() "{{{
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
 
 function! Tab_Snippet_Complete()
     let snippet = UltiSnips#ExpandSnippet()
@@ -766,16 +809,16 @@ function! Tab_Snippet_Complete()
 endfunction
 
 " <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ neocomplete#start_manual_complete()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" :
-            \ "\<S-TAB>"
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
+"             \ <SID>check_back_space() ? "\<TAB>" :
+"             \ neocomplete#start_manual_complete()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" :
+"             \ "\<S-TAB>"
 
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
-             \  delimitMate#BS()
+" " <C-h>, <BS>: close popup and delete backword char.
+" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
+"              \  delimitMate#BS()
 
 "" Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -809,7 +852,6 @@ augroup omni_complete
     autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
     " jedi
     autocmd FileType python setlocal omnifunc=jedi#completions
-    autocmd FileType typescript setlocal omnifunc=tsuquyomi#complete
 augroup END
 
 " clang_complete
@@ -820,8 +862,10 @@ let g:clang_complete_patterns = 1
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#smart_auto_mappings = 0
-let g:jedi#use_tabs_not_buffers = 'winwidth'
+let g:jedi#use_tabs_not_buffers = 1
+let g:jedi#use_splits_not_buffers = 'winwidth'
 let g:jedi#usages_command = '<Leader>nn'
+
 let g:neocomplete#force_omni_input_patterns.python =
             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
@@ -846,7 +890,6 @@ if !exists('g:neocomplete#delimiter_patterns')
 endif
 let g:neocomplete#delimiter_patterns.vim = ['#']
 let g:neocomplete#delimiter_patterns.cpp = ['::']
-
 
 " neoinclude
 if !exists('g:neoinclude#exts')
@@ -886,14 +929,9 @@ if !empty($TMUX)
     set notermguicolors
     colorscheme onedark
     let g:airline_powerline_fonts = 1
-    " set cursorline
 endif
 
 highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
-
-let g:racer_cmd = '~/.local/bin/racer'
-
-let g:rtagsRcCmd = '/home/ace/.local/bin/rtags'
 
 " vim-sort-motion
 let g:sort_motion = '<Leader>sm'
@@ -932,9 +970,6 @@ augroup END
 
 " quickrun
 let g:quickrun_no_default_key_mappings = 1
-
-" speeddating
-" let g:speeddating_no_mappings = 1
 
 " tmux-complete
 let g:tmuxcomplete#trigger = ''
