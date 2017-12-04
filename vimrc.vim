@@ -59,6 +59,7 @@ if dein#load_state($HOME . '/.vim/dein')
     " snippets
     call dein#add('honza/vim-snippets')
     call dein#add('sirver/ultisnips')
+    call dein#add('Shougo/neosnippet-snippets')
 
     " interface
     call dein#add('vim-airline/vim-airline')
@@ -92,14 +93,12 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('tweekmonster/startuptime.vim')
 
     call dein#add('google/vimdoc')
-    call dein#add('antoyo/vim-licenses')
     call dein#add('alpertuna/vim-header')
     " code format
     call dein#add('sbdchd/neoformat')
     call dein#add('rhysd/vim-clang-format')
     call dein#add('junegunn/vim-easy-align')
     call dein#add('godlygeek/tabular')
-    call dein#add('tweekmonster/braceless.vim')
     " debug/test
     call dein#add('w0rp/ale')
     call dein#add('janko-m/vim-test')
@@ -157,7 +156,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('machakann/vim-sandwich')
     call dein#add('lfilho/cosco.vim')
     call dein#add('brooth/far.vim')
-    call dein#add('osyo-manga/vim-over')
 
     " Languages
     " Go
@@ -170,7 +168,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('pangloss/vim-javascript')
     call dein#add('othree/javascript-libraries-syntax.vim')
     call dein#add('Quramy/vim-js-pretty-template')
-    call dein#add('maksimr/vim-jsbeautify')
     call dein#add('marijnh/tern_for_vim')
     call dein#add('carlitux/deoplete-ternjs')
     " Typescript
@@ -185,6 +182,8 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('eagletmt/neco-ghc')
     " zsh
     call dein#add('zchee/deoplete-zsh')
+    " fish
+    call dein#add('dag/vim-fish')
     " Html
     call dein#add('othree/html5.vim')
     " vimL
@@ -198,7 +197,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('artur-shaik/vim-javacomplete2')
     call dein#add('udalov/kotlin-vim')
     " CSS/SCSS/LESS
-    call dein#add('groenewege/vim-less')
     "" merged: 0, conflict with othree/html5
     call dein#add('hail2u/vim-css3-syntax', {'on_ft': ['css', 'scss', 'html']})
     "" merged: 0, conflict with othree/html5 and many
@@ -210,8 +208,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('alfredodeza/pytest.vim')
     call dein#add('vimjas/vim-python-pep8-indent')
     call dein#add('python-rope/ropevim')
-    " django
-    call dein#add('tweekmonster/django-plus.vim')
     " Markdown
     call dein#add('tyru/open-browser.vim')
     call dein#add('tpope/vim-markdown')
@@ -249,8 +245,6 @@ if dein#load_state($HOME . '/.vim/dein')
     " Latex
     call dein#add('lervag/vimtex')
     call dein#add('xuhdev/vim-latex-live-preview')
-    " Jsonnet
-    call dein#add('google/vim-jsonnet')
     " Json
     call dein#add('elzr/vim-json')
     call dein#add('rodjek/vim-puppet')
@@ -304,15 +298,26 @@ endif
 
 " pathogen
 " add plugins in ~/.vim/bundle
-execute pathogen#infect('~/.vim/bundle/{}')
+" execute pathogen#infect('~/.vim/bundle/{}')
 
 " vim plug
 " ============================================================================================
 call plug#begin('~/.vim/vimPlug')
 
-Plug 'Shougo/neocomplete.vim'
+Plug 'roxma/nvim-completion-manager'
 Plug 'google/vim-searchindex'
 Plug 'wellle/tmux-complete.vim'
+Plug 'rhysd/github-complete.vim'
+Plug 'autozimu/LanguageClient-neovim'
+Plug 'roxma/LanguageServer-php-neovim', {
+            \ 'do': 'composer install && composer run-script parse-stubs',
+            \ 'for': 'php',
+            \ }
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'junegunn/vim-peekaboo'
+Plug 'andreshazard/vim-logreview'
+Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
+" Plug 'vhda/verilog_systemverilog.vim'
 
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -328,7 +333,6 @@ Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 Plug 'xolox/vim-misc', {'for': 'lua'}
 Plug 'xolox/vim-lua-ftplugin', {'for': 'lua'}
 Plug 'c9s/perlomni.vim', {'for': 'perl'}
-Plug 'vhda/verilog_systemverilog.vim'
 Plug 'johngrib/vim-game-code-break', {'on': 'VimGameCodeBreak'}
 
 call plug#end()
@@ -645,7 +649,7 @@ let g:SignatureMap = {
         \ 'PlaceNextMark'      :  '<Leader>m,',
         \ 'ToggleMarkAtLine'   :  '<Leader>m.',
         \ 'PurgeMarksAtLine'   :  '<Leader>m-',
-        \ 'DeleteMark'         :  '',
+        \ 'DeleteMark'         :  'dm',
         \ 'PurgeMarks'         :  '<Leader>m<Space>',
         \ 'PurgeMarkers'       :  '<Leader>m<BS>',
         \ 'GotoNextLineAlpha'  :  '',
@@ -679,6 +683,21 @@ let g:vimwiki_table_mappings = 0
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+" LanguageClient
+augroup GP_LanguageCient
+    autocmd!
+    " autocmd FileType typescript LanguageClientStart
+augroup end
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'typescript': ['/usr/bin/node', $HOME . '/Git/javascript-typescript-langserver/lib/language-server-stdio'],
+    \ 'javascript': ['/usr/bin/node', $HOME . '/Git/javascript-typescript-langserver/lib/language-server-stdio'],
+    \ }
+nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+
 
 " vimfiler
 call vimfiler#set_execute_file('vim', ['vim', 'nvim'])
@@ -726,11 +745,14 @@ endfunction"}}}
 if !exists('g:deoplete#omni#input_patterns')
     let g:deoplete#omni#input_patterns = {}
 endif
-let g:deoplete#omni#input_patterns.ruby =
-		\ ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::']
+let g:deoplete#omni#input_patterns.ruby = ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::']
 let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
-let g:deoplete#omni#input_patterns.php =
-		\ '\w+|[^. \t]->\w*|\w+::\w*'
+let g:deoplete#omni#input_patterns.javascript = '[^. *\t]\.\w*'
+
+if !exists('g:deoplete#omni_patterns')
+    let g:deoplete#omni_patterns = {}
+endif
+let g:deoplete#omni_patterns.php = '\w+|[^. \t]->\w*|\w+::\w*'
 
 if !exists('g:deoplete#omni#functions')
 	let g:deoplete#omni#functions = {}
@@ -739,33 +761,14 @@ endif
 if !exists('g:deoplete#ignore_sources')
     let g:deoplete#ignore_sources = {}
 endif
-let g:deoplete#ignore_sources.c = 'look'
-let g:deoplete#ignore_sources.cpp = 'look'
 
 if !exists('g:deoplete#keyword_patterns')
     let g:deoplete#keyword_patterns = {}
 endif
 let g:deoplete#keyword_patterns.clojure = '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
 
-" ================ configuration for neocomplete ========================== "
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 0
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
 
-let g:neocomplete#enable_camel_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 2
-
-let g:neocomplete#enable_auto_close_preview = 1
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-            \ 'default' : '',
-            \ 'vimshell' : $HOME.'/.vimshell_hist',
-            \ 'scheme' : $HOME.'/.gosh_completions'
-            \ }
+" neocomplete
 
 " Define keyword.
 if !exists('g:neocomplete#keyword_patterns')
@@ -780,45 +783,6 @@ endif
 if !exists('g:neocomplete#sources#omni#functions')
     let g:neocomplete#sources#omni#functions = {}
 endif
-
-" Plugin key-mappings.
-" inoremap <expr><C-g>     neocomplete#undo_completion()
-" inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-" conflict with delimitmate expand_cr
-" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-
-function! s:my_cr_function()
-    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-    " For no inserting <CR> key.
-    "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-
-function! Tab_Snippet_Complete()
-    let snippet = UltiSnips#ExpandSnippet()
-    if g:ulti_expand_res > 0
-        return snippet
-    endif
-    if <SID>check_back_space()
-        return "\<TAB>"
-    endif
-    let manualcomplete = neocomplete#start_manual_complete()
-    return manualcomplete
-endfunction
-
-" <TAB>: completion.
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
-"             \ <SID>check_back_space() ? "\<TAB>" :
-"             \ neocomplete#start_manual_complete()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" :
-"             \ "\<S-TAB>"
-
-" " <C-h>, <BS>: close popup and delete backword char.
-" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> pumvisible() ? neocomplete#smart_close_popup()."\<C-h>" :
-"              \  delimitMate#BS()
 
 "" Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -897,7 +861,6 @@ if !exists('g:neoinclude#exts')
 endif
 let g:neoinclude#exts.cpp = ['', 'h', 'hpp', 'hxx']
 
-
 if !exists('g:neoinclude#paths')
     let g:neoinclude#paths = {}
 endif
@@ -974,3 +937,5 @@ let g:quickrun_no_default_key_mappings = 1
 " tmux-complete
 let g:tmuxcomplete#trigger = ''
 
+" vim-pandoc
+let g:pandoc#filetypes#pandoc_markdown = 0
