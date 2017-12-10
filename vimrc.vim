@@ -91,8 +91,8 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('diepm/vim-rest-console')
     call dein#add('vimoutliner/vimoutliner')
     call dein#add('vim-utils/vim-man')
-    call dein#add('tweekmonster/startuptime.vim')
     call dein#add('jsfaint/gen_tags.vim')
+    call dein#add('tweekmonster/startuptime.vim', {'on_cmd': 'StartupTime'})
     call dein#add('mhinz/vim-sayonara', {'on_cmd': 'Sayonara'})
 
     call dein#add('google/vimdoc')
@@ -210,7 +210,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('ap/vim-css-color', {'merged': 0})
     call dein#add('othree/csscomplete.vim')
     " Python
-    call dein#add('davidhalter/jedi-vim')
+    call dein#add('davidhalter/jedi-vim', {'on_ft': 'python'})
     call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
     call dein#add('alfredodeza/pytest.vim')
     call dein#add('vimjas/vim-python-pep8-indent')
@@ -230,9 +230,9 @@ if dein#load_state($HOME . '/.vim/dein')
     " asm
     call dein#add('zchee/deoplete-asm')
     " Rust
-    call dein#add('rust-lang/rust.vim')
+    call dein#add('rust-lang/rust.vim', {'on_ft': 'rust'})
     call dein#add('racer-rust/vim-racer')
-    call dein#add('sebastianmarkow/deoplete-rust')
+    call dein#add('sebastianmarkow/deoplete-rust', {'on_ft': 'rust'})
     " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
     call dein#add('Shougo/deoplete-rct')
@@ -355,7 +355,7 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'junegunn/vim-peekaboo'
 Plug 'andreshazard/vim-logreview'
 Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
-Plug 'beloglazov/vim-online-thesaurus'
+Plug 'beloglazov/vim-online-thesaurus', {'on': 'OnlineThesaurusCurrentWord'}
 " Plug 'vhda/verilog_systemverilog.vim'
 
 function! BuildComposer(info)
@@ -639,6 +639,9 @@ let g:startify_fortune_use_unicode = 1
 let g:startify_session_sort = 1
 let g:startify_relative_path = 1
 
+" vim-gitgutter
+let g:gitgutter_max_signs = 1000
+
 " Ale
 let g:ale_linters = {
             \ }
@@ -690,9 +693,9 @@ let g:SignatureMap = {
 
 " incsearch.vim
 if !has('patch-8.0-1241')
-    map <Leader>/ <Plug>(incsearch-forward)
-    map <Leader>? <Plug>(incsearch-backward)
-    map <Leader>g/ <Plug>(incsearch-stay)
+    map / <Plug>(incsearch-forward)
+    map ? <Plug>(incsearch-backward)
+    map g/ <Plug>(incsearch-stay)
 endif
 
 " vim-wiki
@@ -917,15 +920,31 @@ let g:neocomplete#delimiter_patterns.cpp = ['::']
 if !exists('g:neoinclude#exts')
     let g:neoinclude#exts = {}
 endif
+let g:neoinclude#exts.c = ['', 'h']
 let g:neoinclude#exts.cpp = ['', 'h', 'hpp', 'hxx']
 
 if !exists('g:neoinclude#paths')
     let g:neoinclude#paths = {}
 endif
 
-let g:neoinclude#paths.c = '.,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,/usr/local/include/,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include-fixed/,/usr/include/,,'
+let g:neoinclude#paths.c = '.,'
+            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,'
+            \ . '/usr/local/include/,'
+            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include-fixed/,'
+            \ . '/usr/include/,,'
 
-let g:neoinclude#paths.cpp = '.,/usr/include/c++/*/,/usr/include/c++/*/x86_64-pc-linux-gnu/,/usr/include/c++/*/backward/,/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,/usr/local/include/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include-fixed/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/backward, /usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/x86_64-pc-linux-gnu/, /usr/include/,,'
+let g:neoinclude#paths.cpp = '.,'
+            \ . '/usr/include/c++/*/,'
+            \ . '/usr/include/c++/*/x86_64-pc-linux-gnu/,'
+            \ . '/usr/include/c++/*/backward/,'
+            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,'
+            \ . '/usr/local/include/,'
+            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include-fixed/,'
+            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/,'
+            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/backward,'
+            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/x86_64-pc-linux-gnu/,'
+            \ . '/usr/include/,,'
+
 
 if $TERM=~'linux'
     colorscheme torte
@@ -961,6 +980,7 @@ let g:sort_motion_visual = '<Leader>sm'
 
 let g:workspace_autosave_ignore = ['gitcommit']
 
+" tcomment
 let g:tcommentMaps = 0
 
 inoremap <C-Space> <C-x><c-o>
@@ -1001,3 +1021,5 @@ let g:pandoc#filetypes#pandoc_markdown = 0
 " elm-vim
 let g:elm_setup_keybindings = 0
 
+" vim-online-thesaurus*
+let g:online_thesaurus_map_keys = 0
