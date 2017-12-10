@@ -60,6 +60,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('honza/vim-snippets')
     call dein#add('sirver/ultisnips')
     call dein#add('Shougo/neosnippet-snippets')
+    call dein#add('Shougo/neosnippet.vim')
 
     " interface
     call dein#add('vim-airline/vim-airline')
@@ -91,6 +92,8 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('vimoutliner/vimoutliner')
     call dein#add('vim-utils/vim-man')
     call dein#add('tweekmonster/startuptime.vim')
+    call dein#add('jsfaint/gen_tags.vim')
+    call dein#add('mhinz/vim-sayonara', {'on_cmd': 'Sayonara'})
 
     call dein#add('google/vimdoc')
     call dein#add('alpertuna/vim-header')
@@ -111,12 +114,14 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('junegunn/gv.vim')
     call dein#add('gregsexton/gitv')
     call dein#add('mattn/gist-vim')
-    call dein#add('mhinz/vim-signify')
+    call dein#add('airblade/vim-gitgutter')
     call dein#add('idanarye/vim-merginal')
     call dein#add('chrisbra/vim-diff-enhanced')
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
+    call dein#add('junkblocker/patchreview-vim')
+    call dein#add('rhysd/github-complete.vim')
 
     " search
     call dein#add('junegunn/fzf', {
@@ -127,7 +132,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('junegunn/fzf.vim')
     call dein#add('haya14busa/incsearch.vim')
     call dein#add('dyng/ctrlsf.vim')
-    call dein#add('wincent/ferret')
 
     call dein#add('mbbill/undotree')
     call dein#add('haya14busa/dein-command.vim')
@@ -135,6 +139,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('jceb/vim-orgmode')
     call dein#add('vimwiki/vimwiki')
     call dein#add('thaerkh/vim-workspace')
+
     " comment
     call dein#add('tomtom/tcomment_vim')
 
@@ -155,12 +160,14 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('chrisbra/NrrwRgn')
     call dein#add('machakann/vim-sandwich')
     call dein#add('lfilho/cosco.vim')
-    call dein#add('brooth/far.vim')
 
     " Languages
     " Go
     call dein#add('fatih/vim-go')
-    call dein#add('zchee/deoplete-go')
+    call dein#add('zchee/deoplete-go', {
+                \ 'build': 'make',
+                \ 'on_ft': 'go',
+                \ })
     " c/c++/objc
     call dein#add('octol/vim-cpp-enhanced-highlight')
     call dein#add('Rip-Rip/clang_complete')
@@ -171,7 +178,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('marijnh/tern_for_vim')
     call dein#add('carlitux/deoplete-ternjs')
     " Typescript
-    call dein#add('mhartington/nvim-typescript')
+    call dein#add('mhartington/nvim-typescript', {'on_ft': 'typescript'})
     call dein#add('HerringtonDarkholme/yats.vim')
 
     call dein#add('mxw/vim-jsx')
@@ -180,6 +187,7 @@ if dein#load_state($HOME . '/.vim/dein')
     " Haskell
     call dein#add('neovimhaskell/haskell-vim')
     call dein#add('eagletmt/neco-ghc')
+    call dein#add('Twinside/vim-hoogle')
     " zsh
     call dein#add('zchee/deoplete-zsh')
     " fish
@@ -189,7 +197,6 @@ if dein#load_state($HOME . '/.vim/dein')
     " vimL
     call dein#add('mhinz/vim-lookup')
     call dein#add('tweekmonster/helpful.vim')
-    call dein#add('vim-jp/vital.vim')
     " Elixir
     call dein#add('slashmili/alchemist.vim')
     call dein#add('elixir-lang/vim-elixir')
@@ -198,16 +205,15 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('udalov/kotlin-vim')
     " CSS/SCSS/LESS
     "" merged: 0, conflict with othree/html5
-    call dein#add('hail2u/vim-css3-syntax', {'on_ft': ['css', 'scss', 'html']})
+    call dein#add('hail2u/vim-css3-syntax', {'merged': 0})
     "" merged: 0, conflict with othree/html5 and many
     call dein#add('ap/vim-css-color', {'merged': 0})
     call dein#add('othree/csscomplete.vim')
     " Python
     call dein#add('davidhalter/jedi-vim')
-    call dein#add('zchee/deoplete-jedi')
+    call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
     call dein#add('alfredodeza/pytest.vim')
     call dein#add('vimjas/vim-python-pep8-indent')
-    call dein#add('python-rope/ropevim')
     " Markdown
     call dein#add('tyru/open-browser.vim')
     call dein#add('tpope/vim-markdown')
@@ -215,9 +221,14 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('tikhomirov/vim-glsl')
     " Php
     call dein#add('stanangeloff/php.vim')
-    call dein#add('shawncplus/phpcomplete.vim')
+    call dein#add('lvht/phpcd.vim', {
+                \ 'build': 'composer install',
+                \ 'on_ft': 'php',
+                \ })
     " R
     call dein#add('jalvesaq/Nvim-R')
+    " asm
+    call dein#add('zchee/deoplete-asm')
     " Rust
     call dein#add('rust-lang/rust.vim')
     call dein#add('racer-rust/vim-racer')
@@ -227,7 +238,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('Shougo/deoplete-rct')
     call dein#add('vim-perl/vim-perl', {
         \ 'rev': 'dev',
-        \ 'on_ft': 'perl',
         \ 'build': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny'
         \ })
     call dein#add('vim-perl/vim-perl6')
@@ -236,10 +246,13 @@ if dein#load_state($HOME . '/.vim/dein')
     " Erlang
     call dein#add('vim-erlang/vim-erlang-runtime')
     call dein#add('vim-erlang/vim-erlang-omnicomplete')
+    " julia
+    call dein#add('JuliaEditorSupport/julia-vim')
     " Tmux
     call dein#add('benmills/vimux')
-    call dein#add('christoomey/vim-tmux-navigator')
     call dein#add('tmux-plugins/vim-tmux')
+    call dein#add('christoomey/vim-tmux-navigator')
+    call dein#add('wellle/tmux-complete.vim', {'on_if': 'exists("$TMUX")'})
     " Lisp
     call dein#add('kovisoft/slimv')
     " Latex
@@ -273,6 +286,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('isobit/vim-caddyfile')
     call dein#add('rhysd/vim-crystal')
     call dein#add('wlangstroth/vim-racket')
+    " elm
     call dein#add('elmcast/elm-vim')
     " clojure
     call dein#add('guns/vim-clojure-static')
@@ -304,19 +318,44 @@ endif
 " ============================================================================================
 call plug#begin('~/.vim/vimPlug')
 
-Plug 'roxma/nvim-completion-manager'
+Plug 'natebosch/vim-lsc'
+let g:lsc_auto_map = v:false
+let g:lsc_server_commands = {}
+" let g:lsc_server_commands.typescript = 'javascript-typescript-stdio'
+" let g:lsc_server_commands.javascript = 'javascript-typescript-stdio'
+" let g:lsc_server_commands.c = 'clangd'
+" let g:lsc_server_commands.rust = 'rls'
+let g:lsc_server_commands.dart = 'dart_language_server'
+
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+" if executable('docker-langserver')
+"     autocmd User lsp_setup call lsp#register_server({
+"                 \ 'name': 'docker-langserver',
+"                 \ 'cmd': {server_info->[&shell, &shellcmdflag, 'docker-langserver --stdio']},
+"                 \ 'whitelist': ['dockerfile', 'Dockerfile'],
+"                 \ })
+"     autocmd FileType Dockerfile setlocal omnifunc=lsp#complete
+" endif
+
+Plug 'sjl/splice.vim'
+Plug 'Quramy/tsuquyomi', {'for': 'typescript'}
 Plug 'google/vim-searchindex'
-Plug 'wellle/tmux-complete.vim'
-Plug 'rhysd/github-complete.vim'
 Plug 'autozimu/LanguageClient-neovim'
 Plug 'roxma/LanguageServer-php-neovim', {
             \ 'do': 'composer install && composer run-script parse-stubs',
             \ 'for': 'php',
             \ }
+Plug 'phpactor/phpactor', {
+            \ 'do': 'composer install',
+            \ 'for': 'php',
+            \ 'dir': $HOME . '/.phpactor',
+            \ }
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'junegunn/vim-peekaboo'
 Plug 'andreshazard/vim-logreview'
 Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
+Plug 'beloglazov/vim-online-thesaurus'
 " Plug 'vhda/verilog_systemverilog.vim'
 
 function! BuildComposer(info)
@@ -329,11 +368,13 @@ function! BuildComposer(info)
   endif
 endfunction
 
-Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+Plug 'euclio/vim-markdown-composer', {
+            \ 'do': function('BuildComposer'),
+            \ 'for': 'markdown',
+            \ }
 Plug 'xolox/vim-misc', {'for': 'lua'}
 Plug 'xolox/vim-lua-ftplugin', {'for': 'lua'}
 Plug 'c9s/perlomni.vim', {'for': 'perl'}
-Plug 'johngrib/vim-game-code-break', {'on': 'VimGameCodeBreak'}
 
 call plug#end()
 
@@ -380,6 +421,7 @@ set noerrorbells
 set novisualbell
 set t_vb=
 set timeoutlen=500
+set updatetime=500
 
 if has('gui_macvim')
     autocmd GUIEnter * set vb t_vb=
@@ -488,34 +530,12 @@ try
 catch
 endtry
 
-func! DeleteTillSlash()
-    let g:cmd = getcmdline()
-
-    if has("win16") || has("win32")
-        let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
-    else
-        let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
-    endif
-
-    if g:cmd == g:cmd_edited
-        if has("win16") || has("win32")
-            let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
-        else
-            let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
-        endif
-    endif
-
-    return g:cmd_edited
-endfunc
-
 augroup filetype_changes
     autocmd!
     autocmd FileType verilog,verilog_systemverilog setlocal nosmartindent
     autocmd FileType javascript setlocal nocindent
 augroup END
 
-autocmd BufRead,BufNewFile *.ts setlocal filetype=typescript
-autocmd BufNewFile,BufRead .tern-project setlocal filetype=json
 autocmd BufRead,BufNewFile *.h setlocal filetype=c
 autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
 
@@ -560,18 +580,21 @@ if executable('rg')
     set grepprg=rg\ --vimgrep
 endif
 
-" ferret
-let g:FerretMap = 0
-
 " tmux navigator
 let g:tmux_navigator_no_mappings = 1
 
 " Utilsnips
-let g:UltiSnipsExpandTrigger = '<leader>e'
+let g:UltiSnipsExpandTrigger = '<leader>x'
 let g:UltiSnipsListSnippets = '<Leader>l'
 let g:UltiSnipsJumpForwardTrigger = '<Leader>ub'
 let g:UltiSnipsJumpBackwardTrigger = '<Leader>uz'
 let g:UltiSnipsEditSplit = 'vertical'
+
+" neosnippet
+imap <Leader>e <Plug>(neosnippet_expand_or_jump)
+smap <Leader>e <Plug>(neosnippet_expand_or_jump)
+xmap <Leader>e <Plug>(neosnippet_expand_target)
+let g:neosnippet#enable_snipmate_compatibility = 1
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
@@ -616,9 +639,6 @@ let g:startify_fortune_use_unicode = 1
 let g:startify_session_sort = 1
 let g:startify_relative_path = 1
 
-" signify
-let g:signify_sign_change = '~'
-
 " Ale
 let g:ale_linters = {
             \ }
@@ -638,10 +658,10 @@ let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline_theme='onedark'
 
-" markdown
-let g:vim_markdown_folding_disabled = 1
-
 let g:markdown_composer_open_browser = 0
+
+" vim-markdown
+let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh']
 
 " vim-signature
 let g:SignatureMap = {
@@ -685,14 +705,29 @@ vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " LanguageClient
-augroup GP_LanguageCient
+augroup GP_LanguageClient
     autocmd!
     " autocmd FileType typescript LanguageClientStart
 augroup end
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'typescript': ['/usr/bin/node', $HOME . '/Git/javascript-typescript-langserver/lib/language-server-stdio'],
-    \ 'javascript': ['/usr/bin/node', $HOME . '/Git/javascript-typescript-langserver/lib/language-server-stdio'],
+    \ 'typescript': ['javascript-typescript-stdio'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'go': ['go-langserver'],
+    \ 'yaml': ['/usr/bin/node', $HOME . '/Git/yaml-language-server/out/server/src/server.js', '--stdio'],
+    \ 'css': ['css-language-server', '--stdio'],
+    \ 'sass': ['css-language-server', '--stdio'],
+    \ 'less': ['css-language-server', '--stdio'],
+    \ 'dockerfile': ['docker-langserver', '--stdio'],
+    \ 'Dockerfile': ['docker-langserver', '--stdio'],
+    \ 'reason': ['ocaml-language-server', '--stdio'],
+    \ 'ocaml': ['ocaml-language-server', '--stdio'],
+    \ 'vue': ['vls'],
+    \ 'lua': ['lua-lsp'],
+    \ 'ruby': ['language_server-ruby'],
+    \ 'c': ['clangd'],
+    \ 'cpp': ['cland'],
+    \ 'python': ['pyls'],
     \ }
 nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
@@ -740,7 +775,7 @@ inoremap <expr> <S-TAB>
 function! s:check_back_space() abort "{{{
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
+endfunction "}}}
 
 if !exists('g:deoplete#omni#input_patterns')
     let g:deoplete#omni#input_patterns = {}
@@ -748,6 +783,7 @@ endif
 let g:deoplete#omni#input_patterns.ruby = ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::']
 let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
 let g:deoplete#omni#input_patterns.javascript = '[^. *\t]\.\w*'
+let g:deoplete#omni#input_patterns.typescript = '[^. *\t]\.\w*|\h\w*:'
 
 if !exists('g:deoplete#omni_patterns')
     let g:deoplete#omni_patterns = {}
@@ -757,6 +793,8 @@ let g:deoplete#omni_patterns.php = '\w+|[^. \t]->\w*|\w+::\w*'
 if !exists('g:deoplete#omni#functions')
 	let g:deoplete#omni#functions = {}
 endif
+let g:deoplete#omni#functions.php = [ 'phpcd#CompletePHP' ]
+let g:deoplete#omni#functions.typescript = [ 'tsuquyomi#complete' ]
 
 if !exists('g:deoplete#ignore_sources')
     let g:deoplete#ignore_sources = {}
@@ -766,6 +804,26 @@ if !exists('g:deoplete#keyword_patterns')
     let g:deoplete#keyword_patterns = {}
 endif
 let g:deoplete#keyword_patterns.clojure = '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
+
+" deoplete-ternjs
+let g:deoplete#sources#ternjs#types = 1
+let g:deoplete#sources#ternjs#depths = 1
+let g:deoplete#sources#ternjs#docs = 1
+let g:deoplete#sources#ternjs#filter = 0
+let g:deoplete#sources#ternjs#case_insensitive = 1
+let g:deoplete#sources#ternjs#guess = 0
+let g:deoplete#sources#ternjs#omit_object_prototype = 0
+let g:deoplete#sources#ternjs#include_keywords = 1
+let g:deoplete#sources#ternjs#in_literal = 0
+let g:deoplete#sources#ternjs#filetypes = [
+                \ 'jsx',
+                \ 'vue',
+                \ '...'
+                \ ]
+
+" tern_for_vim
+let g:tern#command = ['tern']
+let g:tern#arguments = ['--persistent']
 
 
 " neocomplete
@@ -939,3 +997,7 @@ let g:tmuxcomplete#trigger = ''
 
 " vim-pandoc
 let g:pandoc#filetypes#pandoc_markdown = 0
+
+" elm-vim
+let g:elm_setup_keybindings = 0
+
