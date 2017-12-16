@@ -29,7 +29,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
     call dein#add('Shougo/neossh.vim')
-    call dein#add('Shougo/deol.nvim', {'on_if': 'has("terminal")'})
+    call dein#add('Shougo/deol.nvim')
     call dein#add('ujihisa/neco-look')
 
     " tpope
@@ -97,6 +97,7 @@ if dein#load_state($HOME . '/.vim/dein')
 
     call dein#add('google/vimdoc')
     call dein#add('alpertuna/vim-header')
+    call dein#add('antoyo/vim-licenses')
     " code format
     call dein#add('sbdchd/neoformat')
     call dein#add('rhysd/vim-clang-format')
@@ -151,6 +152,7 @@ if dein#load_state($HOME . '/.vim/dein')
     " text object manipulate
     call dein#add('terryma/vim-multiple-cursors')
     call dein#add('michaeljsmith/vim-indent-object')
+    call dein#add('kana/vim-textobj-user')
     call dein#add('tommcdo/vim-exchange')
     call dein#add('matze/vim-move')
     call dein#add('christoomey/vim-sort-motion')
@@ -170,7 +172,7 @@ if dein#load_state($HOME . '/.vim/dein')
                 \ })
     " c/c++/objc
     call dein#add('octol/vim-cpp-enhanced-highlight')
-    call dein#add('Rip-Rip/clang_complete')
+    call dein#add('aceforeverd/clang_complete')
     " Javascripts...
     call dein#add('pangloss/vim-javascript')
     call dein#add('othree/javascript-libraries-syntax.vim')
@@ -201,7 +203,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('slashmili/alchemist.vim')
     call dein#add('elixir-lang/vim-elixir')
     " Java/Kotlin
-    call dein#add('artur-shaik/vim-javacomplete2')
+    call dein#add('artur-shaik/vim-javacomplete2', {'on_ft': 'java'})
     call dein#add('udalov/kotlin-vim')
     " CSS/SCSS/LESS
     "" merged: 0, conflict with othree/html5
@@ -253,8 +255,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('tmux-plugins/vim-tmux')
     call dein#add('christoomey/vim-tmux-navigator')
     call dein#add('wellle/tmux-complete.vim', {'on_if': 'exists("$TMUX")'})
-    " Lisp
-    call dein#add('kovisoft/slimv')
     " Latex
     call dein#add('lervag/vimtex')
     call dein#add('xuhdev/vim-latex-live-preview')
@@ -267,7 +267,7 @@ if dein#load_state($HOME . '/.vim/dein')
     " lua
     call dein#add('tbastos/vim-lua')
     " swift
-    call dein#add('keith/swift.vim')
+    call dein#add('keith/swift.vim', {'on_ft': 'swift'})
 
     call dein#add('jparise/vim-graphql')
     call dein#add('PotatoesMaster/i3-vim-syntax')
@@ -288,6 +288,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('wlangstroth/vim-racket')
     " elm
     call dein#add('elmcast/elm-vim')
+    call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
     call dein#add('guns/vim-clojure-static')
     call dein#add('guns/vim-sexp')
@@ -299,7 +300,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('jwalton512/vim-blade')
 
     call dein#add('dart-lang/dart-vim-plugin')
-    call dein#add('derekwyatt/vim-scala')
+    call dein#add('derekwyatt/vim-scala', {'on_ft': 'scala'})
     call dein#add('slim-template/vim-slim')
     call dein#add('chrisbra/csv.vim')
 
@@ -318,6 +319,7 @@ endif
 " ============================================================================================
 call plug#begin('~/.vim/vimPlug')
 
+Plug 'autozimu/LanguageClient-neovim'
 Plug 'natebosch/vim-lsc'
 let g:lsc_auto_map = v:false
 let g:lsc_server_commands = {}
@@ -325,7 +327,7 @@ let g:lsc_server_commands = {}
 " let g:lsc_server_commands.javascript = 'javascript-typescript-stdio'
 " let g:lsc_server_commands.c = 'clangd'
 " let g:lsc_server_commands.rust = 'rls'
-let g:lsc_server_commands.dart = 'dart_language_server'
+" let g:lsc_server_commands.dart = 'dart_language_server'
 
 " Plug 'prabirshrestha/async.vim'
 " Plug 'prabirshrestha/vim-lsp'
@@ -339,9 +341,9 @@ let g:lsc_server_commands.dart = 'dart_language_server'
 " endif
 
 Plug 'sjl/splice.vim'
+Plug 'junegunn/vader.vim'
 Plug 'Quramy/tsuquyomi', {'for': 'typescript'}
 Plug 'google/vim-searchindex'
-Plug 'autozimu/LanguageClient-neovim'
 Plug 'roxma/LanguageServer-php-neovim', {
             \ 'do': 'composer install && composer run-script parse-stubs',
             \ 'for': 'php',
@@ -352,7 +354,6 @@ Plug 'phpactor/phpactor', {
             \ 'dir': $HOME . '/.phpactor',
             \ }
 Plug 'vim-pandoc/vim-pandoc'
-Plug 'junegunn/vim-peekaboo'
 Plug 'andreshazard/vim-logreview'
 Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
 Plug 'beloglazov/vim-online-thesaurus', {'on': 'OnlineThesaurusCurrentWord'}
@@ -586,8 +587,8 @@ let g:tmux_navigator_no_mappings = 1
 " Utilsnips
 let g:UltiSnipsExpandTrigger = '<leader>x'
 let g:UltiSnipsListSnippets = '<Leader>l'
-let g:UltiSnipsJumpForwardTrigger = '<Leader>ub'
-let g:UltiSnipsJumpBackwardTrigger = '<Leader>uz'
+let g:UltiSnipsJumpForwardTrigger = '<c-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 let g:UltiSnipsEditSplit = 'vertical'
 
 " neosnippet
@@ -1023,3 +1024,8 @@ let g:elm_setup_keybindings = 0
 
 " vim-online-thesaurus*
 let g:online_thesaurus_map_keys = 0
+
+" gen_tags
+if !executable('gtags')
+    let g:loaded_gentags#gtags = 1
+endif
