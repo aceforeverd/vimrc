@@ -55,6 +55,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('tpope/vim-projectionist')
     call dein#add('tpope/vim-pathogen')
     call dein#add('tpope/vim-heroku')
+    call dein#add('tpope/vim-obsession')
 
     " snippets
     call dein#add('honza/vim-snippets')
@@ -122,7 +123,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
     call dein#add('junkblocker/patchreview-vim')
-    call dein#add('rhysd/github-complete.vim')
+    call dein#add('rhysd/github-complete.vim', {'on_ft': 'gitcommit'})
 
     " search
     call dein#add('junegunn/fzf', {
@@ -215,7 +216,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('davidhalter/jedi-vim', {'on_ft': 'python'})
     call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
     call dein#add('alfredodeza/pytest.vim')
-    call dein#add('vimjas/vim-python-pep8-indent')
     " Markdown
     call dein#add('tyru/open-browser.vim')
     call dein#add('tpope/vim-markdown')
@@ -746,7 +746,10 @@ let g:vimfiler_ignore_pattern = ['^\.', '\.o$']
 let g:vimfiler_tree_opened_icon = '▾'
 let g:vimfiler_tree_closed_icon = '▸'
 let g:vimfiler_marked_file_icon = '*'
-
+augroup vimfiler_group
+    autocmd!
+    autocmd FileType vimfiler setlocal cursorline
+augroup END
 call vimfiler#custom#profile('default', 'context', {
             \ 'safe' : 0,
             \ 'edit_action' : 'tabopen',
