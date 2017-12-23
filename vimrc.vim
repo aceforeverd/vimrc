@@ -78,6 +78,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('wincent/terminus')
     call dein#add('chrisbra/Colorizer')
     call dein#add('junegunn/rainbow_parentheses.vim')
+    call dein#add('thiagoalessio/rainbow_levels.vim', {'on_cmd': 'RainbowLevelsToggle'})
 
     " motion
     call dein#add('easymotion/vim-easymotion')
@@ -278,7 +279,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('hashivim/vim-terraform')
     call dein#add('uarun/vim-protobuf')
     call dein#add('lumiliet/vim-twig')
-    call dein#add('ekalinin/dockerfile.vim')
     call dein#add('matt-deacalion/vim-systemd-syntax')
     " YAML playbooks, Jinja2 templates, and Ansible's hosts files.
     call dein#add('pearofducks/ansible-vim')
@@ -319,7 +319,6 @@ endif
 " ============================================================================================
 call plug#begin('~/.vim/vimPlug')
 
-Plug 'autozimu/LanguageClient-neovim'
 Plug 'natebosch/vim-lsc'
 let g:lsc_auto_map = v:false
 let g:lsc_server_commands = {}
@@ -335,11 +334,12 @@ let g:lsc_server_commands = {}
 "     autocmd User lsp_setup call lsp#register_server({
 "                 \ 'name': 'docker-langserver',
 "                 \ 'cmd': {server_info->[&shell, &shellcmdflag, 'docker-langserver --stdio']},
-"                 \ 'whitelist': ['dockerfile', 'Dockerfile'],
+"                 \ 'whitelist': ['dockerfile'],
 "                 \ })
-"     autocmd FileType Dockerfile setlocal omnifunc=lsp#complete
+"     autocmd FileType dockerfile setlocal omnifunc=lsp#complete
 " endif
 
+Plug 'joereynolds/SQHell.vim'
 Plug 'sjl/splice.vim'
 Plug 'junegunn/vader.vim'
 Plug 'Quramy/tsuquyomi', {'for': 'typescript'}
@@ -707,35 +707,6 @@ let g:vimwiki_table_mappings = 0
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
-" LanguageClient
-augroup GP_LanguageClient
-    autocmd!
-    " autocmd FileType typescript LanguageClientStart
-augroup end
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'typescript': ['javascript-typescript-stdio'],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'go': ['go-langserver'],
-    \ 'yaml': ['/usr/bin/node', $HOME . '/Git/yaml-language-server/out/server/src/server.js', '--stdio'],
-    \ 'css': ['css-language-server', '--stdio'],
-    \ 'sass': ['css-language-server', '--stdio'],
-    \ 'less': ['css-language-server', '--stdio'],
-    \ 'dockerfile': ['docker-langserver', '--stdio'],
-    \ 'Dockerfile': ['docker-langserver', '--stdio'],
-    \ 'reason': ['ocaml-language-server', '--stdio'],
-    \ 'ocaml': ['ocaml-language-server', '--stdio'],
-    \ 'vue': ['vls'],
-    \ 'lua': ['lua-lsp'],
-    \ 'ruby': ['language_server-ruby'],
-    \ 'c': ['clangd'],
-    \ 'cpp': ['cland'],
-    \ 'python': ['pyls'],
-    \ }
-nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 
 
 " vimfiler
