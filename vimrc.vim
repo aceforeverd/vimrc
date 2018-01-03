@@ -59,7 +59,6 @@ if dein#load_state($HOME . '/.vim/dein')
 
     " snippets
     call dein#add('honza/vim-snippets')
-    call dein#add('sirver/ultisnips')
     call dein#add('Shougo/neosnippet-snippets')
     call dein#add('Shougo/neosnippet.vim')
 
@@ -141,7 +140,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('jamessan/vim-gnupg')
     call dein#add('jceb/vim-orgmode')
     call dein#add('vimwiki/vimwiki')
-    call dein#add('thaerkh/vim-workspace')
 
     " comment
     call dein#add('tomtom/tcomment_vim')
@@ -182,7 +180,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('marijnh/tern_for_vim')
     call dein#add('carlitux/deoplete-ternjs')
     " Typescript
-    call dein#add('mhartington/nvim-typescript', {'on_ft': 'typescript'})
+    " call dein#add('mhartington/nvim-typescript', {'on_ft': 'typescript'})
     call dein#add('HerringtonDarkholme/yats.vim')
 
     call dein#add('mxw/vim-jsx')
@@ -319,14 +317,50 @@ endif
 " ============================================================================================
 call plug#begin('~/.vim/vimPlug')
 
-Plug 'natebosch/vim-lsc'
-let g:lsc_auto_map = v:false
-let g:lsc_server_commands = {}
+" Plug 'natebosch/vim-lsc'
+" let g:lsc_auto_map = v:false
+" let g:lsc_enable_autocomplete = v:false
+" let g:lsc_server_commands = {}
 " let g:lsc_server_commands.typescript = 'javascript-typescript-stdio'
 " let g:lsc_server_commands.javascript = 'javascript-typescript-stdio'
 " let g:lsc_server_commands.c = 'clangd'
 " let g:lsc_server_commands.rust = 'rls'
 " let g:lsc_server_commands.dart = 'dart_language_server'
+
+Plug 'bergercookie/vim-debugstring'
+
+Plug 'autozimu/LanguageClient-neovim', {
+            \ 'branch': 'next',
+            \ 'do': 'make release',
+            \ 'dir': $HOME . '/.LanguageClient-neovim',
+            \ }
+let g:LanguageClient_autoStart = 0
+let g:LanguageClient_selectionUI = 'fzf'
+let g:LanguageClient_loadSettings = 1
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'beta', 'rls'],
+    \ 'typescript': ['javascript-typescript-stdio'],
+    \ 'javascript': ['javascript-typescript-sdtio'],
+    \ 'go': ['go-langserver'],
+    \ 'yaml': ['/usr/bin/node', $HOME . '/Git/yaml-language-server/out/server/src/server.js', '--stdio'],
+    \ 'css': ['css-language-server', '--stdio'],
+    \ 'sass': ['css-language-server', '--stdio'],
+    \ 'less': ['css-language-server', '--stdio'],
+    \ 'dockerfile': ['docker-langserver', '--stdio'],
+    \ 'reason': ['ocaml-language-server', '--stdio'],
+    \ 'ocaml': ['ocaml-language-server', '--stdio'],
+    \ 'vue': ['vls'],
+    \ 'lua': ['lua-lsp'],
+    \ 'ruby': ['language_server-ruby'],
+    \ 'c': ['cquery', '--language-server'],
+    \ 'cpp': ['cquery', '--language-server'],
+    \ 'python': ['pyls'],
+    \ 'dart': ['dart_language_server', '--force_trace_level=off'],
+    \ 'haskell': ['hie', '--lsp'],
+    \ }
+nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 
 " Plug 'prabirshrestha/async.vim'
 " Plug 'prabirshrestha/vim-lsp'
@@ -344,19 +378,11 @@ Plug 'sjl/splice.vim'
 Plug 'junegunn/vader.vim'
 Plug 'Quramy/tsuquyomi', {'for': 'typescript'}
 Plug 'google/vim-searchindex'
-Plug 'roxma/LanguageServer-php-neovim', {
-            \ 'do': 'composer install && composer run-script parse-stubs',
-            \ 'for': 'php',
-            \ }
-Plug 'phpactor/phpactor', {
-            \ 'do': 'composer install',
-            \ 'for': 'php',
-            \ 'dir': $HOME . '/.phpactor',
-            \ }
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'andreshazard/vim-logreview'
 Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
 Plug 'beloglazov/vim-online-thesaurus', {'on': 'OnlineThesaurusCurrentWord'}
+Plug 'chrisbra/unicode.vim'
 " Plug 'vhda/verilog_systemverilog.vim'
 
 function! BuildComposer(info)
@@ -772,7 +798,8 @@ if !exists('g:deoplete#omni#functions')
 	let g:deoplete#omni#functions = {}
 endif
 let g:deoplete#omni#functions.php = [ 'phpcd#CompletePHP' ]
-let g:deoplete#omni#functions.typescript = [ 'tsuquyomi#complete' ]
+let g:deoplete#omni#functions.typescript = [ 'LanguageClient#complete', 'tsuquyomi#complete' ]
+let g:deoplete#omni#functions.c = [ 'ClangComplete', 'LanguageClient#complete' ]
 
 if !exists('g:deoplete#ignore_sources')
     let g:deoplete#ignore_sources = {}
@@ -782,6 +809,8 @@ if !exists('g:deoplete#keyword_patterns')
     let g:deoplete#keyword_patterns = {}
 endif
 let g:deoplete#keyword_patterns.clojure = '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
+" source rank
+call deoplete#custom#source('look', 'rank', 50)
 
 " deoplete-ternjs
 let g:deoplete#sources#ternjs#types = 1
@@ -952,8 +981,6 @@ highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
 let g:sort_motion = '<Leader>sm'
 let g:sort_motion_lines = '<Leader>sml'
 let g:sort_motion_visual = '<Leader>sm'
-
-let g:workspace_autosave_ignore = ['gitcommit']
 
 " tcomment
 let g:tcommentMaps = 0
