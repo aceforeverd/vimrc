@@ -77,7 +77,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('wincent/terminus')
     call dein#add('chrisbra/Colorizer')
     call dein#add('junegunn/rainbow_parentheses.vim')
-    call dein#add('thiagoalessio/rainbow_levels.vim', {'on_cmd': 'RainbowLevelsToggle'})
 
     " motion
     call dein#add('easymotion/vim-easymotion')
@@ -317,18 +316,6 @@ endif
 " ============================================================================================
 call plug#begin('~/.vim/vimPlug')
 
-" Plug 'natebosch/vim-lsc'
-" let g:lsc_auto_map = v:false
-" let g:lsc_enable_autocomplete = v:false
-" let g:lsc_server_commands = {}
-" let g:lsc_server_commands.typescript = 'javascript-typescript-stdio'
-" let g:lsc_server_commands.javascript = 'javascript-typescript-stdio'
-" let g:lsc_server_commands.c = 'clangd'
-" let g:lsc_server_commands.rust = 'rls'
-" let g:lsc_server_commands.dart = 'dart_language_server'
-
-Plug 'bergercookie/vim-debugstring'
-
 Plug 'autozimu/LanguageClient-neovim', {
             \ 'branch': 'next',
             \ 'do': 'make release',
@@ -352,7 +339,7 @@ let g:LanguageClient_serverCommands = {
     \ 'vue': ['vls'],
     \ 'lua': ['lua-lsp'],
     \ 'ruby': ['language_server-ruby'],
-    \ 'c': ['cquery', '--language-server'],
+    \ 'c': ['clangd'],
     \ 'cpp': ['cquery', '--language-server'],
     \ 'python': ['pyls'],
     \ 'dart': ['dart_language_server', '--force_trace_level=off'],
@@ -361,17 +348,6 @@ let g:LanguageClient_serverCommands = {
 nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-
-" Plug 'prabirshrestha/async.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" if executable('docker-langserver')
-"     autocmd User lsp_setup call lsp#register_server({
-"                 \ 'name': 'docker-langserver',
-"                 \ 'cmd': {server_info->[&shell, &shellcmdflag, 'docker-langserver --stdio']},
-"                 \ 'whitelist': ['dockerfile'],
-"                 \ })
-"     autocmd FileType dockerfile setlocal omnifunc=lsp#complete
-" endif
 
 Plug 'joereynolds/SQHell.vim'
 Plug 'sjl/splice.vim'
@@ -548,7 +524,7 @@ elseif has('gui_gtk2')
 elseif has('linux')
     set guifont=Hack\ 14,Source\ Code\ Pro\ 12,Bitstream\ Vera\ Sans\ Mono\ 11
 elseif has('unix')
-    set guifont=Source\ Code\ Pro\ Medium\ 12
+    set guifont=Source\ Code\ Pro\ Medium\ 11
 endif
 
 try
@@ -776,10 +752,10 @@ inoremap <silent><expr> <TAB>
 inoremap <expr> <S-TAB>
             \ pumvisible() ? "\<C-p>" :
             \ "\<S-TAB>"
-function! s:check_back_space() abort "{{{
+function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~ '\s'
-endfunction "}}}
+endfunction
 
 if !exists('g:deoplete#omni#input_patterns')
     let g:deoplete#omni#input_patterns = {}
