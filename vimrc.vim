@@ -359,6 +359,7 @@ Plug 'andreshazard/vim-logreview'
 Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
 Plug 'beloglazov/vim-online-thesaurus', {'on': 'OnlineThesaurusCurrentWord'}
 Plug 'chrisbra/unicode.vim'
+Plug 'vim-scripts/Conque-GDB'
 " Plug 'vhda/verilog_systemverilog.vim'
 
 function! BuildComposer(info)
@@ -647,6 +648,7 @@ let g:gitgutter_max_signs = 1000
 
 " Ale
 let g:ale_linters = {
+            \ 'go': ['gofmt', 'go vet', 'golint', 'gotype', 'gometalinter'],
             \ }
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
