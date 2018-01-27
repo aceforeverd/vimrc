@@ -607,6 +607,10 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
 let g:delimitMate_balance_matchpairs = 1
+augroup delimitMateCustom
+    autocmd!
+    autocmd FileType html,xhtml,xml let b:delimitMate_matchpairs = "(:),[:],{:}"
+augroup END
 
 " vim-closetag
 let g:closetag_filenames = '*.html,*.xhtml,*.xml'
@@ -648,7 +652,7 @@ let g:gitgutter_max_signs = 1000
 
 " Ale
 let g:ale_linters = {
-            \ 'go': ['gofmt', 'go vet', 'golint', 'gotype', 'gometalinter'],
+            \ 'go': ['gofmt', 'go vet', 'golint', 'gotype'],
             \ }
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
