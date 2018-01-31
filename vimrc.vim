@@ -1,6 +1,4 @@
-if &compatible
-    set nocompatible
-endif
+set nocompatible
 
 set runtimepath+=$HOME/.vim/dein/repos/github.com/Shougo/dein.vim
 
@@ -314,7 +312,7 @@ endif
 
 " vim plug
 " ============================================================================================
-call plug#begin('~/.vim/vimPlug')
+call plug#begin('~/.vim-commons/pkgs')
 
 Plug 'autozimu/LanguageClient-neovim', {
             \ 'branch': 'next',
@@ -652,7 +650,7 @@ let g:gitgutter_max_signs = 1000
 
 " Ale
 let g:ale_linters = {
-            \ 'go': ['gofmt', 'go vet', 'golint', 'gotype'],
+            \ 'go': ['go build', 'gofmt', 'go vet', 'golint', 'gotype'],
             \ }
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
