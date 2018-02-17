@@ -13,7 +13,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('roxma/vim-hug-neovim-rpc')
 
     call dein#add('Shougo/vimproc.vim', {'build': 'make'})
-    call dein#add('Shougo/deoplete.nvim')
+    call dein#add('Shougo/deoplete.nvim', {'depends': ['nvim-yarp', 'vim-hug-neovim-rpc']})
     call dein#add('Shougo/neoinclude.vim')
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/neco-syntax')
@@ -27,7 +27,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
     call dein#add('Shougo/neossh.vim')
-    call dein#add('Shougo/deol.nvim')
     call dein#add('ujihisa/neco-look')
 
     " tpope
@@ -228,9 +227,8 @@ if dein#load_state($HOME . '/.vim/dein')
     " asm
     call dein#add('zchee/deoplete-asm')
     " Rust
-    call dein#add('rust-lang/rust.vim', {'on_ft': 'rust'})
+    call dein#add('rust-lang/rust.vim')
     call dein#add('racer-rust/vim-racer')
-    call dein#add('sebastianmarkow/deoplete-rust', {'on_ft': 'rust'})
     " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
     call dein#add('Shougo/deoplete-rct')
@@ -299,8 +297,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('slim-template/vim-slim')
     call dein#add('chrisbra/csv.vim')
 
-    call dein#add('rhysd/vim-grammarous', {'merged': 0})
-
     call dein#end()
     call dein#save_state()
 endif
@@ -314,38 +310,7 @@ endif
 " ============================================================================================
 call plug#begin('~/.vim-commons/pkgs')
 
-Plug 'autozimu/LanguageClient-neovim', {
-            \ 'branch': 'next',
-            \ 'do': 'make release',
-            \ 'dir': $HOME . '/.LanguageClient-neovim',
-            \ }
-let g:LanguageClient_autoStart = 0
-let g:LanguageClient_selectionUI = 'fzf'
-let g:LanguageClient_loadSettings = 1
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'beta', 'rls'],
-    \ 'typescript': ['javascript-typescript-stdio'],
-    \ 'javascript': ['javascript-typescript-sdtio'],
-    \ 'go': ['go-langserver'],
-    \ 'yaml': ['/usr/bin/node', $HOME . '/Git/yaml-language-server/out/server/src/server.js', '--stdio'],
-    \ 'css': ['css-language-server', '--stdio'],
-    \ 'sass': ['css-language-server', '--stdio'],
-    \ 'less': ['css-language-server', '--stdio'],
-    \ 'dockerfile': ['docker-langserver', '--stdio'],
-    \ 'reason': ['ocaml-language-server', '--stdio'],
-    \ 'ocaml': ['ocaml-language-server', '--stdio'],
-    \ 'vue': ['vls'],
-    \ 'lua': ['lua-lsp'],
-    \ 'ruby': ['language_server-ruby'],
-    \ 'c': ['clangd'],
-    \ 'cpp': ['cquery', '--language-server'],
-    \ 'python': ['pyls'],
-    \ 'dart': ['dart_language_server', '--force_trace_level=off'],
-    \ 'haskell': ['hie', '--lsp'],
-    \ }
-nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+Plug 'rhysd/vim-grammarous'
 
 Plug 'joereynolds/SQHell.vim'
 Plug 'sjl/splice.vim'
@@ -358,7 +323,6 @@ Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
 Plug 'beloglazov/vim-online-thesaurus', {'on': 'OnlineThesaurusCurrentWord'}
 Plug 'chrisbra/unicode.vim'
 Plug 'vim-scripts/Conque-GDB'
-" Plug 'vhda/verilog_systemverilog.vim'
 
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -370,10 +334,43 @@ function! BuildComposer(info)
   endif
 endfunction
 
-Plug 'euclio/vim-markdown-composer', {
-            \ 'do': function('BuildComposer'),
-            \ 'for': 'markdown',
-            \ }
+if executable('cargo')
+    Plug 'autozimu/LanguageClient-neovim', {
+                \ 'branch': 'next',
+                \ 'do': 'make release',
+                \ }
+    let g:LanguageClient_autoStart = 0
+    let g:LanguageClient_selectionUI = 'fzf'
+    let g:LanguageClient_loadSettings = 1
+    let g:LanguageClient_serverCommands = {
+                \ 'rust': ['rustup', 'run', 'beta', 'rls'],
+                \ 'typescript': ['javascript-typescript-stdio'],
+                \ 'javascript': ['javascript-typescript-sdtio'],
+                \ 'go': ['go-langserver'],
+                \ 'yaml': ['/usr/bin/node', $HOME . '/Git/yaml-language-server/out/server/src/server.js', '--stdio'],
+                \ 'css': ['css-language-server', '--stdio'],
+                \ 'sass': ['css-language-server', '--stdio'],
+                \ 'less': ['css-language-server', '--stdio'],
+                \ 'dockerfile': ['docker-langserver', '--stdio'],
+                \ 'reason': ['ocaml-language-server', '--stdio'],
+                \ 'ocaml': ['ocaml-language-server', '--stdio'],
+                \ 'vue': ['vls'],
+                \ 'lua': ['lua-lsp'],
+                \ 'ruby': ['language_server-ruby'],
+                \ 'c': ['clangd'],
+                \ 'cpp': ['cquery', '--language-server'],
+                \ 'python': ['pyls'],
+                \ 'dart': ['dart_language_server', '--force_trace_level=off'],
+                \ 'haskell': ['hie', '--lsp'],
+                \ }
+    nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
+    nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+    nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+    Plug 'euclio/vim-markdown-composer', {
+                \ 'do': function('BuildComposer'),
+                \ 'for': 'markdown',
+                \ }
+endif
 Plug 'xolox/vim-misc', {'for': 'lua'}
 Plug 'xolox/vim-lua-ftplugin', {'for': 'lua'}
 Plug 'c9s/perlomni.vim', {'for': 'perl'}
@@ -651,6 +648,7 @@ let g:gitgutter_max_signs = 1000
 " Ale
 let g:ale_linters = {
             \ 'go': ['go build', 'gofmt', 'go vet', 'golint', 'gotype'],
+            \ 'rust': ['cargo', 'rls', 'rustc'],
             \ }
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
@@ -660,6 +658,14 @@ let g:ale_sign_warning = '⚠'
 let g:ale_sign_info = 'ℹ'
 nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
+
+" vim-racer
+let g:racer_experimental_completer = 1
+augroup RACER_RUST
+    autocmd!
+    autocmd FileType rust command! RustDef call racer#GoToDefinition()
+    autocmd FileType rust command! RustDoc call racer#ShowDocumentation()
+augroup END
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
