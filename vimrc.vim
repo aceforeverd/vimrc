@@ -86,11 +86,10 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('will133/vim-dirdiff')
     call dein#add('itchyny/calendar.vim')
     call dein#add('diepm/vim-rest-console')
-    call dein#add('vimoutliner/vimoutliner')
     call dein#add('vim-utils/vim-man')
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('tweekmonster/startuptime.vim', {'on_cmd': 'StartupTime'})
-    call dein#add('mhinz/vim-sayonara', {'on_cmd': 'Sayonara'})
+    call dein#add('mhinz/vim-sayonara')
 
     call dein#add('google/vimdoc')
     call dein#add('alpertuna/vim-header')
@@ -194,6 +193,12 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('othree/html5.vim')
     " vimL
     call dein#add('mhinz/vim-lookup')
+    augroup vim_lookup
+        autocmd!
+        autocmd FileType vim nnoremap <buffer><silent> <C-]> :call lookup#lookup()<CR>
+    augroup END
+
+    call dein#add('tweekmonster/exception.vim')
     call dein#add('tweekmonster/helpful.vim')
     " Elixir
     call dein#add('slashmili/alchemist.vim')
@@ -323,6 +328,8 @@ Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
 Plug 'beloglazov/vim-online-thesaurus', {'on': 'OnlineThesaurusCurrentWord'}
 Plug 'chrisbra/unicode.vim'
 Plug 'vim-scripts/Conque-GDB'
+Plug 'vimoutliner/vimoutliner'
+Plug 'tpope/vim-db'
 
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -347,7 +354,7 @@ if executable('cargo')
                 \ 'typescript': ['javascript-typescript-stdio'],
                 \ 'javascript': ['javascript-typescript-sdtio'],
                 \ 'go': ['go-langserver'],
-                \ 'yaml': ['/usr/bin/node', $HOME . '/Git/yaml-language-server/out/server/src/server.js', '--stdio'],
+                \ 'yaml': ['/usr/bin/node', $HOME . '/.npm_global/lib64/node_modules/yaml-language-server/out/server/src/server.js', '--stdio'],
                 \ 'css': ['css-language-server', '--stdio'],
                 \ 'sass': ['css-language-server', '--stdio'],
                 \ 'less': ['css-language-server', '--stdio'],
@@ -582,13 +589,6 @@ endif
 " tmux navigator
 let g:tmux_navigator_no_mappings = 1
 
-" Utilsnips
-let g:UltiSnipsExpandTrigger = '<leader>x'
-let g:UltiSnipsListSnippets = '<Leader>l'
-let g:UltiSnipsJumpForwardTrigger = '<c-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
-let g:UltiSnipsEditSplit = 'vertical'
-
 " neosnippet
 imap <Leader>e <Plug>(neosnippet_expand_or_jump)
 smap <Leader>e <Plug>(neosnippet_expand_or_jump)
@@ -605,6 +605,7 @@ let g:delimitMate_balance_matchpairs = 1
 augroup delimitMateCustom
     autocmd!
     autocmd FileType html,xhtml,xml let b:delimitMate_matchpairs = "(:),[:],{:}"
+    autocmd FileType rust let b:delimitMate_quotes = "\" `"
 augroup END
 
 " vim-closetag
@@ -612,7 +613,7 @@ let g:closetag_filenames = '*.html,*.xhtml,*.xml'
 let g:closetag_emptyTags_caseSensitive = 1
 
 " javascript-libraries-syntax
-let g:used_javascript_libs = 'jquery,angularjs,angularui,angularuirouter'
+let g:used_javascript_libs = 'jquery'
 
 " JS-pretty template
 augroup JsPreTmpl
@@ -665,7 +666,16 @@ augroup RACER_RUST
     autocmd!
     autocmd FileType rust command! RustDef call racer#GoToDefinition()
     autocmd FileType rust command! RustDoc call racer#ShowDocumentation()
+    autocmd FileType rust nmap <c-]> <Plug>(rust-def)
+    autocmd FileType rust nmap <c-w>] <Plug>(rust-def-split)
 augroup END
+
+" vim-go
+augroup VIM_GO
+    autocmd!
+    autocmd FileType go nnoremap <c-]> :GoDef<CR>
+augroup END
+let g:go_template_autocreate = 0
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -918,21 +928,21 @@ if !exists('g:neoinclude#paths')
 endif
 
 let g:neoinclude#paths.c = '.,'
-            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,'
+            \ . '/usr/lib/gcc/*/*/include/,'
             \ . '/usr/local/include/,'
-            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include-fixed/,'
+            \ . '/usr/lib/gcc/*/*/include-fixed/,'
             \ . '/usr/include/,,'
 
 let g:neoinclude#paths.cpp = '.,'
             \ . '/usr/include/c++/*/,'
-            \ . '/usr/include/c++/*/x86_64-pc-linux-gnu/,'
+            \ . '/usr/include/c++/*/*/,'
             \ . '/usr/include/c++/*/backward/,'
-            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/,'
             \ . '/usr/local/include/,'
-            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include-fixed/,'
-            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/,'
-            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/backward,'
-            \ . '/usr/lib/gcc/x86_64-pc-linux-gnu/*/include/g++-v6/x86_64-pc-linux-gnu/,'
+            \ . '/usr/lib/gcc/*/*/include/,'
+            \ . '/usr/lib/gcc/*/*/include-fixed/,'
+            \ . '/usr/lib/gcc/*/*/include/g++-v*/,'
+            \ . '/usr/lib/gcc/*/*/include/g++-v*/backward,'
+            \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
             \ . '/usr/include/,,'
 
 
@@ -987,9 +997,6 @@ let g:bookmark_no_default_key_mappings = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 let g:cpp_concepts_highlight = 1
-
-" vim-go
-let g:go_template_autocreate = 0
 
 " rainbow
 augroup rainbow_lisp
