@@ -616,6 +616,8 @@ imap <Leader>e <Plug>(neosnippet_expand_or_jump)
 smap <Leader>e <Plug>(neosnippet_expand_or_jump)
 xmap <Leader>e <Plug>(neosnippet_expand_target)
 let g:neosnippet#enable_snipmate_compatibility = 1
+" let g:neosnippet#enable_completed_snippet = 1
+" autocmd CompleteDone * call neosnippet#complete_done()
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
@@ -777,9 +779,11 @@ let g:echodoc#enable_at_startup = 1
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_yarp = 1
-let g:deoplete#enable_smart_case = 1
-let g:deoplete#auto_complete_start_length = 2
+call deoplete#custom#option({
+            \ 'auto_complete': v:true,
+            \ 'ignore_case': v:true,
+            \ 'smart_case': v:true,
+            \ })
 
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
@@ -799,34 +803,24 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-if !exists('g:deoplete#omni#input_patterns')
-    let g:deoplete#omni#input_patterns = {}
-endif
-let g:deoplete#omni#input_patterns.ruby = ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::']
-let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
-let g:deoplete#omni#input_patterns.javascript = '[^. *\t]\.\w*'
-let g:deoplete#omni#input_patterns.typescript = '[^. *\t]\.\w*|\h\w*:'
+call deoplete#custom#source('omni', 'input_patterns', {
+            \ 'ruby': ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::'],
+            \ 'java': '[^. *\t]\.\w*',
+            \ 'php': '\w+|[^. \t]->\w*|\w+::\w*',
+            \ 'javascript': '[^. *\t]\.\w*',
+            \ 'typescript': '[^. *\t]\.\w*|\h\w*:',
+            \ })
 
-if !exists('g:deoplete#omni_patterns')
-    let g:deoplete#omni_patterns = {}
-endif
-let g:deoplete#omni_patterns.php = '\w+|[^. \t]->\w*|\w+::\w*'
+call deoplete#custom#source('omni', 'function',{
+            \ 'php': [ 'phpcd#CompletePHP' ],
+            \ 'typescript': [ 'LanguageClient#complete', 'tsuquyomi#complete' ],
+            \ 'c': [ 'ClangComplete', 'LanguageClient#complete' ],
+            \ 'cpp': [ 'ClangComplete', 'LanguageClient#complete' ],
+            \ })
 
-if !exists('g:deoplete#omni#functions')
-	let g:deoplete#omni#functions = {}
-endif
-let g:deoplete#omni#functions.php = [ 'phpcd#CompletePHP' ]
-let g:deoplete#omni#functions.typescript = [ 'LanguageClient#complete', 'tsuquyomi#complete' ]
-let g:deoplete#omni#functions.c = [ 'ClangComplete', 'LanguageClient#complete' ]
-
-if !exists('g:deoplete#ignore_sources')
-    let g:deoplete#ignore_sources = {}
-endif
-
-if !exists('g:deoplete#keyword_patterns')
-    let g:deoplete#keyword_patterns = {}
-endif
-let g:deoplete#keyword_patterns.clojure = '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
+call deoplete#custom#option('keyword_patterns', {
+            \ 'clojure': '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
+            \ })
 " source rank
 call deoplete#custom#source('look', 'rank', 50)
 
@@ -849,41 +843,6 @@ let g:deoplete#sources#ternjs#filetypes = [
 " tern_for_vim
 let g:tern#command = ['tern']
 let g:tern#arguments = ['--persistent']
-
-
-" neocomplete
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-endif
-
-if !exists('g:neocomplete#sources#omni#functions')
-    let g:neocomplete#sources#omni#functions = {}
-endif
-
-"" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.php =
-            \ '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-let g:neocomplete#sources#omni#input_patterns.c =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
-let g:neocomplete#sources#omni#input_patterns.cpp =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
-let g:neocomplete#sources#omni#input_patterns.java = '\h\w*\.\w*'
-
-" perlomni
-let g:neocomplete#sources#omni#input_patterns.perl =
-	\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-
 
 " Enable omni completion.
 augroup omni_complete
@@ -913,30 +872,11 @@ let g:jedi#use_tabs_not_buffers = 1
 let g:jedi#use_splits_not_buffers = 'winwidth'
 let g:jedi#usages_command = '<Leader>nn'
 
-let g:neocomplete#force_omni_input_patterns.python =
-            \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-
-let g:neocomplete#force_omni_input_patterns.typescript = '[^. *\t]\.\w*\|\h\w*::'
-let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
-let g:neocomplete#force_omni_input_patterns.erlang = '\<[[:digit:][:alnum:]_-]\+:[[:digit:][:alnum:]_-]*'
-let g:neocomplete#force_omni_input_patterns.objcpp =
-            \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
 " lua
 let g:lua_check_syntax = 0
 let g:lua_complete_omni = 1
 let g:lua_complete_dynamic = 0
 let g:lua_define_completion_mappings = 0
-let g:neocomplete#sources#omni#functions.lua =
-	      \ 'xolox#lua#omnifunc'
-let g:neocomplete#sources#omni#input_patterns.lua =
-	      \ '\w\+[.:]\|require\s*(\?["'']\w*'
-
-
-if !exists('g:neocomplete#delimiter_patterns')
-    let g:neocomplete#delimiter_patterns= {}
-endif
-let g:neocomplete#delimiter_patterns.vim = ['#']
-let g:neocomplete#delimiter_patterns.cpp = ['::']
 
 " neoinclude
 if !exists('g:neoinclude#exts')
