@@ -10,16 +10,16 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add($HOME . '/.vim/dein/repos/github.com/Shougo/dein.vim')
 
     if !has('nvim')
-        " optional plugins for neovim
+        " optional plugins for vim
         call dein#add('roxma/nvim-yarp')
         call dein#add('roxma/vim-hug-neovim-rpc')
-        call dein#add('jodosha/vim-godebug', {'on_ft': 'go'})
-        call dein#add('mhartington/nvim-typescript', {'on_ft': 'typescript'})
-        call dein#add('fszymanski/fzf-gitignore')
-        call dein#add('kassio/neoterm')
-    else
-        " optional plugins for vim
         call dein#add('Quramy/tsuquyomi', {'for': 'typescript'})
+    else
+        " optional plugins for neovim
+        call dein#add('mhartington/nvim-typescript', {'on_ft': 'typescript'})
+        call dein#add('kassio/neoterm')
+        call dein#add('fszymanski/fzf-gitignore')
+        call dein#add('jodosha/vim-godebug', {'on_ft': 'go'})
     endif
     call dein#add('Shougo/vimproc.vim', {'build': 'make'})
     call dein#add('Shougo/deoplete.nvim')
@@ -783,7 +783,11 @@ call deoplete#custom#option({
             \ 'auto_complete': v:true,
             \ 'ignore_case': v:true,
             \ 'smart_case': v:true,
+            \ 'num_processes': 8,
             \ })
+if !has('nvim')
+    call deoplete#custom#option('yarp', v:true)
+endif
 
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
@@ -809,20 +813,28 @@ call deoplete#custom#source('omni', 'input_patterns', {
             \ 'php': '\w+|[^. \t]->\w*|\w+::\w*',
             \ 'javascript': '[^. *\t]\.\w*',
             \ 'typescript': '[^. *\t]\.\w*|\h\w*:',
+            \ 'css': '[^. *\t]\.\w*',
             \ })
 
 call deoplete#custom#source('omni', 'function',{
-            \ 'php': [ 'phpcd#CompletePHP' ],
             \ 'typescript': [ 'LanguageClient#complete', 'tsuquyomi#complete' ],
             \ 'c': [ 'ClangComplete', 'LanguageClient#complete' ],
             \ 'cpp': [ 'ClangComplete', 'LanguageClient#complete' ],
+            \ 'rust': [ 'racer#RacerComplete', 'LanguageClient#complete'],
+            \ 'php': [ 'phpcd#CompletePHP', 'phpactor#Complete', 'LanguageClient#complete' ],
             \ })
 
-call deoplete#custom#option('keyword_patterns', {
-            \ 'clojure': '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
-            \ })
+" call deoplete#custom#option('keyword_patterns', {
+"             \ 'clojure': '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
+"             \ })
 " source rank
-call deoplete#custom#source('look', 'rank', 50)
+call deoplete#custom#source('look', 'rank', 70)
+
+" deoplete debug
+" call deoplete#custom#option('profile', v:true)
+" call deoplete#enable_logging('DEBUG', '/tmp/deoplete.log')
+" call deoplete#custom#source('neosnippet', 'is_debug_enabled', 1)
+" call deoplete#enable_logging('WARNING', '/tmp/deoplete-neosnip.log')
 
 " deoplete-ternjs
 let g:deoplete#sources#ternjs#types = 1
