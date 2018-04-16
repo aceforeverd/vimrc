@@ -9,11 +9,20 @@ if dein#load_state($HOME . '/.vim/dein')
 
     call dein#add($HOME . '/.vim/dein/repos/github.com/Shougo/dein.vim')
 
-    call dein#add('roxma/nvim-yarp')
-    call dein#add('roxma/vim-hug-neovim-rpc')
-
+    if !has('nvim')
+        " optional plugins for neovim
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+        call dein#add('jodosha/vim-godebug', {'on_ft': 'go'})
+        call dein#add('mhartington/nvim-typescript', {'on_ft': 'typescript'})
+        call dein#add('fszymanski/fzf-gitignore')
+        call dein#add('kassio/neoterm')
+    else
+        " optional plugins for vim
+        call dein#add('Quramy/tsuquyomi', {'for': 'typescript'})
+    endif
     call dein#add('Shougo/vimproc.vim', {'build': 'make'})
-    call dein#add('Shougo/deoplete.nvim', {'depends': ['nvim-yarp', 'vim-hug-neovim-rpc']})
+    call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neoinclude.vim')
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/neco-syntax')
@@ -40,8 +49,8 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('tpope/vim-repeat')
     call dein#add('tpope/vim-haml')
     call dein#add('tpope/vim-bundler')
-    call dein#add('tpope/vim-rails')
-    call dein#add('tpope/vim-rake')
+    call dein#add('tpope/vim-rails', {'on_ft': 'ruby'})
+    call dein#add('tpope/vim-rake', {'on_ft': 'ruby'})
     call dein#add('tpope/vim-fireplace')
     call dein#add('tpope/vim-scriptease')
     call dein#add('tpope/vim-unimpaired')
@@ -75,6 +84,10 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('chrisbra/Colorizer')
     call dein#add('junegunn/rainbow_parentheses.vim')
 
+    call dein#add('osyo-manga/vim-anzu')
+    nmap n <Plug>(anzu-n-with-echo)
+    nmap N <Plug>(anzu-N-with-echo)
+
     " motion
     call dein#add('easymotion/vim-easymotion')
     call dein#add('rhysd/clever-f.vim')
@@ -88,7 +101,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('diepm/vim-rest-console')
     call dein#add('vim-utils/vim-man')
     call dein#add('jsfaint/gen_tags.vim')
-    call dein#add('tweekmonster/startuptime.vim', {'on_cmd': 'StartupTime'})
+    call dein#add('tweekmonster/startuptime.vim')
     call dein#add('mhinz/vim-sayonara')
 
     call dein#add('google/vimdoc')
@@ -175,7 +188,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('marijnh/tern_for_vim')
     call dein#add('carlitux/deoplete-ternjs')
     " Typescript
-    " call dein#add('mhartington/nvim-typescript', {'on_ft': 'typescript'})
     call dein#add('HerringtonDarkholme/yats.vim')
 
     call dein#add('mxw/vim-jsx')
@@ -316,12 +328,22 @@ endif
 call plug#begin('~/.vim-commons/pkgs')
 
 Plug 'rhysd/vim-grammarous'
+Plug 'vim-scripts/a.vim'
 
 Plug 'joereynolds/SQHell.vim'
 Plug 'sjl/splice.vim'
 Plug 'junegunn/vader.vim'
-Plug 'Quramy/tsuquyomi', {'for': 'typescript'}
-Plug 'google/vim-searchindex'
+
+if executable('composer')
+    Plug 'phpactor/phpactor', {
+                \ 'do': 'composer install',
+                \ 'for': 'php',
+                \ 'dir': $HOME . '/.phpactor',
+                \ }
+    Plug 'roxma/ncm-phpactor', {'for': 'php'}
+endif
+
+" Plug 'google/vim-searchindex'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'andreshazard/vim-logreview'
 Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
