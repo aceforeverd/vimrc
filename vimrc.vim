@@ -235,10 +235,6 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('tikhomirov/vim-glsl')
     " Php
     call dein#add('stanangeloff/php.vim')
-    call dein#add('lvht/phpcd.vim', {
-                \ 'build': 'composer install',
-                \ 'on_ft': 'php',
-                \ })
     " R
     call dein#add('jalvesaq/Nvim-R')
     " asm
@@ -340,30 +336,53 @@ if executable('composer')
                 \ 'for': 'php',
                 \ 'dir': $HOME . '/.phpactor',
                 \ }
-    Plug 'roxma/ncm-phpactor', {'for': 'php'}
+    augroup gp_phpactor
+        autocmd!
+        " Include use statement
+        autocmd FileType php nmap <Leader>pu :call phpactor#UseAdd()<CR>
+
+        " Invoke the context menu
+        autocmd FileType php nmap <Leader>pm :call phpactor#ContextMenu()<CR>
+
+        " Goto definition of class or class member under the cursor
+        autocmd FileType php nmap <c-]> :call phpactor#GotoDefinition()<CR>
+
+        " Transform the classes in the current file
+        autocmd FileType php nmap <Leader>pt :call phpactor#Transform()<CR>
+
+        " Generate a new class (replacing the current file)
+        autocmd FileType php nmap <Leader>pc :call phpactor#ClassNew()<CR>
+
+        " Extract method from selection
+        autocmd FileType php vmap <silent><Leader>pe :<C-U>call phpactor#ExtractMethod()<CR>
+    augroup END
+    " Plug 'roxma/ncm-phpactor', {'for': 'php'}
+    Plug 'roxma/LanguageServer-php-neovim', {
+                \ 'do': 'composer install && composer run-script parse-stubs',
+                \ 'for': 'php'
+                \ }
 endif
 
 " Plug 'google/vim-searchindex'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'andreshazard/vim-logreview'
 Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
-Plug 'beloglazov/vim-online-thesaurus', {'on': 'OnlineThesaurusCurrentWord'}
+Plug 'beloglazov/vim-online-thesaurus'
 Plug 'chrisbra/unicode.vim'
 Plug 'vim-scripts/Conque-GDB'
-Plug 'vimoutliner/vimoutliner'
 Plug 'tpope/vim-db'
 
-function! BuildComposer(info)
-  if a:info.status != 'unchanged' || a:info.force
-    if has('nvim')
-      !cargo build --release
-    else
-      !cargo build --release --no-default-features --features json-rpc
-    endif
-  endif
-endfunction
-
 if executable('cargo')
+    function! BuildComposer(info)
+        if a:info.status != 'unchanged' || a:info.force
+            if has('nvim')
+                !cargo build --release
+            else
+                !cargo build --release --no-default-features --features json-rpc
+            endif
+        endif
+    endfunction
+
     Plug 'autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
                 \ 'do': 'make release',
@@ -391,6 +410,7 @@ if executable('cargo')
                 \ 'python': ['pyls'],
                 \ 'dart': ['dart_language_server', '--force_trace_level=off'],
                 \ 'haskell': ['hie', '--lsp'],
+                \ 'sh': [ 'bash-language-server', 'start' ],
                 \ }
     nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
     nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
@@ -783,7 +803,6 @@ call deoplete#custom#option({
             \ 'auto_complete': v:true,
             \ 'ignore_case': v:true,
             \ 'smart_case': v:true,
-            \ 'num_processes': 8,
             \ })
 if !has('nvim')
     call deoplete#custom#option('yarp', v:true)
@@ -821,7 +840,7 @@ call deoplete#custom#source('omni', 'function',{
             \ 'c': [ 'ClangComplete', 'LanguageClient#complete' ],
             \ 'cpp': [ 'ClangComplete', 'LanguageClient#complete' ],
             \ 'rust': [ 'racer#RacerComplete', 'LanguageClient#complete'],
-            \ 'php': [ 'phpcd#CompletePHP', 'phpactor#Complete', 'LanguageClient#complete' ],
+            \ 'php': [ 'phpactor#Complete', 'LanguageClient#complete' ],
             \ })
 
 " call deoplete#custom#option('keyword_patterns', {
