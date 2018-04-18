@@ -1,13 +1,20 @@
 set nocompatible
 
-set runtimepath+=$HOME/.vim/dein/repos/github.com/Shougo/dein.vim
+if !has('nvim')
+    let g:dein_repo = $HOME . '/.vim/dein'
+else
+    let g:dein_repo = $HOME . '/.config/nvim/dein'
+endif
+
+let g:dein_path = g:dein_repo . '/repos/github.com/Shougo/dein.vim'
+let &runtimepath = &runtimepath . ',' . g:dein_path
 
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
-if dein#load_state($HOME . '/.vim/dein')
-    call dein#begin($HOME . '/.vim/dein')
+if dein#load_state(g:dein_repo)
+    call dein#begin(g:dein_repo)
 
-    call dein#add($HOME . '/.vim/dein/repos/github.com/Shougo/dein.vim')
+    call dein#add(g:dein_path)
 
     if !has('nvim')
         " optional plugins for vim
@@ -141,7 +148,6 @@ if dein#load_state($HOME . '/.vim/dein')
                 \ })
     call dein#add('junegunn/fzf.vim')
     call dein#add('haya14busa/incsearch.vim')
-    call dein#add('dyng/ctrlsf.vim')
 
     call dein#add('mbbill/undotree')
     call dein#add('haya14busa/dein-command.vim')
@@ -182,7 +188,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('octol/vim-cpp-enhanced-highlight')
     call dein#add('aceforeverd/clang_complete')
     " Javascripts...
-    call dein#add('pangloss/vim-javascript')
+    call dein#add('othree/yajs.vim')
     call dein#add('othree/javascript-libraries-syntax.vim')
     call dein#add('Quramy/vim-js-pretty-template')
     call dein#add('marijnh/tern_for_vim')
@@ -205,7 +211,7 @@ if dein#load_state($HOME . '/.vim/dein')
     call dein#add('othree/html5.vim')
     " vimL
     call dein#add('mhinz/vim-lookup')
-    augroup vim_lookup
+    augroup gp_lookup
         autocmd!
         autocmd FileType vim nnoremap <buffer><silent> <C-]> :call lookup#lookup()<CR>
     augroup END
@@ -666,9 +672,6 @@ augroup JsPreTmpl
     autocmd FileType typescript JsPreTmpl markdown
 augroup END
 
-" vim-javascript
-let g:javascript_plugin_jsdoc = 1
-
 " startify
 let g:startify_session_dir = '~/.vim/sessions/'
 "let g:startify_list_order = ['files', 'dir', 'bookmarks', 'sessions', 'commands']
@@ -889,6 +892,7 @@ augroup omni_complete
     autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
     " jedi
     autocmd FileType python setlocal omnifunc=jedi#completions
+    autocmd FileType php setlocal omnifunc=phpactor#Complete
 augroup END
 
 " clang_complete
