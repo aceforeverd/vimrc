@@ -5,10 +5,40 @@ set -o nounset                                  # Treat unset variables as an er
 GIT=$(command -v git)
 WGET=$(command -v wget)
 
-VIMPLUG=https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-VIMPLUG_PATH=$HOME/.vim/autoload
-DEIN_URL=https://github.com/Shougo/dein.vim.git
-DEIN_PATH=$HOME/.vim/dein/repos/github.com/Shougo/dein.vim
+function help() {
+    echo "$0 [options]"
+    echo -e "\\t-h | --help: get this message"
+    echo -e "\\tvim: install for vim"
+    echo -e "\\tneovim: install for neovim"
+}
+
+if [ $# -le 0 ]; then
+    help
+    exit 1
+fi
+
+case "$1" in
+    -h | --help)
+        help
+        exit 1
+        ;;
+    vim)
+        REPO=$HOME/.vim
+        ;;
+    neovim)
+        REPO=$HOME/.config/nvim
+        ;;
+    *)
+        echo "Didn't match anything"
+        help
+        exit 1
+esac
+
+
+VIMPLUG=https:/raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+VIMPLUG_PATH=$REPO/autoload
+DEIN_URL=https:/github.com/Shougo/dein.vim.git
+DEIN_PATH=$REPO/dein/repos/github.com/Shougo/dein
 VIMRC_PATH=$HOME/.vim_runtime
 VIMRC_URL=https://github.com/aceforeverd/vimrc.git
 
