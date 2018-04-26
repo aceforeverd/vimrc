@@ -7,6 +7,7 @@ WGET=$(command -v wget)
 
 function help() {
     echo "$0 [options]"
+    echo "options:"
     echo -e "\\t-h | --help: get this message"
     echo -e "\\tvim: install for vim"
     echo -e "\\tneovim: install for neovim"
@@ -17,6 +18,9 @@ if [ $# -le 0 ]; then
     exit 1
 fi
 
+REPO=
+VIMRC=
+
 case "$1" in
     -h | --help)
         help
@@ -24,9 +28,11 @@ case "$1" in
         ;;
     vim)
         REPO=$HOME/.vim
+        VIMRC=$HOME/.vimrc
         ;;
     neovim)
         REPO=$HOME/.config/nvim
+        VIMRC=$HOME/.config/nvim/init.vim
         ;;
     *)
         echo "Didn't match anything"
@@ -39,7 +45,7 @@ VIMPLUG=https:/raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 VIMPLUG_PATH=$REPO/autoload
 DEIN_URL=https:/github.com/Shougo/dein.vim.git
 DEIN_PATH=$REPO/dein/repos/github.com/Shougo/dein
-VIMRC_PATH=$HOME/.vim_runtime
+VIMRC_PATH=$REPO
 VIMRC_URL=https://github.com/aceforeverd/vimrc.git
 
 NOTFOUND=1
@@ -83,7 +89,7 @@ function install_dein {
 function install_vimrc {
     if [ ! -d "$VIMRC_PATH" ] ; then
         mkdir -p "$VIMRC_PATH"
-    else
+    elif [ $(ls -al "$VIMRC_PATH") ] ; then
         mv "$VIMRC_PATH" "${VIMRC_PATH}.old"
     fi
 
@@ -91,12 +97,12 @@ function install_vimrc {
         echo "installed vimrc at $VIMRC_PATH"
     echo ""
 
-    if [ -f "$HOME/.vimrc" ] ; then
-        mv "$HOME/.vimrc" "$HOME/.vimrc.old"
-        echo "moved your old vimrc file to $HOME/.vimrc.old"
+    if [ -f "$VIMRC" ] ; then
+        mv "$VIMRC" "$VIMRC.old"
+        echo "moved your old vimrc file to $VIMRC.old"
     fi
 
-    cp "$VIMRC_PATH/vimrc.vim" ~/.vimrc
+    cp "$VIMRC_PATH/vimrc.vim" "$VIMRC"
 
     echo "=================================================================================="
     echo "installing plugins from vim-plug ..."
