@@ -20,6 +20,7 @@ fi
 
 REPO=
 VIMRC=
+EDITOR=
 
 case "$1" in
     -h | --help)
@@ -29,10 +30,12 @@ case "$1" in
     vim)
         REPO=$HOME/.vim
         VIMRC=$HOME/.vimrc
+        EDITOR=vim
         ;;
     neovim)
         REPO=$HOME/.config/nvim
         VIMRC=$HOME/.config/nvim/init.vim
+        EDITOR=nvim
         ;;
     *)
         echo "Didn't match anything"
@@ -106,13 +109,13 @@ function install_vimrc {
 
     echo "=================================================================================="
     echo "installing plugins from vim-plug ..."
-    vim -c "PlugInstall | q | q" && \
+    "$EDITOR" -c "PlugInstall | q | q" && \
         echo "finished"
     echo -e "==================================================================================\n"
 
     echo "=================================================================================="
     echo "installing plugins from dein ..."
-    vim -c "call dein#install() | q" && \
+    "$EDITOR" -c "call dein#install() | q" && \
         echo "finished"
     echo -e "==================================================================================\n"
 
