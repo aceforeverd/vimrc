@@ -30,7 +30,10 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/neoinclude.vim'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'Raimondi/delimitMate'
+Plug 'alvan/vim-closetag'
 Plug 'mhinz/vim-startify'
+Plug 'airblade/vim-gitgutter'
+Plug 'vim-airline/vim-airline'
 
 Plug 'autozimu/LanguageClient-neovim', {
             \ 'branch': 'next',
