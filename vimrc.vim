@@ -118,6 +118,7 @@ set novisualbell
 set t_vb=
 set timeoutlen=500
 set updatetime=500
+colorscheme onedark
 
 if has('gui_macvim')
     autocmd GUIEnter * set vb t_vb=
