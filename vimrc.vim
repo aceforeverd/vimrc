@@ -2,8 +2,10 @@ set nocompatible
 
 if !has('nvim')
     let g:dein_repo = $HOME . '/.vim/dein'
+    let g:vimrc = $HOME . '/.vimrc'
 else
     let g:dein_repo = $HOME . '/.config/nvim/dein'
+    let g:vimrc = $HOME . '/.config/nvim/init.vim'
 endif
 
 let g:dein_path = g:dein_repo . '/repos/github.com/Shougo/dein.vim'
@@ -20,13 +22,18 @@ if dein#load_state(g:dein_repo)
         " optional plugins for vim
         call dein#add('roxma/nvim-yarp')
         call dein#add('roxma/vim-hug-neovim-rpc')
+
         call dein#add('Quramy/tsuquyomi', {'for': 'typescript'})
+        let g:tsuquyomi_completion_detail = 1
+        let g:tsuquyomi_single_quote_import = 1
     else
         " optional plugins for neovim
         call dein#add('mhartington/nvim-typescript', {'on_ft': 'typescript'})
         call dein#add('kassio/neoterm')
         call dein#add('fszymanski/fzf-gitignore')
         call dein#add('jodosha/vim-godebug', {'on_ft': 'go'})
+        " Repl
+        call dein#add('hkupty/iron.nvim')
     endif
     call dein#add('Shougo/vimproc.vim', {'build': 'make'})
     call dein#add('Shougo/deoplete.nvim')
@@ -92,8 +99,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('junegunn/rainbow_parentheses.vim')
 
     call dein#add('osyo-manga/vim-anzu')
-    nmap n <Plug>(anzu-n-with-echo)
-    nmap N <Plug>(anzu-N-with-echo)
 
     " motion
     call dein#add('easymotion/vim-easymotion')
@@ -110,6 +115,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('tweekmonster/startuptime.vim')
     call dein#add('mhinz/vim-sayonara')
+    call dein#add('justinmk/vim-gtfo')
 
     call dein#add('google/vimdoc')
     call dein#add('alpertuna/vim-header')
@@ -190,8 +196,9 @@ if dein#load_state(g:dein_repo)
     " Javascripts...
     call dein#add('othree/yajs.vim')
     call dein#add('othree/javascript-libraries-syntax.vim')
+    call dein#add('othree/es.next.syntax.vim', {'on_ft': 'javascript'})
     call dein#add('Quramy/vim-js-pretty-template')
-    call dein#add('marijnh/tern_for_vim')
+    call dein#add('ternjs/tern_for_vim')
     call dein#add('carlitux/deoplete-ternjs')
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
@@ -211,10 +218,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('othree/html5.vim')
     " vimL
     call dein#add('mhinz/vim-lookup')
-    augroup gp_lookup
-        autocmd!
-        autocmd FileType vim nnoremap <buffer><silent> <C-]> :call lookup#lookup()<CR>
-    augroup END
 
     call dein#add('tweekmonster/exception.vim')
     call dein#add('tweekmonster/helpful.vim')
@@ -245,6 +248,8 @@ if dein#load_state(g:dein_repo)
     call dein#add('jalvesaq/Nvim-R')
     " asm
     call dein#add('zchee/deoplete-asm')
+    " nginx
+    call dein#add('chr4/nginx.vim')
     " Rust
     call dein#add('rust-lang/rust.vim')
     call dein#add('racer-rust/vim-racer')
@@ -300,10 +305,13 @@ if dein#load_state(g:dein_repo)
     call dein#add('wlangstroth/vim-racket')
     " elm
     call dein#add('elmcast/elm-vim')
+    call dein#add('pbogut/deoplete-elm')
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
     call dein#add('guns/vim-clojure-static')
     call dein#add('guns/vim-sexp')
+    call dein#add('clojure-vim/async-clj-omni')
+    call dein#add('clojure-vim/vim-cider')
     " npm
     call dein#add('rhysd/npm-filetypes.vim')
     " gentoo
@@ -528,6 +536,11 @@ let g:lasttab = 1
 nnoremap <Leader>ts :exe "tabn ".g:lasttab<CR>
 autocmd TabLeave * let g:lasttab = tabpagenr()
 
+nnoremap <Leader>ec :execute 'edit' g:vimrc<CR>
+
+nmap n <Plug>(anzu-n-with-echo)
+nmap N <Plug>(anzu-N-with-echo)
+
 " Specify the behavior when switching between buffers
 try
     set switchbuf=useopen,usetab,newtab
@@ -579,7 +592,7 @@ elseif has('unix')
 endif
 
 try
-    set undodir=~/.vim/temp_dirs/undodir/
+    set undodir=$HOME/.vim/temp_dirs/undodir/
     set undofile
 catch
 endtry
@@ -722,7 +735,7 @@ augroup VIM_GO
     autocmd!
     autocmd FileType go nnoremap <c-]> :GoDef<CR>
 augroup END
-let g:go_template_autocreate = 0
+" let g:go_template_autocreate = 0
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -730,6 +743,7 @@ let g:airline#extensions#ale#enabled = 1
 let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline_theme='onedark'
+set statusline+=%{ObsessionStatus()}
 
 let g:markdown_composer_open_browser = 0
 
@@ -951,6 +965,7 @@ elseif $TERM=~'xterm-256color' || has('gui_running')
     let g:NERDTreePatternMatchHighlightFullName = 1
 
     let g:airline_powerline_fonts = 1
+    let g:powerline_pycmd = 'py3'
 
     let g:airline_theme = 'onedark'
 
@@ -1020,3 +1035,9 @@ let g:online_thesaurus_map_keys = 0
 if !executable('gtags')
     let g:loaded_gentags#gtags = 1
 endif
+
+" vim-lookup
+augroup gp_lookup
+    autocmd!
+    autocmd FileType vim nnoremap <buffer><silent> <C-]> :call lookup#lookup()<CR>
+augroup END
