@@ -270,8 +270,6 @@ imap <Leader>e <Plug>(neosnippet_expand_or_jump)
 smap <Leader>e <Plug>(neosnippet_expand_or_jump)
 xmap <Leader>e <Plug>(neosnippet_expand_target)
 let g:neosnippet#enable_snipmate_compatibility = 1
-" let g:neosnippet#enable_completed_snippet = 1
-" autocmd CompleteDone * call neosnippet#complete_done()
 
 "" see help delimitMateExpansion
 let g:delimitMate_expand_cr = 2
@@ -289,18 +287,9 @@ let g:closetag_emptyTags_caseSensitive = 1
 
 " startify
 let g:startify_session_dir = '~/.vim/sessions/'
-"let g:startify_list_order = ['files', 'dir', 'bookmarks', 'sessions', 'commands']
 let g:startify_update_oldfiles = 1
 let g:startify_session_autoload = 1
 let g:startify_session_persistence = 1
-let g:startify_skiplist = [
-      \ '/tmp',
-      \ '/usr/share/vim/vim80/doc',
-      \ '/usr/share/vim/vimfiles/doc',
-      \ '/usr/local/share/vim/vim80/doc',
-      \ '/usr/local/share/vim/vimfiles/doc',
-      \ $HOME . '/.vim/dein/.cache/.vimrc/.dein/doc'
-      \ ]
 let g:startify_fortune_use_unicode = 1
 let g:startify_session_sort = 1
 let g:startify_relative_path = 1
@@ -419,9 +408,6 @@ let g:neoinclude#paths.cpp = '.,'
             \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
             \ . '/usr/include/,,'
 
-
-" tcomment
-let g:tcommentMaps = 0
 
 inoremap <C-Space> <C-x><c-o>
 if !has('gui_running')
