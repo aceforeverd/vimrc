@@ -76,6 +76,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('tpope/vim-pathogen')
     call dein#add('tpope/vim-heroku')
     call dein#add('tpope/vim-obsession')
+    call dein#add('tpope/vim-db')
 
     " snippets
     call dein#add('honza/vim-snippets')
@@ -92,13 +93,15 @@ if dein#load_state(g:dein_repo)
     call dein#add('junegunn/vim-journal')
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('majutsushi/tagbar')
-    call dein#add('kshenoy/vim-signature')
     call dein#add('MattesGroeger/vim-bookmarks')
     call dein#add('wincent/terminus')
     call dein#add('chrisbra/Colorizer')
     call dein#add('junegunn/rainbow_parentheses.vim')
 
-    call dein#add('osyo-manga/vim-anzu')
+    " call dein#add('osyo-manga/vim-anzu')
+    " nmap n <Plug>(anzu-n-with-echo)
+    " nmap N <Plug>(anzu-N-with-echo)
+    call dein#add('google/vim-searchindex')
 
     " motion
     call dein#add('easymotion/vim-easymotion')
@@ -111,7 +114,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('will133/vim-dirdiff')
     call dein#add('itchyny/calendar.vim')
     call dein#add('diepm/vim-rest-console')
-    call dein#add('vim-utils/vim-man')
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('tweekmonster/startuptime.vim')
     call dein#add('mhinz/vim-sayonara')
@@ -343,6 +345,7 @@ Plug 'vim-scripts/a.vim'
 Plug 'joereynolds/SQHell.vim'
 Plug 'sjl/splice.vim'
 Plug 'junegunn/vader.vim'
+Plug 'vim-utils/vim-man'
 
 if executable('composer')
     Plug 'phpactor/phpactor', {
@@ -379,56 +382,56 @@ endif
 
 " Plug 'google/vim-searchindex'
 Plug 'vim-pandoc/vim-pandoc'
-Plug 'andreshazard/vim-logreview'
+" Plug 'andreshazard/vim-logreview'
 Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
 Plug 'beloglazov/vim-online-thesaurus'
 Plug 'chrisbra/unicode.vim'
 Plug 'vim-scripts/Conque-GDB'
-Plug 'tpope/vim-db'
+
+function! BuildComposer(info)
+    if a:info.status != 'unchanged' || a:info.force
+        if has('nvim')
+            !cargo build --release
+        else
+            !cargo build --release --no-default-features --features json-rpc
+        endif
+    endif
+endfunction
+
+Plug 'autozimu/LanguageClient-neovim', {
+            \ 'branch': 'next',
+            \ 'do': 'bash install.sh',
+            \ }
+let g:LanguageClient_autoStart = 0
+let g:LanguageClient_selectionUI = 'fzf'
+let g:LanguageClient_loadSettings = 1
+let g:LanguageClient_serverCommands = {
+            \ 'rust': ['rustup', 'run', 'beta', 'rls'],
+            \ 'typescript': ['javascript-typescript-stdio'],
+            \ 'javascript': ['javascript-typescript-sdtio'],
+            \ 'go': ['go-langserver'],
+            \ 'yaml': ['/usr/bin/node', $HOME . '/.npm_global/lib64/node_modules/yaml-language-server/out/server/src/server.js', '--stdio'],
+            \ 'css': ['css-language-server', '--stdio'],
+            \ 'sass': ['css-language-server', '--stdio'],
+            \ 'less': ['css-language-server', '--stdio'],
+            \ 'dockerfile': ['docker-langserver', '--stdio'],
+            \ 'reason': ['ocaml-language-server', '--stdio'],
+            \ 'ocaml': ['ocaml-language-server', '--stdio'],
+            \ 'vue': ['vls'],
+            \ 'lua': ['lua-lsp'],
+            \ 'ruby': ['language_server-ruby'],
+            \ 'c': ['clangd'],
+            \ 'cpp': ['cquery', '--language-server'],
+            \ 'python': ['pyls'],
+            \ 'dart': ['dart_language_server', '--force_trace_level=off'],
+            \ 'haskell': ['hie', '--lsp'],
+            \ 'sh': [ 'bash-language-server', 'start' ],
+            \ }
+nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 
 if executable('cargo')
-    function! BuildComposer(info)
-        if a:info.status != 'unchanged' || a:info.force
-            if has('nvim')
-                !cargo build --release
-            else
-                !cargo build --release --no-default-features --features json-rpc
-            endif
-        endif
-    endfunction
-
-    Plug 'autozimu/LanguageClient-neovim', {
-                \ 'branch': 'next',
-                \ 'do': 'make release',
-                \ }
-    let g:LanguageClient_autoStart = 0
-    let g:LanguageClient_selectionUI = 'fzf'
-    let g:LanguageClient_loadSettings = 1
-    let g:LanguageClient_serverCommands = {
-                \ 'rust': ['rustup', 'run', 'beta', 'rls'],
-                \ 'typescript': ['javascript-typescript-stdio'],
-                \ 'javascript': ['javascript-typescript-sdtio'],
-                \ 'go': ['go-langserver'],
-                \ 'yaml': ['/usr/bin/node', $HOME . '/.npm_global/lib64/node_modules/yaml-language-server/out/server/src/server.js', '--stdio'],
-                \ 'css': ['css-language-server', '--stdio'],
-                \ 'sass': ['css-language-server', '--stdio'],
-                \ 'less': ['css-language-server', '--stdio'],
-                \ 'dockerfile': ['docker-langserver', '--stdio'],
-                \ 'reason': ['ocaml-language-server', '--stdio'],
-                \ 'ocaml': ['ocaml-language-server', '--stdio'],
-                \ 'vue': ['vls'],
-                \ 'lua': ['lua-lsp'],
-                \ 'ruby': ['language_server-ruby'],
-                \ 'c': ['clangd'],
-                \ 'cpp': ['cquery', '--language-server'],
-                \ 'python': ['pyls'],
-                \ 'dart': ['dart_language_server', '--force_trace_level=off'],
-                \ 'haskell': ['hie', '--lsp'],
-                \ 'sh': [ 'bash-language-server', 'start' ],
-                \ }
-    nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
-    nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-    nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
     Plug 'euclio/vim-markdown-composer', {
                 \ 'do': function('BuildComposer'),
                 \ 'for': 'markdown',
@@ -537,9 +540,6 @@ nnoremap <Leader>ts :exe "tabn ".g:lasttab<CR>
 autocmd TabLeave * let g:lasttab = tabpagenr()
 
 nnoremap <Leader>ec :execute 'edit' g:vimrc<CR>
-
-nmap n <Plug>(anzu-n-with-echo)
-nmap N <Plug>(anzu-N-with-echo)
 
 " Specify the behavior when switching between buffers
 try
@@ -655,8 +655,6 @@ imap <Leader>e <Plug>(neosnippet_expand_or_jump)
 smap <Leader>e <Plug>(neosnippet_expand_or_jump)
 xmap <Leader>e <Plug>(neosnippet_expand_target)
 let g:neosnippet#enable_snipmate_compatibility = 1
-" let g:neosnippet#enable_completed_snippet = 1
-" autocmd CompleteDone * call neosnippet#complete_done()
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
@@ -675,9 +673,6 @@ augroup END
 let g:closetag_filenames = '*.html,*.xhtml,*.xml'
 let g:closetag_emptyTags_caseSensitive = 1
 
-" javascript-libraries-syntax
-let g:used_javascript_libs = 'jquery'
-
 " JS-pretty template
 augroup JsPreTmpl
     autocmd!
@@ -693,11 +688,9 @@ let g:startify_session_autoload = 1
 let g:startify_session_persistence = 1
 let g:startify_skiplist = [
       \ '/tmp',
-      \ '/usr/share/vim/vim80/doc',
       \ '/usr/share/vim/vimfiles/doc',
       \ '/usr/local/share/vim/vim80/doc',
       \ '/usr/local/share/vim/vimfiles/doc',
-      \ $HOME . '/.vim/dein/.cache/.vimrc/.dein/doc'
       \ ]
 let g:startify_fortune_use_unicode = 1
 let g:startify_session_sort = 1
@@ -743,37 +736,11 @@ let g:airline#extensions#ale#enabled = 1
 let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline_theme='onedark'
-set statusline+=%{ObsessionStatus()}
 
 let g:markdown_composer_open_browser = 0
 
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh']
-
-" vim-signature
-let g:SignatureMap = {
-        \ 'Leader'             :  '<Leader>m',
-        \ 'PlaceNextMark'      :  '<Leader>m,',
-        \ 'ToggleMarkAtLine'   :  '<Leader>m.',
-        \ 'PurgeMarksAtLine'   :  '<Leader>m-',
-        \ 'DeleteMark'         :  'dm',
-        \ 'PurgeMarks'         :  '<Leader>m<Space>',
-        \ 'PurgeMarkers'       :  '<Leader>m<BS>',
-        \ 'GotoNextLineAlpha'  :  '',
-        \ 'GotoPrevLineAlpha'  :  '',
-        \ 'GotoNextSpotAlpha'  :  '',
-        \ 'GotoPrevSpotAlpha'  :  '',
-        \ 'GotoNextLineByPos'  :  '',
-        \ 'GotoPrevLineByPos'  :  '',
-        \ 'GotoNextSpotByPos'  :  '',
-        \ 'GotoPrevSpotByPos'  :  '',
-        \ 'GotoNextMarker'     :  '',
-        \ 'GotoPrevMarker'     :  '',
-        \ 'GotoNextMarkerAny'  :  '',
-        \ 'GotoPrevMarkerAny'  :  '',
-        \ 'ListBufferMarks'    :  '',
-        \ 'ListBufferMarkers'  :  ''
-        \ }
 
 " incsearch.vim
 if !has('patch-8.0-1241')
@@ -960,10 +927,6 @@ let g:neoinclude#paths.cpp = '.,'
 if $TERM=~'linux'
     colorscheme torte
 elseif $TERM=~'xterm-256color' || has('gui_running')
-    let g:NERDTreeFileExtensionHighlightFullName = 1
-    let g:NERDTreeExactMatchHighlightFullName = 1
-    let g:NERDTreePatternMatchHighlightFullName = 1
-
     let g:airline_powerline_fonts = 1
     let g:powerline_pycmd = 'py3'
 
@@ -991,7 +954,7 @@ let g:sort_motion_lines = '<Leader>sml'
 let g:sort_motion_visual = '<Leader>sm'
 
 " tcomment
-let g:tcommentMaps = 0
+let g:tcomment_maps = 0
 
 inoremap <C-Space> <C-x><c-o>
 if !has('gui_running')
