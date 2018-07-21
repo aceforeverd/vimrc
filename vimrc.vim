@@ -1,5 +1,114 @@
 set nocompatible
 
+" pathogen
+" add plugins in ~/.vim/bundle
+" execute pathogen#infect('~/.vim/bundle/{}')
+
+" vim plug
+" ============================================================================================
+call plug#begin('~/.vim-commons/pkgs')
+
+Plug 'w0rp/ale'
+Plug 'rhysd/vim-grammarous'
+Plug 'vim-scripts/a.vim'
+
+Plug 'joereynolds/SQHell.vim'
+Plug 'sjl/splice.vim'
+Plug 'junegunn/vader.vim'
+" Plug 'vim-utils/vim-man'
+
+if executable('composer')
+    Plug 'phpactor/phpactor', {
+                \ 'do': 'composer install',
+                \ 'for': 'php',
+                \ 'dir': $HOME . '/.phpactor',
+                \ }
+    augroup gp_phpactor
+        autocmd!
+        " Include use statement
+        autocmd FileType php nmap <Leader>pu :call phpactor#UseAdd()<CR>
+
+        " Invoke the context menu
+        autocmd FileType php nmap <Leader>pm :call phpactor#ContextMenu()<CR>
+
+        " Goto definition of class or class member under the cursor
+        autocmd FileType php nmap <c-]> :call phpactor#GotoDefinition()<CR>
+
+        " Transform the classes in the current file
+        autocmd FileType php nmap <Leader>pt :call phpactor#Transform()<CR>
+
+        " Generate a new class (replacing the current file)
+        autocmd FileType php nmap <Leader>pc :call phpactor#ClassNew()<CR>
+
+        " Extract method from selection
+        autocmd FileType php vmap <silent><Leader>pe :<C-U>call phpactor#ExtractMethod()<CR>
+    augroup END
+    " Plug 'roxma/ncm-phpactor', {'for': 'php'}
+    Plug 'roxma/LanguageServer-php-neovim', {
+                \ 'do': 'composer install && composer run-script parse-stubs',
+                \ 'for': 'php'
+                \ }
+endif
+
+" Plug 'google/vim-searchindex'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
+Plug 'beloglazov/vim-online-thesaurus'
+Plug 'chrisbra/unicode.vim'
+Plug 'vim-scripts/Conque-GDB'
+
+function! BuildComposer(info)
+    if a:info.status != 'unchanged' || a:info.force
+        if has('nvim')
+            !cargo build --release
+        else
+            !cargo build --release --no-default-features --features json-rpc
+        endif
+    endif
+endfunction
+
+Plug 'autozimu/LanguageClient-neovim', {
+            \ 'branch': 'next',
+            \ 'do': 'bash install.sh',
+            \ }
+let g:LanguageClient_autoStart = 0
+let g:LanguageClient_selectionUI = 'fzf'
+let g:LanguageClient_loadSettings = 1
+let g:LanguageClient_serverCommands = {
+            \ 'rust': ['rustup', 'run', 'beta', 'rls'],
+            \ 'typescript': ['javascript-typescript-stdio'],
+            \ 'javascript': ['javascript-typescript-sdtio'],
+            \ 'go': ['go-langserver'],
+            \ 'yaml': ['/usr/bin/node', $HOME . '/.npm_global/lib64/node_modules/yaml-language-server/out/server/src/server.js', '--stdio'],
+            \ 'css': ['css-language-server', '--stdio'],
+            \ 'sass': ['css-language-server', '--stdio'],
+            \ 'less': ['css-language-server', '--stdio'],
+            \ 'dockerfile': ['docker-langserver', '--stdio'],
+            \ 'reason': ['ocaml-language-server', '--stdio'],
+            \ 'ocaml': ['ocaml-language-server', '--stdio'],
+            \ 'vue': ['vls'],
+            \ 'lua': ['lua-lsp'],
+            \ 'ruby': ['language_server-ruby'],
+            \ 'c': ['clangd'],
+            \ 'cpp': ['cquery', '--language-server'],
+            \ 'python': ['pyls'],
+            \ 'dart': ['dart_language_server', '--force_trace_level=off'],
+            \ 'haskell': ['hie', '--lsp'],
+            \ 'sh': [ 'bash-language-server', 'start' ],
+            \ }
+nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+
+if executable('cargo')
+    Plug 'euclio/vim-markdown-composer', {
+                \ 'do': function('BuildComposer'),
+                \ 'for': 'markdown',
+                \ }
+endif
+
+call plug#end()
+
 if !has('nvim')
     let g:dein_repo = $HOME . '/.vim/dein'
     let g:vimrc = $HOME . '/.vimrc'
@@ -28,7 +137,10 @@ if dein#load_state(g:dein_repo)
         let g:tsuquyomi_single_quote_import = 1
     else
         " optional plugins for neovim
-        call dein#add('mhartington/nvim-typescript', {'on_ft': 'typescript'})
+        call dein#add('mhartington/nvim-typescript', {
+                    \ 'on_ft': 'typescript',
+                    \ 'build': './install.sh',
+                    \ })
         call dein#add('kassio/neoterm')
         call dein#add('fszymanski/fzf-gitignore')
         call dein#add('jodosha/vim-godebug', {'on_ft': 'go'})
@@ -74,7 +186,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('tpope/vim-cucumber')
     call dein#add('tpope/vim-projectionist')
     call dein#add('tpope/vim-pathogen')
-    call dein#add('tpope/vim-heroku')
     call dein#add('tpope/vim-obsession')
     call dein#add('tpope/vim-db')
 
@@ -128,7 +239,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('junegunn/vim-easy-align')
     call dein#add('godlygeek/tabular')
     " debug/test
-    call dein#add('w0rp/ale')
     call dein#add('janko-m/vim-test')
     call dein#add('idanarye/vim-vebugger')
     call dein#add('thinca/vim-quickrun')
@@ -330,118 +440,6 @@ if dein#load_state(g:dein_repo)
     call dein#save_state()
 endif
 
-
-" pathogen
-" add plugins in ~/.vim/bundle
-" execute pathogen#infect('~/.vim/bundle/{}')
-
-" vim plug
-" ============================================================================================
-call plug#begin('~/.vim-commons/pkgs')
-
-Plug 'rhysd/vim-grammarous'
-Plug 'vim-scripts/a.vim'
-
-Plug 'joereynolds/SQHell.vim'
-Plug 'sjl/splice.vim'
-Plug 'junegunn/vader.vim'
-Plug 'vim-utils/vim-man'
-
-if executable('composer')
-    Plug 'phpactor/phpactor', {
-                \ 'do': 'composer install',
-                \ 'for': 'php',
-                \ 'dir': $HOME . '/.phpactor',
-                \ }
-    augroup gp_phpactor
-        autocmd!
-        " Include use statement
-        autocmd FileType php nmap <Leader>pu :call phpactor#UseAdd()<CR>
-
-        " Invoke the context menu
-        autocmd FileType php nmap <Leader>pm :call phpactor#ContextMenu()<CR>
-
-        " Goto definition of class or class member under the cursor
-        autocmd FileType php nmap <c-]> :call phpactor#GotoDefinition()<CR>
-
-        " Transform the classes in the current file
-        autocmd FileType php nmap <Leader>pt :call phpactor#Transform()<CR>
-
-        " Generate a new class (replacing the current file)
-        autocmd FileType php nmap <Leader>pc :call phpactor#ClassNew()<CR>
-
-        " Extract method from selection
-        autocmd FileType php vmap <silent><Leader>pe :<C-U>call phpactor#ExtractMethod()<CR>
-    augroup END
-    " Plug 'roxma/ncm-phpactor', {'for': 'php'}
-    Plug 'roxma/LanguageServer-php-neovim', {
-                \ 'do': 'composer install && composer run-script parse-stubs',
-                \ 'for': 'php'
-                \ }
-endif
-
-" Plug 'google/vim-searchindex'
-Plug 'vim-pandoc/vim-pandoc'
-" Plug 'andreshazard/vim-logreview'
-Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
-Plug 'beloglazov/vim-online-thesaurus'
-Plug 'chrisbra/unicode.vim'
-Plug 'vim-scripts/Conque-GDB'
-
-function! BuildComposer(info)
-    if a:info.status != 'unchanged' || a:info.force
-        if has('nvim')
-            !cargo build --release
-        else
-            !cargo build --release --no-default-features --features json-rpc
-        endif
-    endif
-endfunction
-
-Plug 'autozimu/LanguageClient-neovim', {
-            \ 'branch': 'next',
-            \ 'do': 'bash install.sh',
-            \ }
-let g:LanguageClient_autoStart = 0
-let g:LanguageClient_selectionUI = 'fzf'
-let g:LanguageClient_loadSettings = 1
-let g:LanguageClient_serverCommands = {
-            \ 'rust': ['rustup', 'run', 'beta', 'rls'],
-            \ 'typescript': ['javascript-typescript-stdio'],
-            \ 'javascript': ['javascript-typescript-sdtio'],
-            \ 'go': ['go-langserver'],
-            \ 'yaml': ['/usr/bin/node', $HOME . '/.npm_global/lib64/node_modules/yaml-language-server/out/server/src/server.js', '--stdio'],
-            \ 'css': ['css-language-server', '--stdio'],
-            \ 'sass': ['css-language-server', '--stdio'],
-            \ 'less': ['css-language-server', '--stdio'],
-            \ 'dockerfile': ['docker-langserver', '--stdio'],
-            \ 'reason': ['ocaml-language-server', '--stdio'],
-            \ 'ocaml': ['ocaml-language-server', '--stdio'],
-            \ 'vue': ['vls'],
-            \ 'lua': ['lua-lsp'],
-            \ 'ruby': ['language_server-ruby'],
-            \ 'c': ['clangd'],
-            \ 'cpp': ['cquery', '--language-server'],
-            \ 'python': ['pyls'],
-            \ 'dart': ['dart_language_server', '--force_trace_level=off'],
-            \ 'haskell': ['hie', '--lsp'],
-            \ 'sh': [ 'bash-language-server', 'start' ],
-            \ }
-nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-
-if executable('cargo')
-    Plug 'euclio/vim-markdown-composer', {
-                \ 'do': function('BuildComposer'),
-                \ 'for': 'markdown',
-                \ }
-endif
-Plug 'xolox/vim-misc', {'for': 'lua'}
-Plug 'xolox/vim-lua-ftplugin', {'for': 'lua'}
-Plug 'c9s/perlomni.vim', {'for': 'perl'}
-
-call plug#end()
 
 " =================== extra conf ============================= "
 
