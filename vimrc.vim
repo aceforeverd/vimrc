@@ -9,6 +9,7 @@ set nocompatible
 call plug#begin('~/.vim-commons/pkgs')
 
 Plug 'w0rp/ale'
+Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
 Plug 'vim-scripts/a.vim'
 
@@ -122,6 +123,9 @@ let &runtimepath = &runtimepath . ',' . g:dein_path
 
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
+
+let $NVIM_NODE_LOG_FILE = '/tmp/nvim-node.log'
+let $NVIM_NODE_LOG_LEVEL = '/tmp/warn'
 if dein#load_state(g:dein_repo)
     call dein#begin(g:dein_repo)
 
@@ -249,7 +253,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('junegunn/gv.vim')
     call dein#add('gregsexton/gitv')
     call dein#add('mattn/gist-vim')
-    call dein#add('airblade/vim-gitgutter')
     call dein#add('idanarye/vim-merginal')
     call dein#add('chrisbra/vim-diff-enhanced')
     call dein#add('rhysd/committia.vim')
@@ -308,6 +311,7 @@ if dein#load_state(g:dein_repo)
     " Javascripts...
     call dein#add('othree/yajs.vim')
     call dein#add('othree/javascript-libraries-syntax.vim')
+    let g:used_javascript_libs = 'react'
     call dein#add('othree/es.next.syntax.vim', {'on_ft': 'javascript'})
     call dein#add('Quramy/vim-js-pretty-template')
     call dein#add('ternjs/tern_for_vim')
