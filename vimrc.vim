@@ -12,11 +12,12 @@ Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
 Plug 'vim-scripts/a.vim'
-
+Plug 'idanarye/vim-vebugger'
+Plug 'tpope/vim-fugitive'
 Plug 'joereynolds/SQHell.vim'
 Plug 'sjl/splice.vim'
 Plug 'junegunn/vader.vim'
-" Plug 'vim-utils/vim-man'
+Plug 'vim-scripts/bash-support.vim'
 
 if executable('composer')
     Plug 'phpactor/phpactor', {
@@ -124,11 +125,10 @@ let &runtimepath = &runtimepath . ',' . g:dein_path
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
 
-let $NVIM_NODE_LOG_FILE = '/tmp/nvim-node.log'
-let $NVIM_NODE_LOG_LEVEL = '/tmp/warn'
+" let $NVIM_NODE_LOG_FILE = '/tmp/nvim-node.log'
+" let $NVIM_NODE_LOG_LEVEL = '/tmp/warn'
 if dein#load_state(g:dein_repo)
     call dein#begin(g:dein_repo)
-
     call dein#add(g:dein_path)
 
     if !has('nvim')
@@ -244,11 +244,9 @@ if dein#load_state(g:dein_repo)
     call dein#add('godlygeek/tabular')
     " debug/test
     call dein#add('janko-m/vim-test')
-    call dein#add('idanarye/vim-vebugger')
     call dein#add('thinca/vim-quickrun')
 
     " VCS
-    call dein#add('tpope/vim-fugitive')
     call dein#add('lambdalisue/gina.vim')
     call dein#add('junegunn/gv.vim')
     call dein#add('gregsexton/gitv')
@@ -1006,3 +1004,6 @@ augroup gp_lookup
     autocmd!
     autocmd FileType vim nnoremap <buffer><silent> <C-]> :call lookup#lookup()<CR>
 augroup END
+
+" gina
+let g:gina#command#blame#formatter#format = '%su%=by %au on %ti, %ma/%in'
