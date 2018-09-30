@@ -145,6 +145,7 @@ if dein#load_state(g:dein_repo)
                     \ 'on_ft': 'typescript',
                     \ 'build': './install.sh',
                     \ })
+
         call dein#add('kassio/neoterm')
         call dein#add('fszymanski/fzf-gitignore')
         call dein#add('jodosha/vim-godebug', {'on_ft': 'go'})
@@ -162,6 +163,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('Shougo/neomru.vim')
     call dein#add('Shougo/vimshell.vim')
     call dein#add('Shougo/vimfiler.vim')
+    call dein#add('Shougo/defx.nvim')
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
@@ -213,9 +215,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('chrisbra/Colorizer')
     call dein#add('junegunn/rainbow_parentheses.vim')
 
-    " call dein#add('osyo-manga/vim-anzu')
-    " nmap n <Plug>(anzu-n-with-echo)
-    " nmap N <Plug>(anzu-N-with-echo)
     call dein#add('google/vim-searchindex')
 
     " motion
@@ -689,7 +688,6 @@ let g:startify_session_persistence = 1
 let g:startify_skiplist = [
       \ '/tmp',
       \ '/usr/share/vim/vimfiles/doc',
-      \ '/usr/local/share/vim/vim80/doc',
       \ '/usr/local/share/vim/vimfiles/doc',
       \ ]
 let g:startify_fortune_use_unicode = 1
@@ -729,6 +727,13 @@ augroup VIM_GO
     autocmd FileType go nnoremap <c-]> :GoDef<CR>
 augroup END
 " let g:go_template_autocreate = 0
+
+if has('nvim')
+    augroup VIM_TYPESCRIPT
+        autocmd!
+        autocmd FileType typescript,typescript.tsx nnoremap <c-]> :TSDef<CR>
+    augroup END
+endif
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
