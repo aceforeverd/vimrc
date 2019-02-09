@@ -1,5 +1,7 @@
 #!/bin/bash -
+# File              : install.sh
 
+set -e
 set -o nounset                                  # Treat unset variables as an error
 
 GIT=$(command -v git)
@@ -32,7 +34,7 @@ case "$1" in
         VIMRC=$HOME/.vimrc
         EDITOR=vim
         ;;
-    neovim)
+    neovim | nvim)
         REPO=$HOME/.config/nvim
         VIMRC=$HOME/.config/nvim/init.vim
         EDITOR=nvim
@@ -52,6 +54,17 @@ VIMRC_PATH=$REPO
 VIMRC_URL=https://github.com/aceforeverd/vimrc.git
 
 NOTFOUND=1
+
+function check_editor {
+    case "$EDITOR" in
+        vim)
+            ;;
+        nvim | neovim)
+            ;;
+        *)
+            echo "$EDITOR Didn't match anything(vim/nvim)"
+    esac
+}
 
 function check_commands {
     if [ -z "$GIT" ] ; then

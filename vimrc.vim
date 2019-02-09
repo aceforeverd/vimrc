@@ -17,7 +17,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'joereynolds/SQHell.vim'
 Plug 'sjl/splice.vim'
 Plug 'junegunn/vader.vim'
-Plug 'vim-scripts/bash-support.vim'
 
 if executable('composer')
     Plug 'phpactor/phpactor', {
@@ -126,7 +125,8 @@ let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
 
 " let $NVIM_NODE_LOG_FILE = '/tmp/nvim-node.log'
-" let $NVIM_NODE_LOG_LEVEL = '/tmp/warn'
+" let $NVIM_NODE_LOG_LEVEL = 'info'
+
 if dein#load_state(g:dein_repo)
     call dein#begin(g:dein_repo)
     call dein#add(g:dein_path)
@@ -162,7 +162,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('Shougo/denite.nvim')
     call dein#add('Shougo/neomru.vim')
     call dein#add('Shougo/vimshell.vim')
-    call dein#add('Shougo/vimfiler.vim')
     call dein#add('Shougo/defx.nvim')
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/neoyank.vim')
@@ -675,8 +674,9 @@ let g:closetag_emptyTags_caseSensitive = 1
 " JS-pretty template
 augroup JsPreTmpl
     autocmd!
-    autocmd FileType javascript JsPreTmpl html
-    autocmd FileType typescript JsPreTmpl markdown
+    autocmd FileType javascript JsPreTmpl
+    autocmd FileType javascript.jsx JsPreTmpl
+    autocmd FileType typescript JsPreTmpl
 augroup END
 
 " startify
@@ -765,21 +765,21 @@ nmap ga <Plug>(EasyAlign)
 
 
 " vimfiler
-call vimfiler#set_execute_file('vim', ['vim', 'nvim'])
+" call vimfiler#set_execute_file('vim', ['vim', 'nvim'])
 
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_ignore_pattern = ['^\.', '\.o$']
-let g:vimfiler_tree_opened_icon = '▾'
-let g:vimfiler_tree_closed_icon = '▸'
-let g:vimfiler_marked_file_icon = '*'
-augroup vimfiler_group
-    autocmd!
-    autocmd FileType vimfiler setlocal cursorline
-augroup END
-call vimfiler#custom#profile('default', 'context', {
-            \ 'safe' : 0,
-            \ 'edit_action' : 'tabopen',
-            \ })
+" let g:vimfiler_as_default_explorer = 1
+" let g:vimfiler_ignore_pattern = ['^\.', '\.o$']
+" let g:vimfiler_tree_opened_icon = '▾'
+" let g:vimfiler_tree_closed_icon = '▸'
+" let g:vimfiler_marked_file_icon = '*'
+" augroup vimfiler_group
+"     autocmd!
+"     autocmd FileType vimfiler setlocal cursorline
+" augroup END
+" call vimfiler#custom#profile('default', 'context', {
+"             \ 'safe' : 0,
+"             \ 'edit_action' : 'tabopen',
+"             \ })
 
 
 set completeopt-=preview
@@ -929,25 +929,19 @@ let g:neoinclude#paths.cpp = '.,'
             \ . '/usr/include/,,'
 
 
+colorscheme one
+set background=dark
+set termguicolors
+
 if $TERM=~'linux'
     colorscheme torte
 elseif $TERM=~'xterm-256color' || has('gui_running')
     let g:airline_powerline_fonts = 1
     let g:powerline_pycmd = 'py3'
-
     let g:airline_theme = 'onedark'
-
-    colorscheme one
-
-    set termguicolors
-    set background=dark
-
 endif
 
 if !empty($TMUX)
-    set term=screen-256color
-    set notermguicolors
-    colorscheme onedark
     let g:airline_powerline_fonts = 1
 endif
 
