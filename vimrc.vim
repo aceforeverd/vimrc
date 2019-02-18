@@ -705,9 +705,15 @@ let g:ale_linters = {
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '⚠'
-let g:ale_sign_info = 'ℹ'
+if $TERM =~# 'linux'
+    let g:ale_sign_error = '>>'
+    let g:ale_sign_warning = '--'
+    let g:ale_sign_info = '!'
+else
+    let g:ale_sign_error = '✖'
+    let g:ale_sign_warning = '⚠'
+    let g:ale_sign_info = 'ℹ'
+endif
 nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
 
@@ -929,20 +935,22 @@ let g:neoinclude#paths.cpp = '.,'
             \ . '/usr/include/,,'
 
 
-colorscheme one
 set background=dark
-set termguicolors
+set notermguicolors
+colorscheme one-dark
 
-if $TERM=~'linux'
-    colorscheme torte
-elseif $TERM=~'xterm-256color' || has('gui_running')
+if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || has('gui_running')
+    " set up colorscheme
+    if has('nvim') || empty($TMUX)
+        " vim & tmux not work with termguicolors
+        set termguicolors
+        colorscheme one
+    endif
+
+    " enable powerline on those environments
     let g:airline_powerline_fonts = 1
     let g:powerline_pycmd = 'py3'
     let g:airline_theme = 'onedark'
-endif
-
-if !empty($TMUX)
-    let g:airline_powerline_fonts = 1
 endif
 
 highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
