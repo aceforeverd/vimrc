@@ -701,6 +701,7 @@ let g:gitgutter_max_signs = 1000
 let g:ale_linters = {
             \ 'go': ['go build', 'gofmt', 'go vet', 'golint', 'gotype'],
             \ 'rust': ['cargo', 'rls', 'rustc'],
+            \ 'python': ['flake8', 'mypy', 'pylint', 'pyls', 'autopep8', 'black', 'isort', 'yapf', 'pyre', 'bandit'],
             \ }
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
