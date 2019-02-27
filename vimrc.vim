@@ -51,12 +51,10 @@ if executable('composer')
                 \ }
 endif
 
-" Plug 'google/vim-searchindex'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
 Plug 'beloglazov/vim-online-thesaurus'
 Plug 'chrisbra/unicode.vim'
-Plug 'vim-scripts/Conque-GDB'
 
 function! BuildComposer(info)
     if a:info.status != 'unchanged' || a:info.force
@@ -895,10 +893,16 @@ let g:clang_complete_patterns = 1
 " jedi
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
-let g:jedi#smart_auto_mappings = 0
+let g:jedi#smart_auto_mappings = 1
 let g:jedi#use_tabs_not_buffers = 1
 let g:jedi#use_splits_not_buffers = 'winwidth'
+let g:jedi#completions_command = ''
 let g:jedi#usages_command = '<Leader>nn'
+let g:jedi#rename_command = '<Leader>r'
+let g:jedi#documentation_command = 'K'
+let g:jedi#goto_command = '<C-]>'
+let g:jedi#goto_assignments_command = '<Leader>ga'
+let g:jedi#goto_definitions_command = ''
 
 " lua
 let g:lua_check_syntax = 0
@@ -908,32 +912,32 @@ let g:lua_define_completion_mappings = 0
 
 " neoinclude
 if !exists('g:neoinclude#exts')
-    let g:neoinclude#exts = {}
+let g:neoinclude#exts = {}
 endif
 let g:neoinclude#exts.c = ['', 'h']
 let g:neoinclude#exts.cpp = ['', 'h', 'hpp', 'hxx']
 
 if !exists('g:neoinclude#paths')
-    let g:neoinclude#paths = {}
+let g:neoinclude#paths = {}
 endif
 
 let g:neoinclude#paths.c = '.,'
-            \ . '/usr/lib/gcc/*/*/include/,'
-            \ . '/usr/local/include/,'
-            \ . '/usr/lib/gcc/*/*/include-fixed/,'
-            \ . '/usr/include/,,'
+        \ . '/usr/lib/gcc/*/*/include/,'
+        \ . '/usr/local/include/,'
+        \ . '/usr/lib/gcc/*/*/include-fixed/,'
+        \ . '/usr/include/,,'
 
 let g:neoinclude#paths.cpp = '.,'
-            \ . '/usr/include/c++/*/,'
-            \ . '/usr/include/c++/*/*/,'
-            \ . '/usr/include/c++/*/backward/,'
-            \ . '/usr/local/include/,'
-            \ . '/usr/lib/gcc/*/*/include/,'
-            \ . '/usr/lib/gcc/*/*/include-fixed/,'
-            \ . '/usr/lib/gcc/*/*/include/g++-v*/,'
-            \ . '/usr/lib/gcc/*/*/include/g++-v*/backward,'
-            \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
-            \ . '/usr/include/,,'
+        \ . '/usr/include/c++/*/,'
+        \ . '/usr/include/c++/*/*/,'
+        \ . '/usr/include/c++/*/backward/,'
+        \ . '/usr/local/include/,'
+        \ . '/usr/lib/gcc/*/*/include/,'
+        \ . '/usr/lib/gcc/*/*/include-fixed/,'
+        \ . '/usr/lib/gcc/*/*/include/g++-v*/,'
+        \ . '/usr/lib/gcc/*/*/include/g++-v*/backward,'
+        \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
+        \ . '/usr/include/,,'
 
 
 set background=dark
@@ -941,17 +945,17 @@ set notermguicolors
 colorscheme one-dark
 
 if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || has('gui_running')
-    " set up colorscheme
-    if has('nvim') || empty($TMUX)
-        " vim & tmux not work with termguicolors
-        set termguicolors
-        colorscheme one
-    endif
+" set up colorscheme
+if has('nvim') || empty($TMUX)
+    " vim & tmux not work with termguicolors
+    set termguicolors
+    colorscheme one
+endif
 
-    " enable powerline on those environments
-    let g:airline_powerline_fonts = 1
-    let g:powerline_pycmd = 'py3'
-    let g:airline_theme = 'onedark'
+" enable powerline on those environments
+let g:airline_powerline_fonts = 1
+let g:powerline_pycmd = 'py3'
+let g:airline_theme = 'onedark'
 endif
 
 highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
