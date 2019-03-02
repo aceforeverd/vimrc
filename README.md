@@ -1,9 +1,9 @@
 # My vim configuration
 
 ### Installation
-simply run:
-
+    ```bash
     curl https://raw.githubusercontent.com/aceforeverd/vimrc/master/install.sh | bash
+    ```
 
 
 ### Note

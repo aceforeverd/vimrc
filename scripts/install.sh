@@ -1,50 +1,81 @@
 #!/bin/bash -
 # File              : install.sh
 
-set -e
+set -eE
 set -o nounset                                  # Treat unset variables as an error
 
 GIT=$(command -v git)
-WGET=$(command -v wget)
 
-function help() {
-    echo "$0 [options]"
-    echo "options:"
-    echo -e "\\t-h | --help: get this message"
-    echo -e "\\tvim: install for vim"
-    echo -e "\\tneovim: install for neovim"
-}
-
-if [ $# -le 0 ]; then
-    help
-    exit 1
-fi
-
+EDITOR=
 REPO=
 VIMRC=
-EDITOR=
 
-case "$1" in
-    -h | --help)
-        help
-        exit 1
-        ;;
-    vim)
-        REPO=$HOME/.vim
-        VIMRC=$HOME/.vimrc
-        EDITOR=vim
-        ;;
-    neovim | nvim)
-        REPO=$HOME/.config/nvim
-        VIMRC=$HOME/.config/nvim/init.vim
-        EDITOR=nvim
-        ;;
-    *)
-        echo "Didn't match anything"
-        help
-        exit 1
-esac
+__ScriptVersion="1.1"
 
+function check_editor {
+    case "$EDITOR" in
+        vim)
+            REPO=$HOME/.vim
+            VIMRC=$HOME/.vimrc
+            ;;
+        nvim | neovim)
+            REPO=$HOME/.config/nvim
+            VIMRC=$HOME/.config/nvim/init.vim
+            ;;
+        *)
+            echo "$EDITOR Didn't match anything(vim/nvim)"
+            exit 1
+    esac
+}
+
+#===  FUNCTION  ================================================================
+#         NAME:  usage
+#  DESCRIPTION:  Display usage information.
+#===============================================================================
+function usage ()
+{
+    echo "Usage :  $(basename "$0") [options] [--]
+
+    Options:
+    -h|help       Display this message
+    -v|version    Display script version
+    -f            install for vim/neovim"
+
+}    # ----------  end of function usage  ----------
+
+#-----------------------------------------------------------------------
+#  Handle command line arguments
+#-----------------------------------------------------------------------
+
+while getopts ":hvf:" opt
+do
+    case $opt in
+
+        h)
+            usage
+            exit 0
+            ;;
+
+        v)
+            echo "$0 -- Version $__ScriptVersion"
+            exit 0
+            ;;
+
+        f)
+            EDITOR=$OPTARG
+            check_editor
+            ;;
+
+
+        *)
+            echo -e "\n  Option does not exist : $OPTARG\n"
+            usage
+            exit 1
+            ;;
+
+    esac    # --- end of case ---
+done
+shift $((OPTIND-1))
 
 VIMPLUG=https:/raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 VIMPLUG_PATH=$REPO/autoload
@@ -55,25 +86,9 @@ VIMRC_URL=https://github.com/aceforeverd/vimrc.git
 
 NOTFOUND=1
 
-function check_editor {
-    case "$EDITOR" in
-        vim)
-            ;;
-        nvim | neovim)
-            ;;
-        *)
-            echo "$EDITOR Didn't match anything(vim/nvim)"
-    esac
-}
-
 function check_commands {
     if [ -z "$GIT" ] ; then
         echo 'git not found'
-        exit ${NOTFOUND}
-    fi
-
-    if [ -z "$WGET" ]; then
-        echo 'wget not found'
         exit ${NOTFOUND}
     fi
 }
@@ -82,11 +97,12 @@ function install_vim_plug {
     if [ ! -d "$VIMPLUG_PATH" ]; then
         mkdir -p "$VIMPLUG_PATH"
     elif [ -f "${VIMPLUG_PATH}/plug.vim" ] ; then
+        echo "Moving you old plug.vim as plug.vim.old"
         mv "${VIMPLUG_PATH}/plug.vim" "${VIMPLUG_PATH}/plug.vim.old"
     fi
 
-    "$WGET" "$VIMPLUG" -O "$VIMPLUG_PATH"/plug.vim && \
-        echo "vim plug installed at $VIMPLUG_PATH"
+    curl -fLo "$VIMPLUG_PATH"/plug.vim --create-dirs "$VIMPLUG" && \
+        echo "vim plug installed as $VIMPLUG_PATH/plug.vim"
     echo ""
 }
 
@@ -110,7 +126,7 @@ function install_vimrc {
     fi
 
     "$GIT" clone "$VIMRC_URL" "$VIMRC_PATH" && \
-        echo "installed vimrc at $VIMRC_PATH"
+        echo "cloned vimrc at $VIMRC_PATH"
     echo ""
 
     if [ -f "$VIMRC" ] ; then
