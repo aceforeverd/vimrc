@@ -15,7 +15,7 @@ cd "$(dirname "$0")"
 cd ..
 
 ROOT=$(pwd)
-DEIN_PATH=$ROOT/dein/repos/github.com/Shougo/dein
+DEIN_PATH=$ROOT/dein/repos/github.com/Shougo/dein.vim
 VIMPLUG_PATH=$ROOT/autoload
 DEIN_URL="https://github.com/Shougo/dein.vim.git"
 VIMPLUG="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
