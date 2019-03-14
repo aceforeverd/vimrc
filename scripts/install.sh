@@ -1,5 +1,6 @@
 #!/bin/bash -
 # File              : install.sh
+# script is deprecated
 
 set -eE
 set -o nounset                                  # Treat unset variables as an error
@@ -77,9 +78,9 @@ do
 done
 shift $((OPTIND-1))
 
-VIMPLUG=https:/raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+VIMPLUG=https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 VIMPLUG_PATH=$REPO/autoload
-DEIN_URL=https:/github.com/Shougo/dein.vim.git
+DEIN_URL=https://github.com/Shougo/dein.vim.git
 DEIN_PATH=$REPO/dein/repos/github.com/Shougo/dein
 VIMRC_PATH=$REPO
 VIMRC_URL=https://github.com/aceforeverd/vimrc.git

@@ -17,6 +17,12 @@ Plug 'tpope/vim-fugitive'
 Plug 'joereynolds/SQHell.vim'
 Plug 'sjl/splice.vim'
 Plug 'junegunn/vader.vim'
+Plug 'iamcco/markdown-preview.nvim', {
+            \ 'do': 'cd app & yarn install',
+            \ 'for': 'markdown'
+            \}
+Plug 'sakhnik/nvim-gdb'
+let g:nvimgdb_disable_start_keymaps = 1
 
 if executable('composer')
     Plug 'phpactor/phpactor', {
@@ -239,7 +245,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('junegunn/vim-easy-align')
     call dein#add('godlygeek/tabular')
     " debug/test
-    call dein#add('janko-m/vim-test')
+    call dein#add('janko/vim-test')
     call dein#add('thinca/vim-quickrun')
 
     " VCS
