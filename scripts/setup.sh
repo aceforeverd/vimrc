@@ -37,3 +37,9 @@ git clone "$DEIN_URL" "$DEIN_PATH" && \
 echo ""
 
 echo -e "\033[1;32mPlugin managers all setted"
+
+if [[ $ROOT = "$HOME/.conifg/nvim" ]] ; then
+    ln -s vimrc.vim init.vim
+elif [[ $ROOT = "$HOME/.vim" ]] ; then
+    ln -s vimrc.vim vimrc
+fi

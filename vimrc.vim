@@ -8,6 +8,7 @@ set nocompatible
 " ============================================================================================
 call plug#begin('~/.vim-commons/pkgs')
 
+" Plug 'ludovicchabant/vim-gutentags'
 Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
@@ -391,7 +392,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('wellle/tmux-complete.vim', {'on_if': 'exists("$TMUX")'})
     " Latex
     call dein#add('lervag/vimtex')
-    call dein#add('xuhdev/vim-latex-live-preview')
+    call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
     " Json
     call dein#add('elzr/vim-json')
     call dein#add('rodjek/vim-puppet')
@@ -753,6 +754,26 @@ let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline_theme='onedark'
 
+set background=dark
+set notermguicolors
+colorscheme one-dark
+
+if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color' || has('gui_running')
+    " set up colorscheme
+    if has('nvim') || empty($TMUX)
+        " vim & tmux not work with termguicolors
+        set termguicolors
+        colorscheme one
+    endif
+
+    " enable powerline on those environments
+    let g:airline_powerline_fonts = 1
+    let g:powerline_pycmd = 'py3'
+    let g:airline_theme = 'onedark'
+endif
+
+highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
+
 let g:markdown_composer_open_browser = 0
 
 " vim-markdown
@@ -945,26 +966,6 @@ let g:neoinclude#paths.cpp = '.,'
         \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
         \ . '/usr/include/,,'
 
-
-set background=dark
-set notermguicolors
-colorscheme one-dark
-
-if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || has('gui_running')
-" set up colorscheme
-if has('nvim') || empty($TMUX)
-    " vim & tmux not work with termguicolors
-    set termguicolors
-    colorscheme one
-endif
-
-" enable powerline on those environments
-let g:airline_powerline_fonts = 1
-let g:powerline_pycmd = 'py3'
-let g:airline_theme = 'onedark'
-endif
-
-highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
 
 " vim-sort-motion
 let g:sort_motion = '<Leader>sm'
