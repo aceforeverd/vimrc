@@ -84,7 +84,7 @@ let g:LanguageClient_serverCommands = {
             \ 'rust': ['rustup', 'run', 'beta', 'rls'],
             \ 'typescript': ['javascript-typescript-stdio'],
             \ 'javascript': ['javascript-typescript-sdtio'],
-            \ 'go': ['go-langserver'],
+            \ 'go': ['gopls'],
             \ 'yaml': ['/usr/bin/node', $HOME . '/.npm_global/lib64/node_modules/yaml-language-server/out/server/src/server.js', '--stdio'],
             \ 'css': ['css-language-server', '--stdio'],
             \ 'sass': ['css-language-server', '--stdio'],
@@ -302,7 +302,7 @@ if dein#load_state(g:dein_repo)
     " Languages
     " Go
     call dein#add('fatih/vim-go')
-    call dein#add('zchee/deoplete-go', {
+    call dein#add('deoplete-plugins/deoplete-go', {
                 \ 'build': 'make',
                 \ 'on_ft': 'go',
                 \ })
@@ -328,7 +328,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('eagletmt/neco-ghc')
     call dein#add('Twinside/vim-hoogle')
     " zsh
-    call dein#add('zchee/deoplete-zsh')
+    call dein#add('deoplete-plugins/deoplete-zsh')
     " fish
     call dein#add('dag/vim-fish')
     " Html
@@ -352,7 +352,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('othree/csscomplete.vim')
     " Python
     call dein#add('davidhalter/jedi-vim', {'on_ft': 'python'})
-    call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
+    call dein#add('deoplete-plugins/deoplete-jedi', {'on_ft': 'python'})
     call dein#add('alfredodeza/pytest.vim')
     " Markdown
     call dein#add('tyru/open-browser.vim')
@@ -364,7 +364,7 @@ if dein#load_state(g:dein_repo)
     " R
     call dein#add('jalvesaq/Nvim-R')
     " asm
-    call dein#add('zchee/deoplete-asm')
+    call dein#add('deoplete-plugins/deoplete-asm')
     " nginx
     call dein#add('chr4/nginx.vim')
     " Rust
@@ -704,7 +704,6 @@ let g:gitgutter_max_signs = 1000
 
 " Ale
 let g:ale_linters = {
-            \ 'go': ['go build', 'gofmt', 'go vet', 'golint', 'gotype'],
             \ 'rust': ['cargo', 'rls', 'rustc'],
             \ 'python': ['flake8', 'mypy', 'pylint', 'pyls', 'autopep8', 'black', 'isort', 'yapf', 'pyre', 'bandit'],
             \ }
@@ -737,8 +736,12 @@ augroup END
 augroup VIM_GO
     autocmd!
     autocmd FileType go nnoremap <c-]> :GoDef<CR>
+    autocmd FileType go call LanguageClient#startServer()
 augroup END
-" let g:go_template_autocreate = 0
+" deoplete-go
+let g:deoplete#sources#go#pointer = 1
+let g:deoplete#sources#go#builtin_objects = 1
+let g:deoplete#sources#go#unimported_packages = 1
 
 if has('nvim')
     augroup VIM_TYPESCRIPT
@@ -756,7 +759,7 @@ let g:airline_theme='onedark'
 
 set background=dark
 set notermguicolors
-colorscheme one-dark
+colorscheme one
 
 if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color' || has('gui_running')
     " set up colorscheme
@@ -794,25 +797,6 @@ let g:vimwiki_table_mappings = 0
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
-
-" vimfiler
-" call vimfiler#set_execute_file('vim', ['vim', 'nvim'])
-
-" let g:vimfiler_as_default_explorer = 1
-" let g:vimfiler_ignore_pattern = ['^\.', '\.o$']
-" let g:vimfiler_tree_opened_icon = '▾'
-" let g:vimfiler_tree_closed_icon = '▸'
-" let g:vimfiler_marked_file_icon = '*'
-" augroup vimfiler_group
-"     autocmd!
-"     autocmd FileType vimfiler setlocal cursorline
-" augroup END
-" call vimfiler#custom#profile('default', 'context', {
-"             \ 'safe' : 0,
-"             \ 'edit_action' : 'tabopen',
-"             \ })
-
 
 set completeopt-=preview
 " echodoc
@@ -868,7 +852,10 @@ call deoplete#custom#source('omni', 'function',{
 "             \ 'clojure': '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
 "             \ })
 " source rank
-call deoplete#custom#source('look', 'rank', 70)
+call deoplete#custom#source('look', {
+            \ 'rank': 70,
+            \ 'max_candidates': 10,
+            \ })
 
 " deoplete debug
 " call deoplete#custom#option('profile', v:true)
