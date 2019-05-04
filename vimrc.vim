@@ -918,6 +918,9 @@ let g:jedi#goto_command = '<C-]>'
 let g:jedi#goto_assignments_command = '<Leader>ga'
 let g:jedi#goto_definitions_command = ''
 
+let g:python_host_prog = '/usr/bin/python2'
+let g:python3_host_prog = '/usr/bin/python3'
+
 " lua
 let g:lua_check_syntax = 0
 let g:lua_complete_omni = 1
