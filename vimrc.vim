@@ -24,6 +24,8 @@ Plug 'iamcco/markdown-preview.nvim', {
             \}
 Plug 'sakhnik/nvim-gdb'
 let g:nvimgdb_disable_start_keymaps = 1
+Plug 'sheerun/vim-polyglot'
+let g:polyglot_disabled = ['javascript', 'typescript']
 
 if executable('composer')
     Plug 'phpactor/phpactor', {
@@ -758,16 +760,25 @@ let g:airline_detect_paste=1
 let g:airline_theme='onedark'
 
 set background=dark
-set notermguicolors
-colorscheme one
 
 if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color' || has('gui_running')
-    " set up colorscheme
-    if has('nvim') || empty($TMUX)
-        " vim & tmux not work with termguicolors
-        set termguicolors
-        colorscheme one
-    endif
+    "Credit joshdick
+    "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+    "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+    "(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+    " if empty($TMUX)
+        if has('nvim')
+            "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+            let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+        endif
+        "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+        "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+        "< https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+        if has('termguicolors')
+            set termguicolors
+        endif
+    " endif
+    colorscheme one
 
     " enable powerline on those environments
     let g:airline_powerline_fonts = 1
@@ -854,7 +865,7 @@ call deoplete#custom#source('omni', 'function',{
 " source rank
 call deoplete#custom#source('look', {
             \ 'rank': 70,
-            \ 'max_candidates': 10,
+            \ 'max_candidates': 15,
             \ })
 
 " deoplete debug
@@ -1016,3 +1027,5 @@ augroup END
 
 " gina
 let g:gina#command#blame#formatter#format = '%su%=by %au on %ti, %ma/%in'
+
+let g:livepreview_engine = 'xelatex'
