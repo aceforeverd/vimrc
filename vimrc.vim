@@ -177,7 +177,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('Shougo/neossh.vim')
     call dein#add('ujihisa/neco-look')
 
-    " tpope
     call dein#add('tpope/vim-endwise')
     call dein#add('tpope/vim-commentary')
     call dein#add('tpope/vim-surround')
@@ -201,6 +200,8 @@ if dein#load_state(g:dein_repo)
     call dein#add('tpope/vim-pathogen')
     call dein#add('tpope/vim-obsession')
     call dein#add('tpope/vim-db')
+
+    call dein#add('lambdalisue/suda.vim')
 
     " snippets
     call dein#add('honza/vim-snippets')
@@ -603,6 +604,10 @@ try
 catch
 endtry
 
+" suda.vim
+command! SudaWrite exe 'w suda://%'
+command! SudaRead  exe 'e suda://%'
+
 augroup filetype_changes
     autocmd!
     autocmd FileType verilog,verilog_systemverilog setlocal nosmartindent
@@ -951,7 +956,7 @@ call deoplete#custom#source('omni', 'function',{
 "             \ })
 " source rank
 call deoplete#custom#source('look', {
-            \ 'rank': 70,
+            \ 'rank': 40,
             \ 'max_candidates': 15,
             \ })
 
