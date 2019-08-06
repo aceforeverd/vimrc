@@ -175,6 +175,9 @@ if dein#load_state(g:dein_repo)
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
     call dein#add('Shougo/neossh.vim')
+    call dein#add('Shougo/deoplete-lsp')
+    call dein#add('Shougo/deol.nvim')
+
     call dein#add('ujihisa/neco-look')
 
     call dein#add('tpope/vim-endwise')
@@ -215,7 +218,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('rakr/vim-one')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('mhinz/vim-startify')
-    call dein#add('junegunn/vim-journal')
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('majutsushi/tagbar')
     call dein#add('MattesGroeger/vim-bookmarks')
@@ -829,7 +831,7 @@ function! s:defx_settings() abort
     " Define mappings
     nnoremap <silent><buffer><expr> <CR>
                 \ defx#do_action('open')
-    nnoremap <silent><buffer><expr> c
+    nnoremap <silent><buffer><expr> C
                 \ defx#do_action('copy')
     nnoremap <silent><buffer><expr> m
                 \ defx#do_action('move')
@@ -853,10 +855,10 @@ function! s:defx_settings() abort
                 \ defx#do_action('new_file')
     nnoremap <silent><buffer><expr> M
                 \ defx#do_action('new_multiple_files')
-    nnoremap <silent><buffer><expr> C
+    nnoremap <silent><buffer><expr> c
                 \ defx#do_action('toggle_columns',
                 \                'mark:indent:icon:icons:filename:type:size:time')
-    nnoremap <silent><buffer><expr> X
+    nnoremap <silent><buffer><expr> x
                 \ defx#do_action('toggle_columns',
                 \                'mark:indent:icon:filename:size:time')
     nnoremap <silent><buffer><expr> s
@@ -867,7 +869,7 @@ function! s:defx_settings() abort
                 \ defx#do_action('rename')
     nnoremap <silent><buffer><expr> !
                 \ defx#do_action('execute_command')
-    nnoremap <silent><buffer><expr> x
+    nnoremap <silent><buffer><expr> X
                 \ defx#do_action('execute_system')
     nnoremap <silent><buffer><expr> yy
                 \ defx#do_action('yank_path')
