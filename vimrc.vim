@@ -534,6 +534,19 @@ set autoindent "Auto indent
 set smartindent "Smart indent
 set wrap "Wrap lines
 
+" terminal mode mapping
+function! s:terminal_mapping() abort
+    tnoremap <M-[> <Esc>
+    tnoremap <Esc> <C-\><C-n>
+    tnoremap <C-w>j <C-\><C-n><C-w>j
+    tnoremap <C-w>k <C-\><C-n><C-w>k
+    tnoremap <C-w>l <C-\><C-n><C-w>l
+    tnoremap <C-w>h <C-\><C-n><C-w>h
+endfunction
+if has('nvim') || has('terminal')
+    call s:terminal_mapping()
+endif
+
 " map <silent> <leader><cr> :noh<cr>
 nnoremap <leader>tn :tabnew<cr>
 nnoremap <leader>to :tabonly<cr>
