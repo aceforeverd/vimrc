@@ -537,8 +537,6 @@ set wrap "Wrap lines
 
 " terminal mode mapping
 function! s:terminal_mapping() abort
-    tnoremap <M-[> <Esc>
-    tnoremap <Esc> <C-\><C-n>
     tnoremap <C-w>j <C-\><C-n><C-w>j
     tnoremap <C-w>k <C-\><C-n><C-w>k
     tnoremap <C-w>l <C-\><C-n><C-w>l
