@@ -26,6 +26,7 @@ Plug 'sakhnik/nvim-gdb'
 let g:nvimgdb_disable_start_keymaps = 1
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['javascript', 'typescript']
+let g:vim_json_syntax_conceal = 1
 
 if executable('composer')
     Plug 'phpactor/phpactor', {
