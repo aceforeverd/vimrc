@@ -936,12 +936,16 @@ endif
 inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> pumvisible() ? deoplete#smart_close_popup()."\<C-h>" :
             \ delimitMate#BS()
+inoremap <expr><C-g> deoplete#undo_completion()
+" <CR>: close popup and save indent.
+" inoremap <expr><CR> pumvisible() ? deoplete#close_popup()."\<CR>"
+"                 \ : "<Plug>delimiteMate"
 
 " Tab complete
 inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
             \ <SID>check_back_space() ? "\<TAB>" :
-            \ deoplete#mappings#manual_complete()
+            \ deoplete#manual_complete()
 inoremap <expr> <S-TAB>
             \ pumvisible() ? "\<C-p>" :
             \ "\<S-TAB>"
