@@ -1,0 +1,11 @@
+# copy this file into project root and rename .cquery
+# see https://github.com/cquery-project/cquery/wiki/.cquery
+%clang
+%c -std=gnu11
+%cpp -std=gnu++14
+-pthread
+
+# Includes
+-I/work/cquery/third_party
+-I/work/cquery/another_third_party
+# -I space_is_not_allowed
