@@ -67,7 +67,7 @@ Plug 'beloglazov/vim-online-thesaurus'
 Plug 'chrisbra/unicode.vim'
 
 function! BuildComposer(info)
-    if a:info.status != 'unchanged' || a:info.force
+    if a:info.status !=? 'unchanged' || a:info.force
         if has('nvim')
             !cargo build --release
         else
@@ -505,7 +505,7 @@ endif
 syntax enable
 
 " Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
+if $COLORTERM ==? 'gnome-terminal'
     set t_Co=256
 endif
 
@@ -558,7 +558,10 @@ nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 " swith to last active tab
 let g:lasttab = 1
 nnoremap <Leader>ts :exe "tabn ".g:lasttab<CR>
-autocmd TabLeave * let g:lasttab = tabpagenr()
+augroup tab_boy
+    autocmd!
+    autocmd TabLeave * let g:lasttab = tabpagenr()
+augroup END
 
 nnoremap <Leader>ec :execute 'edit' g:vimrc<CR>
 
@@ -572,7 +575,7 @@ endtry
 set laststatus=2
 
 " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
-if &term == 'xterm-256color' || &term == 'screen-256color'
+if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
     " when start insert mode - blinking vertical bar
     let &t_SI = "\<Esc>[5 q"
     " when end insert/replace mode(common) - blinking block
@@ -944,13 +947,13 @@ inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
             \ <SID>check_back_space() ? "\<TAB>" :
             \ deoplete#manual_complete()
-inoremap <expr> <S-TAB>
+inoremap <silent><expr> <S-TAB>
             \ pumvisible() ? "\<C-p>" :
             \ "\<S-TAB>"
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
+function! s:check_back_space() abort "{{{
+    let l:col = col('.') - 1
+    return !l:col || getline('.')[l:col - 1]  =~ '\s'
+endfunction "}}}
 
 call deoplete#custom#source('omni', 'input_patterns', {
             \ 'ruby': ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::'],
