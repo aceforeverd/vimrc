@@ -228,6 +228,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('junegunn/rainbow_parentheses.vim')
 
     call dein#add('google/vim-searchindex')
+    call dein#add('embear/vim-localvimrc')
 
     " motion
     call dein#add('easymotion/vim-easymotion')
@@ -1145,3 +1146,6 @@ augroup END
 let g:gina#command#blame#formatter#format = '%su%=by %au on %ti, %ma/%in'
 
 let g:livepreview_engine = 'xelatex'
+
+" localvimrc
+let g:localvimrc_name = [ '.lc.vim' ]
