@@ -9,7 +9,7 @@ set nocompatible
 call plug#begin('~/.vim-commons/pkgs')
 
 " Plug 'ludovicchabant/vim-gutentags'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
 Plug 'vim-scripts/a.vim'
@@ -98,8 +98,8 @@ let g:LanguageClient_serverCommands = {
             \ 'vue': ['vls'],
             \ 'lua': ['lua-lsp'],
             \ 'ruby': ['language_server-ruby'],
-            \ 'c': ['clangd'],
-            \ 'cpp': ['cquery', '--language-server'],
+            \ 'c': ['clangd', '-background-index'],
+            \ 'cpp': ['clangd', '-background-index'],
             \ 'python': ['pyls'],
             \ 'dart': ['dart_language_server', '--force_trace_level=off'],
             \ 'haskell': ['hie', '--lsp'],
@@ -189,7 +189,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('tpope/vim-rhubarb')
     call dein#add('tpope/tpope-vim-abolish')
     call dein#add('tpope/vim-repeat')
-    call dein#add('tpope/vim-haml')
     call dein#add('tpope/vim-bundler')
     call dein#add('tpope/vim-rails', {'on_ft': 'ruby'})
     call dein#add('tpope/vim-rake', {'on_ft': 'ruby'})
@@ -203,7 +202,8 @@ if dein#load_state(g:dein_repo)
     call dein#add('tpope/vim-projectionist')
     call dein#add('tpope/vim-pathogen')
     call dein#add('tpope/vim-obsession')
-    call dein#add('tpope/vim-db')
+    call dein#add('tpope/vim-tbone')
+    call dein#add('tpope/vim-dadbod')
 
     call dein#add('lambdalisue/suda.vim')
 
@@ -241,7 +241,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('diepm/vim-rest-console')
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('tweekmonster/startuptime.vim')
-    call dein#add('mhinz/vim-sayonara')
     call dein#add('justinmk/vim-gtfo')
 
     call dein#add('google/vimdoc')
@@ -362,7 +361,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('deoplete-plugins/deoplete-jedi', {'on_ft': 'python'})
     call dein#add('alfredodeza/pytest.vim')
     " Markdown
-    call dein#add('tyru/open-browser.vim')
     call dein#add('tpope/vim-markdown')
     " glsl
     call dein#add('tikhomirov/vim-glsl')
