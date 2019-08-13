@@ -9,6 +9,7 @@ set nocompatible
 call plug#begin('~/.vim-commons/pkgs')
 
 " Plug 'ludovicchabant/vim-gutentags'
+Plug 'aceforeverd/clang_complete'
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
@@ -314,7 +315,6 @@ if dein#load_state(g:dein_repo)
                 \ })
     " c/c++/objc
     call dein#add('octol/vim-cpp-enhanced-highlight')
-    call dein#add('aceforeverd/clang_complete')
     " Javascripts...
     call dein#add('othree/yajs.vim')
     call dein#add('othree/javascript-libraries-syntax.vim')
@@ -744,6 +744,10 @@ else
 endif
 nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
+augroup ALE_LPS
+    autocmd!
+    autocmd FileType c,cpp nnoremap <c-]> <Plug>(ale_go_to_definition)
+augroup END
 
 " vim-racer
 let g:racer_experimental_completer = 1
@@ -964,8 +968,8 @@ call deoplete#custom#source('omni', 'input_patterns', {
 
 call deoplete#custom#source('omni', 'function',{
             \ 'typescript': [ 'LanguageClient#complete', 'tsuquyomi#complete' ],
-            \ 'c': [ 'ClangComplete', 'LanguageClient#complete' ],
-            \ 'cpp': [ 'ClangComplete', 'LanguageClient#complete' ],
+            \ 'c': [ 'LanguageClient#complete' ],
+            \ 'cpp': [ 'LanguageClient#complete' ],
             \ 'rust': [ 'racer#RacerComplete', 'LanguageClient#complete'],
             \ 'php': [ 'phpactor#Complete', 'LanguageClient#complete' ],
             \ })
@@ -1023,6 +1027,7 @@ augroup omni_complete
 augroup END
 
 " clang_complete
+let g:clang_complete_loaded = 1
 let g:clang_complete_macros = 1
 let g:clang_complete_patterns = 1
 
