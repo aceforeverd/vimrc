@@ -6,7 +6,7 @@ set nocompatible
 
 " vim plug
 " ============================================================================================
-call plug#begin('~/.vim-commons/pkgs')
+call plug#begin('~/.vim-commons/pkgs') "{{{
 
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
@@ -15,7 +15,6 @@ Plug 'vim-scripts/a.vim'
 Plug 'idanarye/vim-vebugger'
 Plug 'tpope/vim-fugitive'
 Plug 'joereynolds/SQHell.vim'
-Plug 'sjl/splice.vim'
 Plug 'junegunn/vader.vim'
 Plug 'iamcco/markdown-preview.nvim', {
             \ 'do': 'cd app & yarn install',
@@ -121,7 +120,7 @@ Plug 'Konfekt/Fastfold'
 let g:fastfold_fold_command_suffixes = []
 let g:fastfold_fold_movement_commands = []
 
-call plug#end()
+call plug#end() "}}}
 
 if !has('nvim')
     let g:dein_repo = $HOME . '/.vim/dein'
@@ -249,6 +248,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('tweekmonster/startuptime.vim')
     call dein#add('justinmk/vim-gtfo')
+    " call dein#add('c0r73x/neotags.nvim', {'build': 'make'})
 
     call dein#add('google/vimdoc')
     call dein#add('alpertuna/vim-header')
@@ -343,6 +343,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('deoplete-plugins/deoplete-zsh')
     " fish
     call dein#add('dag/vim-fish')
+    call dein#add('ponko2/deoplete-fish')
     " Html
     call dein#add('othree/html5.vim')
     " vimL
@@ -383,12 +384,13 @@ if dein#load_state(g:dein_repo)
     call dein#add('racer-rust/vim-racer')
     " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
-    call dein#add('Shougo/deoplete-rct')
+    call dein#add('uplus/deoplete-solargraph', {'on_ft': 'ruby'})
     call dein#add('vim-perl/vim-perl', {
         \ 'rev': 'dev',
         \ 'build': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny'
         \ })
     call dein#add('vim-perl/vim-perl6')
+    call dein#add('c9s/perlomni.vim')
     " Salt
     call dein#add('saltstack/salt-vim')
     " Erlang
@@ -436,8 +438,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('pbogut/deoplete-elm')
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
-    call dein#add('guns/vim-clojure-static')
-    call dein#add('guns/vim-sexp')
     call dein#add('clojure-vim/async-clj-omni')
     call dein#add('clojure-vim/vim-cider')
     " npm
@@ -832,7 +832,7 @@ if !has('patch-8.0-1241')
 endif
 
 " vim-wiki
-let g:vimwiki_table_mappings = 0
+let g:vimwiki_key_mappings = { 'all_maps': 0, }
 
 " easy-align
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
