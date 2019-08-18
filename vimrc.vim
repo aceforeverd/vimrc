@@ -8,8 +8,6 @@ set nocompatible
 " ============================================================================================
 call plug#begin('~/.vim-commons/pkgs')
 
-" Plug 'ludovicchabant/vim-gutentags'
-Plug 'aceforeverd/clang_complete'
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
@@ -117,6 +115,12 @@ if executable('cargo')
                 \ }
 endif
 
+Plug 'neomake/neomake'
+Plug 'hardenedapple/vsh'
+Plug 'Konfekt/Fastfold'
+let g:fastfold_fold_command_suffixes = []
+let g:fastfold_fold_movement_commands = []
+
 call plug#end()
 
 if !has('nvim')
@@ -161,6 +165,7 @@ if dein#load_state(g:dein_repo)
         " Repl
         call dein#add('hkupty/iron.nvim')
     endif
+    call dein#add('wsdjeg/dein-ui.vim')
     call dein#add('Shougo/vimproc.vim', {'build': 'make'})
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neoinclude.vim')
@@ -969,8 +974,8 @@ call deoplete#custom#source('omni', 'input_patterns', {
 
 call deoplete#custom#source('omni', 'function',{
             \ 'typescript': [ 'LanguageClient#complete', 'tsuquyomi#complete' ],
-            \ 'c': [ 'LanguageClient#complete' ],
-            \ 'cpp': [ 'LanguageClient#complete' ],
+            \ 'c': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
+            \ 'cpp': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
             \ 'rust': [ 'racer#RacerComplete', 'LanguageClient#complete'],
             \ 'php': [ 'phpactor#Complete', 'LanguageClient#complete' ],
             \ })
@@ -983,12 +988,6 @@ call deoplete#custom#source('look', {
             \ 'rank': 40,
             \ 'max_candidates': 15,
             \ })
-
-" deoplete debug
-" call deoplete#custom#option('profile', v:true)
-" call deoplete#enable_logging('DEBUG', '/tmp/deoplete.log')
-" call deoplete#custom#source('neosnippet', 'is_debug_enabled', 1)
-" call deoplete#enable_logging('WARNING', '/tmp/deoplete-neosnip.log')
 
 " deoplete-ternjs
 let g:deoplete#sources#ternjs#types = 1
@@ -1026,11 +1025,6 @@ augroup omni_complete
     autocmd FileType python setlocal omnifunc=jedi#completions
     autocmd FileType php setlocal omnifunc=phpactor#Complete
 augroup END
-
-" clang_complete
-let g:clang_complete_loaded = 1
-let g:clang_complete_macros = 1
-let g:clang_complete_patterns = 1
 
 " jedi
 let g:jedi#completions_enabled = 0
@@ -1149,3 +1143,5 @@ let g:livepreview_engine = 'xelatex'
 
 " localvimrc
 let g:localvimrc_name = [ '.lc.vim' ]
+
+let g:better_whitespace_operator = ''
