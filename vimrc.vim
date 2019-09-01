@@ -78,9 +78,15 @@ Plug 'autozimu/LanguageClient-neovim', {
             \ 'branch': 'next',
             \ 'do': 'bash install.sh',
             \ }
+let s:ccls_settings = {
+            \ 'highlight': {'lsRanges': v:true},
+            \ }
+let s:ccls_command = ['ccls', '-lint=' . json_encode(s:ccls_settings)]
+let s:clangd_command = ['clangd', '-background-index']
+
 let g:LanguageClient_autoStart = 0
 let g:LanguageClient_selectionUI = 'fzf'
-let g:LanguageClient_loadSettings = 1
+let g:LanguageClient_loadSettings = 0
 let g:LanguageClient_serverCommands = {
             \ 'rust': ['rustup', 'run', 'beta', 'rls'],
             \ 'typescript': ['javascript-typescript-stdio'],
@@ -96,8 +102,8 @@ let g:LanguageClient_serverCommands = {
             \ 'vue': ['vls'],
             \ 'lua': ['lua-lsp'],
             \ 'ruby': ['language_server-ruby'],
-            \ 'c': ['clangd', '-background-index'],
-            \ 'cpp': ['clangd', '-background-index'],
+            \ 'c': s:clangd_command,
+            \ 'cpp': s:clangd_command,
             \ 'python': ['pyls'],
             \ 'dart': ['dart_language_server', '--force_trace_level=off'],
             \ 'haskell': ['hie', '--lsp'],
@@ -321,6 +327,8 @@ if dein#load_state(g:dein_repo)
                 \ })
     " c/c++/objc
     call dein#add('octol/vim-cpp-enhanced-highlight')
+    call dein#add('jackguo380/vim-lsp-cxx-highlight')
+    call dein#add('m-pilia/vim-ccls')
     " Javascripts...
     call dein#add('othree/yajs.vim')
     call dein#add('othree/javascript-libraries-syntax.vim')
@@ -732,7 +740,11 @@ let g:startify_relative_path = 1
 let g:gitgutter_max_signs = 1000
 
 " Ale
+let s:ale_c_lints = ['clang', 'cppcheck', 'clangtidy', 'flawfinder']
+let g:ale_disable_lsp = 1
 let g:ale_linters = {
+            \ 'c': s:ale_c_lints,
+            \ 'cpp': s:ale_c_lints,
             \ 'rust': ['cargo', 'rls', 'rustc'],
             \ 'python': ['flake8', 'mypy', 'pylint', 'pyls', 'autopep8', 'black', 'isort', 'yapf', 'pyre', 'bandit'],
             \ }
@@ -752,7 +764,7 @@ nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
 augroup ALE_LPS
     autocmd!
-    autocmd FileType c,cpp nnoremap <c-]> <Plug>(ale_go_to_definition)
+    " autocmd FileType c,cpp nnoremap <c-]> <Plug>(ale_go_to_definition)
 augroup END
 
 " vim-racer
@@ -963,7 +975,7 @@ function! s:check_back_space() abort "{{{
     return !l:col || getline('.')[l:col - 1]  =~ '\s'
 endfunction "}}}
 
-call deoplete#custom#source('omni', 'input_patterns', {
+call deoplete#custom#var('omni', 'input_patterns', {
             \ 'ruby': ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::'],
             \ 'java': '[^. *\t]\.\w*',
             \ 'php': '\w+|[^. \t]->\w*|\w+::\w*',
@@ -972,12 +984,16 @@ call deoplete#custom#source('omni', 'input_patterns', {
             \ 'css': '[^. *\t]\.\w*',
             \ })
 
-call deoplete#custom#source('omni', 'function',{
+call deoplete#custom#var('omni', 'function',{
             \ 'typescript': [ 'LanguageClient#complete', 'tsuquyomi#complete' ],
             \ 'c': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
             \ 'cpp': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
             \ 'rust': [ 'racer#RacerComplete', 'LanguageClient#complete'],
             \ 'php': [ 'phpactor#Complete', 'LanguageClient#complete' ],
+            \ })
+
+call deoplete#custom#option('ignore_sources', {
+            \ '_': ['ale']
             \ })
 
 " call deoplete#custom#option('keyword_patterns', {
@@ -1145,3 +1161,5 @@ let g:livepreview_engine = 'xelatex'
 let g:localvimrc_name = [ '.lc.vim' ]
 
 let g:better_whitespace_operator = ''
+
+let g:yggdrasil_no_default_maps = 1
