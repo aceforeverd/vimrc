@@ -117,6 +117,11 @@ let g:LanguageClient_serverCommands = {
 nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+augroup gp_languageclent
+    autocmd!
+    autocmd FileType c,cpp,objc call LanguageClient#startServer()
+    autocmd FileType go call LanguageClient#startServer()
+augroup END
 
 if executable('cargo')
     Plug 'euclio/vim-markdown-composer', {
@@ -338,15 +343,13 @@ if dein#load_state(g:dein_repo)
     call dein#add('othree/yajs.vim')
     call dein#add('othree/javascript-libraries-syntax.vim')
     let g:used_javascript_libs = 'react'
-    call dein#add('othree/es.next.syntax.vim', {'on_ft': 'javascript'})
     call dein#add('Quramy/vim-js-pretty-template')
     call dein#add('ternjs/tern_for_vim')
     call dein#add('carlitux/deoplete-ternjs')
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
 
-    call dein#add('mxw/vim-jsx')
-    call dein#add('kchmck/vim-coffee-script')
+    call dein#add('MaxMEllon/vim-jsx-pretty')
     call dein#add('posva/vim-vue')
     " Haskell
     call dein#add('neovimhaskell/haskell-vim')
@@ -745,7 +748,7 @@ let g:startify_relative_path = 1
 let g:gitgutter_max_signs = 1000
 
 " Ale
-let s:ale_c_lints = ['clang', 'cppcheck', 'clangtidy', 'flawfinder']
+let s:ale_c_lints = ['cppcheck', 'clangtidy', 'flawfinder', 'clang-format']
 let g:ale_disable_lsp = 1
 let g:ale_linters = {
             \ 'c': s:ale_c_lints,
@@ -786,7 +789,6 @@ augroup END
 augroup VIM_GO
     autocmd!
     autocmd FileType go nnoremap <c-]> :GoDef<CR>
-    autocmd FileType go call LanguageClient#startServer()
 augroup END
 " deoplete-go
 let g:deoplete#sources#go#pointer = 1
