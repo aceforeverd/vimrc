@@ -81,7 +81,12 @@ Plug 'autozimu/LanguageClient-neovim', {
 let s:ccls_settings = {
             \ 'highlight': {'lsRanges': v:true},
             \ }
+let s:cquery_settings = {
+                     \ 'emitInactiveRegions': v:true,
+                     \ 'highlight': { 'enabled' : v:true},
+                     \ }
 let s:ccls_command = ['ccls', '-lint=' . json_encode(s:ccls_settings)]
+let s:cquery_command = ['cquery', '-lint=' . json_encode(s:cquery_settings)]
 let s:clangd_command = ['clangd', '-background-index']
 
 let g:LanguageClient_autoStart = 0
