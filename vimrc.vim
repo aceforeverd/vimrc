@@ -11,19 +11,17 @@ call plug#begin('~/.vim-commons/pkgs') "{{{
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
-Plug 'vim-scripts/a.vim'
 Plug 'idanarye/vim-vebugger'
+Plug 'bergercookie/vim-debugstring'
 Plug 'tpope/vim-fugitive'
 Plug 'joereynolds/SQHell.vim'
 Plug 'junegunn/vader.vim'
+Plug 'm-pilia/vim-ccls'
 Plug 'iamcco/markdown-preview.nvim', {
             \ 'do': 'cd app & yarn install',
             \ 'for': 'markdown'
             \}
-Plug 'sakhnik/nvim-gdb'
-let g:nvimgdb_disable_start_keymaps = 1
 Plug 'sheerun/vim-polyglot'
-let g:polyglot_disabled = ['javascript', 'typescript']
 let g:vim_json_syntax_conceal = 1
 
 if executable('composer')
@@ -60,6 +58,8 @@ if executable('composer')
 endif
 
 Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+let g:pandoc#filetypes#pandoc_markdown = 0
 Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
 Plug 'beloglazov/vim-online-thesaurus'
 Plug 'chrisbra/unicode.vim'
@@ -338,7 +338,8 @@ if dein#load_state(g:dein_repo)
     " c/c++/objc
     call dein#add('octol/vim-cpp-enhanced-highlight')
     call dein#add('jackguo380/vim-lsp-cxx-highlight')
-    call dein#add('m-pilia/vim-ccls')
+    call dein#add('nacitar/a.vim')
+    call dein#add('sakhnik/nvim-gdb')
     " Javascripts...
     call dein#add('othree/yajs.vim')
     call dein#add('othree/javascript-libraries-syntax.vim')
@@ -1139,9 +1140,6 @@ let g:quickrun_no_default_key_mappings = 1
 " tmux-complete
 let g:tmuxcomplete#trigger = ''
 
-" vim-pandoc
-let g:pandoc#filetypes#pandoc_markdown = 0
-
 " elm-vim
 let g:elm_setup_keybindings = 0
 
@@ -1170,3 +1168,5 @@ let g:localvimrc_name = [ '.lc.vim' ]
 let g:better_whitespace_operator = ''
 
 let g:yggdrasil_no_default_maps = 1
+
+let g:nvimgdb_disable_start_keymaps = 1
