@@ -253,6 +253,7 @@ if dein#load_state(g:dein_repo)
     " motion
     call dein#add('easymotion/vim-easymotion')
     call dein#add('rhysd/clever-f.vim')
+    call dein#add('justinmk/vim-sneak')
     " Tools
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('mattn/emmet-vim')
@@ -263,7 +264,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('diepm/vim-rest-console')
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('tweekmonster/startuptime.vim')
-    call dein#add('justinmk/vim-gtfo')
     " call dein#add('c0r73x/neotags.nvim', {'build': 'make'})
 
     call dein#add('google/vimdoc')
@@ -320,7 +320,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('kana/vim-textobj-user')
     call dein#add('tommcdo/vim-exchange')
     call dein#add('matze/vim-move')
-    call dein#add('christoomey/vim-sort-motion')
     call dein#add('AndrewRadev/switch.vim')
     call dein#add('AndrewRadev/splitjoin.vim')
     call dein#add('AndrewRadev/sideways.vim')
@@ -1102,11 +1101,9 @@ let g:neoinclude#paths.cpp = '.,'
         \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
         \ . '/usr/include/,,'
 
-
-" vim-sort-motion
-let g:sort_motion = '<Leader>sm'
-let g:sort_motion_lines = '<Leader>sml'
-let g:sort_motion_visual = '<Leader>sm'
+" vim-sneak
+map <Leader>s <Plug>Sneak_s
+map <Leader>S <Plug>Sneak_S
 
 " tcomment
 let g:tcomment_maps = 0
