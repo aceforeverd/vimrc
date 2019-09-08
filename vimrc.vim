@@ -198,6 +198,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('Shougo/neossh.vim')
     call dein#add('Shougo/deoplete-lsp')
     call dein#add('Shougo/deol.nvim')
+    call dein#add('Shougo/deoplete-terminal')
 
     call dein#add('neoclide/denite-extra')
     call dein#add('neoclide/denite-git')
@@ -1082,6 +1083,7 @@ call deoplete#custom#var('omni', 'function',{
             \ 'rust': [ 'racer#RacerComplete', 'LanguageClient#complete'],
             \ 'php': [ 'phpactor#Complete', 'LanguageClient#complete' ],
             \ })
+call deoplete#custom#var('terminal', 'require_same_tab', v:false)
 
 call deoplete#custom#option('ignore_sources', {
             \ '_': ['ale']
