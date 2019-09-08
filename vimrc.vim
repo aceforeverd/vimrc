@@ -199,6 +199,11 @@ if dein#load_state(g:dein_repo)
     call dein#add('Shougo/deoplete-lsp')
     call dein#add('Shougo/deol.nvim')
 
+    call dein#add('neoclide/denite-extra')
+    call dein#add('neoclide/denite-git')
+    call dein#add('neoclide/todoapp.vim')
+    call dein#add('ozelentok/denite-gtags')
+
     call dein#add('ujihisa/neco-look')
 
     call dein#add('tpope/vim-endwise')
@@ -859,7 +864,6 @@ vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " denite
-
 augroup gp_denite
     autocmd!
 	autocmd FileType denite call s:denite_settings()
