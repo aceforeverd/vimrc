@@ -61,7 +61,6 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc#filetypes#pandoc_markdown = 0
 Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
-Plug 'beloglazov/vim-online-thesaurus'
 Plug 'chrisbra/unicode.vim'
 
 function! BuildComposer(info)
@@ -180,8 +179,6 @@ if dein#load_state(g:dein_repo)
         " Repl
         call dein#add('hkupty/iron.nvim')
     endif
-    call dein#add('wsdjeg/dein-ui.vim')
-    call dein#add('Shougo/vimproc.vim', {'build': 'make'})
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neoinclude.vim')
     call dein#add('Shougo/context_filetype.vim')
@@ -195,7 +192,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
-    call dein#add('Shougo/neossh.vim')
     call dein#add('Shougo/deoplete-lsp')
     call dein#add('Shougo/deol.nvim')
     call dein#add('Shougo/deoplete-terminal')
