@@ -8,6 +8,8 @@ set nocompatible
 " ============================================================================================
 call plug#begin('~/.vim-commons/pkgs') "{{{
 
+" Plug 'luochen1990/rainbow'
+Plug 'mechatroner/rainbow_csv'
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
@@ -15,7 +17,7 @@ Plug 'idanarye/vim-vebugger'
 Plug 'bergercookie/vim-debugstring'
 Plug 'tpope/vim-fugitive'
 Plug 'joereynolds/SQHell.vim'
-Plug 'junegunn/vader.vim'
+" Plug 'junegunn/vader.vim'
 Plug 'm-pilia/vim-ccls'
 Plug 'iamcco/markdown-preview.nvim', {
             \ 'do': 'cd app & yarn install',
@@ -130,7 +132,6 @@ if executable('cargo')
 endif
 
 Plug 'neomake/neomake'
-Plug 'hardenedapple/vsh'
 Plug 'Konfekt/Fastfold'
 let g:fastfold_fold_command_suffixes = []
 let g:fastfold_fold_movement_commands = []
@@ -305,7 +306,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('haya14busa/dein-command.vim')
     call dein#add('jamessan/vim-gnupg')
     call dein#add('jceb/vim-orgmode')
-    call dein#add('vimwiki/vimwiki')
+    " call dein#add('vimwiki/vimwiki')
 
     " comment
     call dein#add('tomtom/tcomment_vim')
@@ -406,7 +407,6 @@ if dein#load_state(g:dein_repo)
         \ 'rev': 'dev',
         \ 'build': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny'
         \ })
-    call dein#add('vim-perl/vim-perl6')
     call dein#add('c9s/perlomni.vim')
     " Salt
     call dein#add('saltstack/salt-vim')
@@ -436,13 +436,9 @@ if dein#load_state(g:dein_repo)
 
     call dein#add('jparise/vim-graphql')
     call dein#add('PotatoesMaster/i3-vim-syntax')
-    call dein#add('tpope/vim-liquid')
-    call dein#add('arrufat/vala.vim')
     call dein#add('cespare/vim-toml')
     call dein#add('solarnz/thrift.vim')
     call dein#add('hashivim/vim-terraform')
-    call dein#add('uarun/vim-protobuf')
-    call dein#add('lumiliet/vim-twig')
     call dein#add('matt-deacalion/vim-systemd-syntax')
     " YAML playbooks, Jinja2 templates, and Ansible's hosts files.
     call dein#add('pearofducks/ansible-vim')
@@ -573,7 +569,9 @@ nnoremap <leader>to :tabonly<cr>
 nnoremap <leader>tc :tabclose<cr>
 nnoremap <leader>tm :tabmove<cr>
 nnoremap <leader>tl :tabnext<cr>
+nnoremap ]v :tabnext<cr>
 nnoremap <leader>th :tabprevious<cr>
+nnoremap [v :tabprevious<cr>
 nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " swith to last active tab
@@ -825,7 +823,7 @@ if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color
         "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
         "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
         "< https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-        if has('termguicolors')
+        if has('termguicolors') && (has('nvim') || empty($TMUX))
             set termguicolors
         endif
     " endif
