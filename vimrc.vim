@@ -1,15 +1,32 @@
 set nocompatible
 
+let s:custom_vimrc = $HOME . '/.vim/custom.vim'
+if filereadable(s:custom_vimrc)
+    execute('source ' . s:custom_vimrc)
+endif
+
 " pathogen
 " add plugins in ~/.vim/bundle
-" execute pathogen#infect('~/.vim/bundle/{}')
+if exists('g:load_pathogen_plugins')
+    execute pathogen#infect('~/.vim/bundle/{}')
+endif
 
 " vim plug
 " ============================================================================================
 call plug#begin('~/.vim-commons/pkgs') "{{{
 
-" Plug 'luochen1990/rainbow'
-Plug 'mechatroner/rainbow_csv'
+if exists('g:load_extra_plugins')
+    Plug 'luochen1990/rainbow'
+    Plug 'mechatroner/rainbow_csv'
+    Plug 'junegunn/vader.vim'
+    Plug 'vimwiki/vimwiki'
+endif
+
+if exists('g:load_deprecated_plugins')
+    "" merged: 0, conflict with othree/html5 and many
+    Plug 'ap/vim-css-color'
+endif
+
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
@@ -17,8 +34,6 @@ Plug 'idanarye/vim-vebugger'
 Plug 'bergercookie/vim-debugstring'
 Plug 'tpope/vim-fugitive'
 Plug 'joereynolds/SQHell.vim'
-" Plug 'junegunn/vader.vim'
-Plug 'm-pilia/vim-ccls'
 Plug 'iamcco/markdown-preview.nvim', {
             \ 'do': 'cd app & yarn install',
             \ 'for': 'markdown'
@@ -266,7 +281,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('diepm/vim-rest-console')
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('tweekmonster/startuptime.vim')
-    " call dein#add('c0r73x/neotags.nvim', {'build': 'make'})
 
     call dein#add('google/vimdoc')
     call dein#add('alpertuna/vim-header')
@@ -306,7 +320,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('haya14busa/dein-command.vim')
     call dein#add('jamessan/vim-gnupg')
     call dein#add('jceb/vim-orgmode')
-    " call dein#add('vimwiki/vimwiki')
 
     " comment
     call dein#add('tomtom/tcomment_vim')
@@ -341,6 +354,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('jackguo380/vim-lsp-cxx-highlight')
     call dein#add('nacitar/a.vim')
     call dein#add('sakhnik/nvim-gdb')
+    call dein#add('m-pilia/vim-ccls')
     " Javascripts...
     call dein#add('othree/yajs.vim')
     call dein#add('othree/javascript-libraries-syntax.vim')
@@ -378,8 +392,6 @@ if dein#load_state(g:dein_repo)
     " CSS/SCSS/LESS
     "" merged: 0, conflict with othree/html5
     call dein#add('hail2u/vim-css3-syntax', {'merged': 0})
-    "" merged: 0, conflict with othree/html5 and many
-    call dein#add('ap/vim-css-color', {'merged': 0})
     call dein#add('othree/csscomplete.vim')
     " Python
     call dein#add('davidhalter/jedi-vim', {'on_ft': 'python'})
@@ -1198,6 +1210,9 @@ let g:header_auto_add_header = 0
 
 " vim-bookmarks
 let g:bookmark_no_default_key_mappings = 1
+
+" colorizer
+let g:colorizer_auto_filetype='css,html,scss'
 
 " vim-cpp-enhanced-highlight
 " let g:cpp_class_scope_highlight = 1
