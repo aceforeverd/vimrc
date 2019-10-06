@@ -20,6 +20,7 @@ if exists('g:load_extra_plugins')
     Plug 'mechatroner/rainbow_csv'
     Plug 'junegunn/vader.vim'
     Plug 'vimwiki/vimwiki'
+    Plug 'othree/csscomplete.vim'
 endif
 
 if exists('g:load_deprecated_plugins')
@@ -392,7 +393,6 @@ if dein#load_state(g:dein_repo)
     " CSS/SCSS/LESS
     "" merged: 0, conflict with othree/html5
     call dein#add('hail2u/vim-css3-syntax', {'merged': 0})
-    call dein#add('othree/csscomplete.vim')
     " Python
     call dein#add('davidhalter/jedi-vim', {'on_ft': 'python'})
     call dein#add('deoplete-plugins/deoplete-jedi', {'on_ft': 'python'})
