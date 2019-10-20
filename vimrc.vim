@@ -1262,3 +1262,7 @@ let g:better_whitespace_operator = ''
 let g:yggdrasil_no_default_maps = 1
 
 let g:nvimgdb_disable_start_keymaps = 1
+
+" vim-javacomplete2
+" let g:JavaComplete_EnableDefaultMappings = 0
+let g:JavaComplete_CheckServerVersionAtStartup = 0
