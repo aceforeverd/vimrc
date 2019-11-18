@@ -12,9 +12,48 @@ set -eE
 set -o nounset
 
 cd "$(dirname "$0")"
-cd ..
 
-ROOT=$(pwd)
+TYPE=neovim
+
+__ScriptVersion="1.1.0"
+
+#===  FUNCTION  ================================================================
+#         NAME:  usage
+#  DESCRIPTION:  Display usage information.
+#===============================================================================
+function usage ()
+{
+    echo "Usage :  $(basename "$0") [options] [--]
+
+    Options:
+    -t            vim type, neovim or vim, default to neovim
+    -h|help       Display this message
+    -v|version    Display script version"
+
+}    # ----------  end of function usage  ----------
+
+#-----------------------------------------------------------------------
+#  Handle command line arguments
+#-----------------------------------------------------------------------
+
+while getopts ":hvt:" opt
+do
+  case $opt in
+
+    t)  TYPE=$OPTARG ;;
+
+    h)  usage; exit 0   ;;
+
+    v)  echo "$(basename "$0") -- Version $__ScriptVersion"; exit 0   ;;
+
+    * )  echo -e "\n  Option does not exist : $OPTARG\n"
+          usage; exit 1   ;;
+
+  esac    # --- end of case ---
+done
+shift $((OPTIND-1))
+
+ROOT=$(git rev-parse --show-toplevel)
 DEIN_PATH=$ROOT/dein/repos/github.com/Shougo/dein.vim
 VIMPLUG_PATH=$ROOT/autoload
 DEIN_URL="https://github.com/Shougo/dein.vim.git"
@@ -38,8 +77,8 @@ echo ""
 
 echo -e "\033[1;32mPlugin managers all setted"
 
-if [[ $ROOT = "$HOME/.conifg/nvim" ]] ; then
-    ln -s vimrc.vim init.vim
-elif [[ $ROOT = "$HOME/.vim" ]] ; then
-    ln -s vimrc.vim vimrc
+if [[ $TYPE = "neovim" ]] ; then
+    ln -s "$ROOT/vimrc.vim" "$HOME/.config/nvim/init.vim"
+elif [[ $TYPE = "vim" ]] ; then
+    ln -s "$ROOT/vimrc.vim" "$HOME/.vim/vimrc"
 fi
