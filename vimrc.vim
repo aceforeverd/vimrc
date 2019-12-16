@@ -319,6 +319,7 @@ if dein#load_state(g:dein_repo)
 
     call dein#add('mbbill/undotree')
     call dein#add('haya14busa/dein-command.vim')
+    call dein#add('wsdjeg/dein-ui.vim')
     call dein#add('jamessan/vim-gnupg')
     call dein#add('jceb/vim-orgmode')
 
@@ -436,7 +437,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('lervag/vimtex')
     call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
     " Json
-    call dein#add('elzr/vim-json')
     call dein#add('rodjek/vim-puppet')
     call dein#add('digitaltoad/vim-pug')
     call dein#add('exu/pgsql.vim')
