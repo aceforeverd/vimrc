@@ -1222,6 +1222,12 @@ endif
 
 " vim-header
 let g:header_auto_add_header = 0
+let g:header_field_timestamp = 0
+let g:header_field_modified_timestamp = 0
+let g:header_field_author = 'Ace'
+let g:header_field_author_email = 'teapot@aceforeverd'
+let g:header_field_modified_by = 0
+let g:header_field_license_id = 'GPL'
 
 " vim-bookmarks
 let g:bookmark_no_default_key_mappings = 1
