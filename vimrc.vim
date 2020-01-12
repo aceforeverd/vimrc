@@ -43,6 +43,13 @@ if exists('g:load_deprecated_plugins')
     Plug 'ap/vim-css-color'
 endif
 
+if !exists('g:my_name')
+    let g:my_name = 'Ace'
+endif
+if !exists('g:my_email')
+    let g:my_email = 'teapot@aceforeverd'
+endif
+
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
@@ -1224,8 +1231,8 @@ endif
 let g:header_auto_add_header = 0
 let g:header_field_timestamp = 0
 let g:header_field_modified_timestamp = 0
-let g:header_field_author = 'Ace'
-let g:header_field_author_email = 'teapot@aceforeverd'
+let g:header_field_author = g:my_name
+let g:header_field_author_email = g:my_email
 let g:header_field_modified_by = 0
 let g:header_field_license_id = 'GPL'
 
@@ -1289,4 +1296,4 @@ let g:nvimgdb_disable_start_keymaps = 1
 let g:JavaComplete_CheckServerVersionAtStartup = 0
 
 " vim-license
-let g:licenses_copyright_holders_name = 'Ace <teapot@aceforeverd.com>'
+let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
