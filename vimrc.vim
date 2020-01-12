@@ -1266,3 +1266,6 @@ let g:nvimgdb_disable_start_keymaps = 1
 " vim-javacomplete2
 " let g:JavaComplete_EnableDefaultMappings = 0
 let g:JavaComplete_CheckServerVersionAtStartup = 0
+
+" vim-license
+let g:licenses_copyright_holders_name = 'Ace <teapot@aceforeverd.com>'
