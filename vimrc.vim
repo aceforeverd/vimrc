@@ -31,11 +31,14 @@ endif
 call plug#begin('~/.vim-commons/pkgs') "{{{
 
 if exists('g:load_extra_plugins')
-    Plug 'luochen1990/rainbow'
     Plug 'mechatroner/rainbow_csv'
     Plug 'junegunn/vader.vim'
+
     Plug 'vimwiki/vimwiki'
+    let g:vimwiki_key_mappings = { 'all_maps': 0, }
+
     Plug 'othree/csscomplete.vim'
+    Plug 'tpope/vim-markdown'
 endif
 
 if exists('g:load_deprecated_plugins')
@@ -224,8 +227,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('Shougo/neco-syntax')
     call dein#add('Shougo/vinarise.vim')
     call dein#add('Shougo/denite.nvim')
-    call dein#add('Shougo/neomru.vim')
-    call dein#add('Shougo/vimshell.vim')
     call dein#add('Shougo/defx.nvim')
     call dein#add('kristijanhusak/defx-icons')
     call dein#add('Shougo/neco-vim')
@@ -237,20 +238,17 @@ if dein#load_state(g:dein_repo)
 
     call dein#add('neoclide/denite-extra')
     call dein#add('neoclide/denite-git')
-    call dein#add('neoclide/todoapp.vim')
     call dein#add('ozelentok/denite-gtags')
 
     call dein#add('ujihisa/neco-look')
 
     call dein#add('tpope/vim-endwise')
-    call dein#add('tpope/vim-commentary')
     call dein#add('tpope/vim-surround')
     call dein#add('tpope/vim-ragtag')
     call dein#add('tpope/vim-dispatch')
     call dein#add('tpope/vim-rhubarb')
-    call dein#add('tpope/tpope-vim-abolish')
+    call dein#add('tpope/vim-abolish')
     call dein#add('tpope/vim-repeat')
-    call dein#add('tpope/vim-bundler')
     call dein#add('tpope/vim-rails', {'on_ft': 'ruby'})
     call dein#add('tpope/vim-rake', {'on_ft': 'ruby'})
     call dein#add('tpope/vim-fireplace')
@@ -259,8 +257,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('tpope/vim-salve')
     call dein#add('tpope/vim-eunuch')
     call dein#add('tpope/vim-speeddating')
-    call dein#add('tpope/vim-cucumber')
-    call dein#add('tpope/vim-projectionist')
     call dein#add('tpope/vim-pathogen')
     call dein#add('tpope/vim-obsession')
     call dein#add('tpope/vim-tbone')
@@ -356,15 +352,12 @@ if dein#load_state(g:dein_repo)
     " text object manipulate
     call dein#add('terryma/vim-multiple-cursors')
     call dein#add('michaeljsmith/vim-indent-object')
-    call dein#add('kana/vim-textobj-user')
-    call dein#add('tommcdo/vim-exchange')
     call dein#add('matze/vim-move')
-    call dein#add('AndrewRadev/switch.vim')
     call dein#add('AndrewRadev/splitjoin.vim')
     call dein#add('AndrewRadev/sideways.vim')
+    call dein#add('AndrewRadev/tagalong.vim')
     call dein#add('chrisbra/NrrwRgn')
     call dein#add('machakann/vim-sandwich')
-    call dein#add('lfilho/cosco.vim')
 
     " Languages
     " Go
@@ -382,7 +375,6 @@ if dein#load_state(g:dein_repo)
     " Javascripts...
     call dein#add('othree/yajs.vim')
     call dein#add('othree/javascript-libraries-syntax.vim')
-    let g:used_javascript_libs = 'react'
     call dein#add('Quramy/vim-js-pretty-template')
     call dein#add('ternjs/tern_for_vim')
     call dein#add('carlitux/deoplete-ternjs')
@@ -420,8 +412,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('davidhalter/jedi-vim', {'on_ft': 'python'})
     call dein#add('deoplete-plugins/deoplete-jedi', {'on_ft': 'python'})
     call dein#add('alfredodeza/pytest.vim')
-    " Markdown
-    call dein#add('tpope/vim-markdown')
     " glsl
     call dein#add('tikhomirov/vim-glsl')
     " Php
@@ -429,7 +419,7 @@ if dein#load_state(g:dein_repo)
     " R
     call dein#add('jalvesaq/Nvim-R')
     " asm
-    call dein#add('deoplete-plugins/deoplete-asm')
+    call dein#add('deoplete-plugins/deoplete-asm', {'build': 'make'})
     " nginx
     call dein#add('chr4/nginx.vim')
     " Rust
@@ -443,8 +433,6 @@ if dein#load_state(g:dein_repo)
         \ 'build': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny'
         \ })
     call dein#add('c9s/perlomni.vim')
-    " Salt
-    call dein#add('saltstack/salt-vim')
     " Erlang
     call dein#add('vim-erlang/vim-erlang-runtime')
     call dein#add('vim-erlang/vim-erlang-omnicomplete')
@@ -458,7 +446,7 @@ if dein#load_state(g:dein_repo)
     " Latex
     call dein#add('lervag/vimtex')
     call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
-    " Json
+
     call dein#add('rodjek/vim-puppet')
     call dein#add('digitaltoad/vim-pug')
     call dein#add('exu/pgsql.vim')
@@ -491,8 +479,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('rhysd/npm-filetypes.vim')
     " gentoo
     call dein#add('gentoo/gentoo-syntax')
-    " blade
-    call dein#add('jwalton512/vim-blade')
 
     call dein#add('dart-lang/dart-vim-plugin')
     call dein#add('derekwyatt/vim-scala', {'on_ft': 'scala'})
@@ -883,9 +869,6 @@ if !has('patch-8.0-1241')
     map g/ <Plug>(incsearch-stay)
 endif
 
-" vim-wiki
-let g:vimwiki_key_mappings = { 'all_maps': 0, }
-
 " easy-align
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
@@ -1218,9 +1201,6 @@ let g:neoinclude#paths.cpp = '.,'
 " vim-sneak
 map <Leader>s <Plug>Sneak_s
 map <Leader>S <Plug>Sneak_S
-
-" tcomment
-let g:tcomment_maps = 0
 
 inoremap <C-Space> <C-x><c-o>
 if !has('gui_running')
