@@ -132,11 +132,11 @@ let g:LanguageClient_autoStart = 0
 let g:LanguageClient_selectionUI = 'fzf'
 let g:LanguageClient_loadSettings = 0
 let g:LanguageClient_serverCommands = {
-            \ 'rust': ['rustup', 'run', 'beta', 'rls'],
+            \ 'rust': ['rustup', 'run', 'stable', 'rls'],
             \ 'typescript': ['javascript-typescript-stdio'],
             \ 'javascript': ['javascript-typescript-sdtio'],
             \ 'go': ['gopls'],
-            \ 'yaml': ['/usr/bin/node', $HOME . '/.npm_global/lib64/node_modules/yaml-language-server/out/server/src/server.js', '--stdio'],
+            \ 'yaml': ['yaml-language-server', '--stdio'],
             \ 'css': ['css-language-server', '--stdio'],
             \ 'sass': ['css-language-server', '--stdio'],
             \ 'less': ['css-language-server', '--stdio'],
