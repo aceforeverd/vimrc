@@ -56,10 +56,8 @@ endif
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
-Plug 'idanarye/vim-vebugger'
 Plug 'bergercookie/vim-debugstring'
 Plug 'tpope/vim-fugitive'
-Plug 'joereynolds/SQHell.vim'
 Plug 'iamcco/markdown-preview.nvim', {
             \ 'do': 'cd app & yarn install',
             \ 'for': 'markdown'
@@ -103,18 +101,8 @@ endif
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc#filetypes#pandoc_markdown = 0
-Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
 Plug 'chrisbra/unicode.vim'
 
-function! BuildComposer(info)
-    if a:info.status !=? 'unchanged' || a:info.force
-        if has('nvim')
-            !cargo build --release
-        else
-            !cargo build --release --no-default-features --features json-rpc
-        endif
-    endif
-endfunction
 
 Plug 'autozimu/LanguageClient-neovim', {
             \ 'branch': 'next',
@@ -133,7 +121,7 @@ let s:clangd_command = ['clangd', '-background-index']
 
 let g:LanguageClient_autoStart = 0
 let g:LanguageClient_selectionUI = 'fzf'
-let g:LanguageClient_loadSettings = 0
+let g:LanguageClient_loadSettings = 1
 let g:LanguageClient_serverCommands = {
             \ 'rust': ['rustup', 'run', 'stable', 'rls'],
             \ 'typescript': ['javascript-typescript-stdio'],
@@ -156,16 +144,46 @@ let g:LanguageClient_serverCommands = {
             \ 'haskell': ['hie', '--lsp'],
             \ 'sh': [ 'bash-language-server', 'start' ],
             \ }
-nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+function! s:lsc_maps()
+    nnoremap <buffer> <silent> gK :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <buffer> <silent> gy :call LanguageClient#textDocument_typeDefinition()<CR>
+    nnoremap <buffer> <silent> gi :call LanguageClient#textDocument_implementation()<CR>
+    nnoremap <buffer> <silent> gr :call LanguageClient#textDocument_references()<CR>
+    nnoremap <buffer> <silent> gs :call LanguageClient#textDocument_documentSymbol()<CR>
+    nnoremap <buffer> gf :call LanguageClient#textDocument_formatting()<CR>
+
+    " Rename - rn => rename
+    noremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
+
+    " Rename - rc => rename camelCase
+    noremap <leader>rc :call LanguageClient#textDocument_rename(
+                \ {'newName': Abolish.camelcase(expand('<cword>'))})<CR>
+
+    " Rename - rs => rename snake_case
+    noremap <leader>rs :call LanguageClient#textDocument_rename(
+                \ {'newName': Abolish.snakecase(expand('<cword>'))})<CR>
+
+    " Rename - ru => rename UPPERCASE
+    noremap <leader>ru :call LanguageClient#textDocument_rename(
+                \ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
+endfunction
 augroup gp_languageclent
     autocmd!
-    autocmd FileType c,cpp,objc call LanguageClient#startServer()
-    autocmd FileType go call LanguageClient#startServer()
+    autocmd FileType c,cpp,objc,go call LanguageClient#startServer()
+    autocmd User LanguageClientStarted call s:lsc_maps()
 augroup END
 
 if executable('cargo')
+    function! BuildComposer(info)
+        if a:info.status !=? 'unchanged' || a:info.force
+            if has('nvim')
+                !cargo build --release
+            else
+                !cargo build --release --no-default-features --features json-rpc
+            endif
+        endif
+    endfunction
     Plug 'euclio/vim-markdown-composer', {
                 \ 'do': function('BuildComposer'),
                 \ 'for': 'markdown',
@@ -300,6 +318,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('diepm/vim-rest-console')
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('tweekmonster/startuptime.vim')
+    call dein#add('joereynolds/SQHell.vim')
 
     call dein#add('google/vimdoc')
     call dein#add('alpertuna/vim-header')
@@ -347,7 +366,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('raimondi/delimitmate')
     call dein#add('alvan/vim-closetag')
 
-    call dein#add('sophacles/vim-bundle-mako')
     call dein#add('chrisbra/recover.vim')
     " text object manipulate
     call dein#add('terryma/vim-multiple-cursors')
@@ -412,16 +430,12 @@ if dein#load_state(g:dein_repo)
     call dein#add('davidhalter/jedi-vim', {'on_ft': 'python'})
     call dein#add('deoplete-plugins/deoplete-jedi', {'on_ft': 'python'})
     call dein#add('alfredodeza/pytest.vim')
-    " glsl
-    call dein#add('tikhomirov/vim-glsl')
-    " Php
-    call dein#add('stanangeloff/php.vim')
+    " markdown
+    call dein#add('mzlogin/vim-markdown-toc', {'on_ft': 'markdown'})
     " R
     call dein#add('jalvesaq/Nvim-R')
     " asm
     call dein#add('deoplete-plugins/deoplete-asm', {'build': 'make'})
-    " nginx
-    call dein#add('chr4/nginx.vim')
     " Rust
     call dein#add('rust-lang/rust.vim')
     call dein#add('racer-rust/vim-racer')
@@ -430,9 +444,10 @@ if dein#load_state(g:dein_repo)
     call dein#add('uplus/deoplete-solargraph', {'on_ft': 'ruby'})
     call dein#add('vim-perl/vim-perl', {
         \ 'rev': 'dev',
-        \ 'build': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny'
+        \ 'build': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny',
+        \ 'on_ft': 'perl',
         \ })
-    call dein#add('c9s/perlomni.vim')
+    call dein#add('c9s/perlomni.vim', {'on_ft': 'perl'})
     " Erlang
     call dein#add('vim-erlang/vim-erlang-runtime')
     call dein#add('vim-erlang/vim-erlang-omnicomplete')
@@ -448,26 +463,17 @@ if dein#load_state(g:dein_repo)
     call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
 
     call dein#add('rodjek/vim-puppet')
-    call dein#add('digitaltoad/vim-pug')
     call dein#add('exu/pgsql.vim')
-    call dein#add('zah/nim.vim')
-    " lua
-    call dein#add('tbastos/vim-lua')
     " swift
     call dein#add('keith/swift.vim', {'on_ft': 'swift'})
 
     call dein#add('jparise/vim-graphql')
-    call dein#add('PotatoesMaster/i3-vim-syntax')
-    call dein#add('cespare/vim-toml')
-    call dein#add('solarnz/thrift.vim')
+    call dein#add('mboughaba/i3config.vim')
     call dein#add('hashivim/vim-terraform')
     call dein#add('matt-deacalion/vim-systemd-syntax')
-    " YAML playbooks, Jinja2 templates, and Ansible's hosts files.
+
     call dein#add('pearofducks/ansible-vim')
-    call dein#add('stephpy/vim-yaml')
-    call dein#add('isobit/vim-caddyfile')
     call dein#add('rhysd/vim-crystal')
-    call dein#add('wlangstroth/vim-racket')
     " elm
     call dein#add('elmcast/elm-vim')
     call dein#add('pbogut/deoplete-elm')
@@ -481,7 +487,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('gentoo/gentoo-syntax')
 
     call dein#add('dart-lang/dart-vim-plugin')
-    call dein#add('derekwyatt/vim-scala', {'on_ft': 'scala'})
     call dein#add('slim-template/vim-slim')
     call dein#add('chrisbra/csv.vim')
 
