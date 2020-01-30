@@ -1069,7 +1069,7 @@ inoremap <silent><expr> <S-TAB>
             \ "\<S-TAB>"
 function! s:check_back_space() abort "{{{
     let l:col = col('.') - 1
-    return !l:col || getline('.')[l:col - 1]  =~ '\s'
+    return !l:col || getline('.')[l:col - 1]  =~# '\s'
 endfunction "}}}
 
 call deoplete#custom#var('omni', 'input_patterns', {
