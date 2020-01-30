@@ -235,7 +235,6 @@ if dein#load_state(g:dein_repo)
 
         call dein#add('kassio/neoterm')
         call dein#add('fszymanski/fzf-gitignore')
-        call dein#add('jodosha/vim-godebug', {'on_ft': 'go'})
         " Repl
         call dein#add('hkupty/iron.nvim')
     endif
@@ -267,8 +266,8 @@ if dein#load_state(g:dein_repo)
     call dein#add('tpope/vim-rhubarb')
     call dein#add('tpope/vim-abolish')
     call dein#add('tpope/vim-repeat')
-    call dein#add('tpope/vim-rails', {'on_ft': 'ruby'})
-    call dein#add('tpope/vim-rake', {'on_ft': 'ruby'})
+    call dein#add('tpope/vim-bundler')
+    call dein#add('tpope/vim-rails')
     call dein#add('tpope/vim-fireplace')
     call dein#add('tpope/vim-scriptease')
     call dein#add('tpope/vim-unimpaired')
@@ -315,7 +314,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('rickhowe/diffchar.vim')
     call dein#add('will133/vim-dirdiff')
     call dein#add('itchyny/calendar.vim')
-    call dein#add('diepm/vim-rest-console')
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('tweekmonster/startuptime.vim')
     call dein#add('joereynolds/SQHell.vim')
@@ -342,7 +340,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
-    call dein#add('junkblocker/patchreview-vim')
     call dein#add('rhysd/github-complete.vim', {'on_ft': 'gitcommit'})
 
     " search
@@ -393,7 +390,6 @@ if dein#load_state(g:dein_repo)
     " Javascripts...
     call dein#add('othree/yajs.vim')
     call dein#add('othree/javascript-libraries-syntax.vim')
-    call dein#add('Quramy/vim-js-pretty-template')
     call dein#add('ternjs/tern_for_vim')
     call dein#add('carlitux/deoplete-ternjs')
     " Typescript
@@ -441,7 +437,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('racer-rust/vim-racer')
     " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
-    call dein#add('uplus/deoplete-solargraph', {'on_ft': 'ruby'})
+    call dein#add('uplus/deoplete-solargraph', {'on_ft': 'ruby', 'lazy': 1})
     call dein#add('vim-perl/vim-perl', {
         \ 'rev': 'dev',
         \ 'build': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny',
@@ -481,6 +477,7 @@ if dein#load_state(g:dein_repo)
     " clojure
     call dein#add('clojure-vim/async-clj-omni')
     call dein#add('clojure-vim/vim-cider')
+    call dein#add('clojure-vim/acid.nvim', {'merged': 0})
     " npm
     call dein#add('rhysd/npm-filetypes.vim')
     " gentoo
@@ -744,14 +741,6 @@ augroup END
 " vim-closetag
 let g:closetag_filenames = '*.html,*.xhtml,*.xml'
 let g:closetag_emptyTags_caseSensitive = 1
-
-" JS-pretty template
-augroup JsPreTmpl
-    autocmd!
-    autocmd FileType javascript JsPreTmpl
-    autocmd FileType javascript.jsx JsPreTmpl
-    autocmd FileType typescript JsPreTmpl
-augroup END
 
 " startify
 let g:startify_session_dir = '~/.vim/sessions/'
