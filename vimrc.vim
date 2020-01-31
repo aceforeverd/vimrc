@@ -26,6 +26,10 @@ if exists('g:load_pathogen_plugins')
     execute pathogen#infect('~/.vim/bundle/{}')
 endif
 
+if !exists('g:my_cmp_source')
+    let g:my_cmp_source = 'deoplete'
+endif
+
 " vim plug
 " ============================================================================================
 call plug#begin('~/.vim-commons/pkgs') "{{{
@@ -39,6 +43,7 @@ if exists('g:load_extra_plugins')
 
     Plug 'othree/csscomplete.vim'
     Plug 'tpope/vim-markdown'
+    Plug 'neomake/neomake'
 endif
 
 if exists('g:load_deprecated_plugins')
@@ -104,75 +109,12 @@ let g:pandoc#filetypes#pandoc_markdown = 0
 Plug 'chrisbra/unicode.vim'
 
 
-Plug 'autozimu/LanguageClient-neovim', {
-            \ 'branch': 'next',
-            \ 'do': 'bash install.sh',
-            \ }
-let s:ccls_settings = {
-            \ 'highlight': {'lsRanges': v:true},
-            \ }
-let s:cquery_settings = {
-                     \ 'emitInactiveRegions': v:true,
-                     \ 'highlight': { 'enabled' : v:true},
-                     \ }
-let s:ccls_command = ['ccls', '-lint=' . json_encode(s:ccls_settings)]
-let s:cquery_command = ['cquery', '-lint=' . json_encode(s:cquery_settings)]
-let s:clangd_command = ['clangd', '-background-index']
-
-let g:LanguageClient_autoStart = 0
-let g:LanguageClient_selectionUI = 'fzf'
-let g:LanguageClient_loadSettings = 1
-let g:LanguageClient_serverCommands = {
-            \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-            \ 'typescript': ['javascript-typescript-stdio'],
-            \ 'javascript': ['javascript-typescript-sdtio'],
-            \ 'go': ['gopls'],
-            \ 'yaml': ['yaml-language-server', '--stdio'],
-            \ 'css': ['css-language-server', '--stdio'],
-            \ 'sass': ['css-language-server', '--stdio'],
-            \ 'less': ['css-language-server', '--stdio'],
-            \ 'dockerfile': ['docker-langserver', '--stdio'],
-            \ 'reason': ['ocaml-language-server', '--stdio'],
-            \ 'ocaml': ['ocaml-language-server', '--stdio'],
-            \ 'vue': ['vls'],
-            \ 'lua': ['lua-lsp'],
-            \ 'ruby': ['language_server-ruby'],
-            \ 'c': s:clangd_command,
-            \ 'cpp': s:clangd_command,
-            \ 'python': ['pyls'],
-            \ 'dart': ['dart_language_server', '--force_trace_level=off'],
-            \ 'haskell': ['hie', '--lsp'],
-            \ 'sh': [ 'bash-language-server', 'start' ],
-            \ }
-function! s:lsc_maps()
-    nnoremap <buffer> <silent> gK :call LanguageClient#textDocument_hover()<CR>
-    nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <buffer> <silent> gy :call LanguageClient#textDocument_typeDefinition()<CR>
-    nnoremap <buffer> <silent> gi :call LanguageClient#textDocument_implementation()<CR>
-    nnoremap <buffer> <silent> gr :call LanguageClient#textDocument_references()<CR>
-    nnoremap <buffer> <silent> gs :call LanguageClient#textDocument_documentSymbol()<CR>
-    nnoremap <buffer> gf :call LanguageClient#textDocument_formatting()<CR>
-
-    " Rename - rn => rename
-    noremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
-
-    " Rename - rc => rename camelCase
-    noremap <leader>rc :call LanguageClient#textDocument_rename(
-                \ {'newName': Abolish.camelcase(expand('<cword>'))})<CR>
-
-    " Rename - rs => rename snake_case
-    noremap <leader>rs :call LanguageClient#textDocument_rename(
-                \ {'newName': Abolish.snakecase(expand('<cword>'))})<CR>
-
-    " Rename - ru => rename UPPERCASE
-    noremap <leader>ru :call LanguageClient#textDocument_rename(
-                \ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
-endfunction
-augroup gp_languageclent
-    autocmd!
-    autocmd FileType c,cpp,objc,go call LanguageClient#startServer()
-    autocmd User LanguageClientStarted call s:lsc_maps()
-augroup END
+if g:my_cmp_source ==? 'deoplete'
+    Plug 'autozimu/LanguageClient-neovim', {
+                \ 'branch': 'next',
+                \ 'do': 'bash install.sh',
+                \ }
+endif
 
 if executable('cargo')
     function! BuildComposer(info)
@@ -190,7 +132,6 @@ if executable('cargo')
                 \ }
 endif
 
-Plug 'neomake/neomake'
 Plug 'Konfekt/Fastfold'
 let g:fastfold_fold_command_suffixes = []
 let g:fastfold_fold_movement_commands = []
@@ -238,7 +179,28 @@ if dein#load_state(g:dein_repo)
         " Repl
         call dein#add('hkupty/iron.nvim')
     endif
-    call dein#add('Shougo/deoplete.nvim')
+
+    if g:my_cmp_source ==? 'deoplete'
+        call dein#add('Shougo/deoplete.nvim')
+        call dein#add('deoplete-plugins/deoplete-go', {
+                    \ 'build': 'make',
+                    \ 'on_ft': 'go',
+                    \ })
+        call dein#add('Shougo/deoplete-lsp')
+        call dein#add('Shougo/deoplete-terminal')
+        call dein#add('carlitux/deoplete-ternjs')
+        call dein#add('deoplete-plugins/deoplete-zsh')
+        call dein#add('ponko2/deoplete-fish')
+        call dein#add('deoplete-plugins/deoplete-jedi', {'on_ft': 'python'})
+        call dein#add('uplus/deoplete-solargraph', {'on_ft': 'ruby', 'lazy': 1})
+        call dein#add('deoplete-plugins/deoplete-asm', {'build': 'make'})
+        call dein#add('pbogut/deoplete-elm')
+        call dein#add('ujihisa/neco-look')
+    elseif g:my_cmp_source ==? 'coc'
+        call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
+        call dein#add('jsfaint/coc-neoinclude')
+    endif
+
     call dein#add('Shougo/neoinclude.vim')
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/neco-syntax')
@@ -249,15 +211,11 @@ if dein#load_state(g:dein_repo)
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
-    call dein#add('Shougo/deoplete-lsp')
     call dein#add('Shougo/deol.nvim')
-    call dein#add('Shougo/deoplete-terminal')
 
     call dein#add('neoclide/denite-extra')
     call dein#add('neoclide/denite-git')
     call dein#add('ozelentok/denite-gtags')
-
-    call dein#add('ujihisa/neco-look')
 
     call dein#add('tpope/vim-endwise')
     call dein#add('tpope/vim-surround')
@@ -377,10 +335,6 @@ if dein#load_state(g:dein_repo)
     " Languages
     " Go
     call dein#add('fatih/vim-go')
-    call dein#add('deoplete-plugins/deoplete-go', {
-                \ 'build': 'make',
-                \ 'on_ft': 'go',
-                \ })
     " c/c++/objc
     call dein#add('octol/vim-cpp-enhanced-highlight')
     call dein#add('jackguo380/vim-lsp-cxx-highlight')
@@ -391,7 +345,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('othree/yajs.vim')
     call dein#add('othree/javascript-libraries-syntax.vim')
     call dein#add('ternjs/tern_for_vim')
-    call dein#add('carlitux/deoplete-ternjs')
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
 
@@ -401,11 +354,7 @@ if dein#load_state(g:dein_repo)
     call dein#add('neovimhaskell/haskell-vim')
     call dein#add('eagletmt/neco-ghc')
     call dein#add('Twinside/vim-hoogle')
-    " zsh
-    call dein#add('deoplete-plugins/deoplete-zsh')
-    " fish
     call dein#add('dag/vim-fish')
-    call dein#add('ponko2/deoplete-fish')
     " Html
     call dein#add('othree/html5.vim')
     " vimL
@@ -424,20 +373,16 @@ if dein#load_state(g:dein_repo)
     call dein#add('hail2u/vim-css3-syntax', {'merged': 0})
     " Python
     call dein#add('davidhalter/jedi-vim', {'on_ft': 'python'})
-    call dein#add('deoplete-plugins/deoplete-jedi', {'on_ft': 'python'})
     call dein#add('alfredodeza/pytest.vim')
     " markdown
     call dein#add('mzlogin/vim-markdown-toc', {'on_ft': 'markdown'})
     " R
     call dein#add('jalvesaq/Nvim-R')
-    " asm
-    call dein#add('deoplete-plugins/deoplete-asm', {'build': 'make'})
     " Rust
     call dein#add('rust-lang/rust.vim')
     call dein#add('racer-rust/vim-racer')
     " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
-    call dein#add('uplus/deoplete-solargraph', {'on_ft': 'ruby', 'lazy': 1})
     call dein#add('vim-perl/vim-perl', {
         \ 'rev': 'dev',
         \ 'build': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny',
@@ -472,7 +417,6 @@ if dein#load_state(g:dein_repo)
     call dein#add('rhysd/vim-crystal')
     " elm
     call dein#add('elmcast/elm-vim')
-    call dein#add('pbogut/deoplete-elm')
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
     call dein#add('clojure-vim/async-clj-omni')
@@ -803,10 +747,6 @@ augroup VIM_GO
     autocmd!
     autocmd FileType go nnoremap <c-]> :GoDef<CR>
 augroup END
-" deoplete-go
-let g:deoplete#sources#go#pointer = 1
-let g:deoplete#sources#go#builtin_objects = 1
-let g:deoplete#sources#go#unimported_packages = 1
 
 if has('nvim')
     augroup VIM_TYPESCRIPT
@@ -1029,95 +969,302 @@ function! s:defx_settings() abort
                 \ defx#do_action('change_vim_cwd')
 endfunction
 
+set completeopt-=preview
+" echodoc
+let g:echodoc#enable_at_startup = 1
+
 function! s:is_dir(path) abort
     return !empty(a:path) && (isdirectory(a:path) ||
                 \ (!empty($SYSTEMDRIVE) && isdirectory('/'.tolower($SYSTEMDRIVE[0]).a:path)))
 endfunction
 
-
-set completeopt-=preview
-" echodoc
-let g:echodoc#enable_at_startup = 1
-
-" deoplete
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option({
-            \ 'auto_complete': v:true,
-            \ 'ignore_case': v:true,
-            \ 'smart_case': v:true,
-            \ })
-if !has('nvim')
-    call deoplete#custom#option('yarp', v:true)
-endif
-
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> pumvisible() ? deoplete#smart_close_popup()."\<C-h>" :
-            \ delimitMate#BS()
-inoremap <expr><C-g> deoplete#undo_completion()
-" <CR>: close popup and save indent.
-" inoremap <expr><CR> pumvisible() ? deoplete#close_popup()."\<CR>"
-"                 \ : "<Plug>delimiteMate"
-
-" Tab complete
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ deoplete#manual_complete()
-inoremap <silent><expr> <S-TAB>
-            \ pumvisible() ? "\<C-p>" :
-            \ "\<S-TAB>"
 function! s:check_back_space() abort "{{{
     let l:col = col('.') - 1
     return !l:col || getline('.')[l:col - 1]  =~# '\s'
 endfunction "}}}
 
-call deoplete#custom#var('omni', 'input_patterns', {
-            \ 'ruby': ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::'],
-            \ 'java': '[^. *\t]\.\w*',
-            \ 'php': '\w+|[^. \t]->\w*|\w+::\w*',
-            \ 'javascript': '[^. *\t]\.\w*',
-            \ 'typescript': '[^. *\t]\.\w*|\h\w*:',
-            \ 'css': '[^. *\t]\.\w*',
-            \ })
 
-call deoplete#custom#var('omni', 'function',{
-            \ 'typescript': [ 'LanguageClient#complete', 'tsuquyomi#complete' ],
-            \ 'c': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
-            \ 'cpp': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
-            \ 'rust': [ 'racer#RacerComplete', 'LanguageClient#complete'],
-            \ 'php': [ 'phpactor#Complete', 'LanguageClient#complete' ],
-            \ })
-call deoplete#custom#var('terminal', 'require_same_tab', v:false)
+function! s:get_my_cmp_fn(key) abort
+    return get(s:my_cmps, a:key, "\<Nop>")
+endfunction
 
-call deoplete#custom#option('ignore_sources', {
-            \ '_': ['ale']
-            \ })
+function! s:init_source_common() abort
+    " Tab complete
+    inoremap <silent><expr> <TAB>
+                \ pumvisible() ? "\<C-n>" :
+                \ <SID>check_back_space() ? "\<TAB>" :
+                \ <SID>get_my_cmp_fn('complete')()
+    inoremap <silent><expr> <S-TAB>
+                \ pumvisible() ? "\<C-p>" :
+                \ "\<S-TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> "\<C-h>"
+    inoremap <expr><BS> pumvisible() ? deoplete#smart_close_popup()."\<C-h>" :
+                \ delimitMate#BS()
+    inoremap <expr><C-g> deoplete#undo_completion()
+    " <CR>: close popup and save indent.
+    " there seems issue with delimitMate and endwise tother.
+    " a custom mapping with name '<Plug>*CR' seems a workaround
+    imap <silent><expr> <CR> <Plug>MyIMappingCR
+endfunction
 
-" call deoplete#custom#option('keyword_patterns', {
-"             \ 'clojure': '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
-"             \ })
-" source rank
-call deoplete#custom#source('look', {
-            \ 'rank': 40,
-            \ 'max_candidates': 15,
-            \ })
 
-" deoplete-ternjs
-let g:deoplete#sources#ternjs#types = 1
-let g:deoplete#sources#ternjs#depths = 1
-let g:deoplete#sources#ternjs#docs = 1
-let g:deoplete#sources#ternjs#filter = 0
-let g:deoplete#sources#ternjs#case_insensitive = 1
-let g:deoplete#sources#ternjs#guess = 0
-let g:deoplete#sources#ternjs#omit_object_prototype = 0
-let g:deoplete#sources#ternjs#include_keywords = 1
-let g:deoplete#sources#ternjs#in_literal = 0
-let g:deoplete#sources#ternjs#filetypes = [
+function! s:init_source_deoplete() abort
+    call deoplete#custom#option({
+                \ 'auto_complete': v:true,
+                \ 'ignore_case': v:true,
+                \ 'smart_case': v:true,
+                \ })
+    if !has('nvim')
+        call deoplete#custom#option('yarp', v:true)
+    endif
+
+    call deoplete#custom#var('omni', 'input_patterns', {
+                \ 'ruby': ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::'],
+                \ 'java': '[^. *\t]\.\w*',
+                \ 'php': '\w+|[^. \t]->\w*|\w+::\w*',
+                \ 'javascript': '[^. *\t]\.\w*',
+                \ 'typescript': '[^. *\t]\.\w*|\h\w*:',
+                \ 'css': '[^. *\t]\.\w*',
+                \ })
+
+    call deoplete#custom#var('omni', 'function',{
+                \ 'typescript': [ 'LanguageClient#complete', 'tsuquyomi#complete' ],
+                \ 'c': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
+                \ 'cpp': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
+                \ 'rust': [ 'racer#RacerComplete', 'LanguageClient#complete'],
+                \ 'php': [ 'phpactor#Complete', 'LanguageClient#complete' ],
+                \ })
+    call deoplete#custom#var('terminal', 'require_same_tab', v:false)
+
+    call deoplete#custom#option('ignore_sources', {
+                \ '_': ['ale']
+                \ })
+
+    " call deoplete#custom#option('keyword_patterns', {
+    "             \ 'clojure': '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
+    "             \ })
+    " source rank
+    call deoplete#custom#source('look', {
+                \ 'rank': 40,
+                \ 'max_candidates': 15,
+                \ })
+
+
+    " deoplete-go
+    let g:deoplete#sources#go#pointer = 1
+    let g:deoplete#sources#go#builtin_objects = 1
+    let g:deoplete#sources#go#unimported_packages = 1
+
+    " deoplete-ternjs
+    let g:deoplete#sources#ternjs#types = 1
+    let g:deoplete#sources#ternjs#depths = 1
+    let g:deoplete#sources#ternjs#docs = 1
+    let g:deoplete#sources#ternjs#filter = 0
+    let g:deoplete#sources#ternjs#case_insensitive = 1
+    let g:deoplete#sources#ternjs#guess = 0
+    let g:deoplete#sources#ternjs#omit_object_prototype = 0
+    let g:deoplete#sources#ternjs#include_keywords = 1
+    let g:deoplete#sources#ternjs#in_literal = 0
+    let g:deoplete#sources#ternjs#filetypes = [
                 \ 'jsx',
                 \ 'vue',
                 \ '...'
                 \ ]
+endfunction
+
+function! s:init_source_lc_neovim() abort
+    let s:ccls_settings = {
+                \ 'highlight': {'lsRanges': v:true},
+                \ }
+    let s:cquery_settings = {
+                \ 'emitInactiveRegions': v:true,
+                \ 'highlight': { 'enabled' : v:true},
+                \ }
+    let s:ccls_command = ['ccls', '-lint=' . json_encode(s:ccls_settings)]
+    let s:cquery_command = ['cquery', '-lint=' . json_encode(s:cquery_settings)]
+    let s:clangd_command = ['clangd', '-background-index']
+
+    let g:LanguageClient_selectionUI = 'fzf'
+    let g:LanguageClient_loadSettings = 1
+    let g:LanguageClient_serverCommands = {
+                \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+                \ 'typescript': ['javascript-typescript-stdio'],
+                \ 'javascript': ['javascript-typescript-sdtio'],
+                \ 'go': ['gopls'],
+                \ 'yaml': ['yaml-language-server', '--stdio'],
+                \ 'css': ['css-language-server', '--stdio'],
+                \ 'sass': ['css-language-server', '--stdio'],
+                \ 'less': ['css-language-server', '--stdio'],
+                \ 'dockerfile': ['docker-langserver', '--stdio'],
+                \ 'reason': ['ocaml-language-server', '--stdio'],
+                \ 'ocaml': ['ocaml-language-server', '--stdio'],
+                \ 'vue': ['vls'],
+                \ 'lua': ['lua-lsp'],
+                \ 'ruby': ['language_server-ruby'],
+                \ 'c': s:clangd_command,
+                \ 'cpp': s:clangd_command,
+                \ 'python': ['pyls'],
+                \ 'dart': ['dart_language_server', '--force_trace_level=off'],
+                \ 'haskell': ['hie', '--lsp'],
+                \ 'sh': [ 'bash-language-server', 'start' ],
+                \ }
+    function! s:lsc_maps()
+        nnoremap <buffer> <silent> gK :call LanguageClient#textDocument_hover()<CR>
+        nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
+        nnoremap <buffer> <silent> gy :call LanguageClient#textDocument_typeDefinition()<CR>
+        nnoremap <buffer> <silent> gi :call LanguageClient#textDocument_implementation()<CR>
+        nnoremap <buffer> <silent> gr :call LanguageClient#textDocument_references()<CR>
+        nnoremap <buffer> <silent> gs :call LanguageClient#textDocument_documentSymbol()<CR>
+        nnoremap <buffer> gf :call LanguageClient#textDocument_formatting()<CR>
+
+        " Rename - rn => rename
+        noremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
+
+        " Rename - rc => rename camelCase
+        noremap <leader>rc :call LanguageClient#textDocument_rename(
+                    \ {'newName': Abolish.camelcase(expand('<cword>'))})<CR>
+
+        " Rename - rs => rename snake_case
+        noremap <leader>rs :call LanguageClient#textDocument_rename(
+                    \ {'newName': Abolish.snakecase(expand('<cword>'))})<CR>
+
+        " Rename - ru => rename UPPERCASE
+        noremap <leader>ru :call LanguageClient#textDocument_rename(
+                    \ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
+    endfunction
+    augroup gp_languageclent
+        autocmd!
+        autocmd FileType c,cpp,objc,go call LanguageClient#startServer()
+        autocmd User LanguageClientStarted call s:lsc_maps()
+    augroup END
+endfunction
+
+function! s:init_source_coc() abort
+    let g:coc_start_at_startup = 1
+
+
+    " Use `[g` and `]g` to navigate diagnostics
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+    " Remap keys for gotos
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " Use K to show documentation in preview window
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+    function! s:show_documentation()
+        if (index(['vim','help'], &filetype) >= 0)
+            execute 'h '.expand('<cword>')
+        else
+            call CocAction('doHover')
+        endif
+    endfunction
+
+
+    " Remap for rename current word
+    nmap <leader>rn <Plug>(coc-rename)
+
+    " Remap for format selected region
+    xmap <leader>f  <Plug>(coc-format-selected)
+    nmap <leader>f  <Plug>(coc-format-selected)
+
+    augroup gp_coc
+        autocmd!
+        " Highlight symbol under cursor on CursorHold
+        autocmd CursorHold * silent call CocActionAsync('highlight')
+        " Setup formatexpr specified filetype(s).
+        " autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+        " Update signature help on jump placeholder
+        autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    augroup end
+
+    " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+    xmap <leader>a  <Plug>(coc-codeaction-selected)
+    nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+    " Remap for do codeAction of current line
+    nmap <leader>ac  <Plug>(coc-codeaction)
+    " Fix autofix problem of current line
+    nmap <leader>qf  <Plug>(coc-fix-current)
+
+    " Create mappings for function text object, requires document symbols feature of languageserver.
+    xmap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap if <Plug>(coc-funcobj-i)
+    omap af <Plug>(coc-funcobj-a)
+
+    " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+    nmap <silent> <TAB> <Plug>(coc-range-select)
+    xmap <silent> <TAB> <Plug>(coc-range-select)
+
+    " Use `:Format` to format current buffer
+    command! -nargs=0 CocFormat :call CocAction('format')
+
+    " Use `:Fold` to fold current buffer
+    command! -nargs=? CocFold :call     CocAction('fold', <f-args>)
+
+    " use `:OR` for organize import of current buffer
+    command! -nargs=0 CocOR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+    " Add status line support, for integration with other plugin, checkout `:h coc-status`
+    " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+    " Using CocList
+    " Show all diagnostics
+    nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+    " Manage extensions
+    nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+    " Show commands
+    nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+    " Find symbol of current document
+    nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+    " Search workspace symbols
+    nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+    " Do default action for next item.
+    nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+    " Do default action for previous item.
+    nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+    " Resume latest coc list
+    nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+endfunction
+
+" init completion source
+let s:my_cmps = {}
+function! s:init_cmp_source(src) abort
+
+    let g:LanguageClient_autoStart = 0
+    " setup common variables
+    if a:src ==? 'deoplete'
+        " functions
+        let s:my_cmps['complete'] = function('deoplete#manual_complete')
+
+        " mappings
+        imap <expr> <Plug>MyIMappingCR pumvisible() ? deoplete#close_popup() . "\<CR>" : "<Plug>delimitMateCR"
+
+        " variables
+        let g:deoplete#enable_at_startup = 1
+        let g:coc_start_at_startup = 0
+
+        call s:init_source_deoplete()
+        call s:init_source_lc_neovim()
+    elseif a:src ==? 'coc'
+        let s:my_cmps['complete'] = function('coc#refresh')
+
+        inoremap <expr> <Plug>MyIMappingCR pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>
+
+        let g:deoplete#enable_at_startup = 0
+        let g:coc_start_at_startup = 1
+        call s:init_source_coc()
+    endif
+
+    call s:init_source_common()
+endfunction
+call s:init_cmp_source(g:my_cmp_source)
 
 " tern_for_vim
 let g:tern#command = ['tern']
