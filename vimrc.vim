@@ -998,18 +998,18 @@ function! s:init_source_common() abort
                 \ pumvisible() ? "\<C-p>" :
                 \ "\<S-TAB>"
     " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><C-h> "\<C-h>"
-    inoremap <expr><BS> pumvisible() ? deoplete#smart_close_popup()."\<C-h>" :
-                \ delimitMate#BS()
-    inoremap <expr><C-g> deoplete#undo_completion()
+    imap <BS> <Plug>(MyIMappingBS)
     " <CR>: close popup and save indent.
     " there seems issue with delimitMate and endwise tother.
     " a custom mapping with name '<Plug>*CR' seems a workaround
-    imap <silent><expr> <CR> <Plug>MyIMappingCR
+    imap <CR> <Plug>MyIMappingCR
 endfunction
 
 
 function! s:init_source_deoplete() abort
+    " inoremap <expr> <C-h> deoplete#close_popup() . "\<C-h>"
+    inoremap <expr> <C-g> deoplete#undo_completion()
+
     call deoplete#custom#option({
                 \ 'auto_complete': v:true,
                 \ 'ignore_case': v:true,
@@ -1141,9 +1141,6 @@ function! s:init_source_lc_neovim() abort
 endfunction
 
 function! s:init_source_coc() abort
-    let g:coc_start_at_startup = 1
-
-
     " Use `[g` and `]g` to navigate diagnostics
     nmap <silent> [g <Plug>(coc-diagnostic-prev)
     nmap <silent> ]g <Plug>(coc-diagnostic-next)
@@ -1244,6 +1241,7 @@ function! s:init_cmp_source(src) abort
         let s:my_cmps['complete'] = function('deoplete#manual_complete')
 
         " mappings
+        inoremap <expr> <Plug>(MyIMappingBS) pumvisible() ? deoplete#smart_close_popup() . "\<C-h>" : delimitMate#BS()
         imap <expr> <Plug>MyIMappingCR pumvisible() ? deoplete#close_popup() . "\<CR>" : "<Plug>delimitMateCR"
 
         " variables
@@ -1255,6 +1253,7 @@ function! s:init_cmp_source(src) abort
     elseif a:src ==? 'coc'
         let s:my_cmps['complete'] = function('coc#refresh')
 
+        inoremap <expr> <Plug>(MyIMappingBS) pumvisible() ? "\<C-h>" : delimitMate#BS()
         inoremap <expr> <Plug>MyIMappingCR pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>
 
         let g:deoplete#enable_at_startup = 0
