@@ -1254,7 +1254,7 @@ function! s:init_cmp_source(src) abort
         let s:my_cmps['complete'] = function('coc#refresh')
 
         inoremap <expr> <Plug>(MyIMappingBS) pumvisible() ? "\<C-h>" : delimitMate#BS()
-        inoremap <expr> <Plug>MyIMappingCR pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>
+        inoremap <expr> <Plug>MyIMappingCR pumvisible() ? "\<C-y>\<CR>" : "\<C-g>u\<CR>"
 
         let g:deoplete#enable_at_startup = 0
         let g:coc_start_at_startup = 1
