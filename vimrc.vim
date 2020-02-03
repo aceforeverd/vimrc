@@ -70,39 +70,6 @@ Plug 'iamcco/markdown-preview.nvim', {
 Plug 'sheerun/vim-polyglot'
 let g:vim_json_syntax_conceal = 1
 
-if executable('composer')
-    Plug 'phpactor/phpactor', {
-                \ 'do': 'composer install',
-                \ 'for': 'php',
-                \ 'dir': $HOME . '/.phpactor',
-                \ }
-    augroup gp_phpactor
-        autocmd!
-        " Include use statement
-        autocmd FileType php nmap <Leader>pu :call phpactor#UseAdd()<CR>
-
-        " Invoke the context menu
-        autocmd FileType php nmap <Leader>pm :call phpactor#ContextMenu()<CR>
-
-        " Goto definition of class or class member under the cursor
-        autocmd FileType php nmap <c-]> :call phpactor#GotoDefinition()<CR>
-
-        " Transform the classes in the current file
-        autocmd FileType php nmap <Leader>pt :call phpactor#Transform()<CR>
-
-        " Generate a new class (replacing the current file)
-        autocmd FileType php nmap <Leader>pc :call phpactor#ClassNew()<CR>
-
-        " Extract method from selection
-        autocmd FileType php vmap <silent><Leader>pe :<C-U>call phpactor#ExtractMethod()<CR>
-    augroup END
-    " Plug 'roxma/ncm-phpactor', {'for': 'php'}
-    Plug 'roxma/LanguageServer-php-neovim', {
-                \ 'do': 'composer install && composer run-script parse-stubs',
-                \ 'for': 'php'
-                \ }
-endif
-
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc#filetypes#pandoc_markdown = 0
@@ -169,11 +136,6 @@ if dein#load_state(g:dein_repo)
         let g:tsuquyomi_single_quote_import = 1
     else
         " optional plugins for neovim
-        call dein#add('mhartington/nvim-typescript', {
-                    \ 'on_ft': 'typescript',
-                    \ 'build': './install.sh',
-                    \ })
-
         call dein#add('kassio/neoterm')
         call dein#add('fszymanski/fzf-gitignore')
         " Repl
@@ -196,9 +158,15 @@ if dein#load_state(g:dein_repo)
         call dein#add('deoplete-plugins/deoplete-asm', {'build': 'make'})
         call dein#add('pbogut/deoplete-elm')
         call dein#add('ujihisa/neco-look')
+
+        call dein#add('mhartington/nvim-typescript', {
+                    \ 'on_ft': 'typescript',
+                    \ 'build': './install.sh',
+                    \ })
     elseif g:my_cmp_source ==? 'coc'
         call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
         call dein#add('jsfaint/coc-neoinclude')
+        call dein#add('neoclide/coc-neco')
     endif
 
     call dein#add('Shougo/neoinclude.vim')
@@ -1175,7 +1143,7 @@ function! s:init_source_coc() abort
         " Highlight symbol under cursor on CursorHold
         autocmd CursorHold * silent call CocActionAsync('highlight')
         " Setup formatexpr specified filetype(s).
-        " autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+        autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
         " Update signature help on jump placeholder
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup end
