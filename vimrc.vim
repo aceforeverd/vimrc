@@ -1072,6 +1072,7 @@ function! s:init_source_lc_neovim() abort
                 \ 'ruby': ['language_server-ruby'],
                 \ 'c': s:clangd_command,
                 \ 'cpp': s:clangd_command,
+                \ 'vim': 'vim-language-server',
                 \ 'python': ['pyls'],
                 \ 'dart': ['dart_language_server', '--force_trace_level=off'],
                 \ 'haskell': ['hie', '--lsp'],
@@ -1196,6 +1197,10 @@ function! s:init_source_coc() abort
     nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
     " Resume latest coc list
     nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+    " coc-snippets
+    imap <c-l> <Plug>(coc-snippets-expand-jump)
+    vmap <c-j> <Plug>(coc-snippets-select)
 endfunction
 
 " init completion source
