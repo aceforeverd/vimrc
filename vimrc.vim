@@ -865,12 +865,12 @@ augroup Defx
     " autocmd BufEnter * if <SID>is_dir(expand('%')) | redraw | echo '' | exe 'Defx' | endif
     autocmd FileType defx call s:defx_settings()
 augroup end
+command! DefxTab :Defx -split=vertical -winwidth=50 -direction=topleft
+command! DefxCwd :Defx `expand('%:p:h')` -search=`expand('%:p')`
+call defx#custom#option('_', {
+            \ 'split': 'tab'
+            \ })
 function! s:defx_settings() abort
-    command! DefxTab :Defx -split=vertical -winwidth=50 -direction=topleft
-    command! DefxCwd :Defx `expand('%:p:h')` -search=`expand('%:p')`
-    call defx#custom#option('_', {
-                \ 'split': 'tab'
-                \ })
 
     " Define mappings
     nnoremap <silent><buffer><expr> <CR>
