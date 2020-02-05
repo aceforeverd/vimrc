@@ -15,7 +15,17 @@
 
 set nocompatible
 
-let s:custom_vimrc = $HOME . '/.vim/custom.vim'
+if !has('nvim')
+    let s:vim_home = $HOME . '/.vim'
+    let s:vimrc = $HOME . '/.vimrc'
+else
+    let s:vim_home = $HOME . '/.config/nvim'
+    let s:vimrc = s:vim_home . '/init.vim'
+endif
+
+let s:dein_repo = s:vim_home . '/dein'
+
+let s:custom_vimrc = s:vim_home . '/custom.vim'
 if filereadable(s:custom_vimrc)
     execute('source ' . s:custom_vimrc)
 endif
@@ -105,16 +115,8 @@ let g:fastfold_fold_movement_commands = []
 
 call plug#end() "}}}
 
-if !has('nvim')
-    let g:dein_repo = $HOME . '/.vim/dein'
-    let g:vimrc = $HOME . '/.vimrc'
-else
-    let g:dein_repo = $HOME . '/.config/nvim/dein'
-    let g:vimrc = $HOME . '/.config/nvim/init.vim'
-endif
-
-let g:dein_path = g:dein_repo . '/repos/github.com/Shougo/dein.vim'
-let &runtimepath = &runtimepath . ',' . g:dein_path
+let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
+let &runtimepath = &runtimepath . ',' . s:dein_path
 
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
@@ -122,10 +124,10 @@ let g:dein#install_process_type = 'tabline'
 " let $NVIM_NODE_LOG_FILE = '/tmp/nvim-node.log'
 " let $NVIM_NODE_LOG_LEVEL = 'info'
 
-if dein#load_state(g:dein_repo)
-    call dein#begin(g:dein_repo)
-    call dein#add(g:dein_path)
+if dein#load_state(s:dein_repo)
+    call dein#begin(s:dein_repo)
 
+    call dein#add(s:dein_path)
     if !has('nvim')
         " optional plugins for vim
         call dein#add('roxma/nvim-yarp')
