@@ -30,6 +30,13 @@ if filereadable(s:custom_vimrc)
     execute('source ' . s:custom_vimrc)
 endif
 
+if !exists('g:python_host_prog')
+    let g:python_host_prog = '/usr/bin/python2'
+endif
+if !exists('g:python3_host_prog')
+    let g:python3_host_prog = '/usr/bin/python3'
+endif
+
 " pathogen
 " add plugins in ~/.vim/bundle
 if exists('g:load_pathogen_plugins')
@@ -1279,8 +1286,6 @@ let g:jedi#goto_command = '<C-]>'
 let g:jedi#goto_assignments_command = '<Leader>ga'
 let g:jedi#goto_definitions_command = ''
 
-let g:python_host_prog = '/usr/bin/python2'
-let g:python3_host_prog = '/usr/bin/python3'
 
 " lua
 let g:lua_check_syntax = 0
