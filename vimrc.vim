@@ -17,10 +17,10 @@ set nocompatible
 
 if !has('nvim')
     let s:vim_home = $HOME . '/.vim'
-    let s:vimrc = $HOME . '/.vimrc'
+    let g:vimrc = $HOME . '/.vimrc'
 else
     let s:vim_home = $HOME . '/.config/nvim'
-    let s:vimrc = s:vim_home . '/init.vim'
+    let g:vimrc = s:vim_home . '/init.vim'
 endif
 
 let s:dein_repo = s:vim_home . '/dein'
@@ -1085,7 +1085,7 @@ function! s:init_source_lc_neovim() abort
                 \ 'ruby': ['language_server-ruby'],
                 \ 'c': s:clangd_command,
                 \ 'cpp': s:clangd_command,
-                \ 'vim': 'vim-language-server',
+                \ 'vim': ['vim-language-server'],
                 \ 'python': ['pyls'],
                 \ 'dart': ['dart_language_server', '--force_trace_level=off'],
                 \ 'haskell': ['hie', '--lsp'],
