@@ -357,7 +357,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('jalvesaq/Nvim-R')
     " Rust
     call dein#add('rust-lang/rust.vim')
-    call dein#add('racer-rust/vim-racer')
     " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
     call dein#add('vim-perl/vim-perl', {
@@ -707,16 +706,6 @@ augroup ALE_LPS
     " autocmd FileType c,cpp nnoremap <c-]> <Plug>(ale_go_to_definition)
 augroup END
 
-" vim-racer
-let g:racer_experimental_completer = 1
-augroup RACER_RUST
-    autocmd!
-    autocmd FileType rust command! RustDef call racer#GoToDefinition()
-    autocmd FileType rust command! RustDoc call racer#ShowDocumentation()
-    autocmd FileType rust nmap <c-]> <Plug>(rust-def)
-    autocmd FileType rust nmap <c-w>] <Plug>(rust-def-split)
-augroup END
-
 " vim-go
 augroup VIM_GO
     autocmd!
@@ -1009,8 +998,8 @@ function! s:init_source_deoplete() abort
                 \ 'typescript': [ 'LanguageClient#complete', 'tsuquyomi#complete' ],
                 \ 'c': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
                 \ 'cpp': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
-                \ 'rust': [ 'racer#RacerComplete', 'LanguageClient#complete'],
-                \ 'php': [ 'phpactor#Complete', 'LanguageClient#complete' ],
+                \ 'rust': [ 'LanguageClient#complete'],
+                \ 'php': [ 'LanguageClient#complete' ],
                 \ })
     call deoplete#custom#var('terminal', 'require_same_tab', v:false)
 
@@ -1277,7 +1266,6 @@ augroup omni_complete
     autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
     " jedi
     autocmd FileType python setlocal omnifunc=jedi#completions
-    autocmd FileType php setlocal omnifunc=phpactor#Complete
 augroup END
 
 " jedi
