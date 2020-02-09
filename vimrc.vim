@@ -25,9 +25,9 @@ endif
 
 let s:dein_repo = s:vim_home . '/dein'
 
-let s:custom_vimrc = s:vim_home . '/custom.vim'
-if filereadable(s:custom_vimrc)
-    execute('source ' . s:custom_vimrc)
+let s:before_vimrc = s:vim_home . '/before.vim'
+if filereadable(s:before_vimrc)
+    execute('source ' . s:before_vimrc)
 endif
 
 if !exists('g:python_host_prog')
@@ -1397,3 +1397,9 @@ let g:JavaComplete_CheckServerVersionAtStartup = 0
 
 " vim-license
 let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
+
+
+let s:after_vimrc = s:vim_home . '/after.vim'
+if filereadable(s:after_vimrc)
+    execute('source ' . s:after_vimrc)
+endif
