@@ -139,10 +139,6 @@ if dein#load_state(s:dein_repo)
         " optional plugins for vim
         call dein#add('roxma/nvim-yarp')
         call dein#add('roxma/vim-hug-neovim-rpc')
-
-        call dein#add('Quramy/tsuquyomi', {'for': 'typescript'})
-        let g:tsuquyomi_completion_detail = 1
-        let g:tsuquyomi_single_quote_import = 1
     else
         " optional plugins for neovim
         call dein#add('kassio/neoterm')
@@ -168,10 +164,12 @@ if dein#load_state(s:dein_repo)
         call dein#add('pbogut/deoplete-elm')
         call dein#add('ujihisa/neco-look')
 
-        call dein#add('mhartington/nvim-typescript', {
-                    \ 'on_ft': 'typescript',
-                    \ 'build': './install.sh',
-                    \ })
+        if has('nvim')
+            call dein#add('mhartington/nvim-typescript', {
+                        \ 'on_ft': 'typescript',
+                        \ 'build': './install.sh',
+                        \ })
+        endif
     elseif g:my_cmp_source ==? 'coc'
         call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
         call dein#add('jsfaint/coc-neoinclude')
@@ -1009,7 +1007,7 @@ function! s:init_source_deoplete() abort
                 \ })
 
     call deoplete#custom#var('omni', 'function',{
-                \ 'typescript': [ 'LanguageClient#complete', 'tsuquyomi#complete' ],
+                \ 'typescript': [ 'LanguageClient#complete' ],
                 \ 'c': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
                 \ 'cpp': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
                 \ 'rust': [ 'LanguageClient#complete'],
