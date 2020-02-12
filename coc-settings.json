@@ -1,0 +1,16 @@
+{
+  "coc.preferences.extensionUpdateCheck": "daily",
+  "explorer": {
+      "icon": {
+          "enableNerdfont": true
+      }
+  },
+  "languageserver": {
+      "clangd": {
+          "command": "clangd",
+          "args": ["-background-index"],
+          "rootPatterns": ["compile_flags.txt", "compile_commands.json", ".git/", ".hg/"],
+          "filetypes": ["c", "cpp", "objc", "objcpp"]
+      }
+  }
+}
