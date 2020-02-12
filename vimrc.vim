@@ -954,6 +954,18 @@ function! s:get_my_cmp_fn(key) abort
     return get(s:my_cmps, a:key, "\<Nop>")
 endfunction
 
+function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call <SID>get_my_cmp_fn('document_hover')()
+    endif
+endfunction
+
+function! s:coc_hover() abort
+    return CocAction('doHover')
+endfunction
+
 function! s:init_source_common() abort
     " Tab complete
     inoremap <silent><expr> <TAB>
@@ -969,6 +981,8 @@ function! s:init_source_common() abort
     " there seems issue with delimitMate and endwise tother.
     " a custom mapping with name '<Plug>*CR' seems a workaround
     imap <CR> <Plug>MyIMappingCR
+
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
 endfunction
 
 
@@ -1077,10 +1091,6 @@ function! s:init_source_lc_neovim() abort
                 \ 'sh': [ 'bash-language-server', 'start' ],
                 \ }
     function! s:lsc_maps()
-        " remap K(keyword lookup to <Leader>k)
-        nnoremap <Leader>k K
-
-        nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
         nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
         nnoremap <buffer> <silent> gy :call LanguageClient#textDocument_typeDefinition()<CR>
         nnoremap <buffer> <silent> gi :call LanguageClient#textDocument_implementation()<CR>
@@ -1122,20 +1132,6 @@ function! s:init_source_coc() abort
         nmap <silent> gy <Plug>(coc-type-definition)
         nmap <silent> gi <Plug>(coc-implementation)
         nmap <silent> gr <Plug>(coc-references)
-
-        " remap K(keyword lookup to <Leader>k)
-        nnoremap <Leader>k K
-
-        nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-        function! s:show_documentation()
-            if (index(['vim','help'], &filetype) >= 0)
-                execute 'h '.expand('<cword>')
-            else
-                call CocAction('doHover')
-            endif
-        endfunction
-
 
         " Remap for rename current word
         nmap <leader>rn <Plug>(coc-rename)
@@ -1180,10 +1176,10 @@ function! s:init_source_coc() abort
     command! -nargs=0 CocFormat :call CocAction('format')
 
     " Use `:Fold` to fold current buffer
-    command! -nargs=? CocFold :call     CocAction('fold', <f-args>)
+    command! -nargs=? CocFold :call CocAction('fold', <f-args>)
 
     " use `:OR` for organize import of current buffer
-    command! -nargs=0 CocOR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+    command! -nargs=0 CocOR :call CocAction('runCommand', 'editor.action.organizeImport')
 
     " Add status line support, for integration with other plugin, checkout `:h coc-status`
     " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
@@ -1222,6 +1218,7 @@ function! s:init_cmp_source(src) abort
     if a:src ==? 'deoplete'
         " functions
         let s:my_cmps['complete'] = function('deoplete#manual_complete')
+        let s:my_cmps['document_hover'] = function('LanguageClient#textDocument_hover')
 
         " mappings
         inoremap <expr> <Plug>(MyIMappingBS) pumvisible() ? deoplete#smart_close_popup() . "\<C-h>" : delimitMate#BS()
@@ -1235,6 +1232,7 @@ function! s:init_cmp_source(src) abort
         call s:init_source_lc_neovim()
     elseif a:src ==? 'coc'
         let s:my_cmps['complete'] = function('coc#refresh')
+        let s:my_cmps['document_hover'] = function('<SID>coc_hover')
 
         inoremap <expr> <Plug>(MyIMappingBS) pumvisible() ? "\<C-h>" : delimitMate#BS()
         inoremap <expr> <Plug>MyIMappingCR pumvisible() ? "\<C-y>\<CR>" : "\<C-g>u\<CR>"
