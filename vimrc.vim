@@ -561,7 +561,7 @@ if has('autocmd')
 endif
 
 if has('mac') || has('macunix')
-    set guifont=Hack:h14,Source\ Code\ Pro:h15,Menlo:h15
+    set guifont=SauceCodeProNerdFontComplete-Regular:h14
 elseif has('win16') || has('win32')
     set guifont=Hack:h14,Source\ Code\ Pro:h12,Bitstream\ Vera\ Sans\ Mono:h11
 elseif has('gui_gtk2')
