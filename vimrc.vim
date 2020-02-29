@@ -1115,7 +1115,6 @@ function! s:init_source_lc_neovim() abort
     endfunction
     augroup gp_languageclent
         autocmd!
-        autocmd FileType c,cpp,objc,go call LanguageClient#startServer()
         autocmd User LanguageClientStarted call s:lsc_maps()
     augroup END
 endfunction
@@ -1213,7 +1212,6 @@ endfunction
 let s:my_cmps = {}
 function! s:init_cmp_source(src) abort
 
-    let g:LanguageClient_autoStart = 0
     " setup common variables
     if a:src ==? 'deoplete'
         " functions
@@ -1226,6 +1224,7 @@ function! s:init_cmp_source(src) abort
 
         " variables
         let g:deoplete#enable_at_startup = 1
+        let g:LanguageClient_autoStart = 1
         let g:coc_start_at_startup = 0
 
         call s:init_source_deoplete()
@@ -1239,6 +1238,7 @@ function! s:init_cmp_source(src) abort
 
         let g:deoplete#enable_at_startup = 0
         let g:coc_start_at_startup = 1
+        let g:LanguageClient_autoStart = 0
         call s:init_source_coc()
     endif
 
