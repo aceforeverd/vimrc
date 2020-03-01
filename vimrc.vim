@@ -298,7 +298,6 @@ if dein#load_state(s:dein_repo)
 
     call dein#add('chrisbra/recover.vim')
     " text object manipulate
-    call dein#add('terryma/vim-multiple-cursors')
     call dein#add('michaeljsmith/vim-indent-object')
     call dein#add('matze/vim-move')
     call dein#add('AndrewRadev/splitjoin.vim')
