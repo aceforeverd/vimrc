@@ -298,8 +298,6 @@ if dein#load_state(s:dein_repo)
 
     call dein#add('chrisbra/recover.vim')
     " text object manipulate
-    call dein#add('michaeljsmith/vim-indent-object')
-    call dein#add('matze/vim-move')
     call dein#add('AndrewRadev/splitjoin.vim')
     call dein#add('AndrewRadev/sideways.vim')
     call dein#add('AndrewRadev/tagalong.vim')
@@ -311,10 +309,10 @@ if dein#load_state(s:dein_repo)
     call dein#add('fatih/vim-go')
     " c/c++/objc
     call dein#add('octol/vim-cpp-enhanced-highlight')
-    call dein#add('jackguo380/vim-lsp-cxx-highlight')
     call dein#add('nacitar/a.vim')
     call dein#add('sakhnik/nvim-gdb')
-    call dein#add('m-pilia/vim-ccls')
+    " call dein#add('jackguo380/vim-lsp-cxx-highlight')
+    " call dein#add('m-pilia/vim-ccls')
     " Javascripts...
     call dein#add('othree/yajs.vim')
     call dein#add('othree/javascript-libraries-syntax.vim')
