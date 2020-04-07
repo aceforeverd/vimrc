@@ -155,10 +155,8 @@ if dein#load_state(s:dein_repo)
                     \ })
         call dein#add('Shougo/deoplete-lsp')
         call dein#add('Shougo/deoplete-terminal')
-        call dein#add('carlitux/deoplete-ternjs')
         call dein#add('deoplete-plugins/deoplete-zsh')
         call dein#add('ponko2/deoplete-fish')
-        call dein#add('deoplete-plugins/deoplete-jedi', {'on_ft': 'python'})
         call dein#add('uplus/deoplete-solargraph', {'on_ft': 'ruby', 'lazy': 1})
         call dein#add('deoplete-plugins/deoplete-asm', {'build': 'make'})
         call dein#add('pbogut/deoplete-elm')
@@ -315,8 +313,6 @@ if dein#load_state(s:dein_repo)
     " call dein#add('m-pilia/vim-ccls')
     " Javascripts...
     call dein#add('othree/yajs.vim')
-    call dein#add('othree/javascript-libraries-syntax.vim')
-    call dein#add('ternjs/tern_for_vim')
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
 
@@ -344,7 +340,6 @@ if dein#load_state(s:dein_repo)
     "" merged: 0, conflict with othree/html5
     call dein#add('hail2u/vim-css3-syntax', {'merged': 0})
     " Python
-    call dein#add('davidhalter/jedi-vim', {'on_ft': 'python'})
     call dein#add('alfredodeza/pytest.vim')
     " markdown
     call dein#add('mzlogin/vim-markdown-toc', {'on_ft': 'markdown'})
@@ -585,7 +580,6 @@ augroup filetype_changes
     autocmd FileType javascript setlocal nocindent
 augroup END
 
-autocmd BufRead,BufNewFile *.h setlocal filetype=c
 autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
 
 " fzf
@@ -637,8 +631,6 @@ imap <Leader>e <Plug>(neosnippet_expand_or_jump)
 smap <Leader>e <Plug>(neosnippet_expand_or_jump)
 xmap <Leader>e <Plug>(neosnippet_expand_target)
 let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#enable_complete_done = 1
-let g:neosnippet#enable_completed_snippet = 1
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
@@ -1032,22 +1024,6 @@ function! s:init_source_deoplete() abort
     let g:deoplete#sources#go#pointer = 1
     let g:deoplete#sources#go#builtin_objects = 1
     let g:deoplete#sources#go#unimported_packages = 1
-
-    " deoplete-ternjs
-    let g:deoplete#sources#ternjs#types = 1
-    let g:deoplete#sources#ternjs#depths = 1
-    let g:deoplete#sources#ternjs#docs = 1
-    let g:deoplete#sources#ternjs#filter = 0
-    let g:deoplete#sources#ternjs#case_insensitive = 1
-    let g:deoplete#sources#ternjs#guess = 0
-    let g:deoplete#sources#ternjs#omit_object_prototype = 0
-    let g:deoplete#sources#ternjs#include_keywords = 1
-    let g:deoplete#sources#ternjs#in_literal = 0
-    let g:deoplete#sources#ternjs#filetypes = [
-                \ 'jsx',
-                \ 'vue',
-                \ '...'
-                \ ]
 endfunction
 
 function! s:init_source_lc_neovim() abort
@@ -1081,12 +1057,13 @@ function! s:init_source_lc_neovim() abort
                 \ 'ruby': ['language_server-ruby'],
                 \ 'c': s:clangd_command,
                 \ 'cpp': s:clangd_command,
-                \ 'vim': ['vim-language-server'],
+                \ 'vim': ['vim-language-server', '--stdio'],
                 \ 'python': ['pyls'],
                 \ 'dart': ['dart_language_server', '--force_trace_level=off'],
                 \ 'haskell': ['hie', '--lsp'],
                 \ 'sh': [ 'bash-language-server', 'start' ],
                 \ }
+
     function! s:lsc_maps()
         nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
         nnoremap <buffer> <silent> gy :call LanguageClient#textDocument_typeDefinition()<CR>
@@ -1110,9 +1087,15 @@ function! s:init_source_lc_neovim() abort
         noremap <leader>ru :call LanguageClient#textDocument_rename(
                     \ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
     endfunction
+    function! s:clangd_init()
+        let g:neosnippet#enable_complete_done = 1
+        let g:neosnippet#enable_completed_snippet = 1
+    endfunction
+
     augroup gp_languageclent
         autocmd!
         autocmd User LanguageClientStarted call s:lsc_maps()
+        autocmd FileType c,cpp call s:clangd_init()
     augroup END
 endfunction
 
@@ -1243,40 +1226,17 @@ function! s:init_cmp_source(src) abort
 endfunction
 call s:init_cmp_source(g:my_cmp_source)
 
-" tern_for_vim
-let g:tern#command = ['tern']
-let g:tern#arguments = ['--persistent']
-
 " Enable omni completion.
 augroup omni_complete
     autocmd!
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    " Tern for vim
-    autocmd FileType javascript setlocal omnifunc=tern#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
     " Java complete2
     autocmd FileType java setlocal omnifunc=javacomplete#Complete
     " neco-ghc
     autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-    " jedi
-    autocmd FileType python setlocal omnifunc=jedi#completions
 augroup END
-
-" jedi
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#smart_auto_mappings = 1
-let g:jedi#use_tabs_not_buffers = 1
-let g:jedi#use_splits_not_buffers = 'winwidth'
-let g:jedi#completions_command = ''
-let g:jedi#usages_command = '<Leader>nn'
-let g:jedi#rename_command = '<Leader>r'
-let g:jedi#documentation_command = 'K'
-let g:jedi#goto_command = '<C-]>'
-let g:jedi#goto_assignments_command = '<Leader>ga'
-let g:jedi#goto_definitions_command = ''
-
 
 " lua
 let g:lua_check_syntax = 0
