@@ -72,7 +72,7 @@ if !exists('g:my_name')
     let g:my_name = 'Ace'
 endif
 if !exists('g:my_email')
-    let g:my_email = 'teapot@aceforeverd'
+    let g:my_email = 'teapot@aceforeverd.com'
 endif
 
 Plug 'dense-analysis/ale'
@@ -673,7 +673,6 @@ let g:ale_disable_lsp = 1
 let g:ale_linters = {
             \ 'c': s:ale_c_lints,
             \ 'cpp': s:ale_c_lints,
-            \ 'rust': ['cargo', 'rls', 'rustc'],
             \ 'python': ['flake8', 'mypy', 'pylint', 'pyls', 'autopep8', 'black', 'isort', 'yapf', 'pyre', 'bandit'],
             \ }
 let g:ale_echo_msg_error_str = 'E'
