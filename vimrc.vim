@@ -75,7 +75,6 @@ if !exists('g:my_email')
     let g:my_email = 'teapot@aceforeverd.com'
 endif
 
-Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
 Plug 'bergercookie/vim-debugstring'
@@ -667,33 +666,6 @@ let g:startify_relative_path = 1
 " vim-gitgutter
 let g:gitgutter_max_signs = 1000
 
-" Ale
-let s:ale_c_lints = ['cppcheck', 'clangtidy', 'flawfinder', 'clang-format']
-let g:ale_disable_lsp = 1
-let g:ale_linters = {
-            \ 'c': s:ale_c_lints,
-            \ 'cpp': s:ale_c_lints,
-            \ 'python': ['flake8', 'mypy', 'pylint', 'pyls', 'autopep8', 'black', 'isort', 'yapf', 'pyre', 'bandit'],
-            \ }
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-if $TERM =~# 'linux'
-    let g:ale_sign_error = '>>'
-    let g:ale_sign_warning = '--'
-    let g:ale_sign_info = '!'
-else
-    let g:ale_sign_error = '✖'
-    let g:ale_sign_warning = '⚠'
-    let g:ale_sign_info = 'ℹ'
-endif
-nmap <silent> <c-k> <Plug>(ale_previous_wrap)
-nmap <silent> <c-j> <Plug>(ale_next_wrap)
-augroup ALE_LPS
-    autocmd!
-    " autocmd FileType c,cpp nnoremap <c-]> <Plug>(ale_go_to_definition)
-augroup END
-
 " vim-go
 augroup VIM_GO
     autocmd!
@@ -709,7 +681,6 @@ endif
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#ale#enabled = 1
 let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline_theme='onedark'
@@ -998,8 +969,8 @@ function! s:init_source_deoplete() abort
 
     call deoplete#custom#var('omni', 'function',{
                 \ 'typescript': [ 'LanguageClient#complete' ],
-                \ 'c': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
-                \ 'cpp': [ 'LanguageClient#complete', 'ale#completion#OmniFunc' ],
+                \ 'c': [ 'LanguageClient#complete'],
+                \ 'cpp': [ 'LanguageClient#complete' ],
                 \ 'rust': [ 'LanguageClient#complete'],
                 \ 'php': [ 'LanguageClient#complete' ],
                 \ })
@@ -1093,7 +1064,7 @@ function! s:init_source_lc_neovim() abort
 
     augroup gp_languageclent
         autocmd!
-        autocmd User LanguageClientStarted call s:lsc_maps()
+        autocmd FileType * call s:lsc_maps()
         autocmd FileType c,cpp call s:clangd_init()
     augroup END
 endfunction
