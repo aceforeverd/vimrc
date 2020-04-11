@@ -75,6 +75,7 @@ if !exists('g:my_email')
     let g:my_email = 'teapot@aceforeverd.com'
 endif
 
+Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-grammarous'
 Plug 'bergercookie/vim-debugstring'
@@ -1328,3 +1329,30 @@ let s:after_vimrc = s:vim_home . '/after.vim'
 if filereadable(s:after_vimrc)
     execute('source ' . s:after_vimrc)
 endif
+
+" Ale
+let s:ale_c_lints = ['cppcheck', 'clangtidy', 'flawfinder', 'clang-format']
+let g:ale_disable_lsp = 1
+let g:ale_linters = {
+            \ 'c': s:ale_c_lints,
+            \ 'cpp': s:ale_c_lints,
+            \ 'python': [],
+            \ 'javascript': [],
+            \ 'typescript': [],
+            \ 'go': [],
+            \ 'rust': [],
+            \ }
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+if $TERM =~# 'linux'
+    let g:ale_sign_error = '>>'
+    let g:ale_sign_warning = '--'
+    let g:ale_sign_info = '!'
+else
+    let g:ale_sign_error = '✖'
+    let g:ale_sign_warning = '⚠'
+    let g:ale_sign_info = 'ℹ'
+endif
+nmap <silent> <c-k> <Plug>(ale_previous_wrap)
+nmap <silent> <c-j> <Plug>(ale_next_wrap)

@@ -6,11 +6,21 @@
       }
   },
   "languageserver": {
-      "clangd": {
-          "command": "clangd",
-          "args": ["-background-index"],
-          "rootPatterns": ["compile_flags.txt", "compile_commands.json", ".git/", ".hg/"],
-          "filetypes": ["c", "cpp", "objc", "objcpp"]
-      }
+      "bash": {
+          "command": "bash-language-server",
+          "args": ["start"],
+          "filetypes": ["sh"],
+          "ignoredRootPaths": ["~"]
+    },
+    "cmake": {
+        "command": "cmake-language-server",
+        "filetypes": ["cmake"],
+        "rootPatterns": [
+            "build/"
+        ],
+        "initializationOptions": {
+            "buildDirectory": "build"
+        }
+    }
   }
 }
