@@ -84,6 +84,9 @@ Plug 'iamcco/markdown-preview.nvim', {
             \ 'do': 'cd app & yarn install',
             \ 'for': 'markdown'
             \}
+Plug 'davidhalter/jedi-vim', {
+            \ 'for': 'python'
+            \ }
 Plug 'sheerun/vim-polyglot'
 let g:vim_json_syntax_conceal = 1
 
@@ -160,6 +163,7 @@ if dein#load_state(s:dein_repo)
         call dein#add('uplus/deoplete-solargraph', {'on_ft': 'ruby', 'lazy': 1})
         call dein#add('deoplete-plugins/deoplete-asm', {'build': 'make'})
         call dein#add('pbogut/deoplete-elm')
+        call dein#add('deoplete-plugins/deoplete-jedi')
         call dein#add('ujihisa/neco-look')
 
         if has('nvim')
@@ -242,7 +246,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('mattn/emmet-vim')
     call dein#add('mattn/webapi-vim')
-    call dein#add('rickhowe/diffchar.vim')
     call dein#add('will133/vim-dirdiff')
     call dein#add('itchyny/calendar.vim')
     call dein#add('jsfaint/gen_tags.vim')
@@ -981,10 +984,6 @@ function! s:init_source_deoplete() abort
                 \ '_': ['ale']
                 \ })
 
-    " call deoplete#custom#option('keyword_patterns', {
-    "             \ 'clojure': '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
-    "             \ })
-    " source rank
     call deoplete#custom#source('look', {
                 \ 'rank': 40,
                 \ 'max_candidates': 15,
@@ -1217,13 +1216,13 @@ let g:lua_define_completion_mappings = 0
 
 " neoinclude
 if !exists('g:neoinclude#exts')
-let g:neoinclude#exts = {}
+    let g:neoinclude#exts = {}
 endif
 let g:neoinclude#exts.c = ['', 'h']
 let g:neoinclude#exts.cpp = ['', 'h', 'hpp', 'hxx']
 
 if !exists('g:neoinclude#paths')
-let g:neoinclude#paths = {}
+    let g:neoinclude#paths = {}
 endif
 
 let g:neoinclude#paths.c = '.,'
@@ -1356,3 +1355,5 @@ else
 endif
 nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
+
+let g:jedi#completions_enabled = 0
