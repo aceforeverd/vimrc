@@ -84,9 +84,21 @@ Plug 'iamcco/markdown-preview.nvim', {
             \ 'do': 'cd app & yarn install',
             \ 'for': 'markdown'
             \}
-Plug 'davidhalter/jedi-vim', {
-            \ 'for': 'python'
-            \ }
+Plug 'davidhalter/jedi-vim'
+let g:jedi#auto_initialization = 0
+let g:jedi#completions_enabled = 0
+function! s:jedi_mappings() abort
+    nnoremap <silent> <buffer> <Leader>gd :call jedi#goto()<CR>
+    nnoremap <silent> <buffer> <Leader>gs :call jedi#goto_stubs()<CR>
+    nnoremap <silent> <buffer> <Leader>K :call jedi#show_documentation()<CR>
+    nnoremap <silent> <buffer> <Leader>rj :call jedi#rename()<CR>
+    nnoremap <silent> <buffer> <Leader>gr :call jedi#usages()<CR>
+endfunction
+augroup gp_jedi
+    autocmd!
+    autocmd FileType python call <SID>jedi_mappings()
+augroup END
+
 Plug 'sheerun/vim-polyglot'
 let g:vim_json_syntax_conceal = 1
 
@@ -1356,4 +1368,3 @@ endif
 nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
 
-let g:jedi#completions_enabled = 0
