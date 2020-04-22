@@ -286,7 +286,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
-    call dein#add('rhysd/github-complete.vim', {'on_ft': 'gitcommit'})
 
     " search
     call dein#add('junegunn/fzf', {
@@ -379,7 +378,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('benmills/vimux')
     call dein#add('tmux-plugins/vim-tmux')
     call dein#add('christoomey/vim-tmux-navigator')
-    call dein#add('wellle/tmux-complete.vim', {'on_if': 'exists("$TMUX")'})
+    call dein#add('wellle/tmux-complete.vim')
     " Latex
     call dein#add('lervag/vimtex')
     call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
