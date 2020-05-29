@@ -1,5 +1,8 @@
 {
   "coc.preferences.extensionUpdateCheck": "daily",
+  "codeLens.enable":true,
+  "suggest.echodocSupport":true,
+  "suggest.enablePreselect":true,
   "explorer": {
       "icon": {
           "enableNerdfont": true

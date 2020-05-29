@@ -61,6 +61,9 @@ if exists('g:load_extra_plugins')
     Plug 'othree/csscomplete.vim'
     Plug 'tpope/vim-markdown'
     Plug 'neomake/neomake'
+    Plug 'mhartington/nvim-typescript', {
+                \ 'do': './install.sh',
+                \ }
 endif
 
 if exists('g:load_deprecated_plugins')
@@ -81,7 +84,7 @@ Plug 'rhysd/vim-grammarous'
 Plug 'bergercookie/vim-debugstring'
 Plug 'tpope/vim-fugitive'
 Plug 'iamcco/markdown-preview.nvim', {
-            \ 'do': 'cd app & yarn install',
+            \ 'do': 'cd app && yarn install',
             \ 'for': 'markdown'
             \}
 Plug 'davidhalter/jedi-vim'
@@ -177,13 +180,6 @@ if dein#load_state(s:dein_repo)
         call dein#add('pbogut/deoplete-elm')
         call dein#add('deoplete-plugins/deoplete-jedi')
         call dein#add('ujihisa/neco-look')
-
-        if has('nvim')
-            call dein#add('mhartington/nvim-typescript', {
-                        \ 'on_ft': 'typescript',
-                        \ 'build': './install.sh',
-                        \ })
-        endif
     elseif g:my_cmp_source ==? 'coc'
         call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
         call dein#add('jsfaint/coc-neoinclude')
