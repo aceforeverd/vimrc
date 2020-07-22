@@ -44,7 +44,7 @@ if exists('g:load_pathogen_plugins')
 endif
 
 if !exists('g:my_cmp_source')
-    let g:my_cmp_source = 'deoplete'
+    let g:my_cmp_source = 'coc'
 endif
 
 " vim plug
@@ -134,10 +134,6 @@ if executable('cargo')
                 \ }
 endif
 
-Plug 'Konfekt/Fastfold'
-let g:fastfold_fold_command_suffixes = []
-let g:fastfold_fold_movement_commands = []
-
 call plug#end() "}}}
 
 let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
@@ -189,7 +185,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('Shougo/neoinclude.vim')
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/neco-syntax')
-    call dein#add('Shougo/vinarise.vim')
     call dein#add('Shougo/denite.nvim')
     call dein#add('Shougo/defx.nvim')
     call dein#add('kristijanhusak/defx-icons')
@@ -1319,8 +1314,6 @@ let g:localvimrc_name = [ '.lc.vim' ]
 
 let g:better_whitespace_operator = ''
 
-let g:yggdrasil_no_default_maps = 1
-
 let g:nvimgdb_disable_start_keymaps = 1
 
 " vim-javacomplete2
@@ -1329,12 +1322,6 @@ let g:JavaComplete_CheckServerVersionAtStartup = 0
 
 " vim-license
 let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
-
-
-let s:after_vimrc = s:vim_home . '/after.vim'
-if filereadable(s:after_vimrc)
-    execute('source ' . s:after_vimrc)
-endif
 
 " Ale
 let s:ale_c_lints = ['cppcheck', 'clangtidy', 'flawfinder', 'clang-format']
@@ -1363,3 +1350,8 @@ endif
 nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
 
+
+let s:after_vimrc = s:vim_home . '/after.vim'
+if filereadable(s:after_vimrc)
+    execute('source ' . s:after_vimrc)
+endif
