@@ -15,12 +15,19 @@
 
 set nocompatible
 
+let s:common_path = $HOME . '/.vim-commons'
+let s:common_pkg = s:common_path . '/pkgs'
+
 if !has('nvim')
     let s:vim_home = $HOME . '/.vim'
     let g:vimrc = $HOME . '/.vimrc'
+
+    let g:common_composer_path = s:common_pkg . '/markdown-composer-vim'
 else
     let s:vim_home = $HOME . '/.config/nvim'
     let g:vimrc = s:vim_home . '/init.vim'
+
+    let g:common_composer_path = s:common_pkg . '/markdown-composer-nvim'
 endif
 
 let s:dein_repo = s:vim_home . '/dein'
@@ -49,7 +56,7 @@ endif
 
 " vim plug
 " ============================================================================================
-call plug#begin('~/.vim-commons/pkgs') "{{{
+call plug#begin(s:common_pkg) "{{{
 
 if exists('g:load_extra_plugins')
     Plug 'mechatroner/rainbow_csv'
@@ -129,6 +136,7 @@ if executable('cargo')
         endif
     endfunction
     Plug 'euclio/vim-markdown-composer', {
+                \ 'dir': g:common_composer_path,
                 \ 'do': function('BuildComposer'),
                 \ 'for': 'markdown',
                 \ }
