@@ -1080,6 +1080,19 @@ function! s:init_source_lc_neovim() abort
 endfunction
 
 function! s:init_source_coc() abort
+    let g:coc_global_extensions = ['coc-vimlsp',
+                \ 'coc-tag', 'coc-syntax',
+                \ 'coc-snippets', 'coc-prettier',
+                \ 'coc-neosnippet', 'coc-lists',
+                \ 'coc-highlight', 'coc-git',
+                \ 'coc-explorer', 'coc-eslint',
+                \ 'coc-dictionary', 'coc-yank',
+                \ 'coc-yaml', 'coc-tsserver',
+                \ 'coc-rust-analyzer', 'coc-rls',
+                \ 'coc-python', 'coc-json',
+                \ 'coc-html', 'coc-go',
+                \ 'coc-css', 'coc-clangd',
+                \ ]
 
     function! s:coc_maps() abort
         " Use `[g` and `]g` to navigate diagnostics
