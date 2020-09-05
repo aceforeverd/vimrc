@@ -1330,6 +1330,8 @@ let g:gina#command#blame#formatter#format = '%su%=by %au on %ti, %ma/%in'
 
 let g:livepreview_engine = 'xelatex'
 
+let g:tex_flavor = 'latex'
+
 " localvimrc
 let g:localvimrc_name = [ '.lc.vim' ]
 
