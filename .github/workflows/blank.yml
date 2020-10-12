@@ -24,11 +24,12 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: install dependencies
-        run: apt update && apt install vim neovim vim curl
+        run: sudo apt update && sudo apt install vim neovim vim curl
       
       - name: install node
         run: |
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
+          source "$HOME/.nvm/nvm.sh"
           nvm install lts/erbium
           npm install -g neovim
       
