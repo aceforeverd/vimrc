@@ -29,6 +29,7 @@ jobs:
       - name: install node
         run: |
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
+          source "$HOME/.nvm/nvm.sh
           nvm install lts/erbium
           npm install -g neovim
       
