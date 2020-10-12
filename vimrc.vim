@@ -18,13 +18,12 @@ set nocompatible
 let s:common_path = $HOME . '/.vim-commons'
 let s:common_pkg = s:common_path . '/pkgs'
 
+let s:vim_home = expand('%:p:h')
 if !has('nvim')
-    let s:vim_home = $HOME . '/.vim'
-    let g:vimrc = $HOME . '/.vimrc'
+    let g:vimrc = s:vim_home . '/vimrc.vim'
 
     let g:common_composer_path = s:common_pkg . '/markdown-composer-vim'
 else
-    let s:vim_home = $HOME . '/.config/nvim'
     let g:vimrc = s:vim_home . '/init.vim'
 
     let g:common_composer_path = s:common_pkg . '/markdown-composer-nvim'
