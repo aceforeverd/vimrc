@@ -21,10 +21,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true 
 
       # Runs a single command using the runners shell
       - name: install dependencies
-        run: sudo apt update && sudo apt install vim neovim vim curl
+        run: sudo apt update && sudo apt install curl
 
       - name: install node
         run: |
