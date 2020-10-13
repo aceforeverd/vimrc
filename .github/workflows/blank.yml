@@ -25,21 +25,23 @@ jobs:
       # Runs a single command using the runners shell
       - name: install dependencies
         run: sudo apt update && sudo apt install vim neovim vim curl
-      
+
       - name: install node
         run: |
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
           source "$HOME/.nvm/nvm.sh"
           nvm install lts/erbium
           npm install -g neovim
-      
+
       - name: test vim setup script
         continue-on-error: true
         run: |
             ./scripts/setup.sh -t vim
-            
+            vim -c "set rtp+=$GITHUB_WORKSPACE" -c "call dein#install()" -c "PlugInstall" -c "q"
+
       - name: test neovim setup script
         run: |
             ./scripts/setup.sh
-          
-          
+            nvim -c "set rtp+=$GITHUB_WORKSPACE" -c "call dein#install()" -c "PlugInstall" -c "q"
+
+

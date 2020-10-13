@@ -78,11 +78,8 @@ echo ""
 echo -e "\033[1;32mPlugin managers all setted"
 
 if [[ $TYPE = "neovim" ]] ; then
-    # nvim -u "$ROOT/vimrc.vim" -E -c "call dein#install()" -c "PlugInstall" -c 'q'
     ln -s "$ROOT/vimrc.vim" "$ROOT/init.vim"
 elif [[ $TYPE = "vim" ]] ; then
-    # vim -u "$ROOT/vimrc.vim" -E -c "call dein#install()" -c "PlugInstall" -c 'q'
-    # ln -s "$ROOT/vimrc.vim" "$HOME/.vim/vimrc"
     echo
 fi
 echo -e "\033[1;32mPlugins installed"
