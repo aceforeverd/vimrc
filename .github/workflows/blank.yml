@@ -38,12 +38,12 @@ jobs:
         run: |
             git clean -dfx
             ./scripts/setup.sh -t vim
-            vim -c "set t_ti= t_te= nomore" -c "set rtp+=$GITHUB_WORKSPACE" -c "call dein#install()" -c "PlugInstall" -c "q"
+            vim -c "set t_ti= t_te= nomore" -c "set rtp+=$GITHUB_WORKSPACE" -c "source $GITHUB_WORKSPACE/vimrc.vim" -c "call dein#install()" -c "PlugInstall" -c "q"
 
       - name: test neovim setup script
         run: |
             git clean -dfx
             ./scripts/setup.sh
-            nvim --headless -c "set rtp+=$GITHUB_WORKSPACE" -c "call dein#install()" -c "PlugInstall" -c "q"
+            nvim --headless -c "set rtp+=$GITHUB_WORKSPACE" -c "source $GITHUB_WORKSPACE/vimrc.vim" -c "call dein#install()" -c "PlugInstall" -c "q"
 
 

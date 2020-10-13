@@ -15,23 +15,20 @@
 
 set nocompatible
 
-let s:common_path = $HOME . '/.vim-commons'
+let s:home = expand('<sfile>:p:h')
+let s:common_path = s:home . '/bundle'
 let s:common_pkg = s:common_path . '/pkgs'
 
-let s:vim_home = expand('<sfile>:p:h')
 if !has('nvim')
-    let g:vimrc = s:vim_home . '/vimrc.vim'
-
-    let g:common_composer_path = s:common_pkg . '/markdown-composer-vim'
+    let g:vimrc = s:home . '/vimrc.vim'
 else
-    let g:vimrc = s:vim_home . '/init.vim'
-
-    let g:common_composer_path = s:common_pkg . '/markdown-composer-nvim'
+    let g:vimrc = s:home . '/init.vim'
 endif
 
-let s:dein_repo = s:vim_home . '/dein'
+let s:dein_repo = s:home . '/dein'
 
-let s:before_vimrc = s:vim_home . '/before.vim'
+let s:before_vimrc = s:home . '/before.vim'
+
 if filereadable(s:before_vimrc)
     execute('source ' . s:before_vimrc)
 endif
@@ -44,9 +41,8 @@ if !exists('g:python3_host_prog')
 endif
 
 " pathogen
-" add plugins in ~/.vim/bundle
 if exists('g:load_pathogen_plugins')
-    execute pathogen#infect('~/.vim/bundle/{}')
+    execute pathogen#infect('~/.vim/bundle/pog/{}')
 endif
 
 if !exists('g:my_cmp_source')
@@ -135,7 +131,6 @@ if executable('cargo')
         endif
     endfunction
     Plug 'euclio/vim-markdown-composer', {
-                \ 'dir': g:common_composer_path,
                 \ 'do': function('BuildComposer'),
                 \ 'for': 'markdown',
                 \ }
@@ -1373,7 +1368,7 @@ nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
 
 
-let s:after_vimrc = s:vim_home . '/after.vim'
+let s:after_vimrc = s:home . '/after.vim'
 if filereadable(s:after_vimrc)
     execute('source ' . s:after_vimrc)
 endif
