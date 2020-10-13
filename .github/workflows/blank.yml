@@ -35,12 +35,14 @@ jobs:
 
       - name: test vim setup script
         continue-on-error: true
+        timeout-minutes: 15
         run: |
             git clean -dfx
             ./scripts/setup.sh -t vim
             vim -c "set t_ti= t_te= nomore" -c "set rtp+=$GITHUB_WORKSPACE" -c "source $GITHUB_WORKSPACE/vimrc.vim" -c "call dein#install()" -c "PlugInstall" -c "q"
 
       - name: test neovim setup script
+        timeout-minutes: 15
         run: |
             git clean -dfx
             ./scripts/setup.sh
