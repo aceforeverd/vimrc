@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: ['12', '14']
+        node_version: ['14']
         os: [ubuntu-latest, macOS-latest]
         neovim: [true, false]
 
@@ -24,8 +24,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-        
-      - name: setup neovim = ${{ matrix.neovim }} 
+
+      - name: setup neovim = ${{ matrix.neovim }}
         uses: rhysd/action-setup-vim@v1
         with:
           neovim: ${{ matrix.neovim }}

@@ -66,6 +66,20 @@ if exists('g:load_extra_plugins')
     Plug 'mhartington/nvim-typescript', {
                 \ 'do': './install.sh',
                 \ }
+
+    function! BuildComposer(info)
+        if a:info.status !=? 'unchanged' || a:info.force
+            if has('nvim')
+                !cargo build --release
+            else
+                !cargo build --release --no-default-features --features json-rpc
+            endif
+        endif
+    endfunction
+    Plug 'euclio/vim-markdown-composer', {
+                \ 'do': function('BuildComposer'),
+                \ 'for': 'markdown',
+                \ }
 endif
 
 if exists('g:load_deprecated_plugins')
@@ -117,22 +131,6 @@ if g:my_cmp_source ==? 'deoplete'
     Plug 'autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
                 \ 'do': 'bash install.sh',
-                \ }
-endif
-
-if executable('cargo')
-    function! BuildComposer(info)
-        if a:info.status !=? 'unchanged' || a:info.force
-            if has('nvim')
-                !cargo build --release
-            else
-                !cargo build --release --no-default-features --features json-rpc
-            endif
-        endif
-    endfunction
-    Plug 'euclio/vim-markdown-composer', {
-                \ 'do': function('BuildComposer'),
-                \ 'for': 'markdown',
                 \ }
 endif
 
