@@ -32,7 +32,8 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: install dependencies
-        run: sudo apt update && sudo apt install curl
+        run: sudo apt-get update && sudo apt-get install -y curl
+        if: ${{ matrix.os == ubuntu-latest }}
 
       - name: setup node ${{ matrix.node_version }}
         uses: actions/setup-node@v2-beta
