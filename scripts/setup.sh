@@ -82,4 +82,3 @@ if [[ $TYPE = "neovim" ]] ; then
 elif [[ $TYPE = "vim" ]] ; then
     echo
 fi
-echo -e "\033[1;32mPlugins installed"
