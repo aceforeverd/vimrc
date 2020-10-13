@@ -33,13 +33,6 @@ if filereadable(s:before_vimrc)
     execute('source ' . s:before_vimrc)
 endif
 
-if !exists('g:python_host_prog')
-    let g:python_host_prog = '/usr/bin/python2'
-endif
-if !exists('g:python3_host_prog')
-    let g:python3_host_prog = '/usr/bin/python3'
-endif
-
 " pathogen
 if exists('g:load_pathogen_plugins')
     execute pathogen#infect('~/.vim/bundle/pog/{}')
