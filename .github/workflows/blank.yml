@@ -12,41 +12,48 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node_version: ['12', '14']
+        os: [ubuntu-latest, macOS-latest]
+        neovim: [true, false]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         
-      - uses: rhysd/action-setup-vim@v1
+      - name: setup neovim = ${{ matrix.neovim }} 
+        uses: rhysd/action-setup-vim@v1
         with:
-          neovim: true 
+          neovim: ${{ matrix.neovim }}
 
       # Runs a single command using the runners shell
       - name: install dependencies
         run: sudo apt update && sudo apt install curl
 
-      - name: install node
+      - name: setup node ${{ matrix.node_version }}
+        uses: actions/setup-node@v2-beta
+        with:
+           node-version: ${{ matrix.node_version }}
+
+      - name: install node-neovim
         run: |
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
-          source "$HOME/.nvm/nvm.sh"
-          nvm install lts/erbium
           npm install -g neovim
 
       - name: test vim setup script
-        continue-on-error: true
-        timeout-minutes: 15
+        timeout-minutes: 30
+        if: ${{ matrix.neovim == false }}
         run: |
             git clean -dfx
             ./scripts/setup.sh -t vim
             vim -c "set t_ti= t_te= nomore" -c "set rtp+=$GITHUB_WORKSPACE" -c "source $GITHUB_WORKSPACE/vimrc.vim" -c "call dein#install()" -c "PlugInstall" -c "q"
 
       - name: test neovim setup script
-        timeout-minutes: 15
+        timeout-minutes: 30
+        if: ${{ matrix.neovim == true }}
         run: |
             git clean -dfx
             ./scripts/setup.sh
