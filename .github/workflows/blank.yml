@@ -33,7 +33,7 @@ jobs:
       - name: setup python
         uses: actions/setup-python@v2
         with:
-          python: 3.x
+          python-version: 3.x
 
       - name: install pynvim
         run: |
