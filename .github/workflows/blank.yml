@@ -50,7 +50,8 @@ jobs:
         run: |
             git clean -dfx
             ./scripts/setup.sh -t vim
-            vim -c "set t_ti= t_te= nomore" -c "set rtp+=$GITHUB_WORKSPACE" -c "source $GITHUB_WORKSPACE/vimrc.vim" -c "call dein#install()" -c "PlugInstall" -c "q"
+            vim -c "set t_ti= t_te= nomore" -c "set rtp+=$GITHUB_WORKSPACE" -c "source $GITHUB_WORKSPACE/vimrc.vim" -c "call dein#install()" -c "q"
+            vim -c "set t_ti= t_te= nomore" -c "set rtp+=$GITHUB_WORKSPACE" -c "source $GITHUB_WORKSPACE/vimrc.vim" -c 'PlugInstall' -c 'qa'
 
       - name: test neovim setup script
         timeout-minutes: 30
@@ -58,6 +59,6 @@ jobs:
         run: |
             git clean -dfx
             ./scripts/setup.sh
-            nvim --headless -c "set rtp+=$GITHUB_WORKSPACE" -c "source $GITHUB_WORKSPACE/vimrc.vim" -c "call dein#install()" -c "PlugInstall" -c "q"
-
+            nvim --headless -c "set rtp+=$GITHUB_WORKSPACE" -c "source $GITHUB_WORKSPACE/vimrc.vim" -c "call dein#install()" -c "qa"
+            nvim -c "set rtp+=$GITHUB_WORKSPACE" -c "source $GITHUB_WORKSPACE/vimrc.vim" -c 'PlugInstall' -c 'qa'
 
