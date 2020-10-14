@@ -823,9 +823,6 @@ augroup Defx
 augroup end
 command! DefxTab :Defx -split=vertical -winwidth=50 -direction=topleft
 command! DefxCwd :Defx `expand('%:p:h')` -search=`expand('%:p')`
-call defx#custom#option('_', {
-            \ 'split': 'tab'
-            \ })
 function! s:defx_settings() abort
 
     " Define mappings
