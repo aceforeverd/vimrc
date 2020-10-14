@@ -79,4 +79,9 @@ echo -e "\033[1;32mPlugin managers all setted"
 
 pushd "$ROOT"
 ln -s vimrc.vim init.vim
+if [[ "$TYPE" = "neovim" ]]; then
+    nvim --headless -S "$ROOT/vimrc.vim" -c "call dein#install()" -c "qa"
+else
+    vim -c "set t_ti= t_te= nomore" -S "$ROOT/vimrc.vim" -c "call dein#install()" -c "qa"
+fi
 popd

@@ -61,14 +61,14 @@ jobs:
         if: ${{ matrix.neovim == false }}
         run: |
             git clean -dfx
+            rm -rf bundle dein
             ./scripts/setup.sh -t vim
-            vim -c "set t_ti= t_te= nomore" -c "source $GITHUB_WORKSPACE/vimrc.vim" -c "call dein#install()" -c "q"
 
       - name: test neovim
         timeout-minutes: 30
         if: ${{ matrix.neovim == true }}
         run: |
             git clean -dfx
+            rm -rf bundle dein
             ./scripts/setup.sh
-            nvim --headless -c "source $GITHUB_WORKSPACE/vimrc.vim" -c "call dein#install()" -c "q"
 
