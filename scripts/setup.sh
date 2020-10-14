@@ -38,7 +38,7 @@ function usage ()
 #  Handle command line arguments
 #-----------------------------------------------------------------------
 
-while getopts ":hvt:" opt
+while getopts ":hvt:s" opt
 do
   case $opt in
 
