@@ -15,44 +15,34 @@
 
 set nocompatible
 
-let s:common_path = $HOME . '/.vim-commons'
+let s:home = expand('<sfile>:p:h')
+let s:common_path = s:home . '/bundle'
 let s:common_pkg = s:common_path . '/pkgs'
 
 if !has('nvim')
-    let s:vim_home = $HOME . '/.vim'
-    let g:vimrc = $HOME . '/.vimrc'
-
-    let g:common_composer_path = s:common_pkg . '/markdown-composer-vim'
+    let g:vimrc = s:home . '/vimrc.vim'
 else
-    let s:vim_home = $HOME . '/.config/nvim'
-    let g:vimrc = s:vim_home . '/init.vim'
-
-    let g:common_composer_path = s:common_pkg . '/markdown-composer-nvim'
+    let g:vimrc = s:home . '/init.vim'
 endif
 
-let s:dein_repo = s:vim_home . '/dein'
+let s:dein_repo = s:home . '/dein'
 
-let s:before_vimrc = s:vim_home . '/before.vim'
+let s:before_vimrc = s:home . '/before.vim'
+
 if filereadable(s:before_vimrc)
     execute('source ' . s:before_vimrc)
 endif
 
-if !exists('g:python_host_prog')
-    let g:python_host_prog = '/usr/bin/python2'
-endif
-if !exists('g:python3_host_prog')
-    let g:python3_host_prog = '/usr/bin/python3'
-endif
-
 " pathogen
-" add plugins in ~/.vim/bundle
 if exists('g:load_pathogen_plugins')
-    execute pathogen#infect('~/.vim/bundle/{}')
+    execute pathogen#infect('~/.vim/bundle/pog/{}')
 endif
 
 if !exists('g:my_cmp_source')
     let g:my_cmp_source = 'coc'
 endif
+
+let &runtimepath = &runtimepath . ',' . s:home
 
 " vim plug
 " ============================================================================================
@@ -71,6 +61,20 @@ if exists('g:load_extra_plugins')
     Plug 'mhartington/nvim-typescript', {
                 \ 'do': './install.sh',
                 \ }
+
+    function! BuildComposer(info)
+        if a:info.status !=? 'unchanged' || a:info.force
+            if has('nvim')
+                !cargo build --release
+            else
+                !cargo build --release --no-default-features --features json-rpc
+            endif
+        endif
+    endfunction
+    Plug 'euclio/vim-markdown-composer', {
+                \ 'do': function('BuildComposer'),
+                \ 'for': 'markdown',
+                \ }
 endif
 
 if exists('g:load_deprecated_plugins')
@@ -87,13 +91,8 @@ endif
 
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
-Plug 'rhysd/vim-grammarous'
 Plug 'bergercookie/vim-debugstring'
 Plug 'tpope/vim-fugitive'
-Plug 'iamcco/markdown-preview.nvim', {
-            \ 'do': 'cd app && yarn install',
-            \ 'for': 'markdown'
-            \}
 Plug 'davidhalter/jedi-vim'
 let g:jedi#auto_initialization = 0
 let g:jedi#completions_enabled = 0
@@ -122,23 +121,6 @@ if g:my_cmp_source ==? 'deoplete'
     Plug 'autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
                 \ 'do': 'bash install.sh',
-                \ }
-endif
-
-if executable('cargo')
-    function! BuildComposer(info)
-        if a:info.status !=? 'unchanged' || a:info.force
-            if has('nvim')
-                !cargo build --release
-            else
-                !cargo build --release --no-default-features --features json-rpc
-            endif
-        endif
-    endfunction
-    Plug 'euclio/vim-markdown-composer', {
-                \ 'dir': g:common_composer_path,
-                \ 'do': function('BuildComposer'),
-                \ 'for': 'markdown',
                 \ }
 endif
 
@@ -356,6 +338,9 @@ if dein#load_state(s:dein_repo)
     call dein#add('alfredodeza/pytest.vim')
     " markdown
     call dein#add('mzlogin/vim-markdown-toc', {'on_ft': 'markdown'})
+    call dein#add('iamcco/markdown-preview.nvim', {
+                \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
+                \ 'build': 'cd app && yarn install' })
     " R
     call dein#add('jalvesaq/Nvim-R')
     " Rust
@@ -409,6 +394,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('dart-lang/dart-vim-plugin')
     call dein#add('slim-template/vim-slim')
     call dein#add('chrisbra/csv.vim')
+    call dein#add('rhysd/vim-grammarous')
 
     call dein#end()
     call dein#save_state()
@@ -752,6 +738,11 @@ augroup gp_denite
 	autocmd FileType denite call s:denite_settings()
 	autocmd FileType denite-filter call s:denite_filter_settings()
 augroup END
+
+function! s:denite_filter_settings() abort
+    imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+endfunction
+
 function! s:denite_settings() abort
     nnoremap <silent><buffer><expr> <CR>
                 \ denite#do_map('do_action')
@@ -765,66 +756,62 @@ function! s:denite_settings() abort
                 \ denite#do_map('open_filter_buffer')
     nnoremap <silent><buffer><expr> <Space>
                 \ denite#do_map('toggle_select').'j'
+
+    " Change matchers.
+    call denite#custom#source(
+                \ 'file_mru', 'matchers', ['matcher/fuzzy', 'matcher/project_files'])
+    call denite#custom#source(
+                \ 'file/rec', 'matchers', ['matcher/cpsm'])
+
+    " Change default action.
+    call denite#custom#kind('file', 'default_action', 'split')
+
+    " Add custom menus
+    let s:menus = {}
+
+    let s:menus.zsh = {
+                \ 'description': 'Edit your import zsh configuration'
+                \ }
+    let s:menus.zsh.file_candidates = [
+                \ ['zshrc', '~/.config/zsh/.zshrc'],
+                \ ['zshenv', '~/.zshenv'],
+                \ ]
+
+    let s:menus.my_commands = {
+                \ 'description': 'Example commands'
+                \ }
+    let s:menus.my_commands.command_candidates = [
+                \ ['Split the window', 'vnew'],
+                \ ['Open zsh menu', 'Denite menu:zsh'],
+                \ ['Format code', 'FormatCode', 'go,python'],
+                \ ]
+
+    call denite#custom#var('menu', 'menus', s:menus)
+
+    " Ag command on grep source
+    call denite#custom#var('grep', 'command', ['dag'])
+    call denite#custom#var('grep', 'default_opts',
+                \ ['-i', '--vimgrep'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', [])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
+
+    " Ripgrep command on grep source
+    call denite#custom#var('grep', 'command', ['drg'])
+    call denite#custom#var('grep', 'default_opts',
+                \ ['-i', '--vimgrep', '--no-heading'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
+
+    " Change ignore_globs
+    call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
+                \ [ '.git/', '.ropeproject/', '__pycache__/',
+                \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
+
 endfunction
-
-function! s:denite_filter_settings() abort
-    imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
-endfunction
-
-" Change matchers.
-call denite#custom#source(
-            \ 'file_mru', 'matchers', ['matcher/fuzzy', 'matcher/project_files'])
-call denite#custom#source(
-            \ 'file/rec', 'matchers', ['matcher/cpsm'])
-
-" Change default action.
-call denite#custom#kind('file', 'default_action', 'split')
-
-" Add custom menus
-let s:menus = {}
-
-let s:menus.zsh = {
-            \ 'description': 'Edit your import zsh configuration'
-            \ }
-let s:menus.zsh.file_candidates = [
-            \ ['zshrc', '~/.config/zsh/.zshrc'],
-            \ ['zshenv', '~/.zshenv'],
-            \ ]
-
-let s:menus.my_commands = {
-            \ 'description': 'Example commands'
-            \ }
-let s:menus.my_commands.command_candidates = [
-            \ ['Split the window', 'vnew'],
-            \ ['Open zsh menu', 'Denite menu:zsh'],
-            \ ['Format code', 'FormatCode', 'go,python'],
-            \ ]
-
-call denite#custom#var('menu', 'menus', s:menus)
-
-" Ag command on grep source
-call denite#custom#var('grep', 'command', ['dag'])
-call denite#custom#var('grep', 'default_opts',
-            \ ['-i', '--vimgrep'])
-call denite#custom#var('grep', 'recursive_opts', [])
-call denite#custom#var('grep', 'pattern_opt', [])
-call denite#custom#var('grep', 'separator', ['--'])
-call denite#custom#var('grep', 'final_opts', [])
-
-" Ripgrep command on grep source
-call denite#custom#var('grep', 'command', ['drg'])
-call denite#custom#var('grep', 'default_opts',
-            \ ['-i', '--vimgrep', '--no-heading'])
-call denite#custom#var('grep', 'recursive_opts', [])
-call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-call denite#custom#var('grep', 'separator', ['--'])
-call denite#custom#var('grep', 'final_opts', [])
-
-" Change ignore_globs
-call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
-            \ [ '.git/', '.ropeproject/', '__pycache__/',
-            \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
-
 
 " defx
 augroup Defx
@@ -836,9 +823,6 @@ augroup Defx
 augroup end
 command! DefxTab :Defx -split=vertical -winwidth=50 -direction=topleft
 command! DefxCwd :Defx `expand('%:p:h')` -search=`expand('%:p')`
-call defx#custom#option('_', {
-            \ 'split': 'tab'
-            \ })
 function! s:defx_settings() abort
 
     " Define mappings
@@ -1374,7 +1358,7 @@ nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
 
 
-let s:after_vimrc = s:vim_home . '/after.vim'
+let s:after_vimrc = s:home . '/after.vim'
 if filereadable(s:after_vimrc)
     execute('source ' . s:after_vimrc)
 endif

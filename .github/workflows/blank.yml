@@ -12,34 +12,63 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node_version: ['14']
+        os: [ubuntu-latest, macOS-latest]
+        neovim: [true, false]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: setup neovim = ${{ matrix.neovim }}
+        uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: ${{ matrix.neovim }}
+
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: install pynvim
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade pynvim msgpack
+
       # Runs a single command using the runners shell
       - name: install dependencies
-        run: sudo apt update && sudo apt install vim neovim vim curl
-      
-      - name: install node
         run: |
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
-          source "$HOME/.nvm/nvm.sh"
-          nvm install lts/erbium
-          npm install -g neovim
-      
-      - name: test vim setup script
-        continue-on-error: true
+          sudo apt-get update
+          sudo apt-get install -y curl
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+
+      - name: setup node ${{ matrix.node_version }}
+        uses: actions/setup-node@v2-beta
+        with:
+           node-version: ${{ matrix.node_version }}
+
+      - name: install node modules
         run: |
+          npm install -g neovim yarn
+
+      - name: test vim
+        timeout-minutes: 30
+        if: ${{ matrix.neovim == false }}
+        run: |
+            git clean -dfx
+            rm -rf bundle dein
             ./scripts/setup.sh -t vim
-            
-      - name: test neovim setup script
+
+      - name: test neovim
+        timeout-minutes: 30
+        if: ${{ matrix.neovim == true }}
         run: |
+            git clean -dfx
+            rm -rf bundle dein
             ./scripts/setup.sh
-          
-          
+

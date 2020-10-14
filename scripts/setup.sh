@@ -11,9 +11,14 @@
 set -eE
 set -o nounset
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
 cd "$(dirname "$0")"
 
 TYPE=neovim
+INSTALL_PLUGINS=true
 
 __ScriptVersion="1.1.0"
 
@@ -27,6 +32,7 @@ function usage ()
 
     Options:
     -t            vim type, neovim or vim, default to neovim
+    -s            skip plugin install, just setup plugin managers
     -h|help       Display this message
     -v|version    Display script version"
 
@@ -36,11 +42,13 @@ function usage ()
 #  Handle command line arguments
 #-----------------------------------------------------------------------
 
-while getopts ":hvt:" opt
+while getopts ":hvt:s" opt
 do
   case $opt in
 
     t)  TYPE=$OPTARG ;;
+
+    s)  INSTALL_PLUGINS= ;;
 
     h)  usage; exit 0   ;;
 
@@ -63,26 +71,30 @@ if [ ! -d "$DEIN_PATH" ] ; then
     mkdir -p "$DEIN_PATH"
 fi
 
-echo -e "\033[0;32mStart setting up plugin managers (vim plug & dein.vim)\033[0m"
+echo -e "${GREEN}Start setting up plugin managers (vim plug & dein.vim)${NC}"
 
-echo -e "\033[0;32mInstalling vim plug ...\033[0m"
+echo -e "${GREEN}Installing vim plug ...${NC}"
 curl -fLo "$VIMPLUG_PATH/plug.vim" --create-dirs "$VIMPLUG" && \
-    echo -e "\033[1;32mvim plug installed as $VIMPLUG_PATH/plug.vim\033[0m"
+    echo -e "${GREEN}vim plug installed as $VIMPLUG_PATH/plug.vim${NC}"
 echo ""
 
-echo -e "\033[0;32mInstalling dein.vim ...\033[0m"
+echo -e "${GREEN}Installing dein.vim ...${NC}"
 git clone "$DEIN_URL" "$DEIN_PATH" && \
-    echo -e "\033[1;32mdein.vim installed at $DEIN_PATH\033[0m"
+    echo -e "${GREEN}dein.vim installed at $DEIN_PATH${NC}"
 echo ""
 
-echo -e "\033[1;32mPlugin managers all setted"
+echo -e "${GREEN}Plugin managers all setted${NC}"
 
-if [[ $TYPE = "neovim" ]] ; then
-    # nvim -u "$ROOT/vimrc.vim" -E -c "call dein#install()" -c "PlugInstall" -c 'q'
-    ln -s "$ROOT/vimrc.vim" "$ROOT/init.vim"
-elif [[ $TYPE = "vim" ]] ; then
-    # vim -u "$ROOT/vimrc.vim" -E -c "call dein#install()" -c "PlugInstall" -c 'q'
-    # ln -s "$ROOT/vimrc.vim" "$HOME/.vim/vimrc"
-    echo
+pushd "$ROOT"
+if [[ -n "$INSTALL_PLUGINS" ]]; then
+    if [[ "$TYPE" = "neovim" ]]; then
+        ln -s vimrc.vim init.vim
+        echo -e "${GREEN}installing dein plugins for neovim${NC}"
+        nvim --headless -u "$ROOT/vimrc.vim" -c "call dein#install()" -c "qa!"
+    else
+        ln -s vimrc.vim vimrc
+        echo -e "${GREEN}installing dein plugins for vim${NC}"
+        vim -E -c "set t_ti= t_te= nomore" -u "$ROOT/vimrc.vim" -c "call dein#install()" -c "qa!"
+    fi
 fi
-echo -e "\033[1;32mPlugins installed"
+popd
