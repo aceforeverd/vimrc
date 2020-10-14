@@ -42,6 +42,8 @@ if !exists('g:my_cmp_source')
     let g:my_cmp_source = 'coc'
 endif
 
+let &runtimepath = &runtimepath . ',' . s:home
+
 " vim plug
 " ============================================================================================
 call plug#begin(s:common_pkg) "{{{
@@ -125,7 +127,7 @@ endif
 call plug#end() "}}}
 
 let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
-let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
+let &runtimepath = &runtimepath . ',' . s:dein_path
 
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
