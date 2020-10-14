@@ -52,9 +52,9 @@ jobs:
         with:
            node-version: ${{ matrix.node_version }}
 
-      - name: install node-neovim
+      - name: install node modules
         run: |
-          npm install -g neovim
+          npm install -g neovim yarn
 
       - name: test vim
         timeout-minutes: 30
