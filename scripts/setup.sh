@@ -77,8 +77,6 @@ echo ""
 
 echo -e "\033[1;32mPlugin managers all setted"
 
-if [[ $TYPE = "neovim" ]] ; then
-    ln -s "$ROOT/vimrc.vim" "$ROOT/init.vim"
-elif [[ $TYPE = "vim" ]] ; then
-    echo
-fi
+pushd "$ROOT"
+ln -s vimrc.vim init.vim
+popd

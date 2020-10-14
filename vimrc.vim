@@ -89,13 +89,8 @@ endif
 
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
-Plug 'rhysd/vim-grammarous'
 Plug 'bergercookie/vim-debugstring'
 Plug 'tpope/vim-fugitive'
-Plug 'iamcco/markdown-preview.nvim', {
-            \ 'do': 'cd app && yarn install',
-            \ 'for': 'markdown'
-            \}
 Plug 'davidhalter/jedi-vim'
 let g:jedi#auto_initialization = 0
 let g:jedi#completions_enabled = 0
@@ -341,6 +336,9 @@ if dein#load_state(s:dein_repo)
     call dein#add('alfredodeza/pytest.vim')
     " markdown
     call dein#add('mzlogin/vim-markdown-toc', {'on_ft': 'markdown'})
+    call dein#add('iamcco/markdown-preview.nvim', {
+                \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
+                \ 'build': 'cd app && yarn install' })
     " R
     call dein#add('jalvesaq/Nvim-R')
     " Rust
@@ -394,6 +392,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('dart-lang/dart-vim-plugin')
     call dein#add('slim-template/vim-slim')
     call dein#add('chrisbra/csv.vim')
+    call dein#add('rhysd/vim-grammarous')
 
     call dein#end()
     call dein#save_state()
