@@ -14,6 +14,7 @@ set -o nounset
 cd "$(dirname "$0")"
 
 TYPE=neovim
+INSTALL_PLUGINS=
 
 __ScriptVersion="1.1.0"
 
@@ -27,6 +28,7 @@ function usage ()
 
     Options:
     -t            vim type, neovim or vim, default to neovim
+    -s            skip plugin install, just setup plugin managers
     -h|help       Display this message
     -v|version    Display script version"
 
@@ -41,6 +43,8 @@ do
   case $opt in
 
     t)  TYPE=$OPTARG ;;
+
+    s)  INSTALL_PLUGINS=true ;;
 
     h)  usage; exit 0   ;;
 
@@ -78,10 +82,13 @@ echo ""
 echo -e "\033[1;32mPlugin managers all setted"
 
 pushd "$ROOT"
-ln -s vimrc.vim init.vim
-if [[ "$TYPE" = "neovim" ]]; then
-    nvim --headless -S "$ROOT/vimrc.vim" -c "call dein#install()" -c "qa"
-else
-    vim -c "set t_ti= t_te= nomore" -S "$ROOT/vimrc.vim" -c "call dein#install()" -c "qa"
+if [[ -n "$INSTALL_PLUGINS" ]]; then
+    if [[ "$TYPE" = "neovim" ]]; then
+        ln -s vimrc.vim init.vim
+        nvim --headless -u "$ROOT/vimrc.vim" -c "call dein#install()" -c "qa!"
+    else
+        ln -s vimrc.vim vimrc
+        vim -E -c "set t_ti= t_te= nomore"  -u "$ROOT/vimrc.vim" -c "call dein#install()" -c "qa!"
+    fi
 fi
 popd
