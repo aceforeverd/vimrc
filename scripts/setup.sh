@@ -14,7 +14,7 @@ set -o nounset
 cd "$(dirname "$0")"
 
 TYPE=neovim
-INSTALL_PLUGINS=
+INSTALL_PLUGINS=true
 
 __ScriptVersion="1.1.0"
 
@@ -44,7 +44,7 @@ do
 
     t)  TYPE=$OPTARG ;;
 
-    s)  INSTALL_PLUGINS=true ;;
+    s)  INSTALL_PLUGINS= ;;
 
     h)  usage; exit 0   ;;
 
