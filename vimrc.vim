@@ -20,7 +20,7 @@ let s:common_path = s:home . '/bundle'
 let s:common_pkg = s:common_path . '/pkgs'
 
 if !has('nvim')
-    let g:vimrc = s:home . '/vimrc.vim'
+    let g:vimrc = s:home . '/vimrc'
 else
     let g:vimrc = s:home . '/init.vim'
 endif
@@ -42,46 +42,6 @@ if !exists('g:my_cmp_source')
     let g:my_cmp_source = 'coc'
 endif
 
-let &runtimepath = &runtimepath . ',' . s:home
-
-" vim plug
-" ============================================================================================
-call plug#begin(s:common_pkg) "{{{
-
-if exists('g:load_extra_plugins')
-    Plug 'mechatroner/rainbow_csv'
-    Plug 'junegunn/vader.vim'
-
-    Plug 'vimwiki/vimwiki'
-    let g:vimwiki_key_mappings = { 'all_maps': 0, }
-
-    Plug 'othree/csscomplete.vim'
-    Plug 'tpope/vim-markdown'
-    Plug 'neomake/neomake'
-    Plug 'mhartington/nvim-typescript', {
-                \ 'do': './install.sh',
-                \ }
-
-    function! BuildComposer(info)
-        if a:info.status !=? 'unchanged' || a:info.force
-            if has('nvim')
-                !cargo build --release
-            else
-                !cargo build --release --no-default-features --features json-rpc
-            endif
-        endif
-    endfunction
-    Plug 'euclio/vim-markdown-composer', {
-                \ 'do': function('BuildComposer'),
-                \ 'for': 'markdown',
-                \ }
-endif
-
-if exists('g:load_deprecated_plugins')
-    "" merged: 0, conflict with othree/html5 and many
-    Plug 'ap/vim-css-color'
-endif
-
 if !exists('g:my_name')
     let g:my_name = 'Ace'
 endif
@@ -89,10 +49,20 @@ if !exists('g:my_email')
     let g:my_email = 'teapot@aceforeverd.com'
 endif
 
+let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
+let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
+
+" vim plug
+" ============================================================================================
+call plug#begin(s:common_pkg) "{{{
+
 Plug 'dense-analysis/ale'
-Plug 'airblade/vim-gitgutter'
 Plug 'bergercookie/vim-debugstring'
-Plug 'tpope/vim-fugitive'
+
+Plug 'sheerun/vim-polyglot'
+let g:vim_json_syntax_conceal = 1
+let g:polygolt_disabled = ['go']
+
 Plug 'davidhalter/jedi-vim'
 let g:jedi#auto_initialization = 0
 let g:jedi#completions_enabled = 0
@@ -107,12 +77,7 @@ augroup gp_jedi
     autocmd!
     autocmd FileType python call <SID>jedi_mappings()
 augroup END
-
-Plug 'sheerun/vim-polyglot'
-let g:vim_json_syntax_conceal = 1
-
 Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc#filetypes#pandoc_markdown = 0
 Plug 'chrisbra/unicode.vim'
 
@@ -126,8 +91,6 @@ endif
 
 call plug#end() "}}}
 
-let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
-let &runtimepath = &runtimepath . ',' . s:dein_path
 
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
@@ -184,7 +147,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('Shougo/deol.nvim')
 
     call dein#add('neoclide/denite-extra')
-    call dein#add('neoclide/denite-git')
     call dein#add('ozelentok/denite-gtags')
 
     call dein#add('tpope/vim-endwise')
@@ -245,7 +207,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('tweekmonster/startuptime.vim')
     call dein#add('joereynolds/SQHell.vim')
 
-    call dein#add('google/vimdoc')
     call dein#add('alpertuna/vim-header')
     call dein#add('antoyo/vim-licenses')
     " code format
@@ -258,6 +219,8 @@ if dein#load_state(s:dein_repo)
     call dein#add('thinca/vim-quickrun')
 
     " VCS
+    call dein#add('tpope/vim-fugitive')
+    call dein#add('airblade/vim-gitgutter')
     call dein#add('lambdalisue/gina.vim')
     call dein#add('junegunn/gv.vim')
     call dein#add('gregsexton/gitv')
@@ -267,6 +230,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
+    call dein#add('neoclide/denite-git')
 
     " search
     call dein#add('junegunn/fzf', {
@@ -297,11 +261,9 @@ if dein#load_state(s:dein_repo)
     call dein#add('chrisbra/NrrwRgn')
     call dein#add('machakann/vim-sandwich')
 
-    " Languages
     " Go
     call dein#add('fatih/vim-go')
     " c/c++/objc
-    call dein#add('octol/vim-cpp-enhanced-highlight')
     call dein#add('nacitar/a.vim')
     call dein#add('sakhnik/nvim-gdb')
     " call dein#add('jackguo380/vim-lsp-cxx-highlight')
@@ -312,14 +274,10 @@ if dein#load_state(s:dein_repo)
     call dein#add('HerringtonDarkholme/yats.vim')
 
     call dein#add('MaxMEllon/vim-jsx-pretty')
-    call dein#add('posva/vim-vue')
     " Haskell
     call dein#add('neovimhaskell/haskell-vim')
     call dein#add('eagletmt/neco-ghc')
     call dein#add('Twinside/vim-hoogle')
-    call dein#add('dag/vim-fish')
-    " Html
-    call dein#add('othree/html5.vim')
     " vimL
     call dein#add('mhinz/vim-lookup')
 
@@ -327,12 +285,9 @@ if dein#load_state(s:dein_repo)
     call dein#add('tweekmonster/helpful.vim')
     " Elixir
     call dein#add('slashmili/alchemist.vim')
-    call dein#add('elixir-lang/vim-elixir')
-    " Java/Kotlin
+    " Java
     call dein#add('artur-shaik/vim-javacomplete2', {'on_ft': 'java'})
-    call dein#add('udalov/kotlin-vim')
     " CSS/SCSS/LESS
-    "" merged: 0, conflict with othree/html5
     call dein#add('hail2u/vim-css3-syntax', {'merged': 0})
     " Python
     call dein#add('alfredodeza/pytest.vim')
@@ -341,6 +296,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('iamcco/markdown-preview.nvim', {
                 \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
                 \ 'build': 'cd app && yarn install' })
+    call dein#add('vim-pandoc/vim-pandoc-syntax')
     " R
     call dein#add('jalvesaq/Nvim-R')
     " Rust
@@ -354,10 +310,7 @@ if dein#load_state(s:dein_repo)
         \ })
     call dein#add('c9s/perlomni.vim', {'on_ft': 'perl'})
     " Erlang
-    call dein#add('vim-erlang/vim-erlang-runtime')
     call dein#add('vim-erlang/vim-erlang-omnicomplete')
-    " julia
-    call dein#add('JuliaEditorSupport/julia-vim')
     " Tmux
     call dein#add('benmills/vimux')
     call dein#add('tmux-plugins/vim-tmux')
@@ -367,39 +320,27 @@ if dein#load_state(s:dein_repo)
     call dein#add('lervag/vimtex')
     call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
 
-    call dein#add('rodjek/vim-puppet')
-    call dein#add('exu/pgsql.vim')
-    " swift
-    call dein#add('keith/swift.vim', {'on_ft': 'swift'})
-
     call dein#add('jparise/vim-graphql')
     call dein#add('mboughaba/i3config.vim')
     call dein#add('hashivim/vim-terraform')
-    call dein#add('matt-deacalion/vim-systemd-syntax')
-
-    call dein#add('pearofducks/ansible-vim')
     call dein#add('rhysd/vim-crystal')
     " elm
     call dein#add('elmcast/elm-vim')
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
     call dein#add('clojure-vim/async-clj-omni')
-    call dein#add('clojure-vim/vim-cider')
     call dein#add('clojure-vim/acid.nvim', {'merged': 0})
     " npm
     call dein#add('rhysd/npm-filetypes.vim')
     " gentoo
     call dein#add('gentoo/gentoo-syntax')
 
-    call dein#add('dart-lang/dart-vim-plugin')
-    call dein#add('slim-template/vim-slim')
     call dein#add('chrisbra/csv.vim')
     call dein#add('rhysd/vim-grammarous')
 
     call dein#end()
     call dein#save_state()
 endif
-
 
 " =================== extra conf ============================= "
 
@@ -1274,12 +1215,6 @@ let g:bookmark_no_default_key_mappings = 1
 " colorizer
 let g:colorizer_auto_filetype='css,html,scss'
 
-" vim-cpp-enhanced-highlight
-" let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_concepts_highlight = 1
-
 " rainbow
 augroup rainbow_lisp
   autocmd!
@@ -1294,9 +1229,6 @@ let g:tmuxcomplete#trigger = ''
 
 " elm-vim
 let g:elm_setup_keybindings = 0
-
-" vim-online-thesaurus*
-let g:online_thesaurus_map_keys = 0
 
 " gen_tags
 if !executable('gtags')
