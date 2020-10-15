@@ -44,7 +44,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y curl global universal-ctags
+          sudo apt-get install -y curl global
         if: ${{ matrix.os == 'ubuntu-latest' }}
 
       - name: setup node ${{ matrix.node_version }}
