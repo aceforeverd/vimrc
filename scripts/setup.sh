@@ -91,6 +91,7 @@ if [[ -n "$INSTALL_PLUGINS" ]]; then
         ln -s vimrc.vim init.vim
         echo -e "${GREEN}installing dein plugins for neovim${NC}"
         nvim --headless -u "$ROOT/vimrc.vim" -c "call dein#install()" -c "qa!"
+        nvim --headless -u "$ROOT/vimrc.vim" -c "PlugUpdate" -c 'qa!'
     else
         ln -s vimrc.vim vimrc
         echo -e "${GREEN}installing dein plugins for vim${NC}"
