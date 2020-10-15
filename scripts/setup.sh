@@ -96,7 +96,7 @@ if [[ -n "$INSTALL_PLUGINS" ]]; then
     else
         ln -s vimrc.vim vimrc
         echo -e "${GREEN}installing dein plugins for vim${NC}"
-        vim -E -c "set t_ti= t_te= nomore" -u "$ROOT/vimrc.vim" -c "call dein#install()" -c "qa!"
+        vim -c "set t_ti= t_te= nomore" -u "$ROOT/vimrc.vim" -c "call dein#install()" -c "qa!"
         vim -c "set t_ti= t_te= nomore" -S "$ROOT/vimrc.vim" -c "PlugUpdate" -c "qa!"
         echo -e "${GREEN}all plugins installed${NC}"
     fi
