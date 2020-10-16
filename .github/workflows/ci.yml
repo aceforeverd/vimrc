@@ -19,16 +19,25 @@ jobs:
         node_version: ['14']
         os: [ubuntu-latest, macOS-latest]
         neovim: [true, false]
-
+        vim_version: [stable, nightly]
+      fail-fast: false
+    
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        
+      - name: remove microsoft repo
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          for apt_file in `grep -lr microsoft /etc/apt/sources.list.d/`; do sudo rm $apt_file; done
 
-      - name: setup neovim = ${{ matrix.neovim }}
+      - name: setup vim, neovim = ${{ matrix.neovim }}, version = ${{ matrix.vim_version }}
+        id: vim
         uses: rhysd/action-setup-vim@v1
         with:
           neovim: ${{ matrix.neovim }}
+          version: ${{ matrix.vim_version }}
 
       - name: setup python
         uses: actions/setup-python@v2
@@ -40,13 +49,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade pynvim msgpack
 
-      # Runs a single command using the runners shell
-      - name: install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl global
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-
       - name: setup node ${{ matrix.node_version }}
         uses: actions/setup-node@v2-beta
         with:
@@ -57,7 +59,7 @@ jobs:
           npm install -g neovim yarn
 
       - name: test vim
-        timeout-minutes: 30
+        timeout-minutes: 15
         if: ${{ matrix.neovim == false }}
         run: |
             git clean -dfx
@@ -65,7 +67,7 @@ jobs:
             ./scripts/setup.sh -t vim
 
       - name: test neovim
-        timeout-minutes: 30
+        timeout-minutes: 15
         if: ${{ matrix.neovim == true }}
         run: |
             git clean -dfx
