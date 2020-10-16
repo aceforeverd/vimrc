@@ -59,6 +59,9 @@ jobs:
         run: |
             git clean -dfx
             rm -rf bundle dein
+            vim --version
+            [ -f ~/.vimrc ] && cat ~/.vimrc
+            [ -f ~/.vim/vimrc ] && cat ~/.vim/vimrc
             ./scripts/setup.sh -t vim
 
       - name: test neovim
