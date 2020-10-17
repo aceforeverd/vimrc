@@ -316,7 +316,6 @@ if dein#load_state(s:dein_repo)
     " Erlang
     call dein#add('vim-erlang/vim-erlang-omnicomplete')
     " Tmux
-    call dein#add('benmills/vimux')
     call dein#add('tmux-plugins/vim-tmux')
     call dein#add('christoomey/vim-tmux-navigator')
     call dein#add('wellle/tmux-complete.vim')
@@ -392,7 +391,10 @@ set timeoutlen=500
 set updatetime=500
 
 if has('gui_macvim')
-    autocmd GUIEnter * set vb t_vb=
+    augroup gp_gui_macvim
+        autocmd!
+        autocmd GUIEnter * set vb t_vb=
+    augroup END
 endif
 
 syntax enable
@@ -409,7 +411,8 @@ if has('gui_running')
     set guitablabel=%M\ %t
 endif
 
-set encoding=utf8
+set encoding=utf-8
+scriptencoding utf-8
 
 set fileformats=unix,dos,mac
 
@@ -492,9 +495,10 @@ augroup cursor_shape
 augroup END
 
 " Make VIM remember position in file after reopen
-if has('autocmd')
-   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
+augroup gp_cursor_location
+    " this one is which you're most likely to use?
+   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+augroup END
 
 if has('mac') || has('macunix')
     set guifont=SauceCodeProNerdFontComplete-Regular:h14
@@ -524,7 +528,10 @@ augroup filetype_changes
     autocmd FileType javascript setlocal nocindent
 augroup END
 
-autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
+augroup gp_filetype
+    autocmd!
+    autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
+augroup END
 
 " fzf
 nnoremap <c-p> :FZF<CR>
