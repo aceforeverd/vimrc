@@ -223,7 +223,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('airblade/vim-gitgutter')
     call dein#add('lambdalisue/gina.vim')
     call dein#add('junegunn/gv.vim')
-    call dein#add('gregsexton/gitv')
     call dein#add('mattn/gist-vim')
     call dein#add('idanarye/vim-merginal')
     call dein#add('chrisbra/vim-diff-enhanced')
@@ -231,6 +230,11 @@ if dein#load_state(s:dein_repo)
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
     call dein#add('neoclide/denite-git')
+    call dein#add('rhysd/git-messenger.vim', {
+            \   'lazy' : 1,
+            \   'on_cmd' : 'GitMessenger',
+            \   'on_map' : '<Plug>(git-messenger)',
+            \ })
 
     " search
     call dein#add('junegunn/fzf', {
@@ -1017,6 +1021,7 @@ function! s:init_source_coc() abort
                 \ 'coc-python', 'coc-json',
                 \ 'coc-html', 'coc-go',
                 \ 'coc-css', 'coc-clangd',
+                \ 'coc-docker', 'coc-fish',
                 \ ]
 
     function! s:coc_maps() abort
