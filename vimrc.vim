@@ -80,7 +80,8 @@ augroup END
 Plug 'vim-pandoc/vim-pandoc'
 let g:pandoc#filetypes#pandoc_markdown = 0
 Plug 'chrisbra/unicode.vim'
-
+Plug 'puremourning/vimspector'
+let g:vimspector_enable_mappings = 'HUMAN'
 
 if g:my_cmp_source ==? 'deoplete'
     Plug 'autozimu/LanguageClient-neovim', {
@@ -289,8 +290,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('tweekmonster/helpful.vim')
     " Elixir
     call dein#add('slashmili/alchemist.vim')
-    " Java
-    call dein#add('artur-shaik/vim-javacomplete2', {'on_ft': 'java'})
     " CSS/SCSS/LESS
     call dein#add('hail2u/vim-css3-syntax', {'merged': 0})
     " Python
@@ -1029,6 +1028,7 @@ function! s:init_source_coc() abort
                 \ 'coc-html', 'coc-go',
                 \ 'coc-css', 'coc-clangd',
                 \ 'coc-docker', 'coc-fish',
+                \ 'coc-java',
                 \ ]
 
     function! s:coc_maps() abort
@@ -1162,8 +1162,6 @@ augroup omni_complete
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    " Java complete2
-    autocmd FileType java setlocal omnifunc=javacomplete#Complete
     " neco-ghc
     autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 augroup END
@@ -1266,10 +1264,6 @@ let g:localvimrc_name = [ '.lc.vim' ]
 let g:better_whitespace_operator = ''
 
 let g:nvimgdb_disable_start_keymaps = 1
-
-" vim-javacomplete2
-" let g:JavaComplete_EnableDefaultMappings = 0
-let g:JavaComplete_CheckServerVersionAtStartup = 0
 
 " vim-license
 let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
