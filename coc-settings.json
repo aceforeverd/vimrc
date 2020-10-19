@@ -3,27 +3,31 @@
   "codeLens.enable":true,
   "suggest.echodocSupport":true,
   "suggest.enablePreselect":true,
-  "explorer": {
-      "icon": {
-          "enableNerdfont": true
-      }
-  },
+  "explorer.icon.enableNerdfont": true,
   "languageserver": {
-      "bash": {
-          "command": "bash-language-server",
-          "args": ["start"],
-          "filetypes": ["sh"],
-          "ignoredRootPaths": ["~"]
+    "bash": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh"],
+      "ignoredRootPaths": ["~"]
     },
     "cmake": {
-        "command": "cmake-language-server",
-        "filetypes": ["cmake"],
-        "rootPatterns": [
-            "build/"
-        ],
-        "initializationOptions": {
-            "buildDirectory": "build"
-        }
+      "command": "cmake-language-server",
+      "filetypes": ["cmake"],
+      "rootPatterns": [
+        "build/"
+      ],
+      "initializationOptions": {
+        "buildDirectory": "build"
+      }
     }
+  },
+  "diagnostic-languageserver.filetypes": {
+    "vim": "vint",
+    "sh": "shellcheck",
+    "markdown": [ "write-good", "markdownlint" ]
+  },
+  "diagnostic-languageserver.formatFiletypes": {
+    "sh": "shfmt"
   }
 }
