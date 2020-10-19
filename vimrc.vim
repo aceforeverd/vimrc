@@ -56,7 +56,6 @@ let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
 " ============================================================================================
 call plug#begin(s:common_pkg) "{{{
 
-Plug 'dense-analysis/ale'
 Plug 'bergercookie/vim-debugstring'
 
 Plug 'sheerun/vim-polyglot'
@@ -284,6 +283,7 @@ if dein#load_state(s:dein_repo)
     " vimL
     call dein#add('mhinz/vim-lookup')
 
+    call dein#add('kevinoid/vim-jsonc')
     call dein#add('tweekmonster/exception.vim')
     call dein#add('tweekmonster/helpful.vim')
     " Elixir
@@ -519,15 +519,11 @@ endtry
 command! SudaWrite exe 'w suda://%'
 command! SudaRead  exe 'e suda://%'
 
-augroup filetype_changes
-    autocmd!
-    autocmd FileType verilog,verilog_systemverilog setlocal nosmartindent
-    autocmd FileType javascript setlocal nocindent
-augroup END
-
 augroup gp_filetype
     autocmd!
     autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
+    autocmd FileType verilog,verilog_systemverilog setlocal nosmartindent
+    autocmd FileType javascript setlocal nocindent
 augroup END
 
 " fzf
@@ -621,13 +617,6 @@ augroup VIM_GO
     autocmd FileType go nnoremap <c-]> :GoDef<CR>
 augroup END
 
-if has('nvim')
-    augroup VIM_TYPESCRIPT
-        autocmd!
-        autocmd FileType typescript,typescript.tsx nnoremap <c-]> :TSDef<CR>
-    augroup END
-endif
-
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_detect_modified=1
@@ -662,8 +651,6 @@ if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color
 endif
 
 highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
-
-let g:markdown_composer_open_browser = 0
 
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh']
@@ -790,7 +777,11 @@ function! s:show_documentation()
 endfunction
 
 function! s:coc_hover() abort
-    return CocAction('doHover')
+    if (coc#rpc#ready())
+        call CocActionAsync('doHover')
+    else
+        execute '!' . &keywordprg . ' ' . expand('<cword>')
+    endif
 endfunction
 
 function! s:init_source_common() abort
@@ -947,7 +938,7 @@ function! s:init_source_coc() abort
                 \ 'coc-html', 'coc-go',
                 \ 'coc-css', 'coc-clangd',
                 \ 'coc-docker', 'coc-fish',
-                \ 'coc-java',
+                \ 'coc-java', 'coc-diagnostic',
                 \ ]
 
     function! s:coc_maps() abort
@@ -986,6 +977,12 @@ function! s:init_source_coc() abort
         " select selections ranges, needs server support, like: coc-tsserver, coc-python
         nmap <silent> <Leader>rs <Plug>(coc-range-select)
         xmap <silent> <Leader>rs <Plug>(coc-range-select)
+
+        " Remap <C-f> and <C-b> for scroll float windows/popups.
+        nnoremap <expr><C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+        nnoremap <expr><C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+        inoremap <expr><C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<Right>"
+        inoremap <expr><C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<Left>"
     endfunction
 
     augroup gp_coc
@@ -1186,34 +1183,6 @@ let g:nvimgdb_disable_start_keymaps = 1
 
 " vim-license
 let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
-
-" Ale
-let s:ale_c_lints = ['cppcheck', 'clangtidy', 'flawfinder', 'clang-format']
-let g:ale_disable_lsp = 1
-let g:ale_linters = {
-            \ 'c': s:ale_c_lints,
-            \ 'cpp': s:ale_c_lints,
-            \ 'python': [],
-            \ 'javascript': [],
-            \ 'typescript': [],
-            \ 'go': [],
-            \ 'rust': [],
-            \ }
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-if $TERM =~# 'linux'
-    let g:ale_sign_error = '>>'
-    let g:ale_sign_warning = '--'
-    let g:ale_sign_info = '!'
-else
-    let g:ale_sign_error = '✖'
-    let g:ale_sign_warning = '⚠'
-    let g:ale_sign_info = 'ℹ'
-endif
-nmap <silent> <c-k> <Plug>(ale_previous_wrap)
-nmap <silent> <c-j> <Plug>(ale_next_wrap)
-
 
 let s:after_vimrc = s:home . '/after.vim'
 if filereadable(s:after_vimrc)
