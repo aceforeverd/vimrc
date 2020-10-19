@@ -62,20 +62,6 @@ Plug 'sheerun/vim-polyglot'
 let g:vim_json_syntax_conceal = 1
 let g:polygolt_disabled = ['go']
 
-Plug 'davidhalter/jedi-vim'
-let g:jedi#auto_initialization = 0
-let g:jedi#completions_enabled = 0
-function! s:jedi_mappings() abort
-    nnoremap <silent> <buffer> <Leader>gd :call jedi#goto()<CR>
-    nnoremap <silent> <buffer> <Leader>gs :call jedi#goto_stubs()<CR>
-    nnoremap <silent> <buffer> <Leader>K :call jedi#show_documentation()<CR>
-    nnoremap <silent> <buffer> <Leader>rj :call jedi#rename()<CR>
-    nnoremap <silent> <buffer> <Leader>gr :call jedi#usages()<CR>
-endfunction
-augroup gp_jedi
-    autocmd!
-    autocmd FileType python call <SID>jedi_mappings()
-augroup END
 Plug 'vim-pandoc/vim-pandoc'
 let g:pandoc#filetypes#pandoc_markdown = 0
 Plug 'chrisbra/unicode.vim'
@@ -651,7 +637,7 @@ endif
 highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
 
 " vim-markdown
-let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh']
+let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh', 'vim', 'help']
 
 " incsearch.vim
 if !has('patch-8.0-1241')
