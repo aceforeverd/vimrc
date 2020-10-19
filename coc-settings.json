@@ -29,5 +29,24 @@
   },
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt"
+  },
+  "diagnostic-languageserver.linters":{
+    "vint": {
+      "command": "vint",
+      "debounce": 100,
+      "args": [ "--enable-neovim", "--no-color" ,"-"],
+      "offsetLine": 0,
+      "offsetColumn": 0,
+      "sourceName": "vint",
+      "formatLines": 1,
+      "formatPattern": [
+        "[^:]+:(\\d+):(\\d+):\\s*(.*)(\\r|\\n)*$",
+        {
+          "line": 1,
+          "column": 2,
+          "message": 3
+        }
+      ]
+    }
   }
 }

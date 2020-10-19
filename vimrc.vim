@@ -183,7 +183,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('mhinz/vim-startify')
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('majutsushi/tagbar')
-    call dein#add('MattesGroeger/vim-bookmarks')
     call dein#add('wincent/terminus')
     call dein#add('chrisbra/Colorizer')
     call dein#add('junegunn/rainbow_parentheses.vim')
@@ -595,7 +594,6 @@ let g:closetag_emptyTags_caseSensitive = 1
 
 " startify
 let g:startify_session_dir = '~/.vim/sessions/'
-"let g:startify_list_order = ['files', 'dir', 'bookmarks', 'sessions', 'commands']
 let g:startify_update_oldfiles = 1
 let g:startify_session_autoload = 1
 let g:startify_session_persistence = 1
@@ -1134,9 +1132,6 @@ let g:header_field_author = g:my_name
 let g:header_field_author_email = g:my_email
 let g:header_field_modified_by = 0
 let g:header_field_license_id = 'GPL'
-
-" vim-bookmarks
-let g:bookmark_no_default_key_mappings = 1
 
 " colorizer
 let g:colorizer_auto_filetype='css,html,scss'
