@@ -118,6 +118,7 @@ if dein#load_state(s:dein_repo)
         call dein#add('ujihisa/neco-look')
     elseif g:my_cmp_source ==? 'coc'
         call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
+        call dein#add('antoinemadec/coc-fzf')
         call dein#add('jsfaint/coc-neoinclude')
         call dein#add('neoclide/coc-neco')
     endif
@@ -919,7 +920,7 @@ function! s:init_source_coc() abort
                 \ 'coc-css', 'coc-clangd',
                 \ 'coc-docker', 'coc-fish',
                 \ 'coc-java', 'coc-diagnostic',
-                \ 'coc-bookmark',
+                \ 'coc-bookmark', 'coc-imselect', 'coc-fzf-preview'
                 \ ]
 
     function! s:coc_maps() abort
