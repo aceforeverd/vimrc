@@ -67,6 +67,7 @@ let g:pandoc#filetypes#pandoc_markdown = 0
 Plug 'chrisbra/unicode.vim'
 Plug 'puremourning/vimspector'
 let g:vimspector_enable_mappings = 'HUMAN'
+Plug 'rafi/awesome-vim-colorschemes'
 
 if g:my_cmp_source ==? 'deoplete'
     Plug 'autozimu/LanguageClient-neovim', {
@@ -163,7 +164,6 @@ if dein#load_state(s:dein_repo)
     " interface
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
-    call dein#add('flazz/vim-colorschemes')
     call dein#add('rakr/vim-one')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('mhinz/vim-startify')
@@ -253,8 +253,6 @@ if dein#load_state(s:dein_repo)
     " c/c++/objc
     call dein#add('nacitar/a.vim')
     call dein#add('sakhnik/nvim-gdb')
-    " call dein#add('jackguo380/vim-lsp-cxx-highlight')
-    " call dein#add('m-pilia/vim-ccls')
     " Javascripts...
     call dein#add('othree/yajs.vim')
     " Typescript
@@ -634,8 +632,6 @@ if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color
     let g:airline_theme = 'onedark'
 endif
 
-highlight SpellBad ctermfg=050 ctermbg=088 guifg=#00ffd7 guibg=#870000
-
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh', 'vim', 'help']
 
@@ -923,6 +919,7 @@ function! s:init_source_coc() abort
                 \ 'coc-css', 'coc-clangd',
                 \ 'coc-docker', 'coc-fish',
                 \ 'coc-java', 'coc-diagnostic',
+                \ 'coc-bookmark',
                 \ ]
 
     function! s:coc_maps() abort
@@ -980,6 +977,8 @@ function! s:init_source_coc() abort
         " Update signature help on jump placeholder
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup end
+
+    highlight CocHighlightText guibg=#282c34 guifg=#e06c75 gui=undercurl,bold
 
     " Use `:Format` to format current buffer
     command! -nargs=0 CocFormat :call CocAction('format')
