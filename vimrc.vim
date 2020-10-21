@@ -54,16 +54,14 @@ let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
 
 " vim plug
 " ============================================================================================
+let g:vim_json_syntax_conceal = 1
+
 call plug#begin(s:common_pkg) "{{{
 
 Plug 'bergercookie/vim-debugstring'
 
 Plug 'sheerun/vim-polyglot'
-let g:vim_json_syntax_conceal = 1
-let g:polygolt_disabled = ['go']
 
-Plug 'vim-pandoc/vim-pandoc'
-let g:pandoc#filetypes#pandoc_markdown = 0
 Plug 'chrisbra/unicode.vim'
 Plug 'puremourning/vimspector'
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -279,7 +277,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('iamcco/markdown-preview.nvim', {
                 \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
                 \ 'build': 'cd app && yarn install' })
-    call dein#add('vim-pandoc/vim-pandoc-syntax')
     " R
     call dein#add('jalvesaq/Nvim-R')
     " Rust
