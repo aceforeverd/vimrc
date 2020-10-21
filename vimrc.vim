@@ -189,13 +189,11 @@ if dein#load_state(s:dein_repo)
     call dein#add('itchyny/calendar.vim')
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('tweekmonster/startuptime.vim')
-    call dein#add('joereynolds/SQHell.vim')
 
     call dein#add('alpertuna/vim-header')
     call dein#add('antoyo/vim-licenses')
     " code format
     call dein#add('sbdchd/neoformat')
-    call dein#add('rhysd/vim-clang-format')
     call dein#add('junegunn/vim-easy-align')
     call dein#add('godlygeek/tabular')
     " debug/test
@@ -304,10 +302,8 @@ if dein#load_state(s:dein_repo)
     call dein#add('lervag/vimtex')
     call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
 
-    call dein#add('jparise/vim-graphql')
     call dein#add('mboughaba/i3config.vim')
     call dein#add('hashivim/vim-terraform')
-    call dein#add('rhysd/vim-crystal')
     " elm
     call dein#add('elmcast/elm-vim')
     call dein#add('kovisoft/slimv', {'merged': 0})
@@ -920,7 +916,9 @@ function! s:init_source_coc() abort
                 \ 'coc-css', 'coc-clangd',
                 \ 'coc-docker', 'coc-fish',
                 \ 'coc-java', 'coc-diagnostic',
-                \ 'coc-bookmark', 'coc-imselect', 'coc-fzf-preview'
+                \ 'coc-bookmark', 'coc-imselect',
+                \ 'coc-fzf-preview', 'coc-xml',
+                \ 'coc-translator',
                 \ ]
 
     function! s:coc_maps() abort
@@ -965,6 +963,10 @@ function! s:init_source_coc() abort
         nnoremap <expr><C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
         inoremap <expr><C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<Right>"
         inoremap <expr><C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<Left>"
+
+        " translate
+        nmap <Leader>k <Plug>(coc-translator-p)
+        vmap <Leader>k <Plug>(coc-translator-pv)
     endfunction
 
     augroup gp_coc

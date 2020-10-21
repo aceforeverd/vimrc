@@ -49,5 +49,6 @@
         }
       ]
     }
-  }
+  },
+  "translator.engines":["google"]
 }
