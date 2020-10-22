@@ -969,7 +969,7 @@ function! s:init_source_coc() abort
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup end
 
-    highlight CocHighlightText guibg=#282c34 guifg=#e06c75 gui=undercurl,bold
+    highlight CocHighlightText guibg=#5e5e61 gui=undercurl
 
     " Use `:Format` to format current buffer
     command! -nargs=0 CocFormat :call CocAction('format')
