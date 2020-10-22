@@ -196,7 +196,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('godlygeek/tabular')
     " debug/test
     call dein#add('janko/vim-test')
-    call dein#add('thinca/vim-quickrun')
 
     " VCS
     call dein#add('tpope/vim-fugitive')
@@ -255,7 +254,6 @@ if dein#load_state(s:dein_repo)
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
 
-    call dein#add('MaxMEllon/vim-jsx-pretty')
     " Haskell
     call dein#add('neovimhaskell/haskell-vim')
     call dein#add('eagletmt/neco-ghc')
@@ -270,8 +268,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('slashmili/alchemist.vim')
     " CSS/SCSS/LESS
     call dein#add('hail2u/vim-css3-syntax', {'merged': 0})
-    " Python
-    call dein#add('alfredodeza/pytest.vim')
     " markdown
     call dein#add('mzlogin/vim-markdown-toc', {'on_ft': 'markdown'})
     call dein#add('iamcco/markdown-preview.nvim', {
@@ -283,11 +279,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('rust-lang/rust.vim')
     " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
-    call dein#add('vim-perl/vim-perl', {
-        \ 'rev': 'dev',
-        \ 'build': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny',
-        \ 'on_ft': 'perl',
-        \ })
     call dein#add('c9s/perlomni.vim', {'on_ft': 'perl'})
     " Erlang
     call dein#add('vim-erlang/vim-erlang-omnicomplete')
