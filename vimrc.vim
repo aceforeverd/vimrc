@@ -33,11 +33,6 @@ if filereadable(s:before_vimrc)
     execute('source ' . s:before_vimrc)
 endif
 
-" pathogen
-if exists('g:load_pathogen_plugins')
-    execute pathogen#infect('~/.vim/bundle/pog/{}')
-endif
-
 if !exists('g:my_cmp_source')
     let g:my_cmp_source = 'coc'
 endif
@@ -59,6 +54,7 @@ let g:vim_json_syntax_conceal = 1
 call plug#begin(s:common_pkg) "{{{
 
 Plug 'bergercookie/vim-debugstring'
+Plug 'airblade/vim-gitgutter'
 
 Plug 'sheerun/vim-polyglot'
 
@@ -199,7 +195,6 @@ if dein#load_state(s:dein_repo)
 
     " VCS
     call dein#add('tpope/vim-fugitive')
-    call dein#add('airblade/vim-gitgutter')
     call dein#add('lambdalisue/gina.vim')
     call dein#add('junegunn/gv.vim')
     call dein#add('mattn/gist-vim')
@@ -249,8 +244,6 @@ if dein#load_state(s:dein_repo)
     " c/c++/objc
     call dein#add('nacitar/a.vim')
     call dein#add('sakhnik/nvim-gdb')
-    " Javascripts...
-    call dein#add('othree/yajs.vim')
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
 
@@ -308,6 +301,11 @@ if dein#load_state(s:dein_repo)
 
     call dein#end()
     call dein#save_state()
+endif
+
+" pathogen
+if exists('g:load_pathogen_plugins')
+    execute pathogen#infect(s:common_path . '/pog/{}')
 endif
 
 " =================== extra conf ============================= "
