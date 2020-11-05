@@ -299,6 +299,8 @@ if dein#load_state(s:dein_repo)
     call dein#add('chrisbra/csv.vim')
     call dein#add('rhysd/vim-grammarous')
 
+    call dein#add('jackguo380/vim-lsp-cxx-highlight')
+
     call dein#end()
     call dein#save_state()
 endif
@@ -896,7 +898,7 @@ function! s:init_source_coc() abort
                 \ 'coc-explorer', 'coc-eslint',
                 \ 'coc-dictionary', 'coc-yank',
                 \ 'coc-yaml', 'coc-tsserver',
-                \ 'coc-rust-analyzer', 'coc-rls',
+                \ 'coc-rust-analyzer',
                 \ 'coc-python', 'coc-json',
                 \ 'coc-html', 'coc-go',
                 \ 'coc-css', 'coc-clangd',
@@ -904,7 +906,7 @@ function! s:init_source_coc() abort
                 \ 'coc-java', 'coc-diagnostic',
                 \ 'coc-bookmark', 'coc-imselect',
                 \ 'coc-fzf-preview', 'coc-xml',
-                \ 'coc-translator',
+                \ 'coc-translator', 'coc-cmake',
                 \ ]
 
     function! s:coc_maps() abort
