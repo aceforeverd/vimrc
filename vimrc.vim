@@ -213,7 +213,7 @@ if dein#load_state(s:dein_repo)
     " search
     call dein#add('junegunn/fzf', {
                 \ 'path': $HOME . '/.fzf',
-                \ 'build': './install --key-bindings --no-completion --update-rc',
+                \ 'build': './install --all',
                 \ 'merged': 0
                 \ })
     call dein#add('junegunn/fzf.vim')
