@@ -650,9 +650,6 @@ call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
 " Enable omni completion.
 augroup omni_complete
     autocmd!
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
     " neco-ghc
     autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 augroup END
@@ -718,9 +715,6 @@ augroup rainbow_lisp
   autocmd!
   autocmd FileType lisp,clojure,scheme RainbowParentheses
 augroup END
-
-" quickrun
-let g:quickrun_no_default_key_mappings = 1
 
 " tmux-complete
 let g:tmuxcomplete#trigger = ''
