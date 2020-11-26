@@ -300,12 +300,12 @@ function! aceforeverd#completion#init_source_coc() abort
     vmap <c-j> <Plug>(coc-snippets-select)
 endfunction
 
+" ulility functions
 function! s:is_dir(path) abort
     return !empty(a:path) && (isdirectory(a:path) ||
                 \ (!empty($SYSTEMDRIVE) && isdirectory('/'.tolower($SYSTEMDRIVE[0]).a:path)))
 endfunction
 
-" ultility functinos
 function! s:check_back_space() abort "{{{
     let l:col = col('.') - 1
     return !l:col || getline('.')[l:col - 1]  =~# '\s'
