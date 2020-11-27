@@ -318,7 +318,13 @@ endfunction
 
 function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
+        let l:name = expand('<cword>')
+        try
+            execute 'help ' . l:name
+        catch /.*/
+            echo 'no help for ' . l:name
+            echoerr
+        endtry
     else
         call <SID>get_my_cmp_fn('document_hover')()
     endif
