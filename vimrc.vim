@@ -69,6 +69,7 @@ if g:my_cmp_source ==? 'deoplete'
                 \ 'do': 'bash install.sh',
                 \ }
 endif
+Plug 'jsfaint/gen_tags.vim'
 
 call plug#end() "}}}
 
@@ -181,7 +182,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('mattn/webapi-vim')
     call dein#add('will133/vim-dirdiff')
     call dein#add('itchyny/calendar.vim')
-    call dein#add('jsfaint/gen_tags.vim')
     call dein#add('tweekmonster/startuptime.vim')
 
     call dein#add('alpertuna/vim-header')
