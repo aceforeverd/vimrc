@@ -18,7 +18,6 @@
         "filetypes": ["haskell", "lhaskell"]
     }
   },
-  "python.jediEnabled":false,
   "diagnostic-languageserver.filetypes": {
     "vim": "vint",
     "sh": "shellcheck",

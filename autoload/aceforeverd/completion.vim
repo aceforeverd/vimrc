@@ -191,7 +191,7 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-dictionary', 'coc-yank',
                 \ 'coc-yaml', 'coc-tsserver',
                 \ 'coc-rust-analyzer',
-                \ 'coc-python', 'coc-json',
+                \ 'coc-pyright', 'coc-json',
                 \ 'coc-html', 'coc-go',
                 \ 'coc-css', 'coc-clangd',
                 \ 'coc-docker', 'coc-fish',
