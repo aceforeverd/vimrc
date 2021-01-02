@@ -478,7 +478,7 @@ elseif has('unix')
 endif
 
 try
-    set undodir=$HOME/.vim/temp_dirs/undodir/
+    let &undodir= s:common_path . '/undodir/'
     set undofile
 catch
 endtry
