@@ -225,12 +225,8 @@ if dein#load_state(s:dein_repo)
     call dein#add('jamessan/vim-gnupg')
     call dein#add('jceb/vim-orgmode')
 
-    " comment
     call dein#add('tomtom/tcomment_vim')
-
     call dein#add('raimondi/delimitmate')
-    call dein#add('alvan/vim-closetag')
-
     call dein#add('chrisbra/recover.vim')
     " text object manipulate
     call dein#add('AndrewRadev/splitjoin.vim')
