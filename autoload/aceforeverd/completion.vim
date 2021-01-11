@@ -204,8 +204,8 @@ function! aceforeverd#completion#init_source_coc() abort
 
     function! s:coc_maps() abort
         " Use `[g` and `]g` to navigate diagnostics
-        nmap <silent> [g <Plug>(coc-diagnostic-prev)
-        nmap <silent> ]g <Plug>(coc-diagnostic-next)
+        nmap <silent> <c-k> <Plug>(coc-diagnostic-prev)
+        nmap <silent> <c-j> <Plug>(coc-diagnostic-next)
 
         " Remap keys for gotos
         nmap <silent> gd <Plug>(coc-definition)
