@@ -1,8 +1,8 @@
 {
   "coc.preferences.extensionUpdateCheck": "daily",
-  "codeLens.enable":true,
-  "suggest.echodocSupport":true,
-  "suggest.enablePreselect":true,
+  "codeLens.enable": true,
+  "suggest.echodocSupport": true,
+  "suggest.enablePreselect": true,
   "explorer.icon.enableNerdfont": true,
   "languageserver": {
     "bash": {
@@ -12,26 +12,43 @@
       "ignoredRootPaths": ["~"]
     },
     "haskell": {
-        "command": "haskell-language-server-wrapper",
-        "args": ["--lsp"],
-        "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
-        "filetypes": ["haskell", "lhaskell"]
+      "command": "haskell-language-server-wrapper",
+      "args": ["--lsp"],
+      "rootPatterns": [
+        "*.cabal",
+        "stack.yaml",
+        "cabal.project",
+        "package.yaml",
+        "hie.yaml"
+      ],
+      "filetypes": ["haskell", "lhaskell"]
+    },
+    "kotlin": {
+      "command": "kotlin-language-server",
+      "filetypes": ["kotlin"]
     }
   },
   "diagnostic-languageserver.filetypes": {
     "vim": "vint",
     "sh": "shellcheck",
-    "markdown": [ "write-good", "markdownlint" ]
+    "markdown": ["write-good", "markdownlint"]
   },
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt"
   },
-  "clangd.semanticHighlighting":true,
-  "diagnostic-languageserver.linters":{
+  "clangd.semanticHighlighting": true,
+  "clangd.arguments": [
+    "--background-index",
+    "--clang-tidy",
+    "--cross-file-rename",
+    "--all-scopes-completion",
+    "--suggest-missing-includes"
+  ],
+  "diagnostic-languageserver.linters": {
     "vint": {
       "command": "vint",
       "debounce": 100,
-      "args": [ "--enable-neovim", "--no-color" ,"-"],
+      "args": ["--enable-neovim", "--no-color", "-"],
       "offsetLine": 0,
       "offsetColumn": 0,
       "sourceName": "vint",

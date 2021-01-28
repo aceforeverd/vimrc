@@ -196,7 +196,7 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-css', 'coc-clangd',
                 \ 'coc-docker', 'coc-fish',
                 \ 'coc-java', 'coc-diagnostic',
-                \ 'coc-bookmark', 'coc-imselect',
+                \ 'coc-imselect',
                 \ 'coc-fzf-preview', 'coc-xml',
                 \ 'coc-translator', 'coc-cmake',
                 \ 'coc-metals',
