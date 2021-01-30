@@ -127,6 +127,8 @@ if dein#load_state(s:dein_repo)
     call dein#add('Shougo/echodoc.vim')
     call dein#add('Shougo/deol.nvim')
 
+    call dein#add('voldikss/vim-floaterm')
+
     call dein#add('neoclide/denite-extra')
     call dein#add('ozelentok/denite-gtags')
 
@@ -281,12 +283,11 @@ if dein#load_state(s:dein_repo)
 
     call dein#add('mboughaba/i3config.vim')
     call dein#add('hashivim/vim-terraform')
-    " elm
     call dein#add('elmcast/elm-vim')
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
     call dein#add('clojure-vim/async-clj-omni')
-    call dein#add('clojure-vim/acid.nvim', {'merged': 0})
+    call dein#add('clojure-vim/acid.nvim', {'merged': 0, 'on_ft': 'clojure'})
     " npm
     call dein#add('rhysd/npm-filetypes.vim')
     " gentoo
