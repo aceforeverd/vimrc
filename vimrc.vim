@@ -399,6 +399,12 @@ function! s:terminal_mapping() abort
     tnoremap <C-w>k <C-\><C-n><C-w>k
     tnoremap <C-w>l <C-\><C-n><C-w>l
     tnoremap <C-w>h <C-\><C-n><C-w>h
+    tnoremap <C-w>m <C-\><c-n>:FloatermToggle<CR>
+    tnoremap <C-w>] <C-\><c-n>:FloatermNext<CR>
+    tnoremap <C-w>[ <C-\><c-n>:FloatermPrev<CR>
+    nnoremap <C-w>m :FloatermToggle<CR>
+    noremap <C-w>] :FloatermNext<CR>
+    noremap <C-w>[ :FloatermPrev<CR>
 endfunction
 if has('nvim') || has('terminal')
     call s:terminal_mapping()
@@ -487,6 +493,8 @@ command! SudaRead  exe 'e suda://%'
 augroup gp_filetype
     autocmd!
     autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
+    autocmd BufRead,BufNewFile *.log setlocal filetype=log
+    autocmd BufRead,BufNewFile *.fish setlocal filetype=fish
     autocmd FileType verilog,verilog_systemverilog setlocal nosmartindent
     autocmd FileType javascript setlocal nocindent
 augroup END
