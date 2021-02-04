@@ -405,6 +405,8 @@ function! s:terminal_mapping() abort
     nnoremap <C-w>m :FloatermToggle<CR>
     noremap <C-w>] :FloatermNext<CR>
     noremap <C-w>[ :FloatermPrev<CR>
+    tnoremap <C-w>n <C-\><C-n>:FloatermNew<CR>
+    nnoremap <C-w>n :FloatermNew<CR>
 endfunction
 if has('nvim') || has('terminal')
     call s:terminal_mapping()
@@ -697,11 +699,6 @@ let g:neoinclude#paths.cpp = '.,'
 " vim-sneak
 map <Leader>s <Plug>Sneak_s
 map <Leader>S <Plug>Sneak_S
-
-inoremap <C-Space> <C-x><c-o>
-if !has('gui_running')
-    inoremap <C-@> <C-x><C-o>
-endif
 
 " vim-header
 let g:header_auto_add_header = 0
