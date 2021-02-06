@@ -111,6 +111,8 @@ if dein#load_state(s:dein_repo)
         call dein#add('pbogut/deoplete-elm')
         call dein#add('deoplete-plugins/deoplete-jedi')
         call dein#add('ujihisa/neco-look')
+        call dein#add('c9s/perlomni.vim', {'on_ft': 'perl'})
+        call dein#add('clojure-vim/async-clj-omni')
     elseif g:my_cmp_source ==? 'coc'
         call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
         call dein#add('antoinemadec/coc-fzf')
@@ -270,7 +272,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('rust-lang/rust.vim')
     " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
-    call dein#add('c9s/perlomni.vim', {'on_ft': 'perl'})
     " Erlang
     call dein#add('vim-erlang/vim-erlang-omnicomplete')
     " Tmux
@@ -286,7 +287,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('elmcast/elm-vim')
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
-    call dein#add('clojure-vim/async-clj-omni')
     call dein#add('clojure-vim/acid.nvim', {'merged': 0, 'on_ft': 'clojure'})
     " npm
     call dein#add('rhysd/npm-filetypes.vim')
