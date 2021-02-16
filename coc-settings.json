@@ -31,7 +31,8 @@
   "diagnostic-languageserver.filetypes": {
     "vim": "vint",
     "sh": "shellcheck",
-    "markdown": ["write-good", "markdownlint"]
+    "markdown": ["write-good", "markdownlint"],
+    "cpp": ["cpplint"]
   },
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt"

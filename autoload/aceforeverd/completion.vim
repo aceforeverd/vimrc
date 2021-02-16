@@ -202,7 +202,7 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ ]
 
     function! s:coc_maps() abort
-        " Use `[g` and `]g` to navigate diagnostics
+        " Use `c-j` and `c-k` to navigate diagnostics
         nmap <silent> <c-k> <Plug>(coc-diagnostic-prev)
         nmap <silent> <c-j> <Plug>(coc-diagnostic-next)
 

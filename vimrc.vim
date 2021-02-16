@@ -431,6 +431,8 @@ augroup END
 
 nnoremap <Leader>ec :execute 'edit' g:vimrc<CR>
 
+nnoremap <space>t :TagbarToggle<CR>
+
 " Specify the behavior when switching between buffers
 try
     set switchbuf=useopen,usetab,newtab
