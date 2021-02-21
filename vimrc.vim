@@ -306,6 +306,7 @@ endif
 if exists('g:load_pathogen_plugins')
     execute pathogen#infect(s:common_path . '/pog/{}')
 endif
+command! HelptagsGen :call pathogen#helptags()
 
 " =================== extra conf ============================= "
 
@@ -511,35 +512,16 @@ let g:fzf_action = {
       \ 'ctrl-v': 'vsplit' }
 
 " fzf-vim
-command! Helptags :call fzf#vim#helptags(<bang>0)
-command! HelptagsGen :call pathogen#helptags()
-
-" --column: Show column number
-" --line-number: Show line number
-" --no-heading: Do not show file headings in results
-" --fixed-strings: Search term as a literal string
-" --ignore-case: Case insensitive search
-" --no-ignore: Do not respect .gitignore, etc...
-" --hidden: Search hidden files and folders
-" --follow: Follow symlinks
-" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
-" --color: Search color options
-command! -bang -nargs=* Rg call fzf#vim#grep(
-      \ 'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color=always '.shellescape(<q-args>), 1,
-      \   <bang>0)
-command! -bang -nargs=* Ag
-      \ call fzf#vim#ag(<q-args>,
-      \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-      \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \                 <bang>0)
-command! -bang -nargs=? -complete=dir Files
-      \ call fzf#vim#files(<q-args>, <bang>0)
-
-
+" Mapping selecting mappings
 nmap <Leader><Tab> <plug>(fzf-maps-n)
 imap <Leader><Tab> <plug>(fzf-maps-i)
 xmap <Leader><Tab> <plug>(fzf-maps-x)
 omap <Leader><Tab> <plug>(fzf-maps-o)
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
 if executable('rg')
     set grepprg=rg\ --vimgrep
 endif
