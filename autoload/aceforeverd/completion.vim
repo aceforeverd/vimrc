@@ -25,7 +25,7 @@ function! aceforeverd#completion#init_cmp_source(src) abort
         let s:my_cmps['document_hover'] = function('<SID>coc_hover')
 
         inoremap <expr> <Plug>(MyIMappingBS) pumvisible() ? "\<C-h>" : delimitMate#BS()
-        imap <expr> <Plug>MyIMappingCR pumvisible() ? coc#_select_confirm() : "<Plug>delimitMateCR"
+        imap <expr> <Plug>MyIMappingCR coc#_selected() ? coc#_select_confirm() : "<Plug>delimitMateCR"
 
         let g:deoplete#enable_at_startup = 0
         let g:coc_start_at_startup = 1
