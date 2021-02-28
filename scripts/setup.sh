@@ -99,7 +99,7 @@ if [[ -n "$INSTALL_PLUGINS" ]]; then
         echo -e "${GREEN}installing dein plugins for neovim${NC}"
         nvim --headless -u init.vim -c "call dein#install()" -c "echomsg 'dein plugins installed" -c "qa!"
         nvim --headless -u init.vim -c "CocUpdateSync" -c "echomsg 'coc plugins installed'" -c 'qa!'
-        nvim --headless -u init.vim -c "PlugUpdate" - c "echomsg 'vim-plug plugins installed'" -c 'qa!'
+        nvim --headless -u init.vim -c "PlugUpdate" -c "echomsg 'vim-plug plugins installed'" -c 'qa!'
         echo -e "${GREEN}all plugins installed${NC}"
     else
         ln -s vimrc.vim vimrc
