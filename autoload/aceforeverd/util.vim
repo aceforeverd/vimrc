@@ -1,6 +1,6 @@
 " setup all vim plugins and everything other needed
 " should only called during installing
-function! _init() abort
+function! aceforeverd#util#init() abort
     call dein#install()
     echomsg "Dein plugins installed"
     execute "normal :PlugInstall<CR>"
