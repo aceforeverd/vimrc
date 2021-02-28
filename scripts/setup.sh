@@ -96,17 +96,13 @@ pushd "$ROOT"
 if [[ -n "$INSTALL_PLUGINS" ]]; then
     if [[ "$TYPE" = "neovim" ]]; then
         ln -s vimrc.vim init.vim
-        echo -e "${GREEN}installing dein plugins for neovim${NC}"
-        nvim --headless -u init.vim -c "call dein#install()" -c "echomsg 'dein plugins installed'" -c "qa!"
-        nvim --headless -u init.vim -c "CocUpdateSync" -c "echomsg 'coc plugins installed'" -c 'qa!'
-        nvim --headless -u init.vim -c "PlugUpdate" -c "echomsg 'vim-plug plugins installed'" -c 'qa!'
+        echo -e "${GREEN}installing plugins for neovim ... ${NC}"
+        nvim --headless -u init.vim -c "call aceforeverd#util#_init()" -c "qa!"
         echo -e "${GREEN}all plugins installed${NC}"
     else
         ln -s vimrc.vim vimrc
-        echo -e "${GREEN}installing dein plugins for vim${NC}"
-        vim -c "set t_ti= t_te= nomore" -u vimrc -c "call dein#install()" -c "echomsg 'dein plugins installed'" -c "qa!"
-        vim -c "set t_ti= t_te= nomore" -S vimrc -c "runtime! plugin/**/*.vim" -c "CocUpdateSync" -c "echomsg 'coc plugins installed'" -c "qa!"
-        vim -c "set t_ti= t_te= nomore" -S vimrc -c "PlugUpdate" -c "echomsg 'vim-plug plugins installed'" -c "qa!"
+        echo -e "${GREEN}installing plugins for vim ... ${NC}"
+        vim -c "set t_ti= t_te= nomore" -S vimrc -c "runtime! plugin/**/*.vim" -c "call aceforeverd#util#_init()" -c "qa!"
         echo -e "${GREEN}all plugins installed${NC}"
     fi
 fi
