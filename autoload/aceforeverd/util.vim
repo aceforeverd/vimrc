@@ -3,10 +3,10 @@
 function! aceforeverd#util#init() abort
     call dein#install()
     echomsg "Dein plugins installed"
-    execute "normal :PlugInstall<CR>"
+    execute "PlugInstall"
     echomsg "Vim-Plug plugins installed"
     if g:my_cmp_source ==? 'coc'
-        execute "normal :CocUpdateSync<CR>"
+        execute "CocUpdateSync"
         echomsg "Coc Plugins installed"
     endif
 endfunction
