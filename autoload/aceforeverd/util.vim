@@ -3,7 +3,7 @@
 function! aceforeverd#util#init() abort
     call dein#install()
     echomsg 'Dein plugins installed'
-    execute 'PlugInstall'
+    execute 'PlugInstall --sync'
     echomsg 'Vim-Plug plugins installed'
     if g:my_cmp_source ==? 'coc'
         " reload plugins so vim can find newly installed plugin like coc.nvim
