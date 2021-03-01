@@ -1,7 +1,10 @@
 " setup all vim plugins and everything other needed
 " should only called during installing
-function! aceforeverd#util#init() abort
-    call dein#install()
+function! aceforeverd#util#install() abort
+    try
+        call dein#install()
+    catch /.*/
+    endtry
     echomsg 'Dein plugins installed'
     execute 'PlugInstall --sync'
     echomsg 'Vim-Plug plugins installed'
