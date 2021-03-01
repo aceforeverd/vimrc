@@ -96,15 +96,13 @@ pushd "$ROOT"
 if [[ -n "$INSTALL_PLUGINS" ]]; then
     if [[ "$TYPE" = "neovim" ]]; then
         ln -s vimrc.vim init.vim
-        echo -e "${GREEN}installing dein plugins for neovim${NC}"
-        nvim --headless -u init.vim -c "call dein#install()" -c "qa!"
-        nvim --headless -u init.vim -c "PlugUpdate" -c 'qa!'
+        echo -e "${GREEN}installing plugins for neovim ... ${NC}"
+        nvim --headless -u init.vim -c "call aceforeverd#util#install()" -c "qa!"
         echo -e "${GREEN}all plugins installed${NC}"
     else
         ln -s vimrc.vim vimrc
-        echo -e "${GREEN}installing dein plugins for vim${NC}"
-        vim -c "set t_ti= t_te= nomore" -u vimrc -c "call dein#install()" -c "qa!"
-        vim -c "set t_ti= t_te= nomore" -S vimrc -c "PlugUpdate" -c "qa!"
+        echo -e "${GREEN}installing plugins for vim ... ${NC}"
+        vim -c "set t_ti= t_te= nomore" -u vimrc -i NONE -c "call aceforeverd#util#install()" -c "qa!"
         echo -e "${GREEN}all plugins installed${NC}"
     fi
 fi
