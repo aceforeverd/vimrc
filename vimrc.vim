@@ -180,6 +180,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('easymotion/vim-easymotion')
     call dein#add('rhysd/clever-f.vim')
     call dein#add('justinmk/vim-sneak')
+    call dein#add('andymass/vim-matchup')
     " Tools
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('mattn/emmet-vim')
@@ -306,7 +307,6 @@ endif
 if exists('g:load_pathogen_plugins')
     execute pathogen#infect(s:common_path . '/pog/{}')
 endif
-command! HelptagsGen :call pathogen#helptags()
 
 " =================== extra conf ============================= "
 

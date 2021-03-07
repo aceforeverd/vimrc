@@ -15,3 +15,13 @@ function! aceforeverd#util#install() abort
         echomsg 'Coc Plugins installed'
     endif
 endfunction
+
+" update all plugins managed by different plug manager
+function! aceforeverd#util#update() abort
+    try
+        call dein#update()
+    catch /.*/
+    endtry
+    execute 'PlugUpdate'
+    execute 'CocUpdate'
+endfunction

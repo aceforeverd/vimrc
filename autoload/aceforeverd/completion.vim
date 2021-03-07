@@ -256,6 +256,8 @@ function! aceforeverd#completion#init_source_coc() abort
         " translate
         nmap <Leader>k <Plug>(coc-translator-p)
         vmap <Leader>k <Plug>(coc-translator-pv)
+
+        nmap gl <Plug>(coc-openlink)
     endfunction
 
     augroup gp_coc
