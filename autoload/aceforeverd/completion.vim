@@ -151,7 +151,7 @@ function! aceforeverd#completion#init_source_lc_neovim() abort
 endfunction
 
 
-function! aceforeverd#completion#lsc_maps()
+function! aceforeverd#completion#lsc_maps() abort
     nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
     nnoremap <buffer> <silent> gy :call LanguageClient#textDocument_typeDefinition()<CR>
     nnoremap <buffer> <silent> gi :call LanguageClient#textDocument_implementation()<CR>
@@ -176,7 +176,7 @@ function! aceforeverd#completion#lsc_maps()
 endfunction
 
 
-function! aceforeverd#completion#clangd_init()
+function! aceforeverd#completion#clangd_init() abort
     let g:neosnippet#enable_complete_done = 1
     let g:neosnippet#enable_completed_snippet = 1
 endfunction
@@ -327,7 +327,7 @@ function! s:get_my_cmp_fn(key) abort
     return get(s:my_cmps, a:key, "\<Nop>")
 endfunction
 
-function! s:show_documentation()
+function! s:show_documentation() abort
     if (index(['vim','help'], &filetype) >= 0)
         let l:name = expand('<cword>')
         try
