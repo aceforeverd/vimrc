@@ -198,7 +198,7 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-java', 'coc-diagnostic',
                 \ 'coc-fzf-preview', 'coc-xml',
                 \ 'coc-translator', 'coc-cmake',
-                \ 'coc-metals',
+                \ 'coc-metals', 'coc-emoji',
                 \ ]
 
     function! s:coc_maps() abort

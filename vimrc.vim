@@ -610,6 +610,8 @@ endif
 
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh', 'vim', 'help']
+" markdown-preview
+let g:mkdp_auto_close = 0
 
 " incsearch.vim
 if !has('patch-8.0-1241')
