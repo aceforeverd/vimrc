@@ -127,7 +127,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
-    call dein#add('Shougo/deol.nvim')
 
     call dein#add('voldikss/vim-floaterm')
 

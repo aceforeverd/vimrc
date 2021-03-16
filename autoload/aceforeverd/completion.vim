@@ -199,6 +199,7 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-fzf-preview', 'coc-xml',
                 \ 'coc-translator', 'coc-cmake',
                 \ 'coc-metals', 'coc-emoji',
+                \ 'coc-markdownlint'
                 \ ]
 
     function! s:coc_maps() abort

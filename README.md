@@ -17,7 +17,7 @@
 + taging: [ctags](https://github.com/universal-ctags/ctags), [gtags](https://www.gnu.org/software/global/)
 + utilities: [bat](https://github.com/sharkdp/bat), [delta](https://github.com/dandavison/delta)
 + [nerd font](https://github.com/ryanoasis/nerd-fonts)
-+ C family tools: [clangd](https://clangd.llvm.org/), cppcheck, clang-format, etc
++ C family tools: [clangd](https://clangd.llvm.org/), cpplint, clang-format, etc
 + shells: [shellcheck](https://github.com/koalaman/shellcheck), [shfmt](https://github.com/mvdan/sh)
 + [vim-vint](https://github.com/Vimjas/vint)
 + [bash-language-server](https://github.com/bash-lsp/bash-language-server)

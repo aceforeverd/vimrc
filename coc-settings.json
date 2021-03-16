@@ -29,12 +29,17 @@
       "filetypes": ["kotlin"]
     }
   },
+  // coc-pyright
+  "python.pythonPath": "python3",
+  "python.formatting.provider": "yapf",
+  // diagnostic-languageserver
   "diagnostic-languageserver.filetypes": {
     "vim": "vint",
     "sh": "shellcheck",
-    "markdown": ["write-good", "markdownlint"],
+    "markdown": ["write-good"],
     "cpp": ["cpplint"],
-    "dockerfile": ["hadolint"]
+    "dockerfile": ["hadolint"],
+    "python": ["mypy", "pylint"]
   },
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt"
