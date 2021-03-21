@@ -17,19 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: setup python
-        uses: actions/setup-python@v2
+      - name: vint
+        uses: reviewdog/action-vint@v1
         with:
-          python-version: 3.x
-
-      - name: install vim vint
-        run: |
-          python -m pip install --upgrade pip
-          pip install --upgrade vim-vint
-
-      - name: vint test
-        run: |
-          ./scripts/vint-check.sh
+          github_token: ${{ secrets.github_token }}
+          level: info
+          reporter: github-pr-review
 
   test:
     runs-on: ${{ matrix.os }}
