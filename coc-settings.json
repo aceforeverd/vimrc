@@ -36,7 +36,7 @@
   "diagnostic-languageserver.filetypes": {
     "vim": "vint",
     "sh": "shellcheck",
-    "markdown": ["write-good"],
+    "markdown": ["write-good", "languagetool"],
     "cpp": ["cpplint"],
     "dockerfile": ["hadolint"],
     "python": ["mypy", "pylint"]
@@ -71,5 +71,20 @@
       ]
     }
   },
-  "translator.engines":["google"]
+  "diagnostic-languageserver.formatters": {
+    "black": {
+      "command": "black",
+      "args": ["-q", "-"]
+    },
+    "isort": {
+      "command": "isort",
+      "args": ["-q", "-"]
+    },
+    "docformatter": {
+      "command": "docformatter",
+      "args": ["-"]
+    }
+  },
+  // coc-translator
+  "translator.engines": ["google"]
 }
