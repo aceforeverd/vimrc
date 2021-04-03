@@ -1,5 +1,9 @@
 # My vim config
 
+[![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/aceforeverd/vimrc/CI/master?style=flat-square)](https://github.com/aceforeverd/vimrc/actions/workflows/ci.yml)
+[![GitHub](https://img.shields.io/github/license/aceforeverd/vimrc?style=flat-square)](https://github.com/aceforeverd/vimrc/blob/master/LICENSE)
+[![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/aceforeverd/vimrc?include_prereleases&style=flat-square)](https://github.com/aceforeverd/vimrc/releases)
+
 ---
 
 ## Requirements
