@@ -70,6 +70,7 @@ if g:my_cmp_source ==? 'deoplete'
                 \ }
 endif
 Plug 'jsfaint/gen_tags.vim'
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 
 call plug#end() "}}}
 
@@ -123,15 +124,16 @@ if dein#load_state(s:dein_repo)
     call dein#add('Shougo/neoinclude.vim')
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/neco-syntax')
-    call dein#add('Shougo/denite.nvim')
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
 
     call dein#add('voldikss/vim-floaterm')
 
+    call dein#add('Shougo/denite.nvim')
     call dein#add('neoclide/denite-extra')
     call dein#add('ozelentok/denite-gtags')
+    call dein#add('neoclide/denite-git')
 
     call dein#add('tpope/vim-endwise')
     call dein#add('tpope/vim-surround')
@@ -209,7 +211,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
-    call dein#add('neoclide/denite-git')
     call dein#add('rhysd/git-messenger.vim', {
             \   'lazy' : 1,
             \   'on_cmd' : 'GitMessenger',
