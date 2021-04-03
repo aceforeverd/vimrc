@@ -70,7 +70,12 @@ if g:my_cmp_source ==? 'deoplete'
                 \ }
 endif
 Plug 'jsfaint/gen_tags.vim'
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+
+if has('nvim-0.5')
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+endif
+
+Plug 'liuchengxu/vim-clap', { 'do': { -> clap#installer#force_download() } }
 
 call plug#end() "}}}
 
@@ -175,6 +180,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('psliwka/vim-smoothie')
     call dein#add('chrisbra/Colorizer')
     call dein#add('junegunn/rainbow_parentheses.vim')
+    call dein#add('liuchengxu/vim-which-key', {'on_cmd': ['WhichKey', 'WhichKey!']})
 
     call dein#add('google/vim-searchindex')
     call dein#add('embear/vim-localvimrc')
@@ -488,7 +494,12 @@ elseif has('unix')
 endif
 
 try
-    let &undodir= s:common_path . '/undodir/'
+    if has('nvim-0.5')
+        let &undodir= s:common_path . '/undodir-0.5/'
+    else
+        let &undodir= s:common_path . '/undodir/'
+    endif
+
     set undofile
 catch
 endtry
