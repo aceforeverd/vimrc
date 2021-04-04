@@ -660,12 +660,6 @@ augroup omni_complete
     autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 augroup END
 
-" lua
-let g:lua_check_syntax = 0
-let g:lua_complete_omni = 1
-let g:lua_complete_dynamic = 0
-let g:lua_define_completion_mappings = 0
-
 " neoinclude
 if !exists('g:neoinclude#exts')
     let g:neoinclude#exts = {}

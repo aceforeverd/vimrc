@@ -190,7 +190,7 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-explorer', 'coc-eslint',
                 \ 'coc-dictionary', 'coc-yank',
                 \ 'coc-yaml', 'coc-tsserver',
-                \ 'coc-rust-analyzer',
+                \ 'coc-rust-analyzer', 'coc-lua',
                 \ 'coc-pyright', 'coc-json',
                 \ 'coc-html', 'coc-go',
                 \ 'coc-css', 'coc-clangd',
