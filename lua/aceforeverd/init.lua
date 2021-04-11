@@ -12,6 +12,7 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 --[[
 local execute = vim.api.nvim_command
 local fn = vim.fn
@@ -22,7 +23,9 @@ if fn.empty(fn.glob(install_path)) > 0 then
   execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
   execute 'packadd packer.nvim'
 end
---]] local packer = nil
+--]]
+
+local packer = nil
 if packer == nil then
     packer = require('packer')
     local util = require('packer.util')
