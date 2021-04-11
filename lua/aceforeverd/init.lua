@@ -12,36 +12,56 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--[[
+local execute = vim.api.nvim_command
+local fn = vim.fn
 
+local install_path = fn.stdpath('config') .. '/pack/packer/start/packer.nvim'
 
+if fn.empty(fn.glob(install_path)) > 0 then
+  execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
+  execute 'packadd packer.nvim'
+end
+--]] local packer = nil
+if packer == nil then
+    packer = require('packer')
+    local util = require('packer.util')
+    packer.init({
+        package_root = util.join_paths(vim.fn.stdpath('config'), 'pack'),
+        compile_path = util.join_paths(vim.fn.stdpath('config'), 'plugin',
+                                       'packer_compiled.vim'),
+        plugin_package = 'packer'
+    })
+end
 
-return require('packer').startup(function(use)
-  -- Packer can manage itself
-  use {
-      'wbthomason/packer.nvim',
-      config = function()
-          vim.api.nvim_command([[
+packer.reset()
+
+return packer.startup(function(use)
+    -- Packer can manage itself
+    use {
+        'wbthomason/packer.nvim',
+        config = function()
+            vim.api.nvim_command([[
             augroup packer_nvim
                 autocmd!
                 autocmd BufWritePost plugins.lua PackerCompile
             augroup END
             ]])
-      end
-  }
+        end
+    }
 
-  -- Post-install/update hook with neovim command
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+    -- Post-install/update hook with neovim command
+    use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
 
-  use {
-      'nvim-telescope/telescope.nvim',
-      requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
-  }
+    use {
+        'nvim-telescope/telescope.nvim',
+        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+    }
 
-  use {
-      'kyazdani42/nvim-tree.lua',
-      requires = { 'kyazdani42/nvim-web-devicons' }
-  }
+    use {
+        'kyazdani42/nvim-tree.lua',
+        requires = {'kyazdani42/nvim-web-devicons'}
+    }
 
 end)
-
 
