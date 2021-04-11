@@ -53,11 +53,8 @@ let g:vim_json_syntax_conceal = 1
 
 call plug#begin(s:common_pkg) "{{{
 
-Plug 'bergercookie/vim-debugstring'
 Plug 'airblade/vim-gitgutter'
-
 Plug 'sheerun/vim-polyglot'
-
 Plug 'chrisbra/unicode.vim'
 Plug 'puremourning/vimspector'
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -72,10 +69,10 @@ endif
 Plug 'jsfaint/gen_tags.vim'
 
 if has('nvim-0.5')
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    lua require('aceforeverd')
 endif
 
-Plug 'liuchengxu/vim-clap', { 'do': { -> clap#installer#force_download() } }
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 
 call plug#end() "}}}
 
@@ -100,6 +97,7 @@ if dein#load_state(s:dein_repo)
         call dein#add('fszymanski/fzf-gitignore')
         " Repl
         call dein#add('hkupty/iron.nvim')
+        call dein#add('Olical/conjure')
     endif
 
     if g:my_cmp_source ==? 'deoplete'
@@ -114,7 +112,6 @@ if dein#load_state(s:dein_repo)
         call dein#add('ponko2/deoplete-fish')
         call dein#add('uplus/deoplete-solargraph', {'on_ft': 'ruby', 'lazy': 1})
         call dein#add('deoplete-plugins/deoplete-asm', {'build': 'make'})
-        call dein#add('pbogut/deoplete-elm')
         call dein#add('deoplete-plugins/deoplete-jedi')
         call dein#add('ujihisa/neco-look')
         call dein#add('c9s/perlomni.vim', {'on_ft': 'perl'})
@@ -136,8 +133,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('voldikss/vim-floaterm')
 
     call dein#add('Shougo/denite.nvim')
-    call dein#add('neoclide/denite-extra')
-    call dein#add('ozelentok/denite-gtags')
     call dein#add('neoclide/denite-git')
 
     call dein#add('tpope/vim-endwise')
@@ -193,7 +188,6 @@ if dein#load_state(s:dein_repo)
     " Tools
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('mattn/emmet-vim')
-    call dein#add('mattn/webapi-vim')
     call dein#add('will133/vim-dirdiff')
     call dein#add('itchyny/calendar.vim')
     call dein#add('tweekmonster/startuptime.vim')
@@ -292,8 +286,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
 
     call dein#add('mboughaba/i3config.vim')
-    call dein#add('hashivim/vim-terraform')
-    call dein#add('elmcast/elm-vim')
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
     call dein#add('clojure-vim/acid.nvim', {'merged': 0, 'on_ft': 'clojure'})
@@ -561,10 +553,6 @@ augroup delimitMateCustom
     autocmd FileType rust let b:delimitMate_quotes = "\" `"
 augroup END
 
-" vim-closetag
-let g:closetag_filenames = '*.html,*.xhtml,*.xml'
-let g:closetag_emptyTags_caseSensitive = 1
-
 " startify
 let g:startify_session_dir = '~/.vim/sessions/'
 let g:startify_update_oldfiles = 1
@@ -714,9 +702,6 @@ augroup END
 " tmux-complete
 let g:tmuxcomplete#trigger = ''
 
-" elm-vim
-let g:elm_setup_keybindings = 0
-
 " gen_tags
 if !executable('gtags')
     let g:loaded_gentags#gtags = 1
@@ -728,6 +713,7 @@ augroup gp_lookup
     autocmd FileType vim nnoremap <buffer><silent> <C-]> :call lookup#lookup()<CR>
     autocmd FileType vim nnoremap gs :call plugin_browse#try_open()<CR>
 augroup END
+
 
 " gina
 let g:gina#command#blame#formatter#format = '%su%=by %au on %ti, %ma/%in'

@@ -73,6 +73,7 @@ DEIN_PATH=$ROOT/dein/repos/github.com/Shougo/dein.vim
 VIMPLUG_PATH=$ROOT/autoload
 DEIN_URL="https://github.com/Shougo/dein.vim.git"
 VIMPLUG="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+PACKER_NVIM="https://github.com/wbthomason/packer.nvim"
 
 if [ ! -d "$DEIN_PATH" ] ; then
     mkdir -p "$DEIN_PATH"
@@ -89,6 +90,12 @@ echo -e "${GREEN}Installing dein.vim ...${NC}"
 git clone "$DEIN_URL" "$DEIN_PATH" && \
     echo -e "${GREEN}dein.vim installed at $DEIN_PATH${NC}"
 echo ""
+
+if [[ $TYPE = "neovim" ]]; then
+    echo -e "${GREEN}Installing packer.vim ...${NC}"
+    git clone "$PACKER_NVIM" "$ROOT/pack/packer/start/packer.nvim" && \
+        echo -e "${GREEN}packer.vim installed at $ROOT/pack/packer/start/packer.nvim${NC}"
+fi
 
 echo -e "${GREEN}Plugin managers all setted${NC}"
 
