@@ -13,48 +13,32 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
---[[
-local execute = vim.api.nvim_command
-local fn = vim.fn
+vim.api.nvim_command([[
+    let s:home = expand('<sfile>:p:h')
+    let &packpath = &packpath . ',' . s:home
+    ]])
 
-local install_path = fn.stdpath('config') .. '/pack/packer/start/packer.nvim'
-
-if fn.empty(fn.glob(install_path)) > 0 then
-  execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-  execute 'packadd packer.nvim'
-end
---]]
-
-local packer = nil
-if packer == nil then
-    packer = require('packer')
-    local util = require('packer.util')
-    packer.init({
-        package_root = util.join_paths(vim.fn.stdpath('config'), 'pack'),
-        compile_path = util.join_paths(vim.fn.stdpath('config'), 'plugin',
-                                       'packer_compiled.vim'),
-        plugin_package = 'packer'
-    })
-end
+local packer = require('packer')
+local util = require('packer.util')
+packer.init({
+    package_root = util.join_paths(vim.fn.stdpath('config'), 'pack'),
+    compile_path = util.join_paths(vim.fn.stdpath('config'), 'plugin',
+                                   'packer_compiled.vim'),
+    plugin_package = 'packer'
+})
 
 packer.reset()
 
 return packer.startup(function(use)
-    -- Packer can manage itself
+    use {'wbthomason/packer.nvim'}
+
     use {
-        'wbthomason/packer.nvim',
-        config = function()
-            vim.api.nvim_command([[
-            augroup packer_nvim
-                autocmd!
-                autocmd BufWritePost plugins.lua PackerCompile
-            augroup END
-            ]])
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate',
+        cond = function()
+            return vim.api.nvim_call_function('has', {'nvim-0.5'})
         end
     }
-
-    -- Post-install/update hook with neovim command
-    use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
 
     use {
         'nvim-telescope/telescope.nvim',
@@ -64,6 +48,10 @@ return packer.startup(function(use)
     use {
         'kyazdani42/nvim-tree.lua',
         requires = {'kyazdani42/nvim-web-devicons'}
+    }
+
+    use {
+        'phaazon/hop.nvim',
     }
 
 end)

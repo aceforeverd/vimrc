@@ -4,7 +4,6 @@
   "suggest.echodocSupport": true,
   "suggest.enablePreselect": true,
   "explorer.icon.enableNerdfont": true,
-  "explorer.previewAction.onHover": "labeling",
   "languageserver": {
     "bash": {
       "command": "bash-language-server",

@@ -281,6 +281,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('tmux-plugins/vim-tmux')
     call dein#add('christoomey/vim-tmux-navigator')
     call dein#add('wellle/tmux-complete.vim')
+    call dein#add('preservim/vimux')
     " Latex
     call dein#add('lervag/vimtex')
     call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
