@@ -54,5 +54,10 @@ return packer.startup(function(use)
         'phaazon/hop.nvim',
     }
 
+    use {
+        'marko-cerovac/material.nvim',
+        requires = { 'tjdevries/colorbuddy.nvim' }
+    }
+
 end)
 
