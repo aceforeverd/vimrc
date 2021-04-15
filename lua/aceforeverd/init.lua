@@ -18,6 +18,11 @@ vim.api.nvim_command([[
     let &packpath = &packpath . ',' . s:home
     ]])
 
+vim.g.material_style = 'palenight'
+vim.g.material_italic_comments = 1
+
+vim.api.nvim_set_keymap('n', '<C-m>', [[<Cmd>lua require('material').toggle_style()<CR>]], { noremap = true, silent = true })
+
 local packer = require('packer')
 local util = require('packer.util')
 packer.init({
@@ -31,6 +36,10 @@ packer.reset()
 
 return packer.startup(function(use)
     use {'wbthomason/packer.nvim'}
+
+    use {
+        'neovim/nvim-lspconfig'
+    }
 
     use {
         'nvim-treesitter/nvim-treesitter',
