@@ -299,6 +299,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('rhysd/vim-grammarous')
 
     call dein#add('jackguo380/vim-lsp-cxx-highlight')
+    call dein#add('cdelledonne/vim-cmake')
 
     call dein#end()
     call dein#save_state()

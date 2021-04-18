@@ -21,52 +21,13 @@ vim.api.nvim_command([[
 vim.g.material_style = 'palenight'
 vim.g.material_italic_comments = 1
 
-vim.api.nvim_set_keymap('n', '<C-m>', [[<Cmd>lua require('material').toggle_style()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-n>',
+                        [[<Cmd>lua require('material').toggle_style()<CR>]],
+                        {noremap = true, silent = true})
 
-local packer = require('packer')
-local util = require('packer.util')
-packer.init({
-    package_root = util.join_paths(vim.fn.stdpath('config'), 'pack'),
-    compile_path = util.join_paths(vim.fn.stdpath('config'), 'plugin',
-                                   'packer_compiled.vim'),
-    plugin_package = 'packer'
-})
+require('aceforeverd.plugins')
 
-packer.reset()
-
-return packer.startup(function(use)
-    use {'wbthomason/packer.nvim'}
-
-    use {
-        'neovim/nvim-lspconfig'
-    }
-
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
-        cond = function()
-            return vim.api.nvim_call_function('has', {'nvim-0.5'})
-        end
-    }
-
-    use {
-        'nvim-telescope/telescope.nvim',
-        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
-    }
-
-    use {
-        'kyazdani42/nvim-tree.lua',
-        requires = {'kyazdani42/nvim-web-devicons'}
-    }
-
-    use {
-        'phaazon/hop.nvim',
-    }
-
-    use {
-        'marko-cerovac/material.nvim',
-        requires = { 'tjdevries/colorbuddy.nvim' }
-    }
-
-end)
-
+vim.cmd [[
+    packadd nvim-treesitter
+    packadd nvim-lspconfig
+    ]]
