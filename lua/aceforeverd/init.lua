@@ -12,22 +12,19 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-vim.api.nvim_command([[
-    let s:home = expand('<sfile>:p:h')
-    let &packpath = &packpath . ',' . s:home
-    ]])
-
-vim.g.material_style = 'palenight'
-vim.g.material_italic_comments = 1
-
-vim.api.nvim_set_keymap('n', '<C-n>',
-                        [[<Cmd>lua require('material').toggle_style()<CR>]],
-                        {noremap = true, silent = true})
-
 require('aceforeverd.plugins')
 
 vim.cmd [[
     packadd nvim-treesitter
     packadd nvim-lspconfig
     ]]
+
+vim.g.material_style = 'darker'
+vim.g.material_italic_comments = 1
+
+vim.api.nvim_set_keymap('n', '<c-n>',
+                        [[<Cmd>lua require('material.functions').toggle_style()<CR>]],
+                        {noremap = true, silent = true})
+
+local material = require('material')
+material.set()

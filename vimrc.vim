@@ -68,10 +68,6 @@ if g:my_cmp_source ==? 'deoplete'
 endif
 Plug 'jsfaint/gen_tags.vim'
 
-if has('nvim-0.5')
-    lua require('aceforeverd')
-endif
-
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 
 call plug#end() "}}}
@@ -276,7 +272,7 @@ if dein#load_state(s:dein_repo)
     " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
     " Erlang
-    call dein#add('vim-erlang/vim-erlang-omnicomplete')
+    call dein#add('vim-erlang/vim-erlang')
     " Tmux
     call dein#add('tmux-plugins/vim-tmux')
     call dein#add('christoomey/vim-tmux-navigator')
@@ -395,6 +391,12 @@ set textwidth=500
 set autoindent "Auto indent
 set smartindent "Smart indent
 set wrap "Wrap lines
+
+if has('nvim-0.5')
+    let &packpath = &packpath . ',' . s:home
+    lua require('aceforeverd')
+endif
+
 
 " terminal mode mapping
 function! s:terminal_mapping() abort
@@ -603,7 +605,9 @@ if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color
             set termguicolors
         endif
     " endif
-    colorscheme one
+    if !has('nvim-0.5')
+        colorscheme one
+    endif
 
     " enable powerline on those environments
     let g:airline_powerline_fonts = 1

@@ -60,7 +60,10 @@ return packer.startup(function(use)
 
     use {
         'marko-cerovac/material.nvim',
-        requires = { 'tjdevries/colorbuddy.nvim' }
+    }
+
+    use {
+        'stsewd/sphinx.nvim'
     }
 
 end)
