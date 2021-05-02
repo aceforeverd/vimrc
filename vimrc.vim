@@ -210,7 +210,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('rhysd/git-messenger.vim', {
             \   'lazy' : 1,
             \   'on_cmd' : 'GitMessenger',
-            \   'on_map' : '<Plug>(git-messenger)',
+            \   'on_map' : '<Plug>(git-messenger',
             \ })
 
     " search
@@ -734,6 +734,9 @@ let g:localvimrc_name = [ '.lc.vim' ]
 let g:better_whitespace_operator = ''
 
 let g:nvimgdb_disable_start_keymaps = 1
+
+" git-messenger
+map <Leader>gm <Plug>(git-messenger)
 
 " vim-license
 let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
