@@ -53,11 +53,8 @@ let g:vim_json_syntax_conceal = 1
 
 call plug#begin(s:common_pkg) "{{{
 
-Plug 'bergercookie/vim-debugstring'
 Plug 'airblade/vim-gitgutter'
-
 Plug 'sheerun/vim-polyglot'
-
 Plug 'chrisbra/unicode.vim'
 Plug 'puremourning/vimspector'
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -70,6 +67,8 @@ if g:my_cmp_source ==? 'deoplete'
                 \ }
 endif
 Plug 'jsfaint/gen_tags.vim'
+
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 
 call plug#end() "}}}
 
@@ -94,6 +93,7 @@ if dein#load_state(s:dein_repo)
         call dein#add('fszymanski/fzf-gitignore')
         " Repl
         call dein#add('hkupty/iron.nvim')
+        call dein#add('Olical/conjure')
     endif
 
     if g:my_cmp_source ==? 'deoplete'
@@ -108,7 +108,6 @@ if dein#load_state(s:dein_repo)
         call dein#add('ponko2/deoplete-fish')
         call dein#add('uplus/deoplete-solargraph', {'on_ft': 'ruby', 'lazy': 1})
         call dein#add('deoplete-plugins/deoplete-asm', {'build': 'make'})
-        call dein#add('pbogut/deoplete-elm')
         call dein#add('deoplete-plugins/deoplete-jedi')
         call dein#add('ujihisa/neco-look')
         call dein#add('c9s/perlomni.vim', {'on_ft': 'perl'})
@@ -123,15 +122,14 @@ if dein#load_state(s:dein_repo)
     call dein#add('Shougo/neoinclude.vim')
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/neco-syntax')
-    call dein#add('Shougo/denite.nvim')
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
 
     call dein#add('voldikss/vim-floaterm')
 
-    call dein#add('neoclide/denite-extra')
-    call dein#add('ozelentok/denite-gtags')
+    call dein#add('Shougo/denite.nvim')
+    call dein#add('neoclide/denite-git')
 
     call dein#add('tpope/vim-endwise')
     call dein#add('tpope/vim-surround')
@@ -173,6 +171,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('psliwka/vim-smoothie')
     call dein#add('chrisbra/Colorizer')
     call dein#add('junegunn/rainbow_parentheses.vim')
+    call dein#add('liuchengxu/vim-which-key', {'on_cmd': ['WhichKey', 'WhichKey!']})
 
     call dein#add('google/vim-searchindex')
     call dein#add('embear/vim-localvimrc')
@@ -185,7 +184,6 @@ if dein#load_state(s:dein_repo)
     " Tools
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('mattn/emmet-vim')
-    call dein#add('mattn/webapi-vim')
     call dein#add('will133/vim-dirdiff')
     call dein#add('itchyny/calendar.vim')
     call dein#add('tweekmonster/startuptime.vim')
@@ -209,11 +207,10 @@ if dein#load_state(s:dein_repo)
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
-    call dein#add('neoclide/denite-git')
     call dein#add('rhysd/git-messenger.vim', {
             \   'lazy' : 1,
             \   'on_cmd' : 'GitMessenger',
-            \   'on_map' : '<Plug>(git-messenger)',
+            \   'on_map' : '<Plug>(git-messenger',
             \ })
 
     " search
@@ -275,18 +272,17 @@ if dein#load_state(s:dein_repo)
     " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
     " Erlang
-    call dein#add('vim-erlang/vim-erlang-omnicomplete')
+    call dein#add('vim-erlang/vim-erlang')
     " Tmux
     call dein#add('tmux-plugins/vim-tmux')
     call dein#add('christoomey/vim-tmux-navigator')
     call dein#add('wellle/tmux-complete.vim')
+    call dein#add('preservim/vimux')
     " Latex
     call dein#add('lervag/vimtex')
     call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
 
     call dein#add('mboughaba/i3config.vim')
-    call dein#add('hashivim/vim-terraform')
-    call dein#add('elmcast/elm-vim')
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
     call dein#add('clojure-vim/acid.nvim', {'merged': 0, 'on_ft': 'clojure'})
@@ -299,6 +295,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('rhysd/vim-grammarous')
 
     call dein#add('jackguo380/vim-lsp-cxx-highlight')
+    call dein#add('cdelledonne/vim-cmake')
 
     call dein#end()
     call dein#save_state()
@@ -395,6 +392,11 @@ set autoindent "Auto indent
 set smartindent "Smart indent
 set wrap "Wrap lines
 
+if has('nvim-0.5')
+    lua require('aceforeverd')
+endif
+
+
 " terminal mode mapping
 function! s:terminal_mapping() abort
     tnoremap <C-w>j <C-\><C-n><C-w>j
@@ -487,7 +489,12 @@ elseif has('unix')
 endif
 
 try
-    let &undodir= s:common_path . '/undodir/'
+    if has('nvim-0.5')
+        let &undodir= s:common_path . '/undodir-0.5/'
+    else
+        let &undodir= s:common_path . '/undodir/'
+    endif
+
     set undofile
 catch
 endtry
@@ -549,10 +556,6 @@ augroup delimitMateCustom
     autocmd FileType rust let b:delimitMate_quotes = "\" `"
 augroup END
 
-" vim-closetag
-let g:closetag_filenames = '*.html,*.xhtml,*.xml'
-let g:closetag_emptyTags_caseSensitive = 1
-
 " startify
 let g:startify_session_dir = '~/.vim/sessions/'
 let g:startify_update_oldfiles = 1
@@ -601,7 +604,9 @@ if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color
             set termguicolors
         endif
     " endif
-    colorscheme one
+    if !has('nvim-0.5')
+        colorscheme one
+    endif
 
     " enable powerline on those environments
     let g:airline_powerline_fonts = 1
@@ -647,12 +652,6 @@ augroup omni_complete
     " neco-ghc
     autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 augroup END
-
-" lua
-let g:lua_check_syntax = 0
-let g:lua_complete_omni = 1
-let g:lua_complete_dynamic = 0
-let g:lua_define_completion_mappings = 0
 
 " neoinclude
 if !exists('g:neoinclude#exts')
@@ -708,9 +707,6 @@ augroup END
 " tmux-complete
 let g:tmuxcomplete#trigger = ''
 
-" elm-vim
-let g:elm_setup_keybindings = 0
-
 " gen_tags
 if !executable('gtags')
     let g:loaded_gentags#gtags = 1
@@ -722,6 +718,7 @@ augroup gp_lookup
     autocmd FileType vim nnoremap <buffer><silent> <C-]> :call lookup#lookup()<CR>
     autocmd FileType vim nnoremap gs :call plugin_browse#try_open()<CR>
 augroup END
+
 
 " gina
 let g:gina#command#blame#formatter#format = '%su%=by %au on %ti, %ma/%in'
@@ -736,6 +733,9 @@ let g:localvimrc_name = [ '.lc.vim' ]
 let g:better_whitespace_operator = ''
 
 let g:nvimgdb_disable_start_keymaps = 1
+
+" git-messenger
+map <Leader>gm <Plug>(git-messenger)
 
 " vim-license
 let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'

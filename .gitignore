@@ -1,3 +1,7 @@
 dein/
 bundle/
+autoload/plug.vim*
+plugin/packer_compiled.vim
+before.vim
+after.vim
 tags

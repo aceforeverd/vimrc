@@ -4,7 +4,6 @@
   "suggest.echodocSupport": true,
   "suggest.enablePreselect": true,
   "explorer.icon.enableNerdfont": true,
-  "explorer.previewAction.onHover": "labeling",
   "languageserver": {
     "bash": {
       "command": "bash-language-server",
@@ -36,10 +35,13 @@
   "diagnostic-languageserver.filetypes": {
     "vim": "vint",
     "sh": "shellcheck",
-    "markdown": ["write-good", "languagetool"],
+    "markdown": ["write-good"],
     "cpp": ["cpplint"],
     "dockerfile": ["hadolint"],
     "python": ["mypy", "pylint"]
+  },
+  "markdownlint.config": {
+      "line_length": false
   },
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt"
