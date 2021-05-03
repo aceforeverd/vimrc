@@ -14,16 +14,33 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 require('aceforeverd.plugins')
 
-vim.cmd [[
-    packadd nvim-lspconfig
-    ]]
-
 vim.g.material_style = 'darker'
 vim.g.material_italic_comments = 1
 
-vim.api.nvim_set_keymap('n', '<c-n>',
-                        [[<Cmd>lua require('material.functions').toggle_style()<CR>]],
+vim.api.nvim_set_keymap('n', '<c-n>', [[<Cmd>lua require('material.functions').toggle_style()<CR>]],
                         {noremap = true, silent = true})
 
 local material = require('material')
 material.set()
+
+local treesitter_config = require('nvim-treesitter.configs')
+treesitter_config.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = {}, -- List of parsers to ignore installing
+  highlight = {
+    enable = true, -- false will disable the whole extension
+    disable = {} -- list of language that will be disabled
+  },
+  indent = {enable = true},
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn",
+      node_incremental = "grn",
+      scope_incremental = "grc",
+      node_decremental = "grm"
+    }
+  },
+  textobjects = {enable = true},
+  matchup = {enable = true}
+}
