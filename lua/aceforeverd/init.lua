@@ -15,7 +15,6 @@
 require('aceforeverd.plugins')
 
 vim.cmd [[
-    packadd nvim-treesitter
     packadd nvim-lspconfig
     ]]
 

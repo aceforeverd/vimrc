@@ -393,7 +393,6 @@ set smartindent "Smart indent
 set wrap "Wrap lines
 
 if has('nvim-0.5')
-    let &packpath = &packpath . ',' . s:home
     lua require('aceforeverd')
 endif
 

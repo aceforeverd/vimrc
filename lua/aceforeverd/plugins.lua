@@ -13,58 +13,45 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+-- plugins will only load if has('nvim-0.5')
+local config_path = vim.fn.stdpath('config')
+vim.cmd(string.format("let &packpath = &packpath . ',' . '%s/bundle'", config_path))
+
 vim.cmd [[ packadd packer.nvim ]]
 
 local packer = require('packer')
 
 local util = require('packer.util')
 packer.init({
-    package_root = util.join_paths(vim.fn.stdpath('config'), 'pack'),
-    compile_path = util.join_paths(vim.fn.stdpath('config'), 'plugin',
-                                   'packer_compiled.vim'),
+    package_root = util.join_paths(config_path, 'bundle/pack'),
+    compile_path = util.join_paths(config_path, 'plugin', 'packer_compiled.vim'),
     plugin_package = 'packer'
 })
 
 packer.reset()
 
 return packer.startup(function(use)
-    use {
-        'wbthomason/packer.nvim',
-        opt = true,
-    }
+    use {'wbthomason/packer.nvim', opt = true}
 
-    use {
-        'neovim/nvim-lspconfig',
-        opt = true,
-    }
+    use {'neovim/nvim-lspconfig', opt = true}
 
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
-        opt = true,
-    }
+    use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
 
     use {
         'nvim-telescope/telescope.nvim',
-        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
+        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
     }
 
     use {
         'kyazdani42/nvim-tree.lua',
-        requires = {'kyazdani42/nvim-web-devicons'},
+        requires = {'kyazdani42/nvim-web-devicons'}
     }
 
-    use {
-        'phaazon/hop.nvim',
-    }
+    use {'phaazon/hop.nvim'}
 
-    use {
-        'marko-cerovac/material.nvim',
-    }
+    use {'marko-cerovac/material.nvim'}
 
-    use {
-        'stsewd/sphinx.nvim'
-    }
+    use {'stsewd/sphinx.nvim'}
 
 end)
 
