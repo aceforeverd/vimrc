@@ -20,14 +20,17 @@ function! aceforeverd#util#install() abort
         call dein#install()
     catch /.*/
     endtry
-    echomsg 'Dein plugins installed'
+    echomsg "Dein plugins installed\n"
     execute 'PlugInstall --sync'
-    echomsg 'Vim-Plug plugins installed'
+    echomsg "Vim-Plug plugins installed\n"
     if g:my_cmp_source ==? 'coc'
         " reload plugins so vim can find newly installed plugin like coc.nvim
         execute 'runtime! plugin/**/*.vim'
         execute 'CocUpdateSync'
-        echomsg 'Coc Plugins installed'
+        echomsg "Coc Plugins installed\n"
+    endif
+    if has('nvim-0.5')
+        execute 'PackerInstall'
     endif
 endfunction
 
