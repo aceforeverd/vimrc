@@ -14,7 +14,9 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -- plugins will only load if has('nvim-0.5')
-local config_path = vim.fn.stdpath('config')
+
+local config_path = vim.fn.expand('<sfile>:p:h')
+
 vim.cmd(string.format("let &packpath = &packpath . ',' . '%s/bundle'", config_path))
 
 vim.cmd [[ packadd packer.nvim ]]
