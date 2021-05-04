@@ -170,7 +170,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('wincent/terminus')
     call dein#add('psliwka/vim-smoothie')
     call dein#add('chrisbra/Colorizer')
-    call dein#add('junegunn/rainbow_parentheses.vim')
     call dein#add('liuchengxu/vim-which-key', {'on_cmd': ['WhichKey', 'WhichKey!']})
 
     call dein#add('google/vim-searchindex')
@@ -435,7 +434,7 @@ augroup END
 
 nnoremap <Leader>ec :execute 'edit' g:vimrc<CR>
 
-nnoremap <space>t :TagbarToggle<CR>
+nnoremap <space>t :Vista!!<CR>
 
 " Specify the behavior when switching between buffers
 try
@@ -697,12 +696,6 @@ let g:header_field_license_id = 'GPL'
 
 " colorizer
 let g:colorizer_auto_filetype='css,html,scss'
-
-" rainbow
-augroup rainbow_lisp
-  autocmd!
-  autocmd FileType lisp,clojure,scheme RainbowParentheses
-augroup END
 
 " tmux-complete
 let g:tmuxcomplete#trigger = ''

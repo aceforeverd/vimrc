@@ -31,30 +31,40 @@ packer.init({
 packer.reset()
 
 return packer.startup(function(use)
-  use {'wbthomason/packer.nvim', opt = true}
+  use { 'wbthomason/packer.nvim', opt = true }
 
-  use {'neovim/nvim-lspconfig'}
+  use { 'neovim/nvim-lspconfig', opt = true }
 
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  use { 'nvim-lua/completion-nvim', opt = true }
 
-  use {'nvim-treesitter/playground', requires = 'nvim-treesitter/nvim-treesitter'}
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 
-  use {'tjdevries/nlua.nvim'}
+  use { 'nvim-treesitter/playground', requires = 'nvim-treesitter/nvim-treesitter' }
 
-  use {'rafcamlet/nvim-luapad', opt = true}
+  use { 'romgrk/nvim-treesitter-context', requires = 'nvim-treesitter/nvim-treesitter' }
+
+  use { 'p00f/nvim-ts-rainbow', reuters = 'nvim-treesitter/nvim-treesitter' }
+
+  use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = 'nvim-treesitter/nvim-treesitter' }
+
+  use { 'nvim-treesitter/nvim-treesitter-refactor', requires = 'nvim-treesitter/nvim-treesitter' }
+
+  use { 'tjdevries/nlua.nvim' }
+
+  use { 'rafcamlet/nvim-luapad', opt = true }
 
   use {
     'nvim-telescope/telescope.nvim',
-    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+    requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } }
   }
 
-  use {'kyazdani42/nvim-tree.lua', requires = {'kyazdani42/nvim-web-devicons'}}
+  use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } }
 
-  use {'phaazon/hop.nvim'}
+  use { 'phaazon/hop.nvim' }
 
-  use {'marko-cerovac/material.nvim'}
+  use { 'marko-cerovac/material.nvim' }
 
-  use {'stsewd/sphinx.nvim'}
+  use { 'stsewd/sphinx.nvim' }
 
 end)
 
