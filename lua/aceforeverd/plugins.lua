@@ -49,9 +49,9 @@ return packer.startup(function(use)
 
   use { 'nvim-treesitter/nvim-treesitter-refactor', requires = 'nvim-treesitter/nvim-treesitter' }
 
-  use { 'tjdevries/nlua.nvim' }
+  use { 'tjdevries/nlua.nvim', ft = { 'lua' } }
 
-  use { 'rafcamlet/nvim-luapad', opt = true }
+  use { 'rafcamlet/nvim-luapad', ft = { 'lua' } }
 
   use {
     'nvim-telescope/telescope.nvim',

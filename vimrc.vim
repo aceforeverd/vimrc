@@ -165,7 +165,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('mhinz/vim-startify')
     call dein#add('ntpeters/vim-better-whitespace')
-    call dein#add('majutsushi/tagbar')
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
     call dein#add('psliwka/vim-smoothie')
@@ -192,9 +191,9 @@ if dein#load_state(s:dein_repo)
     " code format
     call dein#add('sbdchd/neoformat')
     call dein#add('junegunn/vim-easy-align')
-    call dein#add('godlygeek/tabular')
     " debug/test
     call dein#add('janko/vim-test')
+    call dein#add('jpalardy/vim-slime')
 
     " VCS
     call dein#add('tpope/vim-fugitive')
