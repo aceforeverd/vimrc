@@ -150,8 +150,11 @@ if dein#load_state(s:dein_repo)
     call dein#add('tpope/vim-obsession')
     call dein#add('tpope/vim-tbone')
     call dein#add('tpope/vim-dadbod')
+    call dein#add('tpope/vim-projectionist')
 
     call dein#add('lambdalisue/suda.vim')
+
+    call dein#add('airblade/vim-rooter')
 
     " snippets
     call dein#add('honza/vim-snippets')
@@ -239,7 +242,6 @@ if dein#load_state(s:dein_repo)
     " Go
     call dein#add('fatih/vim-go')
     " c/c++/objc
-    call dein#add('nacitar/a.vim')
     call dein#add('sakhnik/nvim-gdb')
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
@@ -280,7 +282,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('lervag/vimtex')
     call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
 
-    call dein#add('mboughaba/i3config.vim')
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
     call dein#add('clojure-vim/acid.nvim', {'merged': 0, 'on_ft': 'clojure'})
