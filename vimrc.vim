@@ -150,8 +150,11 @@ if dein#load_state(s:dein_repo)
     call dein#add('tpope/vim-obsession')
     call dein#add('tpope/vim-tbone')
     call dein#add('tpope/vim-dadbod')
+    call dein#add('tpope/vim-projectionist')
 
     call dein#add('lambdalisue/suda.vim')
+
+    call dein#add('airblade/vim-rooter')
 
     " snippets
     call dein#add('honza/vim-snippets')
@@ -165,12 +168,10 @@ if dein#load_state(s:dein_repo)
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('mhinz/vim-startify')
     call dein#add('ntpeters/vim-better-whitespace')
-    call dein#add('majutsushi/tagbar')
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
     call dein#add('psliwka/vim-smoothie')
     call dein#add('chrisbra/Colorizer')
-    call dein#add('junegunn/rainbow_parentheses.vim')
     call dein#add('liuchengxu/vim-which-key', {'on_cmd': ['WhichKey', 'WhichKey!']})
 
     call dein#add('google/vim-searchindex')
@@ -193,9 +194,9 @@ if dein#load_state(s:dein_repo)
     " code format
     call dein#add('sbdchd/neoformat')
     call dein#add('junegunn/vim-easy-align')
-    call dein#add('godlygeek/tabular')
     " debug/test
     call dein#add('janko/vim-test')
+    call dein#add('jpalardy/vim-slime')
 
     " VCS
     call dein#add('tpope/vim-fugitive')
@@ -241,7 +242,6 @@ if dein#load_state(s:dein_repo)
     " Go
     call dein#add('fatih/vim-go')
     " c/c++/objc
-    call dein#add('nacitar/a.vim')
     call dein#add('sakhnik/nvim-gdb')
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
@@ -282,7 +282,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('lervag/vimtex')
     call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
 
-    call dein#add('mboughaba/i3config.vim')
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
     call dein#add('clojure-vim/acid.nvim', {'merged': 0, 'on_ft': 'clojure'})
@@ -435,7 +434,7 @@ augroup END
 
 nnoremap <Leader>ec :execute 'edit' g:vimrc<CR>
 
-nnoremap <space>t :TagbarToggle<CR>
+nnoremap <space>t :Vista!!<CR>
 
 " Specify the behavior when switching between buffers
 try
@@ -698,12 +697,6 @@ let g:header_field_license_id = 'GPL'
 " colorizer
 let g:colorizer_auto_filetype='css,html,scss'
 
-" rainbow
-augroup rainbow_lisp
-  autocmd!
-  autocmd FileType lisp,clojure,scheme RainbowParentheses
-augroup END
-
 " tmux-complete
 let g:tmuxcomplete#trigger = ''
 
@@ -736,6 +729,9 @@ let g:nvimgdb_disable_start_keymaps = 1
 
 " git-messenger
 map <Leader>gm <Plug>(git-messenger)
+
+" neoformat
+let g:neoformat_enabled_lua = ['luaformat']
 
 " vim-license
 let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
