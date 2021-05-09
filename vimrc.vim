@@ -187,7 +187,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('mattn/emmet-vim')
     call dein#add('will133/vim-dirdiff')
     call dein#add('itchyny/calendar.vim')
-    call dein#add('tweekmonster/startuptime.vim')
+    call dein#add('dstein64/vim-startuptime')
 
     call dein#add('alpertuna/vim-header')
     call dein#add('antoyo/vim-licenses')
@@ -265,6 +265,9 @@ if dein#load_state(s:dein_repo)
     call dein#add('iamcco/markdown-preview.nvim', {
                 \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
                 \ 'build': 'cd app && yarn install' })
+
+    call dein#add('stsewd/sphinx.nvim')
+
     " R
     call dein#add('jalvesaq/Nvim-R')
     " Rust

@@ -64,7 +64,5 @@ return packer.startup(function(use)
 
   use { 'marko-cerovac/material.nvim' }
 
-  use { 'stsewd/sphinx.nvim' }
-
 end)
 

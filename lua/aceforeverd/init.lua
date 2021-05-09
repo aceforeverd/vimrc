@@ -12,7 +12,6 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 require('aceforeverd.plugins')
 
 vim.g.material_style = 'darker'
@@ -30,9 +29,9 @@ treesitter_config.setup {
   ignore_install = {}, -- List of parsers to ignore installing
   highlight = {
     enable = true, -- false will disable the whole extension
-    disable = {} -- list of language that will be disabled
+    disable = {'yaml'} -- list of language that will be disabled
   },
-  indent = { enable = true },
+  indent = { enable = true, disable = { 'yaml' } },
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -68,7 +67,8 @@ treesitter_config.setup {
   },
   rainbow = { enable = true, extended_mode = true, max_file_lines = 1000 },
   refactor = {
-    highlight_current_scope = { enable = true },
+    highlight_definitions = { enable = true },
+    highlight_current_scope = { enable = true, disable = { 'c', 'cpp', 'yaml' } },
     smart_rename = { enable = true, keymaps = { smart_rename = "<Leader>rt" } },
     navigation = {
       enable = true,
