@@ -164,13 +164,13 @@ if dein#load_state(s:dein_repo)
     " interface
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
+    call dein#add('preservim/tagbar')
     call dein#add('rakr/vim-one')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('mhinz/vim-startify')
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
-    call dein#add('psliwka/vim-smoothie')
     call dein#add('chrisbra/Colorizer')
     call dein#add('liuchengxu/vim-which-key', {'on_cmd': ['WhichKey', 'WhichKey!']})
 
@@ -265,8 +265,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('iamcco/markdown-preview.nvim', {
                 \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
                 \ 'build': 'cd app && yarn install' })
-
-    call dein#add('stsewd/sphinx.nvim')
 
     " R
     call dein#add('jalvesaq/Nvim-R')
@@ -437,7 +435,7 @@ augroup END
 
 nnoremap <Leader>ec :execute 'edit' g:vimrc<CR>
 
-nnoremap <space>t :Vista!!<CR>
+nnoremap <space>t :<c-u>TagbarToggle<CR>
 
 " Specify the behavior when switching between buffers
 try

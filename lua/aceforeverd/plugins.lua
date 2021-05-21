@@ -64,5 +64,9 @@ return packer.startup(function(use)
 
   use { 'marko-cerovac/material.nvim' }
 
+  use { 'mfussenegger/nvim-dap' }
+
+  use { 'sindrets/diffview.nvim', requires = { 'kyazdani42/nvim-web-devicons' } }
+
 end)
 

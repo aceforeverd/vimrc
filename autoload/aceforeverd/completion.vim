@@ -215,6 +215,7 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-translator', 'coc-cmake',
                 \ 'coc-metals', 'coc-emoji',
                 \ 'coc-markdownlint', 'coc-toml',
+                \ 'coc-word',
                 \ ]
 
     function! s:coc_maps() abort
@@ -257,8 +258,8 @@ function! aceforeverd#completion#init_source_coc() abort
 
         " Remap <C-f> and <C-b> for scroll float windows/popups.
         if has('nvim-0.4.0') || has('patch-8.2.0750')
-            nmap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "<Plug>(SmoothieForwards)"
-            nmap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "<Plug>(SmoothieBackwards)"
+            nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+            nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
             inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
             inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
             vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -284,6 +285,7 @@ function! aceforeverd#completion#init_source_coc() abort
         autocmd CursorHold * silent call CocActionAsync('highlight')
         " Setup formatexpr specified filetype(s).
         autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+        autocmd FileType c,cpp,objcpp nnoremap <Leader>af :<C-u>CocCommand clangd.switchSourceHeader<cr>
         " Update signature help on jump placeholder
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup end
