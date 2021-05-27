@@ -68,5 +68,7 @@ return packer.startup(function(use)
 
   use { 'sindrets/diffview.nvim', requires = { 'kyazdani42/nvim-web-devicons' } }
 
+  use { 'tversteeg/registers.nvim' }
+
 end)
 

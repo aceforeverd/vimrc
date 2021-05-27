@@ -14,14 +14,20 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 require('aceforeverd.plugins')
 
+local set_map = vim.api.nvim_set_keymap
+
 vim.g.material_style = 'darker'
 vim.g.material_italic_comments = 1
 
-vim.api.nvim_set_keymap('n', '<c-n>', [[<Cmd>lua require('material.functions').toggle_style()<CR>]],
-                        { noremap = true, silent = true })
+set_map('n', '<c-n>', [[<Cmd>lua require('material.functions').toggle_style()<CR>]],
+        { noremap = true, silent = true })
 
-local material = require('material')
-material.set()
+set_map('n', '<Space>r', [[ <Cmd>lua require 'nvim-tree'.toggle()<CR> ]],
+        { noremap = true, silent = false })
+
+-- local material = require('material')
+-- material.set()
+vim.cmd [[ colorscheme one ]]
 
 local treesitter_config = require('nvim-treesitter.configs')
 treesitter_config.setup {
@@ -29,7 +35,7 @@ treesitter_config.setup {
   ignore_install = {}, -- List of parsers to ignore installing
   highlight = {
     enable = true, -- false will disable the whole extension
-    disable = {'yaml'} -- list of language that will be disabled
+    disable = { 'yaml' } -- list of language that will be disabled
   },
   indent = { enable = true, disable = { 'yaml' } },
   incremental_selection = {
@@ -78,6 +84,54 @@ treesitter_config.setup {
         list_definitions_toc = "gO",
         goto_next_usage = "<a-*>",
         goto_previous_usage = "<a-#>"
+      }
+    }
+  },
+  textobjects = {
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      -- ']' -> next start, '[' -> previous start, '>' -> next_end, '<' -> previous end
+      -- lowercase -> @*.innner, uppercase -> @*.outer
+      goto_next_start = {
+        ["]m"] = "@function.inner",
+        ["]]"] = "@class.inner",
+        ["]r"] = "@parameter.inner",
+        ["]h"] = "@block.inner",
+        ["]g"] = "@call.inner",
+        ["]j"] = "@conditional.inner",
+        ["]w"] = "@loop.inner",
+        ["];"] = "@statement.outer"
+      },
+      goto_next_end = {
+        [">m"] = "@function.innner",
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+        ["]R"] = "@parameter.outer",
+        ["]H"] = "@block.outer",
+        ["]G"] = "@call.outer",
+        ["]J"] = "@conditional.outer",
+        ["]W"] = "@loop.outer"
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.inner",
+        ["[["] = "@class.inner",
+        ["[r"] = "@parameter.inner",
+        ["[h"] = "@block.inner",
+        ["[g"] = "@call.inner",
+        ["[j"] = "@conditional.inner",
+        ["[w"] = "@loop.inner",
+        ["[;"] = "@statement.outer"
+      },
+      goto_previous_end = {
+        ["<m"] = "@function.innner",
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+        ["[R"] = "@parameter.outer",
+        ["[H"] = "@block.outer",
+        ["[G"] = "@call.outer",
+        ["[J"] = "@conditional.outer",
+        ["[W"] = "@loop.outer"
       }
     }
   }

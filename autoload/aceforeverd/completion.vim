@@ -324,6 +324,10 @@ function! aceforeverd#completion#init_source_coc() abort
 
     nnoremap <space>e :<C-u>CocCommand explorer<CR>
 
+    nnoremap <silent> <space>l :<C-u>CocList -A --normal yank<CR>
+    nnoremap <silent> <space>v :<C-u>CocList services<CR>
+    nnoremap <silent> <space><space> :<C-u>CocList<CR>
+
     " coc-snippets
     imap <c-l> <Plug>(coc-snippets-expand-jump)
     vmap <c-j> <Plug>(coc-snippets-select)
