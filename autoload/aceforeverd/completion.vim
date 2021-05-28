@@ -328,6 +328,10 @@ function! aceforeverd#completion#init_source_coc() abort
     nnoremap <silent> <space>v :<C-u>CocList services<CR>
     nnoremap <silent> <space><space> :<C-u>CocList<CR>
 
+    " coc-highlight
+    nnoremap <Leader>cp :call CocAction('pickColor')<CR>
+    nnoremap <Leader>cf :call CocAction('colorPresentation')<CR>
+
     " coc-snippets
     imap <c-l> <Plug>(coc-snippets-expand-jump)
     vmap <c-j> <Plug>(coc-snippets-select)

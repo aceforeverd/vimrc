@@ -16,8 +16,10 @@ require('aceforeverd.plugins')
 
 local set_map = vim.api.nvim_set_keymap
 
-vim.g.material_style = 'darker'
-vim.g.material_italic_comments = 1
+vim.g.material_style = 'palenight'
+vim.g.material_italic_comments = true
+vim.g.material_borders = true
+vim.g.material_variable_color = '#21a59a'
 
 set_map('n', '<c-n>', [[<Cmd>lua require('material.functions').toggle_style()<CR>]],
         { noremap = true, silent = true })
@@ -25,9 +27,12 @@ set_map('n', '<c-n>', [[<Cmd>lua require('material.functions').toggle_style()<CR
 set_map('n', '<Space>r', [[ <Cmd>lua require 'nvim-tree'.toggle()<CR> ]],
         { noremap = true, silent = false })
 
--- local material = require('material')
--- material.set()
-vim.cmd [[ colorscheme one ]]
+set_map('n', '{{', '{', { noremap = true, silent = true} )
+set_map('n', '}}', '}', { noremap = true, silent = true} )
+
+local material = require('material')
+material.set()
+-- vim.cmd [[ colorscheme one ]]
 
 local treesitter_config = require('nvim-treesitter.configs')
 treesitter_config.setup {
@@ -91,48 +96,82 @@ treesitter_config.setup {
     move = {
       enable = true,
       set_jumps = true, -- whether to set jumps in the jumplist
-      -- ']' -> next start, '[' -> previous start, '>' -> next_end, '<' -> previous end
-      -- lowercase -> @*.innner, uppercase -> @*.outer
-      goto_next_start = {
-        ["]m"] = "@function.inner",
-        ["]]"] = "@class.inner",
-        ["]r"] = "@parameter.inner",
-        ["]h"] = "@block.inner",
-        ["]g"] = "@call.inner",
-        ["]j"] = "@conditional.inner",
-        ["]w"] = "@loop.inner",
-        ["];"] = "@statement.outer"
+      -- ']' -> next, '[' -> previous,
+      -- lowercase -> next/previous start, uppercase -> next/previous end
+      goto_next_start = { -- ']'
+        ["}k"] = "@block.inner",
+        ["]k"] = "@block.outer",
+        ["}g"] = "@call.inner",
+        ["]g"] = "@call.outer",
+        ["}]"] = "@class.inner",
+        ["]]"] = "@class.outer",
+        ["]/"] = "@comment.outer",
+        ["}j"] = "@conditional.inner",
+        ["]j"] = "@conditional.outer",
+        ["}m"] = "@function.inner",
+        ["]m"] = "@function.outer",
+        ["}w"] = "@loop.inner",
+        ["]w"] = "@loop.outer",
+        ["}r"] = "@parameter.inner",
+        ["]r"] = "@parameter.outer",
+        ["];"] = "@statement.outer",
       },
-      goto_next_end = {
-        [">m"] = "@function.innner",
-        ["]M"] = "@function.outer",
-        ["]["] = "@class.outer",
-        ["]R"] = "@parameter.outer",
-        ["]H"] = "@block.outer",
+      goto_next_end = { -- '>'
+        ["}K"] = "@block.inner",
+        ["]K"] = "@block.outer",
+        ["}G"] = "@call.inner",
         ["]G"] = "@call.outer",
+        ["}["] = "@class.inner",
+        ["]["] = "@class.outer",
+        ["}/"] = "@comment.outer",
+        ["}J"] = "@conditional.inner",
         ["]J"] = "@conditional.outer",
-        ["]W"] = "@loop.outer"
+        ["}M"] = "@function.inner",
+        ["]M"] = "@function.outer",
+        ["}W"] = "@loop.inner",
+        ["]W"] = "@loop.outer",
+        ["}R"] = "@parameter.inner",
+        ["]R"] = "@parameter.outer",
+        ["};"] = "@statement.outer",
       },
-      goto_previous_start = {
-        ["[m"] = "@function.inner",
-        ["[["] = "@class.inner",
-        ["[r"] = "@parameter.inner",
-        ["[h"] = "@block.inner",
-        ["[g"] = "@call.inner",
-        ["[j"] = "@conditional.inner",
-        ["[w"] = "@loop.inner",
-        ["[;"] = "@statement.outer"
+      goto_previous_start = { -- '['
+        ["{k"] = "@block.inner",
+        ["[k"] = "@block.outer",
+        ["{g"] = "@call.inner",
+        ["[g"] = "@call.outer",
+        ["{["] = "@class.inner",
+        ["[["] = "@class.outer",
+        ["[/"] = "@comment.outer",
+        ["{j"] = "@conditional.inner",
+        ["[j"] = "@conditional.outer",
+        ["{m"] = "@function.inner",
+        ["[m"] = "@function.outer",
+        ["{w"] = "@loop.inner",
+        ["[w"] = "@loop.outer",
+        ["{r"] = "@parameter.inner",
+        ["[r"] = "@parameter.outer",
+        ["[;"] = "@statement.outer",
       },
-      goto_previous_end = {
-        ["<m"] = "@function.innner",
-        ["[M"] = "@function.outer",
-        ["[]"] = "@class.outer",
-        ["[R"] = "@parameter.outer",
-        ["[H"] = "@block.outer",
+      goto_previous_end = { -- '<'
+        ["{K"] = "@block.inner",
+        ["[K"] = "@block.outer",
+        ["{G"] = "@call.inner",
         ["[G"] = "@call.outer",
+        ["{]"] = "@class.inner",
+        ["[]"] = "@class.outer",
+        ["{/"] = "@comment.outer",
+        ["{J"] = "@conditional.inner",
         ["[J"] = "@conditional.outer",
-        ["[W"] = "@loop.outer"
+        ["{M"] = "@function.inner",
+        ["[M"] = "@function.outer",
+        ["{W"] = "@loop.inner",
+        ["[W"] = "@loop.outer",
+        ["{R"] = "@parameter.inner",
+        ["[R"] = "@parameter.outer",
+        ["{;"] = "@statement.outer",
       }
     }
   }
 }
+
+

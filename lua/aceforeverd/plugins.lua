@@ -70,5 +70,7 @@ return packer.startup(function(use)
 
   use { 'tversteeg/registers.nvim' }
 
+  use { 'rafamadriz/neon' }
+
 end)
 
