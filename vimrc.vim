@@ -66,9 +66,6 @@ if g:my_cmp_source ==? 'deoplete'
                 \ 'do': 'bash install.sh',
                 \ }
 endif
-Plug 'jsfaint/gen_tags.vim'
-
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 
 call plug#end() "}}}
 
@@ -112,14 +109,13 @@ if dein#load_state(s:dein_repo)
         call dein#add('ujihisa/neco-look')
         call dein#add('c9s/perlomni.vim', {'on_ft': 'perl'})
         call dein#add('clojure-vim/async-clj-omni')
+        call dein#add('Shougo/neoinclude.vim')
     elseif g:my_cmp_source ==? 'coc'
         call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
         call dein#add('antoinemadec/coc-fzf')
-        call dein#add('jsfaint/coc-neoinclude')
         call dein#add('neoclide/coc-neco')
     endif
 
-    call dein#add('Shougo/neoinclude.vim')
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/neco-syntax')
     call dein#add('Shougo/neco-vim')
@@ -171,10 +167,8 @@ if dein#load_state(s:dein_repo)
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
-    call dein#add('chrisbra/Colorizer')
     call dein#add('liuchengxu/vim-which-key', {'on_cmd': ['WhichKey', 'WhichKey!']})
 
-    call dein#add('google/vim-searchindex')
     call dein#add('embear/vim-localvimrc')
 
     " motion
@@ -208,6 +202,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
+    call dein#add('rbong/vim-flog')
     call dein#add('rhysd/git-messenger.vim', {
             \   'lazy' : 1,
             \   'on_cmd' : 'GitMessenger',
@@ -221,7 +216,6 @@ if dein#load_state(s:dein_repo)
                 \ 'merged': 0
                 \ })
     call dein#add('junegunn/fzf.vim')
-    call dein#add('haya14busa/incsearch.vim')
 
     call dein#add('mbbill/undotree')
     call dein#add('haya14busa/dein-command.vim')
@@ -272,8 +266,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('rust-lang/rust.vim')
     " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
-    " Erlang
-    call dein#add('vim-erlang/vim-erlang')
     " Tmux
     call dein#add('tmux-plugins/vim-tmux')
     call dein#add('christoomey/vim-tmux-navigator')
@@ -392,13 +384,11 @@ set autoindent "Auto indent
 set smartindent "Smart indent
 set wrap "Wrap lines
 
-if has('nvim-0.5')
-    lua require('aceforeverd')
-endif
-
 
 " terminal mode mapping
 function! s:terminal_mapping() abort
+    let g:floaterm_width = 0.8
+    let g:floaterm_height = 0.8
     tnoremap <C-w>j <C-\><C-n><C-w>j
     tnoremap <C-w>k <C-\><C-n><C-w>k
     tnoremap <C-w>l <C-\><C-n><C-w>l
@@ -409,8 +399,11 @@ function! s:terminal_mapping() abort
     nnoremap <C-w>m :FloatermToggle<CR>
     noremap <C-w>] :FloatermNext<CR>
     noremap <C-w>[ :FloatermPrev<CR>
-    tnoremap <C-w>n <C-\><C-n>:FloatermNew<CR>
-    nnoremap <C-w>n :FloatermNew<CR>
+    tnoremap <C-w>+ <C-\><C-n>:FloatermNew<CR>
+    nnoremap <C-w>+ :FloatermNew<CR>
+    tnoremap <c-w>n <c-\><c-n>
+    " paste register content in terminal mode
+    tnoremap <expr> <C-e> '<C-\><C-N>"'.nr2char(getchar()).'pi'
 endfunction
 if has('nvim') || has('terminal')
     call s:terminal_mapping()
@@ -604,27 +597,13 @@ if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color
             set termguicolors
         endif
     " endif
-    if !has('nvim-0.5')
-        colorscheme one
-    endif
-
-    " enable powerline on those environments
-    let g:airline_powerline_fonts = 1
-    let g:powerline_pycmd = 'py3'
-    let g:airline_theme = 'onedark'
+    colorscheme one
 endif
 
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh', 'vim', 'help']
 " markdown-preview
 let g:mkdp_auto_close = 0
-
-" incsearch.vim
-if !has('patch-8.0-1241')
-    map / <Plug>(incsearch-forward)
-    map ? <Plug>(incsearch-backward)
-    map g/ <Plug>(incsearch-stay)
-endif
 
 " easy-align
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -652,35 +631,6 @@ augroup omni_complete
     " neco-ghc
     autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 augroup END
-
-" neoinclude
-if !exists('g:neoinclude#exts')
-    let g:neoinclude#exts = {}
-endif
-let g:neoinclude#exts.c = ['', 'h']
-let g:neoinclude#exts.cpp = ['', 'h', 'hpp', 'hxx']
-
-if !exists('g:neoinclude#paths')
-    let g:neoinclude#paths = {}
-endif
-
-let g:neoinclude#paths.c = '.,'
-        \ . '/usr/lib/gcc/*/*/include/,'
-        \ . '/usr/local/include/,'
-        \ . '/usr/lib/gcc/*/*/include-fixed/,'
-        \ . '/usr/include/,,'
-
-let g:neoinclude#paths.cpp = '.,'
-        \ . '/usr/include/c++/*/,'
-        \ . '/usr/include/c++/*/*/,'
-        \ . '/usr/include/c++/*/backward/,'
-        \ . '/usr/local/include/,'
-        \ . '/usr/lib/gcc/*/*/include/,'
-        \ . '/usr/lib/gcc/*/*/include-fixed/,'
-        \ . '/usr/lib/gcc/*/*/include/g++-v*/,'
-        \ . '/usr/lib/gcc/*/*/include/g++-v*/backward,'
-        \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
-        \ . '/usr/include/,,'
 
 " vim-sneak
 map <Leader>s <Plug>Sneak_s
@@ -736,6 +686,12 @@ let g:neoformat_enabled_lua = ['luaformat']
 
 " vim-license
 let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
+
+
+if has('nvim-0.5')
+    lua require('aceforeverd')
+endif
+
 
 let s:after_vimrc = s:home . '/after.vim'
 if filereadable(s:after_vimrc)

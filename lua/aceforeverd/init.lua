@@ -16,10 +16,10 @@ require('aceforeverd.plugins')
 
 local set_map = vim.api.nvim_set_keymap
 
-vim.g.material_style = 'palenight'
-vim.g.material_italic_comments = true
+vim.g.material_style = 'darker'
 vim.g.material_borders = true
-vim.g.material_variable_color = '#21a59a'
+vim.g.material_variable_color = '#3adbc5'
+require('material').set()
 
 set_map('n', '<c-n>', [[<Cmd>lua require('material.functions').toggle_style()<CR>]],
         { noremap = true, silent = true })
@@ -27,12 +27,8 @@ set_map('n', '<c-n>', [[<Cmd>lua require('material.functions').toggle_style()<CR
 set_map('n', '<Space>r', [[ <Cmd>lua require 'nvim-tree'.toggle()<CR> ]],
         { noremap = true, silent = false })
 
-set_map('n', '{{', '{', { noremap = true, silent = true} )
-set_map('n', '}}', '}', { noremap = true, silent = true} )
-
-local material = require('material')
-material.set()
--- vim.cmd [[ colorscheme one ]]
+set_map('n', '{{', '{', { noremap = true, silent = true })
+set_map('n', '}}', '}', { noremap = true, silent = true })
 
 local treesitter_config = require('nvim-treesitter.configs')
 treesitter_config.setup {
@@ -114,7 +110,7 @@ treesitter_config.setup {
         ["]w"] = "@loop.outer",
         ["}r"] = "@parameter.inner",
         ["]r"] = "@parameter.outer",
-        ["];"] = "@statement.outer",
+        ["];"] = "@statement.outer"
       },
       goto_next_end = { -- '>'
         ["}K"] = "@block.inner",
@@ -132,7 +128,7 @@ treesitter_config.setup {
         ["]W"] = "@loop.outer",
         ["}R"] = "@parameter.inner",
         ["]R"] = "@parameter.outer",
-        ["};"] = "@statement.outer",
+        ["};"] = "@statement.outer"
       },
       goto_previous_start = { -- '['
         ["{k"] = "@block.inner",
@@ -150,7 +146,7 @@ treesitter_config.setup {
         ["[w"] = "@loop.outer",
         ["{r"] = "@parameter.inner",
         ["[r"] = "@parameter.outer",
-        ["[;"] = "@statement.outer",
+        ["[;"] = "@statement.outer"
       },
       goto_previous_end = { -- '<'
         ["{K"] = "@block.inner",
@@ -168,10 +164,8 @@ treesitter_config.setup {
         ["[W"] = "@loop.outer",
         ["{R"] = "@parameter.inner",
         ["[R"] = "@parameter.outer",
-        ["{;"] = "@statement.outer",
+        ["{;"] = "@statement.outer"
       }
     }
   }
 }
-
-

@@ -116,6 +116,35 @@ function! aceforeverd#completion#init_source_deoplete() abort
     let g:deoplete#sources#go#pointer = 1
     let g:deoplete#sources#go#builtin_objects = 1
     let g:deoplete#sources#go#unimported_packages = 1
+
+    " neoinclude
+    if !exists('g:neoinclude#exts')
+        let g:neoinclude#exts = {}
+    endif
+    let g:neoinclude#exts.c = ['', 'h']
+    let g:neoinclude#exts.cpp = ['', 'h', 'hpp', 'hxx']
+
+    if !exists('g:neoinclude#paths')
+        let g:neoinclude#paths = {}
+    endif
+
+    let g:neoinclude#paths.c = '.,'
+                \ . '/usr/lib/gcc/*/*/include/,'
+                \ . '/usr/local/include/,'
+                \ . '/usr/lib/gcc/*/*/include-fixed/,'
+                \ . '/usr/include/,,'
+
+    let g:neoinclude#paths.cpp = '.,'
+                \ . '/usr/include/c++/*/,'
+                \ . '/usr/include/c++/*/*/,'
+                \ . '/usr/include/c++/*/backward/,'
+                \ . '/usr/local/include/,'
+                \ . '/usr/lib/gcc/*/*/include/,'
+                \ . '/usr/lib/gcc/*/*/include-fixed/,'
+                \ . '/usr/lib/gcc/*/*/include/g++-v*/,'
+                \ . '/usr/lib/gcc/*/*/include/g++-v*/backward,'
+                \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
+                \ . '/usr/include/,,'
 endfunction
 
 

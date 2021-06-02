@@ -72,5 +72,20 @@ return packer.startup(function(use)
 
   use { 'rafamadriz/neon' }
 
+  use { 'dstein64/nvim-scrollview' }
+
+  use { 'notomo/gesture.nvim', opt = true }
+
+  use {
+    'pwntester/octo.nvim',
+    config = function() require"octo".setup() end,
+    requires = { 'nvim-telescope/telescope.nvim', 'kyazdani42/nvim-web-devicons' }
+  }
+
+  use { 'Pocco81/HighStr.nvim' }
+
+  use { 'romgrk/barbar.nvim', opt = true }
+  use { 'kevinhwang91/nvim-hlslens' }
+
 end)
 
