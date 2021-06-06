@@ -53,10 +53,22 @@ let g:vim_json_syntax_conceal = 1
 
 call plug#begin(s:common_pkg) "{{{
 
-Plug 'airblade/vim-gitgutter'
+if !has('nvim-0.5.0')
+    Plug 'airblade/vim-gitgutter'
+    " vim-gitgutter
+    omap ih <Plug>(GitGutterTextObjectInnerPending)
+    omap ah <Plug>(GitGutterTextObjectOuterPending)
+    xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+    xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+    let g:gitgutter_sign_added = '+'
+    let g:gitgutter_sign_modified = '~'
+    if has('nvim-0.4.0')
+        let g:gitgutter_highlight_linenrs = 1
+    endif
+endif
+Plug 'pechorin/any-jump.vim'
+
 Plug 'sheerun/vim-polyglot'
-Plug 'chrisbra/unicode.vim'
-Plug 'puremourning/vimspector'
 let g:vimspector_enable_mappings = 'HUMAN'
 Plug 'rafi/awesome-vim-colorschemes'
 
@@ -161,7 +173,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
     call dein#add('preservim/tagbar')
-    call dein#add('rakr/vim-one')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('mhinz/vim-startify')
     call dein#add('ntpeters/vim-better-whitespace')
@@ -182,6 +193,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('will133/vim-dirdiff')
     call dein#add('itchyny/calendar.vim')
     call dein#add('dstein64/vim-startuptime')
+    call dein#add('jsfaint/gen_tags.vim')
 
     call dein#add('alpertuna/vim-header')
     call dein#add('antoyo/vim-licenses')
@@ -218,7 +230,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('junegunn/fzf.vim')
 
     call dein#add('mbbill/undotree')
-    call dein#add('haya14busa/dein-command.vim')
     call dein#add('wsdjeg/dein-ui.vim')
     call dein#add('jamessan/vim-gnupg')
     call dein#add('jceb/vim-orgmode')
@@ -237,6 +248,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('fatih/vim-go')
     " c/c++/objc
     call dein#add('sakhnik/nvim-gdb')
+    call dein#add('puremourning/vimspector')
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
 
@@ -563,14 +575,6 @@ let g:startify_fortune_use_unicode = 1
 let g:startify_session_sort = 1
 let g:startify_relative_path = 1
 
-" vim-gitgutter
-let g:gitgutter_max_signs = 1000
-
-" vim-go
-augroup VIM_GO
-    autocmd!
-    autocmd FileType go nnoremap <c-]> :GoDef<CR>
-augroup END
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -622,9 +626,6 @@ set completeopt-=preview
 " echodoc
 let g:echodoc#enable_at_startup = 1
 
-" init completion source
-call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
-
 " Enable omni completion.
 augroup omni_complete
     autocmd!
@@ -645,24 +646,15 @@ let g:header_field_author_email = g:my_email
 let g:header_field_modified_by = 0
 let g:header_field_license_id = 'GPL'
 
-" colorizer
-let g:colorizer_auto_filetype='css,html,scss'
-
 " tmux-complete
 let g:tmuxcomplete#trigger = ''
-
-" gen_tags
-if !executable('gtags')
-    let g:loaded_gentags#gtags = 1
-endif
 
 " vim-lookup
 augroup gp_lookup
     autocmd!
-    autocmd FileType vim nnoremap <buffer><silent> <C-]> :call lookup#lookup()<CR>
+    autocmd FileType vim nnoremap <buffer><silent> <LocalLeader><C-]> :call lookup#lookup()<CR>
     autocmd FileType vim nnoremap gs :call plugin_browse#try_open()<CR>
 augroup END
-
 
 " gina
 let g:gina#command#blame#formatter#format = '%su%=by %au on %ti, %ma/%in'
@@ -691,6 +683,9 @@ let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
 if has('nvim-0.5')
     lua require('aceforeverd')
 endif
+
+" init completion source
+call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
 
 
 let s:after_vimrc = s:home . '/after.vim'

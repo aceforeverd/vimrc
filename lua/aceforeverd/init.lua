@@ -21,12 +21,21 @@ vim.g.material_borders = true
 vim.g.material_variable_color = '#3adbc5'
 require('material').set()
 
+vim.cmd [[
+augroup PackerCST
+    autocmd!
+    autocmd BufWritePost plugins.lua PackerCompile
+augroup END
+]]
+
 set_map('n', '<c-n>', [[<Cmd>lua require('material.functions').toggle_style()<CR>]],
         { noremap = true, silent = true })
 
 set_map('n', '<Space>r', [[ <Cmd>lua require 'nvim-tree'.toggle()<CR> ]],
         { noremap = true, silent = false })
 
+-- keep vim default maps
+set_map('x', ']"', '"', { noremap = true, silent = true })
 set_map('n', '{{', '{', { noremap = true, silent = true })
 set_map('n', '}}', '}', { noremap = true, silent = true })
 

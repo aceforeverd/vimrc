@@ -30,62 +30,154 @@ packer.init({
 
 packer.reset()
 
-return packer.startup(function(use)
-  use { 'wbthomason/packer.nvim', opt = true }
+return packer.startup({
+  function(use)
+    use { 'wbthomason/packer.nvim', opt = true }
 
-  use { 'neovim/nvim-lspconfig', opt = true }
+    use { 'neovim/nvim-lspconfig', opt = true }
 
-  use { 'nvim-lua/completion-nvim', opt = true }
+    use { 'nvim-lua/completion-nvim', opt = true }
 
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+    use {
+      'lewis6991/gitsigns.nvim',
+      requires = { 'nvim-lua/plenary.nvim' },
+      config = function()
+        require('gitsigns').setup {
+          signs = {
+            add = {
+              hl = 'GitSignsAdd',
+              text = '│',
+              numhl = 'GitSignsAddNr',
+              linehl = 'GitSignsAddLn'
+            },
+            change = {
+              hl = 'GitSignsChange',
+              text = '│',
+              numhl = 'GitSignsChangeNr',
+              linehl = 'GitSignsChangeLn'
+            },
+            delete = {
+              hl = 'GitSignsDelete',
+              text = '_',
+              numhl = 'GitSignsDeleteNr',
+              linehl = 'GitSignsDeleteLn'
+            },
+            topdelete = {
+              hl = 'GitSignsDelete',
+              text = '‾',
+              numhl = 'GitSignsDeleteNr',
+              linehl = 'GitSignsDeleteLn'
+            },
+            changedelete = {
+              hl = 'GitSignsChange',
+              text = '~',
+              numhl = 'GitSignsChangeNr',
+              linehl = 'GitSignsChangeLn'
+            }
+          },
+          numhl = true,
+          linehl = false,
+          keymaps = {
+            -- Default keymap options
+            noremap = true,
+            buffer = true,
 
-  use { 'nvim-treesitter/playground', requires = 'nvim-treesitter/nvim-treesitter' }
+            ['n ]c'] = {
+              expr = true,
+              "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"
+            },
+            ['n [c'] = {
+              expr = true,
+              "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"
+            },
 
-  use { 'romgrk/nvim-treesitter-context', requires = 'nvim-treesitter/nvim-treesitter' }
+            ['n <leader>hs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+            ['n <leader>hu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
+            ['n <leader>hr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+            ['n <leader>hR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
+            ['n <leader>hp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+            ['n <leader>hb'] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
 
-  use { 'p00f/nvim-ts-rainbow', reuters = 'nvim-treesitter/nvim-treesitter' }
+            -- Text objects
+            ['o ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
+            ['x ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
+          },
+          watch_index = { interval = 1000 },
+          current_line_blame = true,
+          sign_priority = 6,
+          update_debounce = 100,
+          status_formatter = nil, -- Use default
+          use_decoration_api = true,
+          use_internal_diff = true -- If luajit is present
+        }
+      end
+    }
 
-  use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = 'nvim-treesitter/nvim-treesitter' }
+    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 
-  use { 'nvim-treesitter/nvim-treesitter-refactor', requires = 'nvim-treesitter/nvim-treesitter' }
+    use { 'nvim-treesitter/playground', requires = 'nvim-treesitter/nvim-treesitter' }
 
-  use { 'tjdevries/nlua.nvim', ft = { 'lua' } }
+    use { 'romgrk/nvim-treesitter-context', requires = 'nvim-treesitter/nvim-treesitter' }
 
-  use { 'rafcamlet/nvim-luapad', ft = { 'lua' } }
+    use { 'p00f/nvim-ts-rainbow', reuters = 'nvim-treesitter/nvim-treesitter' }
 
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } }
-  }
+    use {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      requires = 'nvim-treesitter/nvim-treesitter'
+    }
 
-  use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } }
+    use { 'nvim-treesitter/nvim-treesitter-refactor', requires = 'nvim-treesitter/nvim-treesitter' }
 
-  use { 'phaazon/hop.nvim' }
+    use { 'tjdevries/nlua.nvim', ft = { 'lua' } }
 
-  use { 'marko-cerovac/material.nvim' }
+    use { 'rafcamlet/nvim-luapad', ft = { 'lua' } }
 
-  use { 'mfussenegger/nvim-dap' }
+    use {
+      'nvim-telescope/telescope.nvim',
+      requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } }
+    }
 
-  use { 'sindrets/diffview.nvim', requires = { 'kyazdani42/nvim-web-devicons' } }
+    use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } }
 
-  use { 'tversteeg/registers.nvim' }
+    use { 'phaazon/hop.nvim' }
 
-  use { 'rafamadriz/neon' }
+    use { 'marko-cerovac/material.nvim' }
 
-  use { 'dstein64/nvim-scrollview' }
+    use { 'mfussenegger/nvim-dap' }
 
-  use { 'notomo/gesture.nvim', opt = true }
+    use { 'sindrets/diffview.nvim', requires = { 'kyazdani42/nvim-web-devicons' } }
 
-  use {
-    'pwntester/octo.nvim',
-    config = function() require"octo".setup() end,
-    requires = { 'nvim-telescope/telescope.nvim', 'kyazdani42/nvim-web-devicons' }
-  }
+    use { 'tversteeg/registers.nvim' }
 
-  use { 'Pocco81/HighStr.nvim' }
+    use { 'rafamadriz/neon' }
 
-  use { 'romgrk/barbar.nvim', opt = true }
-  use { 'kevinhwang91/nvim-hlslens' }
+    use { 'dstein64/nvim-scrollview' }
 
-end)
+    use { 'notomo/gesture.nvim', opt = true }
+
+    use {
+      'pwntester/octo.nvim',
+      config = function() require"octo".setup() end,
+      requires = { 'nvim-telescope/telescope.nvim', 'kyazdani42/nvim-web-devicons' }
+    }
+
+    use { 'Pocco81/HighStr.nvim' }
+
+    use { 'romgrk/barbar.nvim', opt = true }
+    use { 'kevinhwang91/nvim-hlslens' }
+
+    use {
+      "folke/todo-comments.nvim",
+      requires = "nvim-lua/plenary.nvim",
+      config = function()
+        require("todo-comments").setup {
+          -- your configuration comes here
+          -- or leave it empty to use the default settings
+          -- refer to the configuration section below
+        }
+      end
+    }
+
+  end,
+})
 

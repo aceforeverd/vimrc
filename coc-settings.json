@@ -94,6 +94,7 @@
       "args": ["-"]
     }
   },
+  "git.enableGutters": false,
   // coc-translator
   "translator.engines": ["google"]
 }
