@@ -65,6 +65,14 @@ if !has('nvim-0.5.0')
     if has('nvim-0.4.0')
         let g:gitgutter_highlight_linenrs = 1
     endif
+
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline_detect_modified=1
+    let g:airline_detect_paste=1
+    let g:airline_theme='onedark'
+    let g:airline_powerline_fonts = 1
 endif
 Plug 'pechorin/any-jump.vim'
 
@@ -170,8 +178,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('Shougo/neosnippet.vim')
 
     " interface
-    call dein#add('vim-airline/vim-airline')
-    call dein#add('vim-airline/vim-airline-themes')
     call dein#add('preservim/tagbar')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('mhinz/vim-startify')
@@ -575,13 +581,6 @@ let g:startify_fortune_use_unicode = 1
 let g:startify_session_sort = 1
 let g:startify_relative_path = 1
 
-
-" Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_detect_modified=1
-let g:airline_detect_paste=1
-let g:airline_theme='onedark'
-
 set background=dark
 
 if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color' || has('gui_running')
@@ -679,6 +678,15 @@ let g:neoformat_enabled_lua = ['luaformat']
 " vim-license
 let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
 
+" matchup
+if aceforeverd#util#has_float()
+    let g:matchup_matchparen_offscreen = {'method': 'popup'}
+endif
+
+" gen_tags.vim
+let g:gen_tags#ctags_auto_update = 0
+let g:gen_tags#gtags_auto_update = 0
+
 
 if has('nvim-0.5')
     lua require('aceforeverd')
@@ -686,7 +694,6 @@ endif
 
 " init completion source
 call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
-
 
 let s:after_vimrc = s:home . '/after.vim'
 if filereadable(s:after_vimrc)
