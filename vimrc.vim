@@ -55,7 +55,6 @@ call plug#begin(s:common_pkg) "{{{
 
 if !has('nvim-0.5.0')
     Plug 'airblade/vim-gitgutter'
-    " vim-gitgutter
     omap ih <Plug>(GitGutterTextObjectInnerPending)
     omap ah <Plug>(GitGutterTextObjectOuterPending)
     xmap ih <Plug>(GitGutterTextObjectInnerVisual)
@@ -162,7 +161,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('tpope/vim-salve')
     call dein#add('tpope/vim-eunuch')
     call dein#add('tpope/vim-speeddating')
-    call dein#add('tpope/vim-pathogen')
     call dein#add('tpope/vim-obsession')
     call dein#add('tpope/vim-tbone')
     call dein#add('tpope/vim-dadbod')
@@ -197,7 +195,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('mattn/emmet-vim')
     call dein#add('will133/vim-dirdiff')
-    call dein#add('itchyny/calendar.vim')
     call dein#add('dstein64/vim-startuptime')
     call dein#add('jsfaint/gen_tags.vim')
 
@@ -220,7 +217,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
-    call dein#add('rbong/vim-flog')
     call dein#add('rhysd/git-messenger.vim', {
             \   'lazy' : 1,
             \   'on_cmd' : 'GitMessenger',
@@ -238,7 +234,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('mbbill/undotree')
     call dein#add('wsdjeg/dein-ui.vim')
     call dein#add('jamessan/vim-gnupg')
-    call dein#add('jceb/vim-orgmode')
 
     call dein#add('tomtom/tcomment_vim')
     call dein#add('raimondi/delimitmate')
@@ -309,11 +304,6 @@ if dein#load_state(s:dein_repo)
 
     call dein#end()
     call dein#save_state()
-endif
-
-" pathogen
-if exists('g:load_pathogen_plugins')
-    execute pathogen#infect(s:common_path . '/pog/{}')
 endif
 
 " =================== extra conf ============================= "
@@ -509,6 +499,9 @@ try
     set undofile
 catch
 endtry
+
+" dein.vim
+command! DeinClean exe 'call map(dein#check_clean(), { _, val -> delete(val, "rf") })'
 
 " suda.vim
 command! SudaWrite exe 'w suda://%'
