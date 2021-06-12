@@ -1,10 +1,11 @@
 {
   "coc.preferences.extensionUpdateCheck": "weekly",
+  "coc.preferences.currentFunctionSymbolAutoUpdate": false,
   "codeLens.enable": true,
   "suggest.echodocSupport": true,
   "suggest.enablePreselect": true,
   "explorer.icon.enableNerdfont": true,
-  "coc.source.word.shortcut":"word10k",
+  "coc.source.word.shortcut": "word10k",
   "languageserver": {
     "bash": {
       "command": "bash-language-server",
@@ -53,7 +54,7 @@
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt"
   },
-  "clangd.semanticHighlighting": false,
+  "clangd.semanticHighlighting": true,
   "clangd.arguments": [
     "--background-index",
     "--clang-tidy",
@@ -78,6 +79,32 @@
           "message": 3
         }
       ]
+    },
+    "cpplint": {
+      "command": "cpplint",
+      "args": ["%file"],
+      "debounce": 100,
+      "isStderr": true,
+      "isStdout": false,
+      "sourceName": "cpplint",
+      "offsetLine": 0,
+      "offsetColumn": 0,
+      "formatPattern": [
+        "^[^:]+:(\\d+):(\\d+)?\\s+(.+?)\\s\\[(\\d)\\]$",
+        {
+          "line": 1,
+          "column": 2,
+          "message": 3,
+          "security": 4
+        }
+      ],
+      "securities": {
+        "1": "info",
+        "2": "warning",
+        "3": "warning",
+        "4": "warning",
+        "5": "error"
+      }
     }
   },
   "diagnostic-languageserver.formatters": {

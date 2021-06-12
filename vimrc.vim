@@ -49,7 +49,6 @@ let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
 
 " vim plug
 " ============================================================================================
-let g:vim_json_syntax_conceal = 1
 
 call plug#begin(s:common_pkg) "{{{
 
@@ -76,6 +75,9 @@ endif
 Plug 'pechorin/any-jump.vim'
 
 Plug 'sheerun/vim-polyglot'
+let g:polyglot_disabled = ['sensible']
+let g:vim_json_syntax_conceal = 1
+
 let g:vimspector_enable_mappings = 'HUMAN'
 Plug 'rafi/awesome-vim-colorschemes'
 
@@ -129,6 +131,8 @@ if dein#load_state(s:dein_repo)
         call dein#add('c9s/perlomni.vim', {'on_ft': 'perl'})
         call dein#add('clojure-vim/async-clj-omni')
         call dein#add('Shougo/neoinclude.vim')
+        call dein#add('Shougo/neosnippet-snippets')
+        call dein#add('Shougo/neosnippet.vim')
     elseif g:my_cmp_source ==? 'coc'
         call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
         call dein#add('antoinemadec/coc-fzf')
@@ -172,8 +176,6 @@ if dein#load_state(s:dein_repo)
 
     " snippets
     call dein#add('honza/vim-snippets')
-    call dein#add('Shougo/neosnippet-snippets')
-    call dein#add('Shougo/neosnippet.vim')
 
     " interface
     call dein#add('preservim/tagbar')
@@ -265,8 +267,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('tweekmonster/helpful.vim')
     " Elixir
     call dein#add('slashmili/alchemist.vim')
-    " CSS/SCSS/LESS
-    call dein#add('hail2u/vim-css3-syntax', {'merged': 0})
     " markdown
     call dein#add('mzlogin/vim-markdown-toc', {'on_ft': 'markdown'})
     call dein#add('iamcco/markdown-preview.nvim', {
@@ -297,7 +297,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('gentoo/gentoo-syntax')
 
     call dein#add('chrisbra/csv.vim')
-    call dein#add('rhysd/vim-grammarous')
 
     call dein#add('jackguo380/vim-lsp-cxx-highlight')
     call dein#add('cdelledonne/vim-cmake')
@@ -501,6 +500,10 @@ catch
 endtry
 
 " dein.vim
+function! s:delete_path(path) abort
+    delete(a:path, 'rf')
+    return a:path
+endfunction
 command! DeinClean exe 'call map(dein#check_clean(), { _, val -> delete(val, "rf") })'
 
 " suda.vim
@@ -525,14 +528,22 @@ let g:fzf_action = {
 
 " fzf-vim
 " Mapping selecting mappings
-nmap <Leader><Tab> <plug>(fzf-maps-n)
-imap <Leader><Tab> <plug>(fzf-maps-i)
-xmap <Leader><Tab> <plug>(fzf-maps-x)
-omap <Leader><Tab> <plug>(fzf-maps-o)
+command! -bar -bang IMaps exe 'call fzf#vim#maps("i", <bang>0)'
+command! -bar -bang VMaps exe 'call fzf#vim#maps("v", <bang>0)'
+command! -bar -bang XMaps exe 'call fzf#vim#maps("x", <bang>0)'
+command! -bar -bang OMaps exe 'call fzf#vim#maps("o", <bang>0)'
+command! -bar -bang TMaps exe 'call fzf#vim#maps("t", <bang>0)'
+command! -bar -bang SMaps exe 'call fzf#vim#maps("s", <bang>0)'
 " Insert mode completion
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" from vim-rsi
+inoremap        <C-A> <C-O>^
+inoremap   <C-X><C-A> <C-A>
+cnoremap        <C-A> <Home>
+cnoremap   <C-X><C-A> <C-A>
 
 if executable('rg')
     set grepprg=rg\ --vimgrep
@@ -540,12 +551,6 @@ endif
 
 " tmux navigator
 let g:tmux_navigator_no_mappings = 1
-
-" neosnippet
-imap <Leader>e <Plug>(neosnippet_expand_or_jump)
-smap <Leader>e <Plug>(neosnippet_expand_or_jump)
-xmap <Leader>e <Plug>(neosnippet_expand_target)
-let g:neosnippet#enable_snipmate_compatibility = 1
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
@@ -679,6 +684,8 @@ endif
 " gen_tags.vim
 let g:gen_tags#ctags_auto_update = 0
 let g:gen_tags#gtags_auto_update = 0
+let g:gen_tags#ctags_opts = '--links=no'
+let g:gen_tags#gtags_opts = '--skip-symlink'
 
 
 if has('nvim-0.5')

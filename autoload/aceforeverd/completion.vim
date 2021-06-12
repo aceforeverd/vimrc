@@ -145,6 +145,11 @@ function! aceforeverd#completion#init_source_deoplete() abort
                 \ . '/usr/lib/gcc/*/*/include/g++-v*/backward,'
                 \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
                 \ . '/usr/include/,,'
+
+    let g:neosnippet#enable_snipmate_compatibility = 1
+    imap <c-e> <Plug>(neosnippet_expand_or_jump)
+    smap <c-e> <Plug>(neosnippet_expand_or_jump)
+    xmap <c-e> <Plug>(neosnippet_expand_target)
 endfunction
 
 
@@ -229,7 +234,7 @@ function! aceforeverd#completion#init_source_coc() abort
     let g:coc_global_extensions = ['coc-vimlsp',
                 \ 'coc-tag', 'coc-syntax',
                 \ 'coc-snippets', 'coc-prettier',
-                \ 'coc-neosnippet', 'coc-lists',
+                \ 'coc-lists', 'coc-floaterm',
                 \ 'coc-highlight', 'coc-git',
                 \ 'coc-explorer', 'coc-eslint',
                 \ 'coc-dictionary', 'coc-yank',
@@ -364,7 +369,7 @@ function! aceforeverd#completion#init_source_coc() abort
     nnoremap <Leader>cf :call CocAction('colorPresentation')<CR>
 
     " coc-snippets
-    imap <c-l> <Plug>(coc-snippets-expand-jump)
+    imap <expr> <C-l> coc#expandableOrJumpable() ? "<Plug>(coc-snippets-expand-jump)" : "\<C-l>"
     vmap <c-j> <Plug>(coc-snippets-select)
 endfunction
 

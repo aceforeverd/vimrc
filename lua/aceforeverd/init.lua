@@ -28,6 +28,11 @@ set_map('x', ']"', '"', { noremap = true, silent = true })
 set_map('n', '{{', '{', { noremap = true, silent = true })
 set_map('n', '}}', '}', { noremap = true, silent = true })
 
+vim.api.nvim_exec([[
+    call coc#config('clangd.semanticHighlighting', v:false)
+    call coc#config('coc.preferences.currentFunctionSymbolAutoUpdate', v:true)
+]], false)
+
 require('nvim-treesitter.configs').setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ignore_install = {}, -- List of parsers to ignore installing
@@ -35,7 +40,7 @@ require('nvim-treesitter.configs').setup {
     enable = true, -- false will disable the whole extension
     disable = { 'yaml' } -- list of language that will be disabled
   },
-  indent = { enable = true, disable = { 'yaml' } },
+  indent = { enable = true, disable = { 'yaml', 'cpp' } },
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -69,7 +74,7 @@ require('nvim-treesitter.configs').setup {
       show_help = '?'
     }
   },
-  rainbow = { enable = true, extended_mode = true, max_file_lines = 1000 },
+  rainbow = { enable = false, extended_mode = true, max_file_lines = 1000 },
   refactor = {
     highlight_definitions = { enable = true },
     highlight_current_scope = { enable = true, disable = { 'c', 'cpp', 'yaml', 'lua' } },

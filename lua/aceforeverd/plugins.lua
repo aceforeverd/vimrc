@@ -71,8 +71,6 @@ return packer.startup({
               linehl = 'GitSignsChangeLn'
             }
           },
-          numhl = true,
-          linehl = false,
           keymaps = {
             -- Default keymap options
             noremap = true,
@@ -98,7 +96,10 @@ return packer.startup({
             ['o ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
             ['x ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
           },
+          numhl = true,
+          linehl = false,
           watch_index = { interval = 1000 },
+          attach_to_untracked = false,
           current_line_blame = false,
           sign_priority = 6,
           update_debounce = 100,
@@ -201,7 +202,11 @@ return packer.startup({
       config = function() require("dapui").setup() end
     }
 
-    use { 'TimUntersberger/neogit', config = function() require('neogit').setup {} end }
+    use {
+      'TimUntersberger/neogit',
+      config = function() require('neogit').setup {} end,
+      cmd = 'Neogit'
+    }
 
     use { 'sindrets/diffview.nvim', requires = { 'kyazdani42/nvim-web-devicons' } }
 
@@ -222,6 +227,7 @@ return packer.startup({
     use { 'Pocco81/HighStr.nvim' }
 
     use { 'romgrk/barbar.nvim', opt = true }
+    use {'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', opt = true}
     use { 'kevinhwang91/nvim-hlslens' }
 
     use {
@@ -240,21 +246,25 @@ return packer.startup({
 
     use {
       'hoob3rt/lualine.nvim',
-      requires = { 'kyazdani42/nvim-web-devicons' },
+      requires = { 'kyazdani42/nvim-web-devicons', 'nvim-treesitter/nvim-treesitter' },
       config = function()
+        local function cur_ctx()
+          return require('nvim-treesitter').statusline({ indicator_size = 100, type_patterns = {'class', 'function', 'method'} })
+        end
+
         require'lualine'.setup {
           options = {
             icons_enabled = true,
             theme = 'material',
             component_separators = { '', '' },
             section_separators = { '', '' },
-            disabled_filetypes = {}
+            disabled_filetypes = { 'coc-explorer' }
           },
           sections = {
             lualine_a = { 'mode' },
             lualine_b = { 'branch', 'diff' },
-            lualine_c = { 'filename', 'coc#status' },
-            lualine_x = { 'filetype', 'fileformat', 'encoding' },
+            lualine_c = { { 'filename', file_status = true }, 'coc#status' },
+            lualine_x = { 'b:coc_current_function', 'filetype', 'fileformat', 'encoding' },
             lualine_y = {
               {
                 'diagnostics',
