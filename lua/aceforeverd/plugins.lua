@@ -39,38 +39,6 @@ return packer.startup({
       requires = { 'nvim-lua/plenary.nvim' },
       config = function()
         require('gitsigns').setup {
-          signs = {
-            add = {
-              hl = 'GitSignsAdd',
-              text = '│',
-              numhl = 'GitSignsAddNr',
-              linehl = 'GitSignsAddLn'
-            },
-            change = {
-              hl = 'GitSignsChange',
-              text = '│',
-              numhl = 'GitSignsChangeNr',
-              linehl = 'GitSignsChangeLn'
-            },
-            delete = {
-              hl = 'GitSignsDelete',
-              text = '_',
-              numhl = 'GitSignsDeleteNr',
-              linehl = 'GitSignsDeleteLn'
-            },
-            topdelete = {
-              hl = 'GitSignsDelete',
-              text = '‾',
-              numhl = 'GitSignsDeleteNr',
-              linehl = 'GitSignsDeleteLn'
-            },
-            changedelete = {
-              hl = 'GitSignsChange',
-              text = '~',
-              numhl = 'GitSignsChangeNr',
-              linehl = 'GitSignsChangeLn'
-            }
-          },
           keymaps = {
             -- Default keymap options
             noremap = true,
@@ -114,7 +82,15 @@ return packer.startup({
 
     use { 'nvim-treesitter/playground', requires = 'nvim-treesitter/nvim-treesitter' }
 
-    use { 'romgrk/nvim-treesitter-context', requires = 'nvim-treesitter/nvim-treesitter' }
+    use {
+      'romgrk/nvim-treesitter-context',
+      requires = 'nvim-treesitter/nvim-treesitter',
+      config = function()
+        require'treesitter-context.config'.setup {
+          enable = true -- Enable this plugin (Can be enabled/disabled later via commands)
+        }
+      end
+    }
 
     use { 'p00f/nvim-ts-rainbow', requires = 'nvim-treesitter/nvim-treesitter' }
 
@@ -124,8 +100,6 @@ return packer.startup({
     }
 
     use { 'nvim-treesitter/nvim-treesitter-refactor', requires = 'nvim-treesitter/nvim-treesitter' }
-
-    use { 'tjdevries/nlua.nvim', ft = { 'lua' } }
 
     use { 'rafcamlet/nvim-luapad', ft = { 'lua' } }
 
@@ -140,10 +114,6 @@ return packer.startup({
                 ["<C-j>"] = require('telescope.actions').move_selection_next,
                 ["<C-k>"] = require('telescope.actions').move_selection_previous
               }
-            },
-            vimgrep_arguments = {
-              'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column',
-              '--smart-case'
             }
           }
         }
@@ -214,7 +184,7 @@ return packer.startup({
 
     use { 'rafamadriz/neon' }
 
-    use { 'dstein64/nvim-scrollview' }
+    -- use { 'dstein64/nvim-scrollview' }
 
     use { 'notomo/gesture.nvim', opt = true }
 
@@ -227,7 +197,7 @@ return packer.startup({
     use { 'Pocco81/HighStr.nvim' }
 
     use { 'romgrk/barbar.nvim', opt = true }
-    use {'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', opt = true}
+    use { 'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', opt = true }
     use { 'kevinhwang91/nvim-hlslens' }
 
     use {
@@ -248,10 +218,6 @@ return packer.startup({
       'hoob3rt/lualine.nvim',
       requires = { 'kyazdani42/nvim-web-devicons', 'nvim-treesitter/nvim-treesitter' },
       config = function()
-        local function cur_ctx()
-          return require('nvim-treesitter').statusline({ indicator_size = 100, type_patterns = {'class', 'function', 'method'} })
-        end
-
         require'lualine'.setup {
           options = {
             icons_enabled = true,

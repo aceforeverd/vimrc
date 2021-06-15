@@ -121,6 +121,8 @@
       "args": ["-"]
     }
   },
+  "Lua.hint.enable": true,
+  "Lua.hint.setType": true,
   "git.enableGutters": false,
   // coc-translator
   "translator.engines": ["google"]

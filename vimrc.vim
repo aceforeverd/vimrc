@@ -403,12 +403,10 @@ function! s:terminal_mapping() abort
     tnoremap <C-w>m <C-\><c-n>:FloatermToggle<CR>
     tnoremap <C-w>] <C-\><c-n>:FloatermNext<CR>
     tnoremap <C-w>[ <C-\><c-n>:FloatermPrev<CR>
-    nnoremap <C-w>m :FloatermToggle<CR>
-    noremap <C-w>] :FloatermNext<CR>
-    noremap <C-w>[ :FloatermPrev<CR>
-    tnoremap <C-w>+ <C-\><C-n>:FloatermNew<CR>
-    nnoremap <C-w>+ :FloatermNew<CR>
+    tnoremap <C-w>a <C-\><C-n>:FloatermNew<CR>
+    tnoremap <C-w>e <C-\><C-n>:FloatermKill<CR>
     tnoremap <c-w>n <c-\><c-n>
+    nnoremap <C-w>m :FloatermToggle<CR>
     " paste register content in terminal mode
     tnoremap <expr> <C-e> '<C-\><C-N>"'.nr2char(getchar()).'pi'
 endfunction

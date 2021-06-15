@@ -31,6 +31,10 @@ set_map('n', '}}', '}', { noremap = true, silent = true })
 vim.api.nvim_exec([[
     call coc#config('clangd.semanticHighlighting', v:false)
     call coc#config('coc.preferences.currentFunctionSymbolAutoUpdate', v:true)
+    call coc#config('Lua.workspace.library', {$VIMRUNTIME . '/lua': v:true})
+    call coc#config('Lua.diagnostics.globals', ['vim'])
+
+    let g:matchup_matchparen_offscreen = {}
 ]], false)
 
 require('nvim-treesitter.configs').setup {
@@ -74,7 +78,7 @@ require('nvim-treesitter.configs').setup {
       show_help = '?'
     }
   },
-  rainbow = { enable = false, extended_mode = true, max_file_lines = 1000 },
+  rainbow = { enable = true, extended_mode = false, max_file_lines = 1000 },
   refactor = {
     highlight_definitions = { enable = true },
     highlight_current_scope = { enable = true, disable = { 'c', 'cpp', 'yaml', 'lua' } },
