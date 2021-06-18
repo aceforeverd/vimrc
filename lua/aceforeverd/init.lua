@@ -61,7 +61,7 @@ require('nvim-treesitter.configs').setup {
     lint_events = { "BufWrite", "CursorHold" }
   },
   playground = {
-    enable = true,
+    enable = false,
     disable = {},
     updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
     persist_queries = false, -- Whether the query persists across vim sessions
@@ -80,7 +80,7 @@ require('nvim-treesitter.configs').setup {
   },
   rainbow = { enable = true, extended_mode = false, max_file_lines = 1000 },
   refactor = {
-    highlight_definitions = { enable = true },
+    highlight_definitions = { enable = false },
     highlight_current_scope = { enable = true, disable = { 'c', 'cpp', 'yaml', 'lua' } },
     smart_rename = { enable = true, keymaps = { smart_rename = "<Leader>rt" } },
     navigation = {
@@ -174,4 +174,7 @@ require('nvim-treesitter.configs').setup {
       }
     }
   }
+}
+require'treesitter-context.config'.setup {
+    enable = false
 }

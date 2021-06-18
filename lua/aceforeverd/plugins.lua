@@ -34,6 +34,8 @@ return packer.startup({
 
     use { 'nvim-lua/completion-nvim', opt = true }
 
+    use { 'nvim-lua/plenary.nvim' }
+
     use {
       'lewis6991/gitsigns.nvim',
       requires = { 'nvim-lua/plenary.nvim' },
@@ -69,7 +71,7 @@ return packer.startup({
           watch_index = { interval = 1000 },
           attach_to_untracked = false,
           current_line_blame = false,
-          sign_priority = 6,
+          sign_priority = 5,
           update_debounce = 100,
           status_formatter = nil, -- Use default
           use_decoration_api = true,
@@ -84,12 +86,7 @@ return packer.startup({
 
     use {
       'romgrk/nvim-treesitter-context',
-      requires = 'nvim-treesitter/nvim-treesitter',
-      config = function()
-        require'treesitter-context.config'.setup {
-          enable = true -- Enable this plugin (Can be enabled/disabled later via commands)
-        }
-      end
+      requires = 'nvim-treesitter/nvim-treesitter'
     }
 
     use { 'p00f/nvim-ts-rainbow', requires = 'nvim-treesitter/nvim-treesitter' }
@@ -146,7 +143,7 @@ return packer.startup({
       config = function()
         vim.api.nvim_set_keymap('n', '<Space>r', [[ <Cmd>lua require 'nvim-tree'.toggle()<CR> ]],
                                 { noremap = true, silent = false })
-
+        vim.g.nvim_tree_follow = 1
       end
     }
 
@@ -184,7 +181,7 @@ return packer.startup({
 
     use { 'rafamadriz/neon' }
 
-    -- use { 'dstein64/nvim-scrollview' }
+    use { 'dstein64/nvim-scrollview', opt = true }
 
     use { 'notomo/gesture.nvim', opt = true }
 

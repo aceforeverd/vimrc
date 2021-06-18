@@ -674,8 +674,8 @@ let g:neoformat_enabled_lua = ['luaformat']
 " vim-license
 let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
 
-" matchup
 if aceforeverd#util#has_float()
+    " matchup
     let g:matchup_matchparen_offscreen = {'method': 'popup'}
 endif
 
