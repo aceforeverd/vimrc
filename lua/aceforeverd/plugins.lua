@@ -84,10 +84,7 @@ return packer.startup({
 
     use { 'nvim-treesitter/playground', requires = 'nvim-treesitter/nvim-treesitter' }
 
-    use {
-      'romgrk/nvim-treesitter-context',
-      requires = 'nvim-treesitter/nvim-treesitter'
-    }
+    use { 'romgrk/nvim-treesitter-context', requires = 'nvim-treesitter/nvim-treesitter' }
 
     use { 'p00f/nvim-ts-rainbow', requires = 'nvim-treesitter/nvim-treesitter' }
 
@@ -114,6 +111,8 @@ return packer.startup({
             }
           }
         }
+        vim.api.nvim_set_keymap('n', '<Leader>f', '<Cmd>Telescope<CR>',
+                                { noremap = true, silent = false })
       end
     }
 

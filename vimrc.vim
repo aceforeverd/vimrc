@@ -538,10 +538,16 @@ imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " from vim-rsi
+" <c-a> & <c-e> -> <HOME> & <END>, <c-b> & <c-f> -> forward & backward
 inoremap        <C-A> <C-O>^
 inoremap   <C-X><C-A> <C-A>
+inoremap <expr> <C-E> col('.')>strlen(getline('.'))<bar><bar>pumvisible()?"\<Lt>C-E>":"\<Lt>End>"
+inoremap <C-\><C-E> <C-E>
+
 cnoremap        <C-A> <Home>
+cnoremap        <C-B> <Left>
 cnoremap   <C-X><C-A> <C-A>
+cnoremap <expr> <C-F> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"
 
 if executable('rg')
     set grepprg=rg\ --vimgrep

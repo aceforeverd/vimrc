@@ -40,11 +40,8 @@ vim.api.nvim_exec([[
 require('nvim-treesitter.configs').setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ignore_install = {}, -- List of parsers to ignore installing
-  highlight = {
-    enable = true, -- false will disable the whole extension
-    disable = { 'yaml' } -- list of language that will be disabled
-  },
-  indent = { enable = true, disable = { 'yaml', 'cpp' } },
+  highlight = { enable = true, disable = {} },
+  indent = { enable = true, disable = {} },
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -175,6 +172,4 @@ require('nvim-treesitter.configs').setup {
     }
   }
 }
-require'treesitter-context.config'.setup {
-    enable = false
-}
+require'treesitter-context.config'.setup { enable = false }

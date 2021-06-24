@@ -269,8 +269,8 @@ function! aceforeverd#completion#init_source_coc() abort
         nmap <leader>rn <Plug>(coc-rename)
 
         " Remap for format selected region
-        xmap <leader>f  <Plug>(coc-format-selected)
-        nmap <leader>f  <Plug>(coc-format-selected)
+        xmap <leader>o  <Plug>(coc-format-selected)
+        nmap <leader>o  <Plug>(coc-format-selected)
 
         " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
         xmap <leader>a  <Plug>(coc-codeaction-selected)
