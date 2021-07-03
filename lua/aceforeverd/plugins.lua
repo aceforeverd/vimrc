@@ -23,7 +23,8 @@ local util = require('packer.util')
 packer.init({
   package_root = util.join_paths(config_path, 'bundle/pack'),
   compile_path = util.join_paths(config_path, 'plugin', 'packer_compiled.vim'),
-  plugin_package = 'packer'
+  plugin_package = 'packer',
+  profile = { enable = true, threshold = 1 }
 })
 
 return packer.startup({
@@ -187,14 +188,29 @@ return packer.startup({
     use {
       'pwntester/octo.nvim',
       requires = { 'nvim-telescope/telescope.nvim', 'kyazdani42/nvim-web-devicons' },
-      config = function() require"octo".setup() end
+      config = function() require"octo".setup() end,
+      cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' }
     }
 
     use { 'Pocco81/HighStr.nvim' }
 
-    use { 'romgrk/barbar.nvim', opt = true }
+    use {
+      'romgrk/barbar.nvim',
+      opt = true,
+      config = function()
+        vim.api.nvim_set_keymap('n', '<M-,>', '<Cmd>BufferPrevious<CR>',
+                                { silent = true, noremap = true })
+        vim.api.nvim_set_keymap('n', '<M-.>', ':BufferNext<CR>', { silent = true, noremap = true })
+      end
+    }
     use { 'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', opt = true }
-    use { 'kevinhwang91/nvim-hlslens' }
+    use {
+      'kevinhwang91/nvim-hlslens',
+      config = function()
+        vim.api.nvim_set_keymap('n', '*', "*<Cmd>lua require('hlslens').start()<CR>",
+                                { silent = true, noremap = true })
+      end
+    }
 
     use {
       "folke/todo-comments.nvim",
