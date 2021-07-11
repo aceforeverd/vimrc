@@ -15,7 +15,6 @@
 -- plugins will only load if has('nvim-0.5')
 local config_path = vim.fn.expand('<sfile>:p:h')
 vim.cmd(string.format("let &packpath = &packpath . ',' . '%s/bundle'", config_path))
-vim.cmd [[ packadd packer.nvim ]]
 
 local packer = require('packer')
 
@@ -29,7 +28,7 @@ packer.init({
 
 return packer.startup({
   function(use)
-    use { 'wbthomason/packer.nvim', opt = true }
+    use { 'wbthomason/packer.nvim' }
 
     use { 'neovim/nvim-lspconfig', opt = true }
 
@@ -37,51 +36,19 @@ return packer.startup({
 
     use { 'nvim-lua/plenary.nvim' }
 
+    use { 'pwntester/codeql.nvim' }
+
     use {
       'lewis6991/gitsigns.nvim',
       requires = { 'nvim-lua/plenary.nvim' },
-      config = function()
-        require('gitsigns').setup {
-          keymaps = {
-            -- Default keymap options
-            noremap = true,
-            buffer = true,
-
-            ['n ]c'] = {
-              expr = true,
-              "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"
-            },
-            ['n [c'] = {
-              expr = true,
-              "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"
-            },
-
-            ['n <leader>hs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
-            ['n <leader>hu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-            ['n <leader>hr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-            ['n <leader>hR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
-            ['n <leader>hp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
-            ['n <leader>bb'] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
-
-            -- Text objects
-            ['o ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
-            ['x ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
-          },
-          numhl = true,
-          linehl = false,
-          watch_index = { interval = 1000 },
-          attach_to_untracked = false,
-          current_line_blame = false,
-          sign_priority = 5,
-          update_debounce = 100,
-          status_formatter = nil, -- Use default
-          use_decoration_api = true,
-          use_internal_diff = true -- If luajit is present
-        }
-      end
+      config = function() require('aceforeverd.plugins.gitsigns') end
     }
 
-    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+    use {
+      'nvim-treesitter/nvim-treesitter',
+      run = ':TSUpdate',
+      config = function() require('aceforeverd.plugins.treesitter') end
+    }
 
     use { 'nvim-treesitter/playground', requires = 'nvim-treesitter/nvim-treesitter' }
 
@@ -95,6 +62,8 @@ return packer.startup({
     }
 
     use { 'nvim-treesitter/nvim-treesitter-refactor', requires = 'nvim-treesitter/nvim-treesitter' }
+
+    use { 'nvim-treesitter/nvim-tree-docs', requires = { 'nvim-treesitter/nvim-treesitter' } }
 
     use { 'rafcamlet/nvim-luapad', ft = { 'lua' } }
 
@@ -229,61 +198,17 @@ return packer.startup({
     use {
       'hoob3rt/lualine.nvim',
       requires = { 'kyazdani42/nvim-web-devicons', 'nvim-treesitter/nvim-treesitter' },
-      config = function()
-        require'lualine'.setup {
-          options = {
-            icons_enabled = true,
-            theme = 'material',
-            component_separators = { '', '' },
-            section_separators = { '', '' },
-            disabled_filetypes = { 'coc-explorer' }
-          },
-          sections = {
-            lualine_a = { 'mode' },
-            lualine_b = { 'branch', 'diff' },
-            lualine_c = { { 'filename', file_status = true }, 'coc#status' },
-            lualine_x = { 'b:coc_current_function', 'filetype', 'fileformat', 'encoding' },
-            lualine_y = {
-              {
-                'diagnostics',
-                sources = { 'coc' },
-                -- displays diagnostics from defined severity
-                sections = { 'error', 'warn', 'info', 'hint' },
-                -- all colors are in format #rrggbb
-                color_error = nil, -- changes diagnostic's error foreground color
-                color_warn = nil, -- changes diagnostic's warn foreground color
-                color_info = nil, -- Changes diagnostic's info foreground color
-                color_hint = nil, -- Changes diagnostic's hint foreground color
-                symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' }
-              }
-            },
-            lualine_z = { 'location', 'progress' }
-          },
-          inactive_sections = {
-            lualine_a = {},
-            lualine_b = { 'branch', 'diff' },
-            lualine_c = { 'filename' },
-            lualine_x = { 'filetype', 'fileformat', 'encoding' },
-            lualine_y = {
-              {
-                'diagnostics',
-                sources = { 'coc' },
-                -- displays diagnostics from defined severity
-                sections = { 'error', 'warn', 'info', 'hint' },
-                -- all colors are in format #rrggbb
-                color_error = nil, -- changes diagnostic's error foreground color
-                color_warn = nil, -- changes diagnostic's warn foreground color
-                color_info = nil, -- Changes diagnostic's info foreground color
-                color_hint = nil, -- Changes diagnostic's hint foreground color
-                symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' }
-              }
-            },
-            lualine_z = {}
-          },
-          tabline = {},
-          extensions = { 'fugitive', 'fzf' }
-        }
-      end
+      opt = true,
+      config = function() require('aceforeverd.plugins.lualine') end
+    }
+
+    use {
+      'famiu/feline.nvim',
+      cond = function ()
+          return vim.fn.has('nvim-0.6.0')
+      end,
+      requires = { 'kyazdani42/nvim-web-devicons' },
+      config = function() require('aceforeverd.plugins.feline') end
     }
 
   end
