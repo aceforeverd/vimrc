@@ -52,7 +52,15 @@ let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
 
 call plug#begin(s:common_pkg) "{{{
 
-if !has('nvim-0.5.0')
+if !has('nvim-0.6.0')
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline_detect_modified=1
+    let g:airline_detect_paste=1
+    let g:airline_theme='onedark'
+    let g:airline_powerline_fonts = 1
+
     Plug 'airblade/vim-gitgutter'
     omap ih <Plug>(GitGutterTextObjectInnerPending)
     omap ah <Plug>(GitGutterTextObjectOuterPending)
@@ -63,16 +71,16 @@ if !has('nvim-0.5.0')
     if has('nvim-0.4.0')
         let g:gitgutter_highlight_linenrs = 1
     endif
-
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-    let g:airline#extensions#tabline#enabled = 1
-    let g:airline_detect_modified=1
-    let g:airline_detect_paste=1
-    let g:airline_theme='onedark'
-    let g:airline_powerline_fonts = 1
 endif
+
+Plug 'chrisbra/unicode.vim'
+
 Plug 'pechorin/any-jump.vim'
+Plug 'wincent/ferret'
+let g:FerretMap = 0
+
+Plug 'google/vim-maktaba'
+Plug 'google/vim-coverage'
 
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['sensible']
@@ -285,12 +293,13 @@ if dein#load_state(s:dein_repo)
     call dein#add('wellle/tmux-complete.vim')
     call dein#add('preservim/vimux')
     " Latex
-    call dein#add('lervag/vimtex')
+    " merged = 0 beacue E944: Reverse range in character class
+    call dein#add('lervag/vimtex', {'merged': 0})
     call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
 
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
-    call dein#add('clojure-vim/acid.nvim', {'merged': 0, 'on_ft': 'clojure'})
+    call dein#add('clojure-vim/acid.nvim', {'on_ft': 'clojure'})
     " npm
     call dein#add('rhysd/npm-filetypes.vim')
     " gentoo

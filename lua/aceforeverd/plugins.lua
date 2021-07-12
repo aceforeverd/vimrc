@@ -23,6 +23,8 @@ packer.init({
   package_root = util.join_paths(config_path, 'bundle/pack'),
   compile_path = util.join_paths(config_path, 'plugin', 'packer_compiled.vim'),
   plugin_package = 'packer',
+  max_jobs = 8,
+  git = { clone_timeout = 30 },
   profile = { enable = true, threshold = 1 }
 })
 
@@ -37,12 +39,6 @@ return packer.startup({
     use { 'nvim-lua/plenary.nvim' }
 
     use { 'pwntester/codeql.nvim' }
-
-    use {
-      'lewis6991/gitsigns.nvim',
-      requires = { 'nvim-lua/plenary.nvim' },
-      config = function() require('aceforeverd.plugins.gitsigns') end
-    }
 
     use {
       'nvim-treesitter/nvim-treesitter',
@@ -110,9 +106,7 @@ return packer.startup({
       'kyazdani42/nvim-tree.lua',
       requires = { 'kyazdani42/nvim-web-devicons' },
       config = function()
-        vim.api.nvim_set_keymap('n', '<Space>r', [[ <Cmd>lua require 'nvim-tree'.toggle()<CR> ]],
-                                { noremap = true, silent = false })
-        vim.g.nvim_tree_follow = 1
+        require('aceforeverd.plugins.nvim-tree')
       end
     }
 
@@ -203,11 +197,16 @@ return packer.startup({
     }
 
     use {
+      'lewis6991/gitsigns.nvim',
+      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      requires = { 'nvim-lua/plenary.nvim' },
+      config = function() require('aceforeverd.plugins.gitsigns') end
+    }
+
+    use {
       'famiu/feline.nvim',
-      cond = function ()
-          return vim.fn.has('nvim-0.6.0')
-      end,
-      requires = { 'kyazdani42/nvim-web-devicons' },
+      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      requires = { 'kyazdani42/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
       config = function() require('aceforeverd.plugins.feline') end
     }
 

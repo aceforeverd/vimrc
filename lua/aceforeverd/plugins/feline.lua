@@ -19,6 +19,18 @@ local vi_mode_utils = require('feline.providers.vi_mode')
 local b = vim.b
 local fn = vim.fn
 
+local icons = { UNIX = '', MAC = '', WINDOWS = '' }
+
+function OsIcon()
+  if vim.fn.has('mac') == 1 then
+    return icons.MAC
+  elseif vim.fn.has('unix') == 1 then
+    return icons.UNIX
+  elseif vim.fn.has('win32') == 1 then
+    return icons.WINDOWS
+  end
+end
+
 local feline_config = {
   properties = {
     force_inactive = {
@@ -56,17 +68,15 @@ local feline_config = {
         {
           provider = 'file_info',
           hl = { fg = 'white', bg = 'oceanblue', style = 'bold' },
-          left_sep = { ' ', 'slant_left_2', { str = ' ', hl = { bg = 'oceanblue', fg = 'NONE' } } },
-          right_sep = { 'slant_right_2' }
+          left_sep = { 'block', { str = ' ', hl = { bg = 'oceanblue', fg = 'NONE' } } },
+          right_sep = { 'block' }
         },
         {
           provider = 'git_branch',
-          hl = { fg = 'white', bg = 'cyan', style = 'bold' },
-          left_sep = { { str = 'slant_left', hl = { fg = 'cyan' } } },
-          right_sep = {
-            { str = 'block', hl = { fg = 'cyan' } },
-            { str = 'slant_right_2', hl = { fg = 'cyan', bg = 'NONE' } }
-          }
+          hl = { fg = 'black', bg = 'green', style = 'bold' },
+          enabled = function() return b.gitsigns_status_dict ~= nil end,
+          left_sep = { { str = 'block', hl = { fg = 'green' } } },
+          right_sep = { { str = 'block', hl = { fg = 'green' } } }
         },
         { provider = 'git_diff_added', hl = { fg = 'green', bg = 'black' } },
         { provider = 'git_diff_changed', hl = { fg = 'orange', bg = 'black' } },
@@ -104,7 +114,7 @@ local feline_config = {
           enabled = function() return lsp.diagnostics_exist('Information') end,
           hl = { fg = 'skyblue' }
         },
-        { provider = ' ', hl = { fg = 'yellow' } },
+        { provider = ' ', hl = { fg = 'yellow' } },
         { provider = function() return vim.api.nvim_eval('coc#status()') end }
       },
       inactive = {
@@ -130,20 +140,31 @@ local feline_config = {
           end,
           hl = { fg = 'green' }
         },
-        { provider = ' ', hl = { fg = 'yellow' } },
-        { provider = 'file_type', right_sep = { 'slant_left_2_thin' } },
-        { provider = 'file_encoding', right_sep = { 'slant_right_2_thin' } },
+        {
+          provider = 'file_type',
+          hl = { fg = 'cyan', bg = 'NONE', style = 'bold,italic' },
+          left_sep = { 'slant_left_thin', ' ' },
+          right_sep = { ' ', 'slant_right_thin' }
+        },
+        { provider = OsIcon(), left_sep = { ' ' } },
+        { provider = 'file_encoding', left_sep = { ' ' }, right_sep = { ' ' } },
         {
           provider = 'position',
-          left_sep = ' ',
-          right_sep = { ' ', { str = 'slant_right_2_thin', hl = { fg = 'fg', bg = 'bg' } } }
+          left_sep = { 'slant_left_thin', ' ' },
+          right_sep = { ' ', { str = 'slant_right_thin' } }
         },
         {
           provider = 'file_size',
           enabled = function() return fn.getfsize(fn.expand('%:p')) > 0 end,
-          right_sep = { ' ', { str = 'slant_left_2_thin', hl = { fg = 'fg', bg = 'bg' } } }
+          left_sep = { ' ' },
+          right_sep = { ' ', { str = 'slant_right_2_thin' } }
         },
-        { provider = 'line_percentage', hl = { style = 'bold' }, left_sep = '  ', right_sep = ' ' },
+        {
+          provider = 'line_percentage',
+          hl = { fg = 'orange', style = 'bold' },
+          left_sep = '  ',
+          right_sep = ' '
+        },
         { provider = 'scroll_bar', hl = { fg = 'skyblue', style = 'bold' } }
       },
       inactive = {}
