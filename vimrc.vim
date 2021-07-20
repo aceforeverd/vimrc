@@ -82,8 +82,10 @@ let g:FerretMap = 0
 Plug 'google/vim-maktaba'
 Plug 'google/vim-coverage'
 
+Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
+
 Plug 'sheerun/vim-polyglot'
-let g:polyglot_disabled = ['sensible']
+let g:polyglot_disabled = ['sensible', 'go']
 let g:vim_json_syntax_conceal = 1
 
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -295,7 +297,6 @@ if dein#load_state(s:dein_repo)
     " Latex
     " merged = 0 beacue E944: Reverse range in character class
     call dein#add('lervag/vimtex', {'merged': 0})
-    call dein#add('xuhdev/vim-latex-live-preview', {'on_ft': 'tex'})
 
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
@@ -699,6 +700,18 @@ let g:gen_tags#ctags_auto_update = 0
 let g:gen_tags#gtags_auto_update = 0
 let g:gen_tags#ctags_opts = '--links=no'
 let g:gen_tags#gtags_opts = '--skip-symlink'
+
+" vim-go
+let g:go_fmt_autosave = 0
+let g:go_mod_fmt_autosave = 0
+let g:go_doc_popup_window = 1
+let g:go_term_enabled = 1
+let g:go_def_mapping_enabled = 0
+let g:go_doc_keywordprg_enabled = 0
+augroup gp_vim_go
+    autocmd!
+    autocmd FileType go nnoremap <c-]> :GoDef<CR>
+augroup END
 
 
 if has('nvim-0.5')

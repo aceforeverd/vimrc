@@ -23,7 +23,7 @@ packer.init({
   package_root = util.join_paths(config_path, 'bundle/pack'),
   compile_path = util.join_paths(config_path, 'plugin', 'packer_compiled.vim'),
   plugin_package = 'packer',
-  max_jobs = 8,
+  max_jobs = 12,
   git = { clone_timeout = 30 },
   profile = { enable = true, threshold = 1 }
 })
@@ -47,8 +47,6 @@ return packer.startup({
     }
 
     use { 'nvim-treesitter/playground', requires = 'nvim-treesitter/nvim-treesitter' }
-
-    use { 'romgrk/nvim-treesitter-context', requires = 'nvim-treesitter/nvim-treesitter' }
 
     use { 'p00f/nvim-ts-rainbow', requires = 'nvim-treesitter/nvim-treesitter' }
 
@@ -105,9 +103,7 @@ return packer.startup({
     use {
       'kyazdani42/nvim-tree.lua',
       requires = { 'kyazdani42/nvim-web-devicons' },
-      config = function()
-        require('aceforeverd.plugins.nvim-tree')
-      end
+      config = function() require('aceforeverd.plugins.nvim-tree') end
     }
 
     use { 'phaazon/hop.nvim' }
@@ -148,6 +144,8 @@ return packer.startup({
 
     use { 'notomo/gesture.nvim', opt = true }
 
+    use { "npxbr/glow.nvim", ft = { 'markdown' } }
+
     use {
       'pwntester/octo.nvim',
       requires = { 'nvim-telescope/telescope.nvim', 'kyazdani42/nvim-web-devicons' },
@@ -158,15 +156,12 @@ return packer.startup({
     use { 'Pocco81/HighStr.nvim' }
 
     use {
-      'romgrk/barbar.nvim',
-      opt = true,
-      config = function()
-        vim.api.nvim_set_keymap('n', '<M-,>', '<Cmd>BufferPrevious<CR>',
-                                { silent = true, noremap = true })
-        vim.api.nvim_set_keymap('n', '<M-.>', ':BufferNext<CR>', { silent = true, noremap = true })
-      end
+      'akinsho/nvim-bufferline.lua',
+      requires = 'kyazdani42/nvim-web-devicons',
+      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      config = function() require('aceforeverd.plugins.bufferline') end
     }
-    use { 'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', opt = true }
+
     use {
       'kevinhwang91/nvim-hlslens',
       config = function()
