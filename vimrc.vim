@@ -301,8 +301,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('kovisoft/slimv', {'merged': 0})
     " clojure
     call dein#add('clojure-vim/acid.nvim', {'on_ft': 'clojure'})
-    " npm
-    call dein#add('rhysd/npm-filetypes.vim')
     " gentoo
     call dein#add('gentoo/gentoo-syntax')
 

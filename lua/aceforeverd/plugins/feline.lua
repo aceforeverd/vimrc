@@ -130,17 +130,6 @@ local feline_config = {
     right = {
       active = {
         {
-          provider = function()
-            local fn_name = vim.fn.getbufvar(vim.fn.bufnr(), 'coc_current_function')
-            if fn_name == '' then
-              return ''
-            else
-              return fn_name .. '()'
-            end
-          end,
-          hl = { fg = 'green' }
-        },
-        {
           provider = 'file_type',
           hl = { fg = 'cyan', bg = 'NONE', style = 'bold,italic' },
           left_sep = { 'slant_left_thin', ' ' },

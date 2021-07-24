@@ -30,7 +30,6 @@ set_map('n', '}}', '}', { noremap = true, silent = true })
 
 vim.api.nvim_exec([[
     call coc#config('clangd.semanticHighlighting', v:false)
-    call coc#config('coc.preferences.currentFunctionSymbolAutoUpdate', v:true)
     call coc#config('Lua.workspace.library', {$VIMRUNTIME . '/lua': v:true})
     call coc#config('Lua.diagnostics.globals', ['vim'])
 

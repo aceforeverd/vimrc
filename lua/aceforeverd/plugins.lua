@@ -16,6 +16,16 @@
 local config_path = vim.fn.expand('<sfile>:p:h')
 vim.cmd(string.format("let &packpath = &packpath . ',' . '%s/bundle'", config_path))
 
+local execute = vim.api.nvim_command
+local fn = vim.fn
+
+local packer_install_path = config_path .. '/bundle/pack/packer/start/packer.nvim'
+
+if fn.empty(fn.glob(packer_install_path)) > 0 then
+  fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', packer_install_path})
+  execute 'packadd packer.nvim'
+end
+
 local packer = require('packer')
 
 local util = require('packer.util')
@@ -138,8 +148,6 @@ return packer.startup({
 
     use { 'tversteeg/registers.nvim' }
 
-    use { 'rafamadriz/neon' }
-
     use { 'dstein64/nvim-scrollview', opt = true }
 
     use { 'notomo/gesture.nvim', opt = true }
@@ -183,13 +191,6 @@ return packer.startup({
     }
 
     use { 'famiu/nvim-reload' }
-
-    use {
-      'hoob3rt/lualine.nvim',
-      requires = { 'kyazdani42/nvim-web-devicons', 'nvim-treesitter/nvim-treesitter' },
-      opt = true,
-      config = function() require('aceforeverd.plugins.lualine') end
-    }
 
     use {
       'lewis6991/gitsigns.nvim',

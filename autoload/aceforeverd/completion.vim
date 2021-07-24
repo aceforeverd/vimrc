@@ -249,7 +249,8 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-translator', 'coc-cmake',
                 \ 'coc-metals', 'coc-emoji',
                 \ 'coc-markdownlint', 'coc-toml',
-                \ 'coc-word',
+                \ 'coc-word', 'coc-texlab',
+                \ 'coc-esbonio', 'coc-sql',
                 \ ]
 
     function! s:coc_maps() abort
