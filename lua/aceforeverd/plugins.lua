@@ -22,7 +22,7 @@ local fn = vim.fn
 local packer_install_path = config_path .. '/bundle/pack/packer/start/packer.nvim'
 
 if fn.empty(fn.glob(packer_install_path)) > 0 then
-  fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', packer_install_path})
+  fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', packer_install_path })
   execute 'packadd packer.nvim'
 end
 
@@ -132,11 +132,8 @@ return packer.startup({
     }
 
     use { 'mfussenegger/nvim-dap' }
-    use {
-      "rcarriga/nvim-dap-ui",
-      requires = { "mfussenegger/nvim-dap" },
-      config = function() require("dapui").setup() end
-    }
+
+    use { 'nacro90/numb.nvim', config = function() require('numb').setup() end }
 
     use {
       'TimUntersberger/neogit',
@@ -147,10 +144,6 @@ return packer.startup({
     use { 'sindrets/diffview.nvim', requires = { 'kyazdani42/nvim-web-devicons' } }
 
     use { 'tversteeg/registers.nvim' }
-
-    use { 'dstein64/nvim-scrollview', opt = true }
-
-    use { 'notomo/gesture.nvim', opt = true }
 
     use { "npxbr/glow.nvim", ft = { 'markdown' } }
 

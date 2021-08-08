@@ -81,6 +81,7 @@ let g:FerretMap = 0
 
 Plug 'google/vim-maktaba'
 Plug 'google/vim-coverage'
+Plug 'bazelbuild/vim-bazel'
 
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
 
@@ -244,7 +245,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('junegunn/fzf.vim')
 
     call dein#add('mbbill/undotree')
-    call dein#add('wsdjeg/dein-ui.vim')
     call dein#add('jamessan/vim-gnupg')
 
     call dein#add('tomtom/tcomment_vim')
@@ -483,7 +483,7 @@ augroup gp_cursor_location
 augroup END
 
 if has('mac') || has('macunix')
-    set guifont=SauceCodeProNerdFontComplete-Regular:h14
+    set guifont=FiraCodeNerdFontComplete-Regular:h13
 elseif has('win16') || has('win32')
     set guifont=Hack:h14,Source\ Code\ Pro:h12,Bitstream\ Vera\ Sans\ Mono:h11
 elseif has('gui_gtk2')
