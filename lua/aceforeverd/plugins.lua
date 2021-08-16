@@ -133,7 +133,11 @@ return packer.startup({
 
     use { 'mfussenegger/nvim-dap' }
 
-    use { 'nacro90/numb.nvim', config = function() require('numb').setup() end }
+    use {
+      'winston0410/range-highlight.nvim',
+      requires = { 'winston0410/cmd-parser.nvim' },
+      config = function() require'range-highlight'.setup {} end
+    }
 
     use {
       'TimUntersberger/neogit',
@@ -164,10 +168,24 @@ return packer.startup({
     }
 
     use {
+        "akinsho/nvim-toggleterm.lua",
+        config = function ()
+            require("aceforeverd.plugins.toggleterm")
+        end
+    }
+
+    use {
       'kevinhwang91/nvim-hlslens',
       config = function()
         vim.api.nvim_set_keymap('n', '*', "*<Cmd>lua require('hlslens').start()<CR>",
                                 { silent = true, noremap = true })
+        vim.api.nvim_set_keymap('n', '#', "#<Cmd>lua require('hlslens').start()<CR>",
+                                { silent = true, noremap = true })
+        vim.api.nvim_set_keymap('n', 'g*', "g*<Cmd>lua require('hlslens').start()<CR>",
+                                { silent = true, noremap = true })
+        vim.api.nvim_set_keymap('n', 'g#', "g#<Cmd>lua require('hlslens').start()<CR>",
+                                { silent = true, noremap = true })
+        vim.api.nvim_set_keymap('n', '<leader>l', '<Cmd>noh<CR>', { silent = true, noremap = true })
       end
     }
 

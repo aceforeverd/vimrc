@@ -21,3 +21,5 @@ require("bufferline").setup{
 
 vim.api.nvim_set_keymap('n', '<M-.>', '<Cmd>BufferLineCycleNext<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<M-,>', '<Cmd>BufferLineCyclePrev<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<M-<>', '<Cmd>BufferLineMovePrev<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<M->>', '<Cmd>BufferLineMoveNext<CR>', { noremap = true, silent = true })
