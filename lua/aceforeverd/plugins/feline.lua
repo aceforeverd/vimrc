@@ -114,7 +114,7 @@ local feline_config = {
           enabled = function() return lsp.diagnostics_exist('Information') end,
           hl = { fg = 'skyblue' }
         },
-        { provider = ' ', hl = { fg = 'yellow' } },
+        { provider = '● ', hl = { fg = 'yellow' } },
         { provider = function() return vim.api.nvim_eval('coc#status()') end }
       },
       inactive = {
@@ -132,21 +132,21 @@ local feline_config = {
         {
           provider = 'file_type',
           hl = { fg = 'cyan', bg = 'NONE', style = 'bold,italic' },
-          left_sep = { 'slant_left_thin', ' ' },
-          right_sep = { ' ', 'slant_right_thin' }
+          left_sep = { 'vertical_bar', ' ' },
+          right_sep = { ' ', 'vertical_bar' }
         },
         { provider = OsIcon(), left_sep = { ' ' } },
         { provider = 'file_encoding', left_sep = { ' ' }, right_sep = { ' ' } },
         {
           provider = 'position',
-          left_sep = { 'slant_left_thin', ' ' },
-          right_sep = { ' ', { str = 'slant_right_thin' } }
+          left_sep = { 'vertical_bar', ' ' },
+          right_sep = { ' ', 'vertical_bar' }
         },
         {
           provider = 'file_size',
           enabled = function() return fn.getfsize(fn.expand('%:p')) > 0 end,
           left_sep = { ' ' },
-          right_sep = { ' ', { str = 'slant_right_2_thin' } }
+          right_sep = { ' ', { str = 'vertical_bar' } }
         },
         {
           provider = 'line_percentage',

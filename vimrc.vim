@@ -531,6 +531,8 @@ let g:fzf_action = {
       \ 'ctrl-a': 'tab split',
       \ 'ctrl-x': 'split',
       \ 'ctrl-v': 'vsplit' }
+let g:fzf_layout = {
+      \ 'window': { 'width': 0.9, 'height': 0.8 }}
 
 " fzf-vim
 " Mapping selecting mappings
@@ -544,6 +546,9 @@ command! -bar -bang SMaps exe 'call fzf#vim#maps("s", <bang>0)'
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" coc-fzf
+let g:coc_fzf_preview = 'up:80%'
 
 " from vim-rsi
 " <c-a> & <c-e> -> <HOME> & <END>, <c-b> & <c-f> -> forward & backward
@@ -680,7 +685,7 @@ let g:better_whitespace_operator = ''
 let g:nvimgdb_disable_start_keymaps = 1
 
 " git-messenger
-map <Leader>gm <Plug>(git-messenger)
+map <Leader>gg <Plug>(git-messenger)
 
 " neoformat
 let g:neoformat_enabled_lua = ['luaformat']

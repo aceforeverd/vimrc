@@ -73,41 +73,17 @@ return packer.startup({
 
     use {
       'nvim-telescope/telescope.nvim',
-      requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } },
-      config = function()
-        require('telescope').setup {
-          defaults = {
-            mappings = {
-              i = {
-                ["<C-j>"] = require('telescope.actions').move_selection_next,
-                ["<C-k>"] = require('telescope.actions').move_selection_previous
-              }
-            }
-          }
-        }
-        vim.api.nvim_set_keymap('n', '<Leader>f', '<Cmd>Telescope<CR>',
-                                { noremap = true, silent = false })
-      end
+      config = function() require('aceforeverd.plugins.telescope') end,
+      requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } }
     }
 
-    use {
-      'nvim-telescope/telescope-packer.nvim',
-      requires = { 'nvim-telescope/telescope.nvim' },
-      config = function()
-        vim.api.nvim_set_keymap('n', '<Leader>tp',
-                                "<Cmd>lua require('telescope').extensions.packer.plugins()<CR>",
-                                { noremap = true, silent = true })
-      end
-    }
+    use { 'nvim-telescope/telescope-packer.nvim', requires = { 'nvim-telescope/telescope.nvim' } }
+
+    use { 'nvim-telescope/telescope-project.nvim', requires = { 'nvim-telescope/telescope.nvim' } }
 
     use {
-      'nvim-telescope/telescope-project.nvim',
-      requires = { 'nvim-telescope/telescope.nvim' },
-      config = function()
-        vim.api.nvim_set_keymap('n', '<Leader>tj',
-                                "<Cmd>lua require'telescope'.extensions.project.project{}<CR>",
-                                { noremap = true, silent = true })
-      end
+      "nvim-telescope/telescope-frecency.nvim",
+      requires = { 'nvim-telescope/telescope.nvim', "tami5/sql.nvim", 'kyazdani42/nvim-web-devicons' }
     }
 
     use {
@@ -168,10 +144,8 @@ return packer.startup({
     }
 
     use {
-        "akinsho/nvim-toggleterm.lua",
-        config = function ()
-            require("aceforeverd.plugins.toggleterm")
-        end
+      "akinsho/nvim-toggleterm.lua",
+      config = function() require("aceforeverd.plugins.toggleterm") end
     }
 
     use {
