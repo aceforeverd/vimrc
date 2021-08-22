@@ -12,7 +12,6 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 require('aceforeverd.plugins')
 
 local set_map = vim.api.nvim_set_keymap
@@ -30,4 +29,11 @@ vim.api.nvim_exec([[
     let g:matchup_matchparen_offscreen = {}
 ]], false)
 
--- require('packer').loader('lualine.nvim')
+-- colorsscheme
+vim.g.material_style = 'darker'
+vim.g.material_borders = true
+vim.g.material_variable_color = '#3adbc5'
+vim.api.nvim_set_keymap('n', [[<space>n]],
+                        [[<Cmd>lua require('material.functions').toggle_style()<CR>]],
+                        { noremap = true, silent = true })
+require('material').set()

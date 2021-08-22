@@ -130,28 +130,45 @@ local feline_config = {
     right = {
       active = {
         {
+          provider = function()
+            return require('nvim-treesitter').statusline({ indicator_size = 40 })
+          end,
+          right_sep = ' '
+        },
+        {
           provider = 'file_type',
           hl = { fg = 'cyan', bg = 'NONE', style = 'bold,italic' },
-          left_sep = { 'vertical_bar', ' ' },
-          right_sep = { ' ', 'vertical_bar' }
+          left_sep = { { str = 'vertical_bar', hl = { fg = '#108080' } }, ' ' },
+          right_sep = { ' ' }
         },
-        { provider = OsIcon(), left_sep = { ' ' } },
-        { provider = 'file_encoding', left_sep = { ' ' }, right_sep = { ' ' } },
+        {
+          provider = OsIcon(),
+          left_sep = { { str = 'vertical_bar', hl = { fg = '#666666' } }, ' ' },
+          hl = { fg = '#cccccc' }
+        },
+        {
+          provider = 'file_encoding',
+          left_sep = { ' ' },
+          right_sep = { ' ' },
+          hl = { fg = '#ffff0a' }
+        },
         {
           provider = 'position',
-          left_sep = { 'vertical_bar', ' ' },
-          right_sep = { ' ', 'vertical_bar' }
+          hl = { fg = 'skyblue' },
+          left_sep = { { str = 'vertical_bar', hl = { bg = 'NONE' } }, ' ' },
+          right_sep = { ' ', { str = 'vertical_bar', hl = { fg = 'NONE' } } }
         },
         {
           provider = 'file_size',
           enabled = function() return fn.getfsize(fn.expand('%:p')) > 0 end,
+          hl = { fg = 'green' },
           left_sep = { ' ' },
-          right_sep = { ' ', { str = 'vertical_bar' } }
+          right_sep = { ' ', { str = 'vertical_bar', hl = { fg = '#89f4ff' } } }
         },
         {
           provider = 'line_percentage',
           hl = { fg = 'orange', style = 'bold' },
-          left_sep = '  ',
+          left_sep = ' ',
           right_sep = ' '
         },
         { provider = 'scroll_bar', hl = { fg = 'skyblue', style = 'bold' } }

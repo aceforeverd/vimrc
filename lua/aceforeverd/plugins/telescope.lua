@@ -25,14 +25,15 @@ require('telescope').setup {
     frecency = {
       show_scores = true,
       show_unindexed = true,
-      workspaces = {
-          ["openmldb"] = "/Users/danielace/Git/4paradigm/OpenMLDB"
-      }
+      workspaces = { ["openmldb"] = "/Users/danielace/Git/4paradigm/OpenMLDB" }
     }
   }
 }
-require"telescope".load_extension("frecency")
-vim.api.nvim_set_keymap('n', '<Leader>f', '<Cmd>Telescope<CR>', { noremap = true, silent = false })
+
+vim.api.nvim_set_keymap("n", "<leader>tf",
+                        "<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>",
+                        { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>tl', '<Cmd>Telescope<CR>', { noremap = true, silent = false })
 vim.api.nvim_set_keymap('n', '<Leader>tp',
                         "<Cmd>lua require('telescope').extensions.packer.plugins()<CR>",
                         { noremap = true, silent = true })

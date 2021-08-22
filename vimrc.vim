@@ -82,6 +82,7 @@ let g:FerretMap = 0
 Plug 'google/vim-maktaba'
 Plug 'google/vim-coverage'
 Plug 'bazelbuild/vim-bazel'
+Plug 'mg979/vim-visual-multi'
 
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
 
@@ -195,7 +196,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
-    call dein#add('liuchengxu/vim-which-key', {'on_cmd': ['WhichKey', 'WhichKey!']})
 
     call dein#add('embear/vim-localvimrc')
 
@@ -226,7 +226,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('junegunn/gv.vim')
     call dein#add('mattn/gist-vim')
     call dein#add('idanarye/vim-merginal')
-    call dein#add('chrisbra/vim-diff-enhanced')
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
@@ -399,6 +398,9 @@ set autoindent "Auto indent
 set smartindent "Smart indent
 set wrap "Wrap lines
 
+if has('patch-8.1.0360')
+    set diffopt+=internal,algorithm:patience
+endif
 
 " terminal mode mapping
 function! s:terminal_mapping() abort

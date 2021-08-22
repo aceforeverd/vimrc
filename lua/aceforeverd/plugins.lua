@@ -94,18 +94,9 @@ return packer.startup({
 
     use { 'phaazon/hop.nvim' }
 
-    use {
-      'marko-cerovac/material.nvim',
-      config = function()
-        vim.g.material_style = 'darker'
-        vim.g.material_borders = true
-        vim.g.material_variable_color = '#3adbc5'
-        require('material').set()
-        vim.api.nvim_set_keymap('n', '<c-n>',
-                                [[<Cmd>lua require('material.functions').toggle_style()<CR>]],
-                                { noremap = true, silent = true })
-      end
-    }
+    use { 'marko-cerovac/material.nvim' }
+
+    use { 'projekt0n/github-nvim-theme' }
 
     use { 'mfussenegger/nvim-dap' }
 
@@ -144,8 +135,27 @@ return packer.startup({
     }
 
     use {
+      'romgrk/barbar.nvim',
+      requires = { 'kyazdani42/nvim-web-devicons' },
+      opt = true,
+      config = function() require('aceforeverd.plugins.barbar') end
+    }
+
+    use {
       "akinsho/nvim-toggleterm.lua",
       config = function() require("aceforeverd.plugins.toggleterm") end
+    }
+
+    use {
+      "folke/which-key.nvim",
+      config = function()
+        require("which-key").setup {
+          plugins = { registers = false }
+          -- your configuration comes here
+          -- or leave it empty to use the default settings
+          -- refer to the configuration section below
+        }
+      end
     }
 
     use {
@@ -174,8 +184,6 @@ return packer.startup({
         }
       end
     }
-
-    use { 'famiu/nvim-reload' }
 
     use {
       'lewis6991/gitsigns.nvim',
