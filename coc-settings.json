@@ -46,7 +46,8 @@
     "markdown": ["write-good"],
     "cpp": ["cpplint"],
     "dockerfile": ["hadolint"],
-    "python": ["mypy", "pylint"]
+    "python": ["mypy", "pylint"],
+    "yaml": ["actionlint"]
   },
   "markdownlint.config": {
     "line_length": false
@@ -105,6 +106,21 @@
         "4": "warning",
         "5": "error"
       }
+    },
+    "actionlint": {
+      "command": "actionlint",
+      "args": ["%file"],
+      "sourceName": "actionlint",
+      "rootPatterns": [".github"],
+      "ignore": ["/*", "!/.github", "/.github/*", "!/.github/workflows"],
+      "formatPattern": [
+        "^[^:]+:(\\d+):(\\d+):\\s+(.+)$",
+        {
+          "line": 1,
+          "column": 2,
+          "message": 3
+        }
+      ]
     }
   },
   "diagnostic-languageserver.formatters": {
