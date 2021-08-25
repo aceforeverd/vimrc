@@ -328,6 +328,10 @@ function! aceforeverd#completion#init_source_coc() abort
     augroup end
 
     highlight CocHighlightText guibg=#5e5e61 gui=undercurl
+    augroup coc_custom_highlight
+        autocmd!
+        autocmd ColorScheme * highlight CocHighlightText guibg=#5e5e61 gui=undercurl
+    augroup END
 
     " Use `:Format` to format current buffer
     command! -nargs=0 CocFormat :call CocAction('format')

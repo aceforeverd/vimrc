@@ -131,8 +131,17 @@ local feline_config = {
       active = {
         {
           provider = function()
-            return require('nvim-treesitter').statusline({ indicator_size = 40 })
+            if require('nvim-gps').is_available() then
+                return require('nvim-gps').get_location()
+            end
+            local text = require('nvim-treesitter').statusline({ indicator_size = 40 })
+            if text then
+                return text
+            else
+                return ""
+            end
           end,
+          hl = { fg = '#fda5b4' },
           right_sep = ' '
         },
         {

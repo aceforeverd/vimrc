@@ -35,7 +35,7 @@ packer.init({
   plugin_package = 'packer',
   max_jobs = 12,
   git = { clone_timeout = 30 },
-  profile = { enable = true, threshold = 1 }
+  profile = { enable = true, threshold = 0.1 }
 })
 
 return packer.startup({
@@ -98,6 +98,8 @@ return packer.startup({
 
     use { 'projekt0n/github-nvim-theme' }
 
+    use { 'Pocco81/Catppuccino.nvim' }
+
     use { 'mfussenegger/nvim-dap' }
 
     use {
@@ -144,6 +146,31 @@ return packer.startup({
     use {
       "akinsho/nvim-toggleterm.lua",
       config = function() require("aceforeverd.plugins.toggleterm") end
+    }
+
+    use {
+      "SmiteshP/nvim-gps",
+      config = function()
+        require("nvim-gps").setup({
+          icons = {
+            ["class-name"] = ' ', -- Classes and class-like objects
+            ["function-name"] = ' ', -- Functions
+            ["method-name"] = ' ' -- Methods (functions inside class-like objects)
+          },
+          languages = { -- You can disable any language individually here
+            ["c"] = true,
+            ["cpp"] = true,
+            ["go"] = true,
+            ["java"] = true,
+            ["javascript"] = true,
+            ["lua"] = true,
+            ["python"] = true,
+            ["rust"] = true
+          },
+          separator = ' > '
+        })
+      end,
+      requires = "nvim-treesitter/nvim-treesitter"
     }
 
     use {
