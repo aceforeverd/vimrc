@@ -19,7 +19,7 @@ local vi_mode_utils = require('feline.providers.vi_mode')
 local b = vim.b
 local fn = vim.fn
 
-local icons = { UNIX = '', MAC = '', WINDOWS = '' }
+local icons = { UNIX = '', MAC = '', WINDOWS = ''}
 
 function OsIcon()
   if vim.fn.has('mac') == 1 then
