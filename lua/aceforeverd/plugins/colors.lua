@@ -54,7 +54,7 @@ catppuccino.setup({
     gitgutter = false,
     gitsigns = true,
     telescope = true,
-    nvimtree = true,
+    nvimtree = false,
     which_key = true,
     indent_blankline = false,
     dashboard = false,

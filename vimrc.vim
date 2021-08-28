@@ -83,8 +83,11 @@ Plug 'google/vim-maktaba'
 Plug 'google/vim-coverage'
 Plug 'bazelbuild/vim-bazel'
 Plug 'mg979/vim-visual-multi'
+Plug 'wfxr/minimap.vim'
 
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
+Plug 'mg979/docgen.vim'
+Plug 'AndrewRadev/bufferize.vim'
 
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['sensible', 'go']
@@ -200,7 +203,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('embear/vim-localvimrc')
 
     " motion
-    call dein#add('easymotion/vim-easymotion')
     call dein#add('rhysd/clever-f.vim')
     call dein#add('justinmk/vim-sneak')
     call dein#add('andymass/vim-matchup')

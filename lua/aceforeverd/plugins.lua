@@ -100,7 +100,13 @@ return packer.startup({
 
     use { 'Pocco81/Catppuccino.nvim' }
 
+    use { 'sainnhe/sonokai', opt = true }
+
+    use 'monsonjeremy/onedark.nvim'
+
     use { 'mfussenegger/nvim-dap' }
+
+    use { 'kevinhwang91/nvim-bqf' }
 
     use {
       'winston0410/range-highlight.nvim',
@@ -134,13 +140,6 @@ return packer.startup({
       requires = 'kyazdani42/nvim-web-devicons',
       cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
       config = function() require('aceforeverd.plugins.bufferline') end
-    }
-
-    use {
-      'romgrk/barbar.nvim',
-      requires = { 'kyazdani42/nvim-web-devicons' },
-      opt = true,
-      config = function() require('aceforeverd.plugins.barbar') end
     }
 
     use {
