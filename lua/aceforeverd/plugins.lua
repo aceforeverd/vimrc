@@ -100,8 +100,6 @@ return packer.startup({
 
     use { 'Pocco81/Catppuccino.nvim' }
 
-    use { 'sainnhe/sonokai', opt = true }
-
     use 'monsonjeremy/onedark.nvim'
 
     use { 'mfussenegger/nvim-dap' }

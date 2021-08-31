@@ -37,4 +37,4 @@ vim.api.nvim_exec([[
 --   hideEndOfBuffer = true
 -- }
 
-require('aceforeverd.plugins.colors')
+-- require('aceforeverd.plugins.colors')

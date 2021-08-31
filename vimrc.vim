@@ -58,7 +58,7 @@ if !has('nvim-0.6.0')
     let g:airline#extensions#tabline#enabled = 1
     let g:airline_detect_modified=1
     let g:airline_detect_paste=1
-    let g:airline_theme='onedark'
+    let g:airline_theme='sonokai'
     let g:airline_powerline_fonts = 1
 
     Plug 'airblade/vim-gitgutter'
@@ -94,6 +94,17 @@ let g:polyglot_disabled = ['sensible', 'go']
 let g:vim_json_syntax_conceal = 1
 
 let g:vimspector_enable_mappings = 'HUMAN'
+Plug 'sainnhe/sonokai'
+
+if has('nvim-0.6.0')
+    let g:sonokai_style = 'andromeda'
+else
+    let g:sonokai_style = 'shusia'
+endif
+let g:sonokai_enable_italic = 1
+let g:sonokai_diagnostic_text_highlight = 1
+let g:sonokai_diagnostic_virtual_text = 'colored'
+
 Plug 'rafi/awesome-vim-colorschemes'
 
 if g:my_cmp_source ==? 'deoplete'
@@ -570,9 +581,6 @@ if executable('rg')
     set grepprg=rg\ --vimgrep
 endif
 
-" tmux navigator
-let g:tmux_navigator_no_mappings = 1
-
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
 
@@ -619,7 +627,7 @@ if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color
             set termguicolors
         endif
     " endif
-    colorscheme one
+    colorscheme sonokai
 endif
 
 " vim-markdown
@@ -663,6 +671,9 @@ let g:header_field_author = g:my_name
 let g:header_field_author_email = g:my_email
 let g:header_field_modified_by = 0
 let g:header_field_license_id = 'GPL'
+
+" tmux navigator
+let g:tmux_navigator_no_mappings = 1
 
 " tmux-complete
 let g:tmuxcomplete#trigger = ''

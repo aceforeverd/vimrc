@@ -13,7 +13,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 local catppuccino = require("catppuccino")
-local catppuccino_scheme = require('catppuccino.color_schemes.catppuccino')
+local catppuccino_scheme = require('catppuccino.color_schemes.dark_catppuccino')
 catppuccino_scheme.diff = {
   add = "#C3E88D",
   change = "#F6A878",
@@ -29,7 +29,7 @@ catppuccino_scheme.git = {
 catppuccino_scheme.bg = '#212121'
 -- configure it
 catppuccino.setup({
-  colorscheme = "catppuccino",
+  colorscheme = "dark_catppuccino",
   transparency = false,
   styles = {
     comments = "italic",

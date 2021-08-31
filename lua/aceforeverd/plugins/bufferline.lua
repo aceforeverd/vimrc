@@ -15,11 +15,27 @@
 
 require("bufferline").setup{
     options = {
+        numbers = function(opts)
+            return string.format('%s|%s.)', opts.id, opts.raise(opts.ordinal))
+        end,
         always_show_bufferline = true
     }
 }
 
-vim.api.nvim_set_keymap('n', '<M-.>', '<Cmd>BufferLineCycleNext<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<M-,>', '<Cmd>BufferLineCyclePrev<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<M-<>', '<Cmd>BufferLineMovePrev<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<M->>', '<Cmd>BufferLineMoveNext<CR>', { noremap = true, silent = true })
+local set_map = vim.api.nvim_set_keymap
+local map_opt = { noremap = true, silent = true }
+
+set_map('n', '<M-.>', '<Cmd>BufferLineCycleNext<CR>', map_opt)
+set_map('n', '<M-,>', '<Cmd>BufferLineCyclePrev<CR>', map_opt)
+set_map('n', '<M-<>', '<Cmd>BufferLineMovePrev<CR>', map_opt)
+set_map('n', '<M->>', '<Cmd>BufferLineMoveNext<CR>', map_opt)
+
+set_map('n', '<M-1>', '<Cmd>BufferLineGoToBuffer 1<CR>', map_opt)
+set_map('n', '<M-2>', '<Cmd>BufferLineGoToBuffer 2<CR>', map_opt)
+set_map('n', '<M-3>', '<Cmd>BufferLineGoToBuffer 3<CR>', map_opt)
+set_map('n', '<M-4>', '<Cmd>BufferLineGoToBuffer 4<CR>', map_opt)
+set_map('n', '<M-5>', '<Cmd>BufferLineGoToBuffer 5<CR>', map_opt)
+set_map('n', '<M-6>', '<Cmd>BufferLineGoToBuffer 6<CR>', map_opt)
+set_map('n', '<M-7>', '<Cmd>BufferLineGoToBuffer 7<CR>', map_opt)
+set_map('n', '<M-7>', '<Cmd>BufferLineGoToBuffer 8<CR>', map_opt)
+set_map('n', '<M-9>', '<Cmd>BufferLineGoToBuffer 9<CR>', map_opt)

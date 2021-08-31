@@ -22,7 +22,7 @@
     "enumMember": "\uf02b",
     "module": "\uf1b3",
     "color": "\ue22b",
-    "property": "\ue624",
+    "property": "\uf0f4",
     "field": "\uf9be",
     "unit": "\uf475",
     "event": "\ufacd",
@@ -34,6 +34,7 @@
   },
   "explorer.icon.enableNerdfont": true,
   "coc.source.word.shortcut": "word10k",
+  "coc.source.file.ignoreHidden": false,
   "languageserver": {
     "bash": {
       "command": "bash-language-server",

@@ -146,7 +146,7 @@ local feline_config = {
         },
         {
           provider = 'file_type',
-          hl = { fg = 'cyan', bg = 'NONE', style = 'bold,italic' },
+          hl = { fg = 'cyan', style = 'bold,italic' },
           left_sep = { { str = 'vertical_bar', hl = { fg = '#108080' } }, ' ' },
           right_sep = { ' ' }
         },
