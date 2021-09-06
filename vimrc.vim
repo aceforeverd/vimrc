@@ -101,6 +101,7 @@ if has('nvim-0.6.0')
 else
     let g:sonokai_style = 'shusia'
 endif
+let g:sonokai_better_performance = 1
 let g:sonokai_enable_italic = 1
 let g:sonokai_diagnostic_text_highlight = 1
 let g:sonokai_diagnostic_virtual_text = 'colored'

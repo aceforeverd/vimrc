@@ -51,7 +51,7 @@ local feline_config = {
   components = {
     left = {
       active = {
-        { provider = '▊ ', hl = { fg = 'skyblue' } },
+        { provider = '▊ ', hl = { fg = '#78dce8' } },
         {
           provider = 'vi_mode',
           hl = function()

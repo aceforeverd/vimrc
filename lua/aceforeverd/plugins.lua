@@ -83,7 +83,7 @@ return packer.startup({
 
     use {
       "nvim-telescope/telescope-frecency.nvim",
-      requires = { 'nvim-telescope/telescope.nvim', "tami5/sql.nvim", 'kyazdani42/nvim-web-devicons' }
+      requires = { 'nvim-telescope/telescope.nvim', "tami5/sqlite.lua", 'kyazdani42/nvim-web-devicons' }
     }
 
     use {
