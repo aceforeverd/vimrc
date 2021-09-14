@@ -150,6 +150,13 @@ function! aceforeverd#completion#init_source_deoplete() abort
     imap <c-e> <Plug>(neosnippet_expand_or_jump)
     smap <c-e> <Plug>(neosnippet_expand_or_jump)
     xmap <c-e> <Plug>(neosnippet_expand_target)
+
+    " denite
+    augroup gp_denite
+        autocmd!
+        autocmd FileType denite call aceforeverd#settings#denite_settings()
+        autocmd FileType denite-filter call aceforeverd#settings#denite_filter_settings()
+    augroup END
 endfunction
 
 
@@ -239,14 +246,14 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-explorer', 'coc-eslint',
                 \ 'coc-dictionary', 'coc-yank',
                 \ 'coc-yaml', 'coc-tsserver',
-                \ 'coc-rust-analyzer', 'coc-lua',
+                \ 'coc-rust-analyzer', 'coc-cmake',
                 \ 'coc-pyright', 'coc-json',
                 \ 'coc-html', 'coc-go',
+                \ 'coc-sumneko-lua',
                 \ 'coc-css', 'coc-clangd',
                 \ 'coc-docker', 'coc-fish',
                 \ 'coc-java', 'coc-diagnostic',
                 \ 'coc-fzf-preview', 'coc-xml',
-                \ 'coc-translator', 'coc-cmake',
                 \ 'coc-metals', 'coc-emoji',
                 \ 'coc-markdownlint', 'coc-toml',
                 \ 'coc-word', 'coc-texlab',
@@ -306,10 +313,6 @@ function! aceforeverd#completion#init_source_coc() abort
         " select selections ranges, needs server support, like: coc-tsserver, coc-python
         nmap <silent> <Leader>rs <Plug>(coc-range-select)
         xmap <silent> <Leader>rs <Plug>(coc-range-select)
-
-        " translate
-        nmap <Leader>k <Plug>(coc-translator-p)
-        vmap <Leader>k <Plug>(coc-translator-pv)
 
         nmap gl <Plug>(coc-openlink)
     endfunction

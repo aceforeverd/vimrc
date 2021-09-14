@@ -86,6 +86,8 @@ Plug 'mg979/vim-visual-multi'
 Plug 'wfxr/minimap.vim'
 
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
+let g:doge_enable_mappings = 0
+
 Plug 'mg979/docgen.vim'
 Plug 'AndrewRadev/bufferize.vim'
 
@@ -98,8 +100,10 @@ Plug 'sainnhe/sonokai'
 
 if has('nvim-0.6.0')
     let g:sonokai_style = 'andromeda'
-else
+elseif has('nvim')
     let g:sonokai_style = 'shusia'
+else
+    let g:sonokai_style = 'espresso'
 endif
 let g:sonokai_better_performance = 1
 let g:sonokai_enable_italic = 1
@@ -160,6 +164,7 @@ if dein#load_state(s:dein_repo)
         call dein#add('Shougo/neoinclude.vim')
         call dein#add('Shougo/neosnippet-snippets')
         call dein#add('Shougo/neosnippet.vim')
+        call dein#add('Shougo/denite.nvim')
     elseif g:my_cmp_source ==? 'coc'
         call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
         call dein#add('antoinemadec/coc-fzf')
@@ -173,9 +178,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('Shougo/echodoc.vim')
 
     call dein#add('voldikss/vim-floaterm')
-
-    call dein#add('Shougo/denite.nvim')
-    call dein#add('neoclide/denite-git')
 
     call dein#add('tpope/vim-endwise')
     call dein#add('tpope/vim-surround')
@@ -199,10 +201,10 @@ if dein#load_state(s:dein_repo)
 
     call dein#add('lambdalisue/suda.vim')
 
-    call dein#add('airblade/vim-rooter')
-
     " snippets
     call dein#add('honza/vim-snippets')
+    call dein#add('hrsh7th/vim-vsnip')
+    call dein#add('hrsh7th/vim-vsnip-integ')
 
     " interface
     call dein#add('preservim/tagbar')
@@ -232,6 +234,8 @@ if dein#load_state(s:dein_repo)
     call dein#add('junegunn/vim-easy-align')
     " debug/test
     call dein#add('janko/vim-test')
+    call dein#add('skywind3000/asyncrun.vim')
+    call dein#add('skywind3000/asynctasks.vim')
     call dein#add('jpalardy/vim-slime')
 
     " VCS
@@ -321,6 +325,8 @@ if dein#load_state(s:dein_repo)
 
     call dein#add('jackguo380/vim-lsp-cxx-highlight')
     call dein#add('cdelledonne/vim-cmake')
+
+    call dein#add('aceforeverd/vim-translator', {'rev': 'dev', 'merged': 0})
 
     call dein#end()
     call dein#save_state()
@@ -522,11 +528,12 @@ catch
 endtry
 
 " dein.vim
-function! s:delete_path(path) abort
-    delete(a:path, 'rf')
-    return a:path
+function! s:delete_path(key, value) abort
+    call delete(a:value, 'rf')
+    echomsg 'DeinClean: deleted ' . a:value
+    return a:value
 endfunction
-command! DeinClean exe 'call map(dein#check_clean(), { _, val -> delete(val, "rf") })'
+command! DeinClean exe 'echo map(dein#check_clean(), function("<SID>delete_path"))'
 
 " suda.vim
 command! SudaWrite exe 'w suda://%'
@@ -642,13 +649,6 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-" denite
-augroup gp_denite
-    autocmd!
-	autocmd FileType denite call aceforeverd#settings#denite_settings()
-	autocmd FileType denite-filter call aceforeverd#settings#denite_filter_settings()
-augroup END
-
 set completeopt-=preview
 " echodoc
 let g:echodoc#enable_at_startup = 1
@@ -683,7 +683,7 @@ let g:tmuxcomplete#trigger = ''
 augroup gp_lookup
     autocmd!
     autocmd FileType vim nnoremap <buffer><silent> <LocalLeader><C-]> :call lookup#lookup()<CR>
-    autocmd FileType vim nnoremap gs :call plugin_browse#try_open()<CR>
+    autocmd FileType vim,lua nnoremap gs :call plugin_browse#try_open()<CR>
 augroup END
 
 " gina
@@ -732,6 +732,11 @@ augroup gp_vim_go
     autocmd FileType go nnoremap <c-]> :GoDef<CR>
 augroup END
 
+" vim-translator
+let g:translator_default_engines = ['google']
+let g:translator_history_enable = 1
+nmap <silent> <Leader>w <Plug>TranslateW
+vmap <silent> <Leader>w <Plug>TranslateWV
 
 if has('nvim-0.5')
     lua require('aceforeverd')

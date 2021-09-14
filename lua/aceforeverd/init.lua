@@ -23,18 +23,13 @@ set_map('n', '}}', '}', { noremap = true, silent = true })
 
 vim.api.nvim_exec([[
     call coc#config('clangd.semanticHighlighting', v:false)
-    call coc#config('Lua.workspace.library', {$VIMRUNTIME . '/lua': v:true, $VIMRUNTIME . '/lua/vim': v:true, $VIMRUNTIME . '/lua/vim/lsp': v:true})
-    call coc#config('Lua.diagnostics.globals', ['vim'])
-
     let g:matchup_matchparen_offscreen = {}
 ]], false)
 
-
--- require('github-theme').setup {
---   sidebars = { "qf", "vista", "terminal", "packer" },
---   themeStyle = 'dark',
---   msgAreaStyle = "bold",
---   hideEndOfBuffer = true
--- }
+-- uncomment this if use coc-lua. for coc-sumneko-lua, this is not needed after enable NvimLuaDev
+-- vim.api.nvim_exec([[
+--     call coc#config('Lua.workspace.library', {$VIMRUNTIME . '/lua': v:true, $VIMRUNTIME . '/lua/vim': v:true, $VIMRUNTIME . '/lua/vim/lsp': v:true})
+--     call coc#config('Lua.diagnostics.globals', ['vim'])
+-- ]])
 
 -- require('aceforeverd.plugins.colors')

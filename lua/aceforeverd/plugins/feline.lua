@@ -19,7 +19,12 @@ local vi_mode_utils = require('feline.providers.vi_mode')
 local b = vim.b
 local fn = vim.fn
 
-local icons = { UNIX = '', MAC = '', WINDOWS = ''}
+local icons = { UNIX = '', MAC = '', WINDOWS = '' }
+
+local green = '#9ecd6f'
+local bit_blue = '#78dce8'
+local yellow = '#e5c463'
+local bit_red = '#f85e84'
 
 function OsIcon()
   if vim.fn.has('mac') == 1 then
@@ -32,25 +37,9 @@ function OsIcon()
 end
 
 local feline_config = {
-  properties = {
-    force_inactive = {
-      filetypes = {
-        'NvimTree',
-        'packer',
-        'startify',
-        'fugitive',
-        'fugitiveblame',
-        'qf',
-        'help',
-        'coc-explorer'
-      },
-      buftypes = { 'terminal' },
-      bufnames = {}
-    }
-  },
   components = {
-    left = {
-      active = {
+    active = {
+      { -- left
         { provider = '▊ ', hl = { fg = '#78dce8' } },
         {
           provider = 'vi_mode',
@@ -67,16 +56,16 @@ local feline_config = {
         },
         {
           provider = 'file_info',
-          hl = { fg = 'white', bg = 'oceanblue', style = 'bold' },
-          left_sep = { 'block', { str = ' ', hl = { bg = 'oceanblue', fg = 'NONE' } } },
+          hl = { fg = 'black', bg = bit_red, style = 'bold' },
+          left_sep = { 'block', { str = ' ', hl = { bg = bit_red, fg = 'NONE' } } },
           right_sep = { 'block' }
         },
         {
           provider = 'git_branch',
-          hl = { fg = 'black', bg = 'green', style = 'bold' },
+          hl = { fg = 'black', bg = bit_blue, style = 'bold' },
           enabled = function() return b.gitsigns_status_dict ~= nil end,
-          left_sep = { { str = 'block', hl = { fg = 'green' } } },
-          right_sep = { { str = 'block', hl = { fg = 'green' } } }
+          left_sep = { { str = 'block', hl = { fg = bit_blue } } },
+          right_sep = { { str = 'block', hl = { fg = bit_blue } } }
         },
         { provider = 'git_diff_added', hl = { fg = 'green', bg = 'black' } },
         { provider = 'git_diff_changed', hl = { fg = 'orange', bg = 'black' } },
@@ -117,28 +106,18 @@ local feline_config = {
         { provider = '● ', hl = { fg = 'yellow' } },
         { provider = function() return vim.api.nvim_eval('coc#status()') end }
       },
-      inactive = {
-        {
-          provider = 'file_type',
-          hl = { fg = 'white', bg = 'oceanblue', style = 'bold' },
-          left_sep = { str = ' ', hl = { fg = 'NONE', bg = 'oceanblue' } },
-          right_sep = { { str = ' ', hl = { fg = 'NONE', bg = 'oceanblue' } }, 'slant_right' }
-        }
-      }
-    },
-    mid = { active = {}, inactive = {} },
-    right = {
-      active = {
+      {}, -- mid
+      { -- right
         {
           provider = function()
             if require('nvim-gps').is_available() then
-                return require('nvim-gps').get_location()
+              return require('nvim-gps').get_location()
             end
             local text = require('nvim-treesitter').statusline({ indicator_size = 40 })
             if text then
-                return text
+              return text
             else
-                return ""
+              return ""
             end
           end,
           hl = { fg = '#fda5b4' },
@@ -181,9 +160,33 @@ local feline_config = {
           right_sep = ' '
         },
         { provider = 'scroll_bar', hl = { fg = 'skyblue', style = 'bold' } }
-      },
-      inactive = {}
+      }
+    },
+    inactive = {
+      { -- left
+        {
+          provider = 'file_type',
+          hl = { fg = 'white', bg = 'oceanblue', style = 'bold' },
+          left_sep = { str = ' ', hl = { fg = 'NONE', bg = 'oceanblue' } },
+          right_sep = { { str = ' ', hl = { fg = 'NONE', bg = 'oceanblue' } }, 'slant_right' }
+        }
+      }
     }
+  },
+  force_inactive = {
+    filetypes = {
+      'NvimTree',
+      'packer',
+      'startify',
+      'fugitive',
+      'fugitiveblame',
+      'qf',
+      'help',
+      'coc-explorer',
+      'vim-plug'
+    },
+    buftypes = { 'terminal' },
+    bufnames = {}
   }
 }
 

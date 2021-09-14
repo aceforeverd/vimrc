@@ -13,7 +13,7 @@
     "function": "\uf794",
     "reference": "\ufa46",
     "constant": "\uf8fe",
-    "method": "\uf6a6",
+    "method": "\uf4a2",
     "struct": "\ufb44",
     "class": "\uf0e8",
     "interface": "\uf417",
@@ -23,7 +23,7 @@
     "module": "\uf1b3",
     "color": "\ue22b",
     "property": "\uf0f4",
-    "field": "\uf9be",
+    "field": "\ufd32",
     "unit": "\uf475",
     "event": "\ufacd",
     "file": "\uf1c9",
@@ -79,7 +79,10 @@
     "yaml": ["actionlint"]
   },
   "markdownlint.config": {
-    "line_length": false
+    "line_length": false,
+    "MD007": false,
+    "MD022": false,
+    "MD032": false
   },
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt"
@@ -173,7 +176,6 @@
   "Lua.hint.enable": true,
   "Lua.hint.setType": true,
   "Lua.runtime.version": "LuaJIT",
-  "git.enableGutters": false,
-  // coc-translator
-  "translator.engines": ["google"]
+  "sumneko-lua.enableNvimLuaDev": true,
+  "git.enableGutters": false
 }

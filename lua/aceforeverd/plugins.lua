@@ -71,11 +71,15 @@ return packer.startup({
 
     use { 'rafcamlet/nvim-luapad', ft = { 'lua' } }
 
+    use { 'folke/lua-dev.nvim', ft = {'lua'} }
+
     use {
       'nvim-telescope/telescope.nvim',
       config = function() require('aceforeverd.plugins.telescope') end,
       requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } }
     }
+
+    use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
     use { 'nvim-telescope/telescope-packer.nvim', requires = { 'nvim-telescope/telescope.nvim' } }
 
@@ -83,8 +87,41 @@ return packer.startup({
 
     use {
       "nvim-telescope/telescope-frecency.nvim",
-      requires = { 'nvim-telescope/telescope.nvim', "tami5/sqlite.lua", 'kyazdani42/nvim-web-devicons' }
+      requires = {
+        'nvim-telescope/telescope.nvim',
+        "tami5/sqlite.lua",
+        'kyazdani42/nvim-web-devicons'
+      }
     }
+
+    use { 'xiyaowong/telescope-emoji.nvim', requires = { 'nvim-telescope/telescope.nvim' } }
+
+    use {
+      'ahmedkhalf/project.nvim',
+      config = function() require("project_nvim").setup { manual_mode = false } end
+    }
+
+    use {
+      'sudormrfbin/cheatsheet.nvim',
+      config = function()
+        require("cheatsheet").setup({
+          bundled_cheatsheets = true,
+          bundled_plugin_cheatsheets = true,
+          include_only_installed_plugins = true
+        })
+      end,
+      requires = {
+        { 'nvim-telescope/telescope.nvim' },
+        { 'nvim-lua/popup.nvim' },
+        { 'nvim-lua/plenary.nvim' }
+      }
+    }
+
+    use { 'cljoly/telescope-repo.nvim', requires = { 'nvim-telescope/telescope.nvim' } }
+
+    use { 'fannheyward/telescope-coc.nvim' }
+
+    use { "AckslD/nvim-neoclip.lua", config = function() require('neoclip').setup() end }
 
     use {
       'kyazdani42/nvim-tree.lua',
@@ -94,13 +131,32 @@ return packer.startup({
 
     use { 'phaazon/hop.nvim' }
 
+    use { 'rafamadriz/friendly-snippets' }
+
     use { 'marko-cerovac/material.nvim' }
 
     use { 'projekt0n/github-nvim-theme' }
 
     use { 'Pocco81/Catppuccino.nvim' }
 
-    use 'monsonjeremy/onedark.nvim'
+    use { 'monsonjeremy/onedark.nvim' }
+
+    use {
+      'vuki656/package-info.nvim',
+      requires = { "MunifTanjim/nui.nvim" },
+      config = function()
+        require('package-info').setup {
+          colors = {
+            up_to_date = "#3C4048", -- Text color for up to date package virtual text
+            outdated = "#d19a66" -- Text color for outdated package virtual text
+          },
+          icons = {
+            enable = true -- Whether to display icons
+          },
+          autostart = false
+        }
+      end
+    }
 
     use { 'mfussenegger/nvim-dap' }
 
@@ -153,16 +209,6 @@ return packer.startup({
             ["class-name"] = ' ', -- Classes and class-like objects
             ["function-name"] = ' ', -- Functions
             ["method-name"] = ' ' -- Methods (functions inside class-like objects)
-          },
-          languages = { -- You can disable any language individually here
-            ["c"] = true,
-            ["cpp"] = true,
-            ["go"] = true,
-            ["java"] = true,
-            ["javascript"] = true,
-            ["lua"] = true,
-            ["python"] = true,
-            ["rust"] = true
           },
           separator = ' > '
         })

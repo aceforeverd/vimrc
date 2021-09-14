@@ -12,7 +12,9 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-require('telescope').setup {
+
+local telescope = require('telescope')
+telescope.setup {
   defaults = {
     mappings = {
       i = {
@@ -26,9 +28,35 @@ require('telescope').setup {
       show_scores = true,
       show_unindexed = true,
       workspaces = { ["openmldb"] = "/Users/danielace/Git/4paradigm/OpenMLDB" }
+    },
+    fzf = {
+      fuzzy = true, -- false will only do exact matching
+      override_generic_sorter = true, -- override the generic sorter
+      override_file_sorter = true, -- override the file sorter
+      case_mode = "smart_case" -- or "ignore_case" or "respect_case"
+      -- the default case_mode is "smart_case"
     }
   }
 }
+
+telescope.load_extension('fzf')
+
+-- telescope-project
+telescope.load_extension('project')
+
+-- project.nvim
+telescope.load_extension('projects')
+
+-- telescope-frecency
+telescope.load_extension("frecency")
+
+telescope.load_extension("emoji")
+
+telescope.load_extension('coc')
+
+telescope.load_extension('repo')
+
+telescope.load_extension('neoclip')
 
 vim.api.nvim_set_keymap("n", "<leader>tf",
                         "<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>",
