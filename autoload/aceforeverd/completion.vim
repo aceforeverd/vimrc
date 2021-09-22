@@ -255,7 +255,7 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-java', 'coc-diagnostic',
                 \ 'coc-fzf-preview', 'coc-xml',
                 \ 'coc-metals', 'coc-emoji',
-                \ 'coc-markdownlint', 'coc-toml',
+                \ 'coc-toml',
                 \ 'coc-word', 'coc-texlab',
                 \ 'coc-esbonio', 'coc-sql',
                 \ ]

@@ -21,10 +21,12 @@ local fn = vim.fn
 
 local icons = { UNIX = '', MAC = '', WINDOWS = '' }
 
-local green = '#9ecd6f'
-local bit_blue = '#78dce8'
-local yellow = '#e5c463'
-local bit_red = '#f85e84'
+local palette = vim.api.nvim_call_function('sonokai#get_palette', { vim.g.sonokai_style } )
+
+local bit_green = palette.bg_green[1]
+local bit_blue = palette.bg_blue[1]
+local bit_yellow = '#e5c463'
+local bit_red = palette.bg_red[1]
 
 function OsIcon()
   if vim.fn.has('mac') == 1 then
@@ -40,7 +42,7 @@ local feline_config = {
   components = {
     active = {
       { -- left
-        { provider = '▊ ', hl = { fg = '#78dce8' } },
+        { provider = '▊ ', hl = { fg = bit_red } },
         {
           provider = 'vi_mode',
           hl = function()
@@ -56,8 +58,8 @@ local feline_config = {
         },
         {
           provider = 'file_info',
-          hl = { fg = 'black', bg = bit_red, style = 'bold' },
-          left_sep = { 'block', { str = ' ', hl = { bg = bit_red, fg = 'NONE' } } },
+          hl = { fg = 'black', bg = bit_green, style = 'bold' },
+          left_sep = { 'block', { str = ' ', hl = { bg = bit_green, fg = 'NONE' } } },
           right_sep = { 'block' }
         },
         {

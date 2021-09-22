@@ -76,14 +76,4 @@ if vim.fn.has('nvim-0.6.0') == 1 then
         autocmd!
         autocmd ColorScheme * highlight Conceal ctermfg=Grey guifg=#565656
     augroup END]], false)
-else
-  vim.g.material_style = 'darker'
-  vim.g.material_borders = true
-  vim.g.material_variable_color = '#3adbc5'
-  vim.g.material_italic_keywords = true
-  vim.g.material_italic_comments = true
-  vim.api.nvim_set_keymap('n', [[<space>n]],
-                          [[<Cmd>lua require('material.functions').toggle_style()<CR>]],
-                          { noremap = true, silent = true })
-  require('material').set()
 end

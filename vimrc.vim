@@ -738,6 +738,9 @@ let g:translator_history_enable = 1
 nmap <silent> <Leader>w <Plug>TranslateW
 vmap <silent> <Leader>w <Plug>TranslateWV
 
+" vim-cmake
+let g:cmake_generate_options = ['-DCMAKE_EXPORT_COMPILE_COMMANDS=ON', '-DCMAKE_CXX_STANDARD=11', '-G Ninja' ]
+
 if has('nvim-0.5')
     lua require('aceforeverd')
 endif

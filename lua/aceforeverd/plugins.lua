@@ -35,7 +35,7 @@ packer.init({
   plugin_package = 'packer',
   max_jobs = 12,
   git = { clone_timeout = 30 },
-  profile = { enable = true, threshold = 0.1 }
+  profile = { enable = true, threshold = 1 }
 })
 
 return packer.startup({
@@ -43,6 +43,8 @@ return packer.startup({
     use { 'wbthomason/packer.nvim' }
 
     use { 'neovim/nvim-lspconfig', opt = true }
+
+    use { 'kabouzeid/nvim-lspinstall', opt = true }
 
     use { 'nvim-lua/completion-nvim', opt = true }
 
@@ -71,7 +73,7 @@ return packer.startup({
 
     use { 'rafcamlet/nvim-luapad', ft = { 'lua' } }
 
-    use { 'folke/lua-dev.nvim', ft = {'lua'} }
+    use { 'folke/lua-dev.nvim', ft = { 'lua' } }
 
     use {
       'nvim-telescope/telescope.nvim',
@@ -100,6 +102,10 @@ return packer.startup({
       'ahmedkhalf/project.nvim',
       config = function() require("project_nvim").setup { manual_mode = false } end
     }
+
+    use { 'jamestthompson3/nvim-remote-containers' }
+
+    use { 'chipsenkbeil/distant.nvim' }
 
     use {
       'sudormrfbin/cheatsheet.nvim',
@@ -159,6 +165,8 @@ return packer.startup({
     }
 
     use { 'mfussenegger/nvim-dap' }
+
+    use { 'Pocco81/DAPInstall.nvim' }
 
     use { 'kevinhwang91/nvim-bqf' }
 
@@ -252,6 +260,17 @@ return packer.startup({
           -- or leave it empty to use the default settings
           -- refer to the configuration section below
         }
+      end
+    }
+
+    use { 'michaelb/sniprun', run = 'bash ./install.sh' }
+
+    use { 'rcarriga/nvim-notify', opt = true }
+
+    use {
+      'lewis6991/spellsitter.nvim',
+      config = function()
+        require('spellsitter').setup { hl = 'SpellBad', captures = { 'comment' } }
       end
     }
 

@@ -18,3 +18,4 @@ vim.api.nvim_set_keymap('n', '<Space>r', [[ <Cmd>lua require 'nvim-tree'.toggle(
 vim.g.nvim_tree_follow = 1
 vim.g.nvim_tree_disable_netrw = 0
 vim.g.nvim_tree_width = '20%'
+vim.g.nvim_tree_respect_buf_cwd = 1

@@ -12,8 +12,8 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 local telescope = require('telescope')
+
 telescope.setup {
   defaults = {
     mappings = {
@@ -58,13 +58,21 @@ telescope.load_extension('repo')
 
 telescope.load_extension('neoclip')
 
-vim.api.nvim_set_keymap("n", "<leader>tf",
-                        "<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>",
-                        { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>tl', '<Cmd>Telescope<CR>', { noremap = true, silent = false })
-vim.api.nvim_set_keymap('n', '<Leader>tp',
-                        "<Cmd>lua require('telescope').extensions.packer.plugins()<CR>",
-                        { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>tj',
-                        "<Cmd>lua require'telescope'.extensions.project.project{}<CR>",
-                        { noremap = true, silent = true })
+local set_map = vim.api.nvim_set_keymap
+
+set_map('n', '<Leader>fl', '<Cmd>Telescope<CR>', { noremap = true, silent = false })
+
+set_map("n", "<leader>fr", "<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>",
+        { noremap = true, silent = true })
+
+set_map("n", "<leader>ff", "<Cmd>lua require('telescope.builtin').find_files()<CR>",
+        { noremap = true, silent = true })
+
+set_map('n', '<Leader>fp', "<Cmd>lua require('telescope').extensions.packer.plugins()<CR>",
+        { noremap = true, silent = true })
+
+set_map('n', '<Leader>fj', "<Cmd>lua require'telescope'.extensions.project.project{}<CR>",
+        { noremap = true, silent = true })
+
+set_map('n', '<Leader>fb', "<cmd>lua require('telescope.builtin').buffers()<cr>",
+        { noremap = true, silent = true })

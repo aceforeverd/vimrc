@@ -18,7 +18,9 @@ require("bufferline").setup{
         numbers = function(opts)
             return string.format('%s|%s.)', opts.id, opts.raise(opts.ordinal))
         end,
-        always_show_bufferline = true
+        always_show_bufferline = true,
+        diagnostics = vim.g.my_cmp_source,
+        separator_style = 'slant'
     }
 }
 
