@@ -80,16 +80,14 @@ Plug 'wincent/ferret'
 let g:FerretMap = 0
 
 Plug 'google/vim-maktaba'
-Plug 'google/vim-coverage'
+" Plug 'google/vim-coverage'
 Plug 'bazelbuild/vim-bazel'
 Plug 'mg979/vim-visual-multi'
-Plug 'wfxr/minimap.vim'
 
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
 let g:doge_enable_mappings = 0
 
 Plug 'mg979/docgen.vim'
-Plug 'AndrewRadev/bufferize.vim'
 
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['sensible', 'go']
@@ -98,15 +96,20 @@ let g:vim_json_syntax_conceal = 1
 let g:vimspector_enable_mappings = 'HUMAN'
 Plug 'sainnhe/sonokai'
 
-if has('nvim-0.6.0')
-    let g:sonokai_style = 'andromeda'
-elseif has('nvim')
-    let g:sonokai_style = 'shusia'
+if has('nvim')
+    let g:sonokai_enable_italic = 1
+    if has('nvim-0.6.0')
+        let g:sonokai_style = 'shusia'
+    else
+        let g:sonokai_style = 'espresso'
+    endif
 else
-    let g:sonokai_style = 'espresso'
+    " italic in vim looks wired
+    let g:sonokai_disable_italic_comment = 1
+    let g:sonokai_style = 'andromeda'
 endif
+
 let g:sonokai_better_performance = 1
-let g:sonokai_enable_italic = 1
 let g:sonokai_diagnostic_text_highlight = 1
 let g:sonokai_diagnostic_virtual_text = 'colored'
 
@@ -136,13 +139,6 @@ if dein#load_state(s:dein_repo)
         " optional plugins for vim
         call dein#add('roxma/nvim-yarp')
         call dein#add('roxma/vim-hug-neovim-rpc')
-    else
-        " optional plugins for neovim
-        call dein#add('kassio/neoterm')
-        call dein#add('fszymanski/fzf-gitignore')
-        " Repl
-        call dein#add('hkupty/iron.nvim')
-        call dein#add('Olical/conjure')
     endif
 
     if g:my_cmp_source ==? 'deoplete'
@@ -178,6 +174,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('Shougo/echodoc.vim')
 
     call dein#add('voldikss/vim-floaterm')
+    call dein#add('kassio/neoterm')
 
     call dein#add('tpope/vim-endwise')
     call dein#add('tpope/vim-surround')
@@ -213,6 +210,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
+    call dein#add('wfxr/minimap.vim')
 
     call dein#add('embear/vim-localvimrc')
 
@@ -226,6 +224,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('will133/vim-dirdiff')
     call dein#add('dstein64/vim-startuptime')
     call dein#add('jsfaint/gen_tags.vim')
+    call dein#add('AndrewRadev/bufferize.vim')
 
     call dein#add('alpertuna/vim-header')
     call dein#add('antoyo/vim-licenses')
@@ -265,6 +264,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('jamessan/vim-gnupg')
 
     call dein#add('tomtom/tcomment_vim')
+    call dein#add('tpope/vim-commentary')
     call dein#add('raimondi/delimitmate')
     call dein#add('chrisbra/recover.vim')
     " text object manipulate
@@ -277,7 +277,6 @@ if dein#load_state(s:dein_repo)
     " Go
     call dein#add('fatih/vim-go')
     " c/c++/objc
-    call dein#add('sakhnik/nvim-gdb')
     call dein#add('puremourning/vimspector')
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
@@ -740,6 +739,9 @@ vmap <silent> <Leader>w <Plug>TranslateWV
 
 " vim-cmake
 let g:cmake_generate_options = ['-DCMAKE_EXPORT_COMPILE_COMMANDS=ON', '-DCMAKE_CXX_STANDARD=11', '-G Ninja' ]
+
+" tcomment_vim
+let g:tcomment_maps = 0
 
 if has('nvim-0.5')
     lua require('aceforeverd')

@@ -177,17 +177,17 @@ local feline_config = {
   },
   force_inactive = {
     filetypes = {
-      'NvimTree',
-      'packer',
-      'startify',
-      'fugitive',
-      'fugitiveblame',
-      'qf',
-      'help',
-      'coc-explorer',
-      'vim-plug'
+      '^NvimTree$',
+      '^packer$',
+      '^startify$',
+      '^fugitive$',
+      '^fugitiveblame$',
+      '^qf$',
+      '^help$',
+      '^coc-explorer$',
+      '^vim-plug$'
     },
-    buftypes = { 'terminal' },
+    buftypes = { '^terminal$' },
     bufnames = {}
   }
 }

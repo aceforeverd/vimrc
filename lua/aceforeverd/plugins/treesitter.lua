@@ -13,9 +13,9 @@
 -- You should have received a copy of the GNU General Public License
 require('nvim-treesitter.configs').setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  ignore_install = {}, -- List of parsers to ignore installing
-  highlight = { enable = true, disable = {'yaml'} },
-  indent = { enable = true, disable = {'yaml'} },
+  ignore_install = {}, -- TSModuleInfo fail on fennel
+  highlight = { enable = true, disable = { 'yaml', 'coc-explorer' } },
+  indent = { enable = true, disable = { 'yaml' } },
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -50,7 +50,7 @@ require('nvim-treesitter.configs').setup {
     }
   },
   rainbow = { enable = true, extended_mode = true, max_file_lines = 5000 },
-  -- tree_docs = { enable = true, keymap = { doc_node_at_cursor = 'gdd', doc_all_in_range = 'gdd' } },
+  tree_docs = { enable = true, keymap = { doc_node_at_cursor = '<leader>dg', doc_all_in_range = '<leader>dg' } },
   refactor = {
     highlight_definitions = { enable = false },
     highlight_current_scope = { enable = false },
@@ -145,6 +145,8 @@ require('nvim-treesitter.configs').setup {
         ["{;"] = "@statement.outer"
       }
     }
-  }
+  },
+  -- nvim-ts-context-commentstring
+  context_commentstring = { enable = true }
 }
 

@@ -69,7 +69,16 @@ return packer.startup({
 
     use { 'nvim-treesitter/nvim-treesitter-refactor', requires = 'nvim-treesitter/nvim-treesitter' }
 
-    use { 'nvim-treesitter/nvim-tree-docs', requires = { 'nvim-treesitter/nvim-treesitter' } }
+    use {
+      'nvim-treesitter/nvim-tree-docs',
+      requires = { { 'nvim-treesitter/nvim-treesitter' }, { 'Olical/aniseed' } }
+    }
+
+    use { 'Olical/conjure' }
+
+    use { 'hkupty/iron.nvim' }
+
+    use { 'sakhnik/nvim-gdb' }
 
     use { 'rafcamlet/nvim-luapad', ft = { 'lua' } }
 
@@ -105,7 +114,7 @@ return packer.startup({
 
     use { 'jamestthompson3/nvim-remote-containers' }
 
-    use { 'chipsenkbeil/distant.nvim' }
+    use { 'chipsenkbeil/distant.nvim', cmd = 'Distant*' }
 
     use {
       'sudormrfbin/cheatsheet.nvim',
@@ -192,7 +201,7 @@ return packer.startup({
       'pwntester/octo.nvim',
       requires = { 'nvim-telescope/telescope.nvim', 'kyazdani42/nvim-web-devicons' },
       config = function() require"octo".setup() end,
-      cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' }
+      cmd = 'Octo*'
     }
 
     use { 'Pocco81/HighStr.nvim' }
@@ -216,7 +225,9 @@ return packer.startup({
           icons = {
             ["class-name"] = ' ', -- Classes and class-like objects
             ["function-name"] = ' ', -- Functions
-            ["method-name"] = ' ' -- Methods (functions inside class-like objects)
+            ["method-name"] = ' ', -- Methods (functions inside class-like objects)
+            ["container-name"] = '', -- Containers (example: lua tables)
+            ["tag-name"] = '炙' -- Tags (example: html tags)
           },
           separator = ' > '
         })
@@ -249,6 +260,11 @@ return packer.startup({
                                 { silent = true, noremap = true })
         vim.api.nvim_set_keymap('n', '<leader>l', '<Cmd>noh<CR>', { silent = true, noremap = true })
       end
+    }
+
+    use {
+      'JoosepAlviste/nvim-ts-context-commentstring',
+      requires = { 'nvim-treesitter/nvim-treesitter' }
     }
 
     use {

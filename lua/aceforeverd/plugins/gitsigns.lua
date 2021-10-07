@@ -41,7 +41,7 @@ require('gitsigns').setup {
   diff_opts = { internal = true },
   numhl = true,
   linehl = false,
-  watch_index = { interval = 1000 },
+  watch_gitdir = { interval = 1000 },
   attach_to_untracked = false,
   current_line_blame = true,
   sign_priority = 5,
