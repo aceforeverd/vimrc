@@ -50,7 +50,7 @@ require('nvim-treesitter.configs').setup {
     }
   },
   rainbow = { enable = true, extended_mode = true, max_file_lines = 5000 },
-  tree_docs = { enable = true, keymap = { doc_node_at_cursor = '<leader>dg', doc_all_in_range = '<leader>dg' } },
+  -- tree_docs = { enable = true, keymap = { doc_node_at_cursor = '<leader>dg', doc_all_in_range = '<leader>dg' } },
   refactor = {
     highlight_definitions = { enable = false },
     highlight_current_scope = { enable = false },

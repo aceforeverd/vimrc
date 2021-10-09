@@ -406,9 +406,9 @@ set number
 set expandtab
 set smarttab
 
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
+" replace by vim-sensible
+" set shiftwidth=4
+" set tabstop=4
 
 set linebreak
 set textwidth=500
@@ -549,12 +549,19 @@ augroup END
 
 " fzf
 nnoremap <c-p> :FZF<CR>
+function! s:build_quickfix_list(lines)
+    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+    copen
+    cc
+endfunction
 let g:fzf_action = {
+      \ 'ctrl-q': function('s:build_quickfix_list'),
       \ 'ctrl-a': 'tab split',
       \ 'ctrl-x': 'split',
       \ 'ctrl-v': 'vsplit' }
 let g:fzf_layout = {
       \ 'window': { 'width': 0.9, 'height': 0.8 }}
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 " fzf-vim
 " Mapping selecting mappings
@@ -695,7 +702,9 @@ let g:tex_flavor = 'latex'
 " localvimrc
 let g:localvimrc_name = [ '.lc.vim' ]
 
+" vim-better-whitespace
 let g:better_whitespace_operator = ''
+let g:current_line_whitespace_disabled_soft = 1
 
 let g:nvimgdb_disable_start_keymaps = 1
 
@@ -712,6 +721,7 @@ if aceforeverd#util#has_float()
     " matchup
     let g:matchup_matchparen_offscreen = {'method': 'popup'}
 endif
+let g:matchup_matchparen_deferred = 1
 
 " gen_tags.vim
 let g:gen_tags#ctags_auto_update = 0

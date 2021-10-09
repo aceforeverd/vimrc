@@ -74,7 +74,12 @@ return packer.startup({
       requires = { { 'nvim-treesitter/nvim-treesitter' }, { 'Olical/aniseed' } }
     }
 
-    use { 'Olical/conjure' }
+    use { 'Olical/conjure', ft = { 'clojure', 'fennel', 'janet', 'racket', 'scheme' } }
+
+    use {
+      'lukas-reineke/indent-blankline.nvim',
+      config = function() require('aceforeverd.plugins.indent') end
+    }
 
     use { 'hkupty/iron.nvim' }
 
@@ -226,7 +231,7 @@ return packer.startup({
             ["class-name"] = ' ', -- Classes and class-like objects
             ["function-name"] = ' ', -- Functions
             ["method-name"] = ' ', -- Methods (functions inside class-like objects)
-            ["container-name"] = '', -- Containers (example: lua tables)
+            ["container-name"] = ' ', -- Containers (example: lua tables)
             ["tag-name"] = '炙' -- Tags (example: html tags)
           },
           separator = ' > '

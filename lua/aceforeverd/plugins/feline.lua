@@ -105,7 +105,7 @@ local feline_config = {
           enabled = function() return lsp.diagnostics_exist('Information') end,
           hl = { fg = 'skyblue' }
         },
-        { provider = '● ', hl = { fg = 'yellow' } },
+        { provider = ' ● ', hl = { fg = 'yellow' } },
         { provider = function() return vim.api.nvim_eval('coc#status()') end }
       },
       {}, -- mid
