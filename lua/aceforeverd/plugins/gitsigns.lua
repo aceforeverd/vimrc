@@ -13,6 +13,11 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 require('gitsigns').setup {
+  signs = {
+    delete = { show_count = true },
+    topdelete = { show_count = true },
+    changedelete = { show_count = true }
+  },
   keymaps = {
     -- Default keymap options
     noremap = true,

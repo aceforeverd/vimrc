@@ -26,7 +26,10 @@ require('nvim-tree').setup {
   open_on_tab = false,
   hijack_cursor = false,
   update_cwd = false,
-  lsp_diagnostics = true,
+  diagnostics = {
+    enable = true,
+    icons = { hint = "", info = "", warning = "", error = "" }
+  },
   update_focused_file = { enable = true, update_cwd = false, ignore_list = {} },
   system_open = { cmd = nil, args = {} },
   view = {
