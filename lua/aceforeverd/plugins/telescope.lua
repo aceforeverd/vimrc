@@ -48,9 +48,9 @@ telescope.setup {
 telescope.load_extension('fzf')
 
 -- telescope-project
-telescope.load_extension('project')
+-- telescope.load_extension('project')
 
--- project.nvim
+-- -- project.nvim
 telescope.load_extension('projects')
 
 -- telescope-frecency

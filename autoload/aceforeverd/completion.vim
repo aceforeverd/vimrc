@@ -242,7 +242,7 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-tag', 'coc-syntax',
                 \ 'coc-snippets', 'coc-prettier',
                 \ 'coc-lists', 'coc-floaterm',
-                \ 'coc-highlight', 'coc-git',
+                \ 'coc-highlight',
                 \ 'coc-explorer', 'coc-eslint',
                 \ 'coc-dictionary', 'coc-yank',
                 \ 'coc-yaml', 'coc-tsserver',
@@ -285,7 +285,7 @@ function! aceforeverd#completion#init_source_coc() abort
         nmap <leader>a  <Plug>(coc-codeaction-selected)
 
         " Remap for do codeAction of current line
-        nmap <leader>ac  <Plug>(coc-codeaction)
+        nmap <leader>ca  <Plug>(coc-codeaction)
         " Fix autofix problem of current line
         nmap <leader>qf  <Plug>(coc-fix-current)
 

@@ -21,7 +21,7 @@ local fn = vim.fn
 
 local icons = { UNIX = '', MAC = '', WINDOWS = '' }
 
-local palette = vim.api.nvim_call_function('sonokai#get_palette', { vim.g.sonokai_style } )
+local palette = vim.api.nvim_call_function('sonokai#get_palette', { vim.g.sonokai_style })
 
 local bit_green = palette.bg_green[1]
 local bit_blue = palette.bg_blue[1]
@@ -42,7 +42,7 @@ local feline_config = {
   components = {
     active = {
       { -- left
-        { provider = '▊ ', hl = { fg = bit_red } },
+        -- { provider = '▊ ', hl = { fg = bit_red } },
         {
           provider = 'vi_mode',
           hl = function()
@@ -88,6 +88,7 @@ local feline_config = {
         {
           provider = 'diagnostic_errors',
           enabled = function() return lsp.diagnostics_exist('Error') end,
+          left_sep = { { str = 'vertical_bar_thin', hl = { fg = 'violet' } } },
           hl = { fg = 'red' }
         },
         {
@@ -106,7 +107,15 @@ local feline_config = {
           hl = { fg = 'skyblue' }
         },
         { provider = ' ● ', hl = { fg = 'yellow' } },
-        { provider = function() return vim.api.nvim_eval('coc#status()') end }
+        {
+          -- for neovim 0.6.0 or later, use built-in lsp, otherwise coc
+          provider = function() return vim.api.nvim_eval('coc#status()') end,
+          enabled = function() return vim.fn.has('nvim-0.6.0') == 0 end
+        },
+        {
+          provider = function() return require('lsp-status').status() end,
+          enabled = function() return #vim.lsp.buf_get_clients() > 0 end,
+        }
       },
       {}, -- mid
       { -- right
@@ -139,13 +148,22 @@ local feline_config = {
         {
           provider = 'file_encoding',
           left_sep = { ' ' },
-          right_sep = { ' ' },
+          right_sep = { ' ', { str = 'vertical_bar', hl = { bg = 'NONE' } } },
           hl = { fg = '#ffff0a' }
+        },
+        {
+          provider = function()
+            return 'IN:' .. tostring(vim.fn.indent(vim.fn.line('.'))) .. '/' ..
+                       tostring(vim.o.shiftwidth)
+          end,
+          hl = { fg = '#ffff0a' },
+          left_sep = { ' ' },
+          right_sep = { ' ', { str = 'vertical_bar', hl = { bg = 'NONE' } } }
         },
         {
           provider = 'position',
           hl = { fg = 'skyblue' },
-          left_sep = { { str = 'vertical_bar', hl = { bg = 'NONE' } }, ' ' },
+          left_sep = { ' ' },
           right_sep = { ' ', { str = 'vertical_bar', hl = { fg = 'NONE' } } }
         },
         {

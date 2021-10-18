@@ -22,7 +22,6 @@ set_map('n', '{{', '{', { noremap = true, silent = true })
 set_map('n', '}}', '}', { noremap = true, silent = true })
 
 vim.api.nvim_exec([[
-    call coc#config('clangd.semanticHighlighting', v:false)
     let g:matchup_matchparen_offscreen = {}
 ]], false)
 
@@ -32,4 +31,3 @@ vim.api.nvim_exec([[
 --     call coc#config('Lua.diagnostics.globals', ['vim'])
 -- ]], false)
 
--- require('aceforeverd.plugins.colors')

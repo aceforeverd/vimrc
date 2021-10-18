@@ -3,7 +3,6 @@
   "coc.preferences.currentFunctionSymbolAutoUpdate": false,
   "codeLens.enable": true,
   "suggest.echodocSupport": true,
-  "suggest.enablePreselect": true,
   "suggest.completionItemKindLabels": {
     "keyword": "\uf808",
     "variable": "\ue79b",

@@ -71,6 +71,10 @@ if !has('nvim-0.6.0')
     if has('nvim-0.4.0')
         let g:gitgutter_highlight_linenrs = 1
     endif
+
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'antoinemadec/coc-fzf'
+    Plug 'neoclide/coc-neco'
 endif
 
 Plug 'chrisbra/unicode.vim'
@@ -90,10 +94,9 @@ let g:doge_enable_mappings = 0
 Plug 'mg979/docgen.vim'
 
 Plug 'sheerun/vim-polyglot'
-let g:polyglot_disabled = ['sensible', 'go']
+let g:polyglot_disabled = ['sensible', 'go', 'autoindent']
 let g:vim_json_syntax_conceal = 1
 
-let g:vimspector_enable_mappings = 'HUMAN'
 Plug 'sainnhe/sonokai'
 
 if has('nvim')
@@ -112,8 +115,6 @@ endif
 let g:sonokai_better_performance = 1
 let g:sonokai_diagnostic_text_highlight = 1
 let g:sonokai_diagnostic_virtual_text = 'colored'
-
-Plug 'rafi/awesome-vim-colorschemes'
 
 if g:my_cmp_source ==? 'deoplete'
     Plug 'autozimu/LanguageClient-neovim', {
@@ -161,10 +162,6 @@ if dein#load_state(s:dein_repo)
         call dein#add('Shougo/neosnippet-snippets')
         call dein#add('Shougo/neosnippet.vim')
         call dein#add('Shougo/denite.nvim')
-    elseif g:my_cmp_source ==? 'coc'
-        call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
-        call dein#add('antoinemadec/coc-fzf')
-        call dein#add('neoclide/coc-neco')
     endif
 
     call dein#add('Shougo/context_filetype.vim')
@@ -195,6 +192,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('tpope/vim-tbone')
     call dein#add('tpope/vim-dadbod')
     call dein#add('tpope/vim-projectionist')
+    call dein#add('tpope/vim-sleuth')
 
     call dein#add('lambdalisue/suda.vim')
 
@@ -211,6 +209,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
     call dein#add('wfxr/minimap.vim')
+    call dein#add('rafi/awesome-vim-colorschemes', {'merged': 0})
 
     call dein#add('embear/vim-localvimrc')
 
@@ -322,7 +321,6 @@ if dein#load_state(s:dein_repo)
 
     call dein#add('chrisbra/csv.vim')
 
-    call dein#add('jackguo380/vim-lsp-cxx-highlight')
     call dein#add('cdelledonne/vim-cmake')
 
     call dein#add('aceforeverd/vim-translator', {'rev': 'dev', 'merged': 0})
@@ -406,7 +404,7 @@ set number
 set expandtab
 set smarttab
 
-" replace by vim-sensible
+" replace by vim-sleuth
 " set shiftwidth=4
 " set tabstop=4
 
@@ -655,7 +653,12 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
+" basic completion settings
 set completeopt-=preview
+set completeopt+=menuone
+set completeopt+=noselect
+set shortmess+=c
+
 " echodoc
 let g:echodoc#enable_at_startup = 1
 
@@ -753,12 +756,18 @@ let g:cmake_generate_options = ['-DCMAKE_EXPORT_COMPILE_COMMANDS=ON', '-DCMAKE_C
 " tcomment_vim
 let g:tcomment_maps = 0
 
+" vimspector
+let g:vimspector_enable_mappings = 'HUMAN'
+
 if has('nvim-0.5')
     lua require('aceforeverd')
 endif
 
 " init completion source
+if !has('nvim-0.6.0')
+" for nvim 0.6.0 or later, use neovim built-in lsp
 call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
+endif
 
 let s:after_vimrc = s:home . '/after.vim'
 if filereadable(s:after_vimrc)

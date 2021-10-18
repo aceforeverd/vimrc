@@ -35,6 +35,7 @@ packer.init({
   plugin_package = 'packer',
   max_jobs = 12,
   git = { clone_timeout = 30 },
+  display = { open_fn = require('packer.util').float },
   profile = { enable = true, threshold = 1 }
 })
 
@@ -42,11 +43,61 @@ return packer.startup({
   function(use)
     use { 'wbthomason/packer.nvim' }
 
-    use { 'neovim/nvim-lspconfig', opt = true }
+    use { 'neovim/nvim-lspconfig' }
 
-    use { 'kabouzeid/nvim-lspinstall', opt = true }
+    use { 'williamboman/nvim-lsp-installer' }
 
-    use { 'nvim-lua/completion-nvim', opt = true }
+    use {
+      'hrsh7th/nvim-cmp',
+      requires = {
+        'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/cmp-buffer',
+        'hrsh7th/cmp-path',
+        'hrsh7th/cmp-nvim-lua',
+        'hrsh7th/cmp-vsnip',
+        'hrsh7th/cmp-emoji',
+        'octaltree/cmp-look'
+      },
+      config = function() require('aceforeverd.plugins.lsp') end
+    }
+
+    use {
+      'onsails/lspkind-nvim',
+      config = function() require('lspkind').init { with_text = true } end
+    }
+
+    use { 'ray-x/lsp_signature.nvim', cond = function() return vim.fn.has('nvim-0.6.0') == 1 end }
+
+    use {
+      'kosayoda/nvim-lightbulb',
+      config = function()
+        vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
+      end,
+      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end
+    }
+
+    use { 'weilbith/nvim-code-action-menu', cmd = 'CodeActionMenu' }
+
+    use { 'simrat39/rust-tools.nvim' }
+
+    use { 'mfussenegger/nvim-jdtls' }
+
+    use { 'RRethy/vim-illuminate', cond = function() return vim.fn.has('nvim-0.6.0') == 1 end }
+
+    use { 'nvim-lua/lsp-status.nvim' }
+
+    use {
+      'jose-elias-alvarez/null-ls.nvim',
+      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end
+    }
+
+    use { 'mfussenegger/nvim-lint' }
+
+    use {
+      'norcalli/nvim-colorizer.lua',
+      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      config = function() require'colorizer'.setup() end
+    }
 
     use { 'nvim-lua/plenary.nvim' }
 
@@ -308,6 +359,8 @@ return packer.startup({
       requires = { 'kyazdani42/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
       config = function() require('aceforeverd.plugins.feline') end
     }
+
+    use { 'famiu/bufdelete.nvim' }
 
   end
 })
