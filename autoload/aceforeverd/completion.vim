@@ -18,6 +18,9 @@ function! aceforeverd#completion#init_cmp_source(src) abort
         let s:my_cmps = {}
     endif
 
+    " echodoc
+    let g:echodoc#enable_at_startup = 1
+
     " setup common variables
     if a:src ==? 'deoplete'
         " functions

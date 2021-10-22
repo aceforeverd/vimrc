@@ -35,7 +35,6 @@ packer.init({
   plugin_package = 'packer',
   max_jobs = 12,
   git = { clone_timeout = 30 },
-  display = { open_fn = require('packer.util').float },
   profile = { enable = true, threshold = 1 }
 })
 
@@ -56,7 +55,9 @@ return packer.startup({
         'hrsh7th/cmp-nvim-lua',
         'hrsh7th/cmp-vsnip',
         'hrsh7th/cmp-emoji',
-        'octaltree/cmp-look'
+        'octaltree/cmp-look',
+        'ray-x/cmp-treesitter',
+        { 'andersevenrud/compe-tmux', branch = 'cmp' }
       },
       config = function() require('aceforeverd.plugins.lsp') end
     }
@@ -80,11 +81,63 @@ return packer.startup({
 
     use { 'simrat39/rust-tools.nvim' }
 
-    use { 'mfussenegger/nvim-jdtls' }
+    use {
+      'mfussenegger/nvim-jdtls',
+      ft = { 'java' },
+      config = function()
+        require('jdtls').start_or_attach {
+          -- The command that starts the language server
+          cmd = { 'java', '-Dosgi.bundles.defaultStartLevel=4' },
+          -- TODO: add more mappings from nvim-jdtls
+          on_attach = require('aceforeverd.config.lsp-basic').on_attach,
+          capabilities = require('aceforeverd.config.lsp-basic').capabilities,
 
-    use { 'RRethy/vim-illuminate', cond = function() return vim.fn.has('nvim-0.6.0') == 1 end }
+          root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' })
+        }
+      end
+    }
 
+    use {
+      'RRethy/vim-illuminate',
+      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      config = function()
+        vim.api.nvim_exec([[
+        augroup illuminate_augroup
+          autocmd!
+          autocmd VimEnter * highlight illuminatedWord cterm=underline guibg=#5e5e61
+        augroup END
+        ]], false)
+      end
+    }
+
+    -- neovim builtin lsp status line component
     use { 'nvim-lua/lsp-status.nvim' }
+
+    -- use fzf to display builtin LSP results
+    use { 'ojroques/nvim-lspfuzzy', config = function() require('lspfuzzy').setup {} end }
+
+    use { 'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }, ft = { 'scala', 'sbt' } }
+
+    -- get workspace diagnostics
+    -- use {
+    --   'onsails/diaglist.nvim',
+    --   cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+    --   config = function()
+    --     require("diaglist").init({
+    --       debounce_ms = 50,
+
+    --       -- list in quickfix only diagnostics from clients attached to a current buffer
+    --       -- if false, all buffers' clients diagnostics is collected
+    --       buf_clients_only = true
+    --     })
+    --     vim.api.nvim_set_keymap('n', '<space>dw',
+    --                             '<cmd>lua require("diaglist").open_all_diagnostics()<cr>',
+    --                             { noremap = true, silent = true })
+    --     vim.api.nvim_set_keymap('n', '<space>dd',
+    --                             '<cmd>lua require("diaglist").open_buffer_diagnostics()<cr>',
+    --                             { noremap = true, silent = true })
+    --   end
+    -- }
 
     use {
       'jose-elias-alvarez/null-ls.nvim',
@@ -190,9 +243,21 @@ return packer.startup({
 
     use { 'cljoly/telescope-repo.nvim', requires = { 'nvim-telescope/telescope.nvim' } }
 
-    use { 'fannheyward/telescope-coc.nvim' }
+    use {
+      'fannheyward/telescope-coc.nvim',
+      cond = function() return vim.fn.has('nvim-0.6.0') == 0 end
+    }
 
-    use { "AckslD/nvim-neoclip.lua", config = function() require('neoclip').setup() end }
+    use {
+      "AckslD/nvim-neoclip.lua",
+      requires = { 'tami5/sqlite.lua', module = 'sqlite' },
+      config = function()
+        require('neoclip').setup {
+          enable_persistant_history = true,
+          db_path = vim.fn.stdpath("data") .. "/databases/neoclip.sqlite3"
+        }
+      end
+    }
 
     use {
       'kyazdani42/nvim-tree.lua',
@@ -261,13 +326,6 @@ return packer.startup({
     }
 
     use { 'Pocco81/HighStr.nvim' }
-
-    use {
-      'akinsho/nvim-bufferline.lua',
-      requires = 'kyazdani42/nvim-web-devicons',
-      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
-      config = function() require('aceforeverd.plugins.bufferline') end
-    }
 
     use {
       "akinsho/nvim-toggleterm.lua",
@@ -348,16 +406,23 @@ return packer.startup({
 
     use {
       'lewis6991/gitsigns.nvim',
-      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      cond = function() return vim.fn.has('nvim-0.5.0') == 1 end,
       requires = { 'nvim-lua/plenary.nvim' },
       config = function() require('aceforeverd.plugins.gitsigns') end
     }
 
     use {
       'famiu/feline.nvim',
-      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      cond = function() return vim.fn.has('nvim-0.5.0') == 1 end,
       requires = { 'kyazdani42/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
       config = function() require('aceforeverd.plugins.feline') end
+    }
+
+    use {
+      'akinsho/nvim-bufferline.lua',
+      requires = 'kyazdani42/nvim-web-devicons',
+      cond = function() return vim.fn.has('nvim-0.5.0') == 1 end,
+      config = function() require('aceforeverd.plugins.bufferline') end
     }
 
     use { 'famiu/bufdelete.nvim' }

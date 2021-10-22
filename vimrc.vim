@@ -52,7 +52,10 @@ let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
 
 call plug#begin(s:common_pkg) "{{{
 
-if !has('nvim-0.6.0')
+if !has('nvim-0.5.0')
+   " vim or nvim <= 0.4.0 use airline & gitgutter
+   " nvim 0.5.0 or later use the combination of
+   "   feline.nvim, gitsigns and bufferline.nvim
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     let g:airline#extensions#tabline#enabled = 1
@@ -71,10 +74,13 @@ if !has('nvim-0.6.0')
     if has('nvim-0.4.0')
         let g:gitgutter_highlight_linenrs = 1
     endif
+endif
 
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'antoinemadec/coc-fzf'
-    Plug 'neoclide/coc-neco'
+if !has('nvim-0.6.0')
+   " nvim 0.6.0 or later use built-in lsp
+   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+   Plug 'antoinemadec/coc-fzf'
+   Plug 'neoclide/coc-neco'
 endif
 
 Plug 'chrisbra/unicode.vim'
@@ -162,12 +168,12 @@ if dein#load_state(s:dein_repo)
         call dein#add('Shougo/neosnippet-snippets')
         call dein#add('Shougo/neosnippet.vim')
         call dein#add('Shougo/denite.nvim')
+        call dein#add('Shougo/neoyank.vim')
     endif
 
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/neco-syntax')
     call dein#add('Shougo/neco-vim')
-    call dein#add('Shougo/neoyank.vim')
     call dein#add('Shougo/echodoc.vim')
 
     call dein#add('voldikss/vim-floaterm')
@@ -658,9 +664,6 @@ set completeopt-=preview
 set completeopt+=menuone
 set completeopt+=noselect
 set shortmess+=c
-
-" echodoc
-let g:echodoc#enable_at_startup = 1
 
 " Enable omni completion.
 augroup omni_complete

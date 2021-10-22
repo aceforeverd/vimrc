@@ -25,13 +25,25 @@ if vim.fn.has("mac") == 1 then
 elseif vim.fn.has("unix") == 1 then
   system_name = "Linux"
 elseif vim.fn.has('win32') == 1 then
-  system_name = "Windows"
+  print("Unsupported system for windows")
+  -- system_name = "Windows"
+  return
 else
-  print("Unsupported system for sumneko")
+  print("Unsupported system")
   return
 end
 
-local managed_ls = { 'clangd', 'vimls', 'rust_analyzer', 'bashls', 'cmake', 'sumneko_lua' }
+-- those languages are managed via nvim-lspconfig, while rust, jdtls are managed by specific tool
+local managed_ls = {
+  'clangd',
+  'vimls',
+  'bashls',
+  'cmake',
+  'sumneko_lua',
+  'lemminx',
+  'yamlls',
+  'jsonls'
+}
 
 local cmp = require('cmp')
 local lspkind = require('lspkind')
@@ -51,8 +63,11 @@ lsp_status.config {
   current_function = false,
   show_filename = false,
   status_symbol = '',
-  diagnostics = true,
+  diagnostics = true
 }
+lsp_status.register_progress()
+
+local default_map_opts = { noremap = true, silent = true }
 
 cmp.setup({
   snippet = {
@@ -80,66 +95,46 @@ cmp.setup({
     { name = 'buffer' },
     { name = 'path' },
     { name = 'nvim_lua' },
-    { name = 'look', keyword_length = 2, opts = { convert_case = true, loud = true } },
+    { name = 'look', keyword_length = 2, default_map_opts = { convert_case = true, loud = true } },
     { name = 'emoji' },
+    { name = 'treesitter' },
+    { name = 'tmux' }
   },
-  formatting = { format = lspkind.cmp_format({ with_text = true, maxwidth = 50, menu = {
-    nvim_lsp = "[LSP]",
-    vsnip = "[Vsnip]",
-    buffer = "[Buffer]",
-    path = "[Path]",
-    nvim_lua = "[Lua]",
-    look = "[Look]",
-    emoji = "[Emoji]",
-    luasnip = "[LuaSnip]",
-    latex_symbols = "[Latex]",
-  } }) }
+  formatting = {
+    format = lspkind.cmp_format({
+      with_text = true,
+      maxwidth = 50,
+      menu = {
+        nvim_lsp = "[LSP]",
+        vsnip = "[Vsnip]",
+        buffer = "[Buffer]",
+        path = "[Path]",
+        nvim_lua = "[Lua]",
+        look = "[Look]",
+        emoji = "[Emoji]",
+        treesitter = "[TreeSitter]",
+        tmux = "[Tmux]",
+        luasnip = "[LuaSnip]",
+        latex_symbols = "[Latex]"
+      }
+    })
+  }
 })
 
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+-- vsnip
+vim.api.nvim_set_keymap('i', '<c-j>', "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'", { expr = true })
+vim.api.nvim_set_keymap('s', '<c-j>', "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'", { expr = true })
 
-  -- Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap = true, silent = true }
-
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl',
-                 '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
-  -- lsp_signature.nvim
-  require('lsp_signature').on_attach()
-  -- vim-illuminate
-  require('illuminate').on_attach(client)
-
-  lsp_status.on_attach(client)
-end
+vim.api.nvim_set_keymap('n', 's', '<Plug>(vsnip-select-text)', default_map_opts)
+vim.api.nvim_set_keymap('x', 's', '<Plug>(vsnip-select-text)', default_map_opts)
+vim.api.nvim_set_keymap('n', 'S', '<Plug>(vsnip-cut-text)', default_map_opts)
+vim.api.nvim_set_keymap('x', 'S', '<Plug>(vsnip-cut-text)', default_map_opts)
 
 local lspconfig = require('lspconfig')
-lsp_status.register_progress()
--- Add additional capabilities supported by nvim-cmp
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
+local lsp_basic = require('aceforeverd.config.lsp-basic')
+local on_attach = lsp_basic.on_attach
+local capabilities = lsp_basic.capabilities
+
 
 lspconfig.clangd.setup {
   on_attach = function(client, bufnr)
@@ -210,6 +205,18 @@ lsp_installer.on_server_ready(function(server)
       on_attach = on_attach,
       capabilities = capabilities
     }
+  elseif server.name == 'lemminx' then
+    lspconfig.lemminx.setup {
+      cmd = { server.root_dir .. '/lemminx' },
+      on_attach = on_attach,
+      capabilities = capabilities
+    }
+  elseif server.name == 'yamlls' then
+    lspconfig.yamlls.setup {
+      cmd = { server.root_dir .. '/node_modules/yaml-language-server/bin/yaml-language-server', '--stdio' },
+      on_attach = on_attach,
+      capabilities = capabilities
+    }
   end
 end)
 
@@ -217,17 +224,3 @@ lspconfig.vimls.setup { on_attach = on_attach, capabilities = capabilities }
 
 lspconfig.bashls.setup { on_attach = on_attach, capabilities = capabilities }
 
-if vim.o.filetype == 'java' then
-  require('jdtls').start_or_attach {
-    -- The command that starts the language server
-    cmd = {
-      'java',
-      '-Dosgi.bundles.defaultStartLevel=4',
-    },
-    -- TODO: add more mappings from nvim-jdtls
-    on_attach = on_attach,
-    capabilities = capabilities,
-
-    root_dir = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'})
-  }
-end

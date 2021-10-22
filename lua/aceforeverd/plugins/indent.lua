@@ -7,5 +7,5 @@ require("indent_blankline").setup {
   space_char_blankline = " ",
   show_trailing_blankline_indent = false,
   buftype_exclude = { "terminal" },
-  filetype_exclude = { "startify", "coc-explorer", "NvimTree", "help", "git", "packer" },
+  filetype_exclude = { "startify", "coc-explorer", "NvimTree", "help", "git", "packer", 'lsp-installer' },
 }

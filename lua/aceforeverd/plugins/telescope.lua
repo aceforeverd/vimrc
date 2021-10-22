@@ -58,8 +58,6 @@ telescope.load_extension("frecency")
 
 telescope.load_extension("emoji")
 
-telescope.load_extension('coc')
-
 telescope.load_extension('repo')
 
 telescope.load_extension('neoclip')
