@@ -92,9 +92,9 @@ git clone "$DEIN_URL" "$DEIN_PATH" && \
 echo ""
 
 if [[ $TYPE = "neovim" ]]; then
-    echo -e "${GREEN}Installing packer.vim ...${NC}"
-    git clone "$PACKER_NVIM" "$ROOT/bundle/pack/packer/opt/packer.nvim" && \
-        echo -e "${GREEN}packer.nvim installed at $ROOT/bundle/pack/packer/opt/packer.nvim${NC}"
+    echo -e "${GREEN}Installing packer.nvim ...${NC}"
+    git clone "$PACKER_NVIM" "$ROOT/bundle/pack/packer/start/packer.nvim" && \
+        echo -e "${GREEN}packer.nvim installed at $ROOT/bundle/pack/packer/start/packer.nvim${NC}"
 fi
 
 echo -e "${GREEN}Plugin managers all setted${NC}"

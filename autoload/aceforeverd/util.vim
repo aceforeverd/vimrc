@@ -23,7 +23,7 @@ function! aceforeverd#util#install() abort
     echomsg "Dein plugins installed\n"
     execute 'PlugInstall --sync'
     echomsg "Vim-Plug plugins installed\n"
-    if g:my_cmp_source ==? 'coc'
+    if g:my_cmp_source ==? 'coc' && !has('nvim-0.6.0')
         " reload plugins so vim can find newly installed plugin like coc.nvim
         execute 'runtime! plugin/**/*.vim'
         execute 'CocUpdateSync'
@@ -41,7 +41,12 @@ function! aceforeverd#util#update() abort
     catch /.*/
     endtry
     execute 'PlugUpdate'
-    execute 'CocUpdate'
+    if g:my_cmp_source ==? 'coc' && !has('nvim-0.6.0')
+        execute 'CocUpdate'
+    endif
+    if has('nvim-0.5')
+        execute 'PackerSync'
+    endif
 endfunction
 
 function! aceforeverd#util#has_float() abort
