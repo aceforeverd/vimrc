@@ -110,34 +110,31 @@ return packer.startup({
       end
     }
 
+    use {
+      'folke/trouble.nvim',
+      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      config = function() require("trouble").setup {} end
+    }
+
     -- neovim builtin lsp status line component
     use { 'nvim-lua/lsp-status.nvim' }
 
     -- use fzf to display builtin LSP results
-    use { 'ojroques/nvim-lspfuzzy', config = function() require('lspfuzzy').setup {} end }
+    -- use { 'ojroques/nvim-lspfuzzy', config = function() require('lspfuzzy').setup {} end }
+    use { 'gfanto/fzf-lsp.nvim', config = function()
+      -- vim.lsp.handlers["textDocument/codeAction"] = require('fzf_lsp').code_action_handler
+      vim.lsp.handlers["textDocument/definition"] = require('fzf_lsp').definition_handler
+      vim.lsp.handlers["textDocument/declaration"] = require('fzf_lsp').declaration_handler
+      vim.lsp.handlers["textDocument/typeDefinition"] = require('fzf_lsp').type_definition_handler
+      vim.lsp.handlers["textDocument/implementation"] = require('fzf_lsp').implementation_handler
+      vim.lsp.handlers["textDocument/references"] = require('fzf_lsp').references_handler
+      -- vim.lsp.handlers["textDocument/documentSymbol"] = require('fzf_lsp').document_symbol_handler
+      -- vim.lsp.handlers["workspace/symbol"] = require('fzf_lsp').workspace_symbol_handler
+      -- vim.lsp.handlers["callHierarchy/incomingCalls"] = require('fzf_lsp').ingoing_calls_handler
+      -- vim.lsp.handlers["callHierarchy/outgoingCalls"] = require('fzf_lsp').outgoing_calls_handler
+    end }
 
     use { 'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }, ft = { 'scala', 'sbt' } }
-
-    -- get workspace diagnostics
-    -- use {
-    --   'onsails/diaglist.nvim',
-    --   cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
-    --   config = function()
-    --     require("diaglist").init({
-    --       debounce_ms = 50,
-
-    --       -- list in quickfix only diagnostics from clients attached to a current buffer
-    --       -- if false, all buffers' clients diagnostics is collected
-    --       buf_clients_only = true
-    --     })
-    --     vim.api.nvim_set_keymap('n', '<space>dw',
-    --                             '<cmd>lua require("diaglist").open_all_diagnostics()<cr>',
-    --                             { noremap = true, silent = true })
-    --     vim.api.nvim_set_keymap('n', '<space>dd',
-    --                             '<cmd>lua require("diaglist").open_buffer_diagnostics()<cr>',
-    --                             { noremap = true, silent = true })
-    --   end
-    -- }
 
     use {
       'jose-elias-alvarez/null-ls.nvim',
@@ -192,6 +189,11 @@ return packer.startup({
     use { 'rafcamlet/nvim-luapad', ft = { 'lua' } }
 
     use { 'folke/lua-dev.nvim', ft = { 'lua' } }
+
+    -- use "b0o/schemastore.nvim"
+
+    -- automatically create Lsp diagnostic highlight group is the colorshceme not defined it
+    use { 'folke/lsp-colors.nvim', config = function() require('lsp-colors').setup {} end }
 
     use {
       'nvim-telescope/telescope.nvim',

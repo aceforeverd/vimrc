@@ -30,4 +30,5 @@ vim.api.nvim_exec([[
 --     call coc#config('Lua.workspace.library', {$VIMRUNTIME . '/lua': v:true, $VIMRUNTIME . '/lua/vim': v:true, $VIMRUNTIME . '/lua/vim/lsp': v:true})
 --     call coc#config('Lua.diagnostics.globals', ['vim'])
 -- ]], false)
+-- require('aceforeverd.plugins.colors')
 

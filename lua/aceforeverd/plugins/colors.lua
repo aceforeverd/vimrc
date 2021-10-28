@@ -12,6 +12,8 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-- hackable colorscheme for nvim 0.6.0 or later
 local catppuccino = require("catppuccino")
 local catppuccino_scheme = require('catppuccino.color_schemes.dark_catppuccino')
 catppuccino_scheme.diff = {
@@ -68,12 +70,13 @@ catppuccino.setup({
 }, catppuccino_scheme)
 
 if vim.fn.has('nvim-0.6.0') == 1 then
-  catppuccino.load()
-  vim.api.nvim_exec(
-    [[
-    highlight Conceal ctermfg=Grey guifg=#565656
-    augroup catppuccino_coc
-        autocmd!
-        autocmd ColorScheme * highlight Conceal ctermfg=Grey guifg=#565656
-    augroup END]], false)
+  -- catppuccino.load()
+  -- vim.api.nvim_exec(
+  --   [[
+  --   highlight Conceal ctermfg=Grey guifg=#565656
+  --   augroup catppuccino_coc
+  --       autocmd!
+  --       autocmd ColorScheme * highlight Conceal ctermfg=Grey guifg=#565656
+  --   augroup END]], false)
+  require('github-theme').setup {}
 end

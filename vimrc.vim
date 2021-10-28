@@ -83,8 +83,6 @@ if !has('nvim-0.6.0')
    Plug 'neoclide/coc-neco'
 endif
 
-Plug 'chrisbra/unicode.vim'
-
 Plug 'pechorin/any-jump.vim'
 Plug 'wincent/ferret'
 let g:FerretMap = 0
@@ -92,35 +90,11 @@ let g:FerretMap = 0
 Plug 'google/vim-maktaba'
 " Plug 'google/vim-coverage'
 Plug 'bazelbuild/vim-bazel'
-Plug 'mg979/vim-visual-multi'
 
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
 let g:doge_enable_mappings = 0
 
 Plug 'mg979/docgen.vim'
-
-Plug 'sheerun/vim-polyglot'
-let g:polyglot_disabled = ['sensible', 'go', 'autoindent']
-let g:vim_json_syntax_conceal = 1
-
-Plug 'sainnhe/sonokai'
-
-if has('nvim')
-    let g:sonokai_enable_italic = 1
-    if has('nvim-0.6.0')
-        let g:sonokai_style = 'shusia'
-    else
-        let g:sonokai_style = 'espresso'
-    endif
-else
-    " italic in vim looks wired
-    let g:sonokai_disable_italic_comment = 1
-    let g:sonokai_style = 'andromeda'
-endif
-
-let g:sonokai_better_performance = 1
-let g:sonokai_diagnostic_text_highlight = 1
-let g:sonokai_diagnostic_virtual_text = 'colored'
 
 if g:my_cmp_source ==? 'deoplete'
     Plug 'autozimu/LanguageClient-neovim', {
@@ -135,8 +109,9 @@ call plug#end() "}}}
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
 
-" let $NVIM_NODE_LOG_FILE = '/tmp/nvim-node.log'
-" let $NVIM_NODE_LOG_LEVEL = 'info'
+" polyglot
+let g:polyglot_disabled = ['sensible', 'go', 'autoindent']
+let g:vim_json_syntax_conceal = 1
 
 if dein#load_state(s:dein_repo)
     call dein#begin(s:dein_repo)
@@ -208,6 +183,8 @@ if dein#load_state(s:dein_repo)
     call dein#add('hrsh7th/vim-vsnip-integ')
 
     " interface
+    call dein#add('sheerun/vim-polyglot', {'merged': 0})
+    call dein#add('chrisbra/unicode.vim', {'merged': 0})
     call dein#add('preservim/tagbar')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('mhinz/vim-startify')
@@ -215,6 +192,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
     call dein#add('wfxr/minimap.vim')
+    call dein#add('sainnhe/sonokai', {'merged': 0})
     call dein#add('rafi/awesome-vim-colorschemes', {'merged': 0})
 
     call dein#add('embear/vim-localvimrc')
@@ -230,6 +208,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('dstein64/vim-startuptime')
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('AndrewRadev/bufferize.vim')
+    call dein#add('mg979/vim-visual-multi')
 
     call dein#add('alpertuna/vim-header')
     call dein#add('antoyo/vim-licenses')
@@ -282,7 +261,7 @@ if dein#load_state(s:dein_repo)
     " Go
     call dein#add('fatih/vim-go')
     " c/c++/objc
-    call dein#add('puremourning/vimspector')
+    call dein#add('puremourning/vimspector', {'on_if': 'has("python3")'})
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
 
@@ -626,28 +605,6 @@ let g:startify_fortune_use_unicode = 1
 let g:startify_session_sort = 1
 let g:startify_relative_path = 1
 
-set background=dark
-
-if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color' || has('gui_running')
-    "Credit joshdick
-    "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-    "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-    "(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
-    " if empty($TMUX)
-        if has('nvim')
-            "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-            let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
-        endif
-        "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-        "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-        "< https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-        if has('termguicolors') && (has('nvim') || empty($TMUX))
-            set termguicolors
-        endif
-    " endif
-    colorscheme sonokai
-endif
-
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh', 'vim', 'help']
 " markdown-preview
@@ -762,14 +719,19 @@ let g:tcomment_maps = 0
 " vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
 
+call aceforeverd#settings#basic_color()
+" setup sonokai
+call aceforeverd#settings#sonokai()
+colorscheme sonokai
+
 if has('nvim-0.5')
     lua require('aceforeverd')
 endif
 
-" init completion source
 if !has('nvim-0.6.0')
-" for nvim 0.6.0 or later, use neovim built-in lsp
-call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
+
+   " for nvim 0.6.0 or later, use neovim built-in lsp
+   call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
 endif
 
 let s:after_vimrc = s:home . '/after.vim'

@@ -25,17 +25,17 @@ require('nvim-tree').setup {
   auto_close = false,
   open_on_tab = false,
   hijack_cursor = false,
-  update_cwd = false,
+  update_cwd = true,
   diagnostics = {
     enable = true,
     icons = { hint = "", info = "", warning = "", error = "" }
   },
-  update_focused_file = { enable = true, update_cwd = false, ignore_list = {} },
+  update_focused_file = { enable = true, update_cwd = true, ignore_list = {} },
   system_open = { cmd = nil, args = {} },
   view = {
     width = '20%',
     side = 'left',
-    auto_resize = false,
+    auto_resize = true,
     mappings = { custom_only = false, list = {} }
   }
 }

@@ -72,7 +72,6 @@ local default_map_opts = { noremap = true, silent = true }
 cmp.setup({
   snippet = {
     expand = function(args)
-      -- For `vsnip` user.
       vim.fn["vsnip#anonymous"](args.body)
     end
   },
