@@ -57,6 +57,9 @@ return packer.startup({
         'hrsh7th/cmp-emoji',
         'octaltree/cmp-look',
         'ray-x/cmp-treesitter',
+        'hrsh7th/cmp-cmdline',
+        'hrsh7th/cmp-nvim-lsp-document-symbol',
+        'f3fora/cmp-spell',
         { 'andersevenrud/compe-tmux', branch = 'cmp' }
       },
       config = function() require('aceforeverd.plugins.lsp') end
@@ -138,7 +141,10 @@ return packer.startup({
 
     use {
       'jose-elias-alvarez/null-ls.nvim',
-      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end
+      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      config = function ()
+        require('aceforeverd.plugins.null-ls')
+      end
     }
 
     use { 'mfussenegger/nvim-lint' }
@@ -190,7 +196,7 @@ return packer.startup({
 
     use { 'folke/lua-dev.nvim', ft = { 'lua' } }
 
-    -- use "b0o/schemastore.nvim"
+    use { "b0o/schemastore.nvim" }
 
     -- automatically create Lsp diagnostic highlight group is the colorshceme not defined it
     use { 'folke/lsp-colors.nvim', config = function() require('lsp-colors').setup {} end }
@@ -428,6 +434,10 @@ return packer.startup({
     }
 
     use { 'famiu/bufdelete.nvim' }
+
+    use { 'chentau/marks.nvim', config = function() require('marks').setup { default_mappings = true } end }
+
+    use { 'simrat39/symbols-outline.nvim' }
 
   end
 })

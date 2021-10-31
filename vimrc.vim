@@ -78,7 +78,7 @@ endif
 
 if !has('nvim-0.6.0')
    " nvim 0.6.0 or later use built-in lsp
-   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+   Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
    Plug 'antoinemadec/coc-fzf'
    Plug 'neoclide/coc-neco'
 endif

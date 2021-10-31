@@ -70,11 +70,7 @@ lsp_status.register_progress()
 local default_map_opts = { noremap = true, silent = true }
 
 cmp.setup({
-  snippet = {
-    expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
-    end
-  },
+  snippet = { expand = function(args) vim.fn["vsnip#anonymous"](args.body) end },
   mapping = {
     ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
     ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -97,7 +93,9 @@ cmp.setup({
     { name = 'look', keyword_length = 2, default_map_opts = { convert_case = true, loud = true } },
     { name = 'emoji' },
     { name = 'treesitter' },
-    { name = 'tmux' }
+    { name = 'tmux' },
+    { name = 'spell' },
+    { name = 'cmdline' }
   },
   formatting = {
     format = lspkind.cmp_format({
@@ -114,15 +112,29 @@ cmp.setup({
         treesitter = "[TreeSitter]",
         tmux = "[Tmux]",
         luasnip = "[LuaSnip]",
-        latex_symbols = "[Latex]"
+        latex_symbols = "[Latex]",
+        spell = '[Spell]',
+        cmdline = '[Cmdline]',
+        nvim_lsp_document_symbol = '[DocumentSymbol]'
       }
     })
   }
 })
 
+cmp.setup.cmdline('/', {
+  sources = cmp.config.sources({ { name = 'nvim_lsp_document_symbol' } }, { { name = 'buffer' } })
+})
+cmp.setup.cmdline('?', {
+  sources = cmp.config.sources({ { name = 'nvim_lsp_document_symbol' } }, { { name = 'buffer' } })
+})
+
 -- vsnip
-vim.api.nvim_set_keymap('i', '<c-j>', "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'", { expr = true })
-vim.api.nvim_set_keymap('s', '<c-j>', "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'", { expr = true })
+vim.api.nvim_set_keymap('i', '<c-j>',
+                        "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'",
+                        { expr = true })
+vim.api.nvim_set_keymap('s', '<c-j>',
+                        "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'",
+                        { expr = true })
 
 vim.api.nvim_set_keymap('n', 's', '<Plug>(vsnip-select-text)', default_map_opts)
 vim.api.nvim_set_keymap('x', 's', '<Plug>(vsnip-select-text)', default_map_opts)
@@ -133,7 +145,6 @@ local lspconfig = require('lspconfig')
 local lsp_basic = require('aceforeverd.config.lsp-basic')
 local on_attach = lsp_basic.on_attach
 local capabilities = lsp_basic.capabilities
-
 
 lspconfig.clangd.setup {
   on_attach = function(client, bufnr)
@@ -212,7 +223,24 @@ lsp_installer.on_server_ready(function(server)
     }
   elseif server.name == 'yamlls' then
     lspconfig.yamlls.setup {
-      cmd = { server.root_dir .. '/node_modules/yaml-language-server/bin/yaml-language-server', '--stdio' },
+      cmd = {
+        server.root_dir .. '/node_modules/yaml-language-server/bin/yaml-language-server',
+        '--stdio'
+      },
+      on_attach = on_attach,
+      capabilities = capabilities
+    }
+  -- elseif server.name == 'diagnosticls' then
+  --   lspconfig.diagnosticls.setup {
+  --     cmd = { server.root_dir .. '/node_modules/diagnostic-languageserver/bin/index.js', '--stdio' },
+  --     filetypes = { 'cpp', 'sh', 'vim' },
+  --     init_options = {
+  --       languageserver = { }
+  --     }
+  --   }
+  elseif server.name == 'bashls' then
+    lspconfig.bashls.setup {
+      cmd = { server.root_dir .. '/node_modules/bash-language-server/bin/main.js', 'start' },
       on_attach = on_attach,
       capabilities = capabilities
     }
@@ -220,6 +248,4 @@ lsp_installer.on_server_ready(function(server)
 end)
 
 lspconfig.vimls.setup { on_attach = on_attach, capabilities = capabilities }
-
-lspconfig.bashls.setup { on_attach = on_attach, capabilities = capabilities }
 
