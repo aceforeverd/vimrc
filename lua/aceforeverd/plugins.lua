@@ -42,9 +42,25 @@ return packer.startup({
   function(use)
     use { 'wbthomason/packer.nvim' }
 
-    use { 'neovim/nvim-lspconfig' }
+    use {
+      'neovim/nvim-lspconfig',
+      requires = {
+        -- neovim builtin lsp status line component
+        'nvim-lua/lsp-status.nvim',
+        -- LSP signature hint as you type
+        'ray-x/lsp_signature.nvim'
+      },
+      config = function() require('aceforeverd.plugins.lsp') end
+    }
 
-    use { 'williamboman/nvim-lsp-installer' }
+    use {
+      'williamboman/nvim-lsp-installer',
+      requires = { 'neovim/nvim-lspconfig' },
+      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      -- for thoese lsp servers installed here
+      -- should setup here as well
+      config = function() require('aceforeverd.plugins.lsp-installer') end
+    }
 
     use {
       'hrsh7th/nvim-cmp',
@@ -60,17 +76,18 @@ return packer.startup({
         'hrsh7th/cmp-cmdline',
         'hrsh7th/cmp-nvim-lsp-document-symbol',
         'f3fora/cmp-spell',
-        { 'andersevenrud/compe-tmux', branch = 'cmp' }
+        { 'andersevenrud/compe-tmux', branch = 'cmp' },
+        'quangnguyen30192/cmp-nvim-tags',
+
+        'onsails/lspkind-nvim'
       },
-      config = function() require('aceforeverd.plugins.lsp') end
+      config = function() require('aceforeverd.plugins.nvim-cmp') end
     }
 
     use {
       'onsails/lspkind-nvim',
       config = function() require('lspkind').init { with_text = true } end
     }
-
-    use { 'ray-x/lsp_signature.nvim', cond = function() return vim.fn.has('nvim-0.6.0') == 1 end }
 
     use {
       'kosayoda/nvim-lightbulb',
@@ -119,35 +136,32 @@ return packer.startup({
       config = function() require("trouble").setup {} end
     }
 
-    -- neovim builtin lsp status line component
-    use { 'nvim-lua/lsp-status.nvim' }
-
     -- use fzf to display builtin LSP results
     -- use { 'ojroques/nvim-lspfuzzy', config = function() require('lspfuzzy').setup {} end }
-    use { 'gfanto/fzf-lsp.nvim', config = function()
-      -- vim.lsp.handlers["textDocument/codeAction"] = require('fzf_lsp').code_action_handler
-      vim.lsp.handlers["textDocument/definition"] = require('fzf_lsp').definition_handler
-      vim.lsp.handlers["textDocument/declaration"] = require('fzf_lsp').declaration_handler
-      vim.lsp.handlers["textDocument/typeDefinition"] = require('fzf_lsp').type_definition_handler
-      vim.lsp.handlers["textDocument/implementation"] = require('fzf_lsp').implementation_handler
-      vim.lsp.handlers["textDocument/references"] = require('fzf_lsp').references_handler
-      -- vim.lsp.handlers["textDocument/documentSymbol"] = require('fzf_lsp').document_symbol_handler
-      -- vim.lsp.handlers["workspace/symbol"] = require('fzf_lsp').workspace_symbol_handler
-      -- vim.lsp.handlers["callHierarchy/incomingCalls"] = require('fzf_lsp').ingoing_calls_handler
-      -- vim.lsp.handlers["callHierarchy/outgoingCalls"] = require('fzf_lsp').outgoing_calls_handler
-    end }
+    use {
+      'gfanto/fzf-lsp.nvim',
+      config = function()
+        -- vim.lsp.handlers["textDocument/codeAction"] = require('fzf_lsp').code_action_handler
+        vim.lsp.handlers["textDocument/definition"] = require('fzf_lsp').definition_handler
+        vim.lsp.handlers["textDocument/declaration"] = require('fzf_lsp').declaration_handler
+        vim.lsp.handlers["textDocument/typeDefinition"] = require('fzf_lsp').type_definition_handler
+        vim.lsp.handlers["textDocument/implementation"] = require('fzf_lsp').implementation_handler
+        vim.lsp.handlers["textDocument/references"] = require('fzf_lsp').references_handler
+        -- vim.lsp.handlers["textDocument/documentSymbol"] = require('fzf_lsp').document_symbol_handler
+        -- vim.lsp.handlers["workspace/symbol"] = require('fzf_lsp').workspace_symbol_handler
+        -- vim.lsp.handlers["callHierarchy/incomingCalls"] = require('fzf_lsp').ingoing_calls_handler
+        -- vim.lsp.handlers["callHierarchy/outgoingCalls"] = require('fzf_lsp').outgoing_calls_handler
+      end
+    }
 
     use { 'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }, ft = { 'scala', 'sbt' } }
 
     use {
       'jose-elias-alvarez/null-ls.nvim',
+      requires = { 'neovim/nvim-lspconfig' },
       cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
-      config = function ()
-        require('aceforeverd.plugins.null-ls')
-      end
+      config = function() require('aceforeverd.plugins.null-ls') end
     }
-
-    use { 'mfussenegger/nvim-lint' }
 
     use {
       'norcalli/nvim-colorizer.lua',
@@ -204,14 +218,17 @@ return packer.startup({
     use {
       'nvim-telescope/telescope.nvim',
       config = function() require('aceforeverd.plugins.telescope') end,
-      requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } }
+      requires = {
+        'nvim-lua/popup.nvim',
+        'nvim-lua/plenary.nvim',
+        'nvim-telescope/telescope-symbols.nvim',
+        'nvim-telescope/telescope-packer.nvim',
+        'nvim-telescope/telescope-project.nvim',
+        'cljoly/telescope-repo.nvim'
+      }
     }
 
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-
-    use { 'nvim-telescope/telescope-packer.nvim', requires = { 'nvim-telescope/telescope.nvim' } }
-
-    use { 'nvim-telescope/telescope-project.nvim', requires = { 'nvim-telescope/telescope.nvim' } }
 
     use {
       "nvim-telescope/telescope-frecency.nvim",
@@ -221,8 +238,6 @@ return packer.startup({
         'kyazdani42/nvim-web-devicons'
       }
     }
-
-    use { 'xiyaowong/telescope-emoji.nvim', requires = { 'nvim-telescope/telescope.nvim' } }
 
     use {
       'ahmedkhalf/project.nvim',
@@ -248,8 +263,6 @@ return packer.startup({
         { 'nvim-lua/plenary.nvim' }
       }
     }
-
-    use { 'cljoly/telescope-repo.nvim', requires = { 'nvim-telescope/telescope.nvim' } }
 
     use {
       'fannheyward/telescope-coc.nvim',
@@ -288,6 +301,7 @@ return packer.startup({
     use {
       'vuki656/package-info.nvim',
       requires = { "MunifTanjim/nui.nvim" },
+      ft = { 'json' },
       config = function()
         require('package-info').setup {
           colors = {
@@ -309,9 +323,10 @@ return packer.startup({
     use { 'kevinhwang91/nvim-bqf' }
 
     use {
-      'winston0410/range-highlight.nvim',
-      requires = { 'winston0410/cmd-parser.nvim' },
-      config = function() require'range-highlight'.setup {} end
+      'nacro90/numb.nvim',
+      config = function()
+        require('numb').setup { show_numbers = true, show_cursorline = true, number_only = false }
+      end
     }
 
     use {
@@ -435,9 +450,25 @@ return packer.startup({
 
     use { 'famiu/bufdelete.nvim' }
 
-    use { 'chentau/marks.nvim', config = function() require('marks').setup { default_mappings = true } end }
+    use {
+      'chentau/marks.nvim',
+      config = function() require('marks').setup { default_mappings = true } end
+    }
 
     use { 'simrat39/symbols-outline.nvim' }
+
+    use {
+      'ibhagwan/fzf-lua',
+      requires = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' }
+    }
+
+    use {
+      "ThePrimeagen/refactoring.nvim",
+      requires = {
+        {"nvim-lua/plenary.nvim"},
+        {"nvim-treesitter/nvim-treesitter"}
+      }
+    }
 
   end
 })

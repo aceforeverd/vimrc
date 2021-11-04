@@ -71,7 +71,6 @@
   "diagnostic-languageserver.filetypes": {
     "vim": "vint",
     "sh": "shellcheck",
-    "markdown": ["write-good"],
     "cpp": ["cpplint"],
     "dockerfile": ["hadolint"],
     "python": ["mypy", "pylint"],
@@ -86,7 +85,6 @@
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt"
   },
-  "clangd.semanticHighlighting": true,
   "clangd.arguments": [
     "--background-index",
     "--clang-tidy",

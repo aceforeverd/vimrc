@@ -36,33 +36,21 @@ telescope.setup {
       case_mode = "smart_case" -- or "ignore_case" or "respect_case"
       -- the default case_mode is "smart_case"
     },
-    project = {
-      base_dirs = {
-        '~/Git'
-      },
-      hidden_files = true
-    }
+    project = { base_dirs = { '~/Git' }, hidden_files = true }
   }
 }
 
 telescope.load_extension('fzf')
 
--- telescope-project
--- telescope.load_extension('project')
-
--- -- project.nvim
-telescope.load_extension('projects')
-
 -- telescope-frecency
 telescope.load_extension("frecency")
-
-telescope.load_extension("emoji")
 
 local set_map = vim.api.nvim_set_keymap
 
 set_map('n', '<Leader>fl', '<Cmd>Telescope<CR>', { noremap = true, silent = false })
 
-set_map('n', '<leader>fo', '<cmd>lua require("telescope").extensions.repo.list{}<cr>', { noremap = true, silent = true })
+set_map('n', '<leader>fo', '<cmd>lua require("telescope").extensions.repo.list{}<cr>',
+        { noremap = true, silent = true })
 
 set_map("n", "<leader>fr", "<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>",
         { noremap = true, silent = true })
@@ -73,6 +61,8 @@ set_map('n', '<Leader>fp', "<Cmd>lua require('telescope').extensions.packer.plug
         { noremap = true, silent = true })
 
 set_map('n', '<Leader>fj', "<Cmd>lua require'telescope'.extensions.project.project{}<CR>",
+        { noremap = true, silent = true })
+set_map('n', '<Leader>fs', "<Cmd>lua require'telescope'.extensions.projects.projects{}<CR>",
         { noremap = true, silent = true })
 
 set_map('n', '<Leader>fb', "<cmd>lua require('telescope.builtin').buffers()<cr>",

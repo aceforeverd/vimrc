@@ -34,7 +34,11 @@ if filereadable(s:before_vimrc)
 endif
 
 if !exists('g:my_cmp_source')
-    let g:my_cmp_source = 'coc'
+   if has('nvim-0.6.0')
+      let g:my_cmp_source = 'nvim_lsp'
+   else
+      let g:my_cmp_source = 'coc'
+   endif
 endif
 
 if !exists('g:my_name')
@@ -83,13 +87,11 @@ if !has('nvim-0.6.0')
    Plug 'neoclide/coc-neco'
 endif
 
-Plug 'pechorin/any-jump.vim'
 Plug 'wincent/ferret'
 let g:FerretMap = 0
 
 Plug 'google/vim-maktaba'
 " Plug 'google/vim-coverage'
-Plug 'bazelbuild/vim-bazel'
 
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
 let g:doge_enable_mappings = 0

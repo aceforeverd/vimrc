@@ -38,11 +38,19 @@ function OsIcon()
   end
 end
 
+local gitsigns_has_diff = function()
+  local dict = vim.b.gitsigns_status_dict
+  if dict == nil then
+    return false
+  end
+  return dict ~= nil or dict.changed ~= nil or dict.removed ~= nil
+end
+
 local feline_config = {
   components = {
     active = {
       { -- left
-        -- { provider = '▊ ', hl = { fg = bit_red } },
+        { provider = '▊ ', hl = { fg = bit_red } },
         {
           provider = 'vi_mode',
           hl = function()
@@ -57,12 +65,6 @@ local feline_config = {
           right_sep = ' '
         },
         {
-          provider = 'file_info',
-          hl = { fg = 'black', bg = bit_green, style = 'bold' },
-          left_sep = { 'block', { str = ' ', hl = { bg = bit_green, fg = 'NONE' } } },
-          right_sep = { 'block' }
-        },
-        {
           provider = 'git_branch',
           hl = { fg = 'black', bg = bit_blue, style = 'bold' },
           enabled = function() return b.gitsigns_status_dict ~= nil end,
@@ -71,19 +73,11 @@ local feline_config = {
         },
         { provider = 'git_diff_added', hl = { fg = 'green', bg = 'black' } },
         { provider = 'git_diff_changed', hl = { fg = 'orange', bg = 'black' } },
+        { provider = 'git_diff_removed', hl = { fg = 'red', bg = 'black' } },
         {
-          provider = 'git_diff_removed',
-          hl = { fg = 'red', bg = 'black' },
-          right_sep = function()
-            local val = { hl = { fg = 'NONE', bg = 'black' } }
-            if b.gitsigns_status_dict then
-              val.str = ' '
-            else
-              val.str = ''
-            end
-
-            return val
-          end
+          provider = '  ',
+          hl = { fg = 'white', bg = 'black' },
+          enabled = gitsigns_has_diff
         },
         {
           provider = 'diagnostic_errors',
@@ -106,15 +100,16 @@ local feline_config = {
           enabled = function() return lsp.diagnostics_exist('Information') end,
           hl = { fg = 'skyblue' }
         },
-        { provider = ' ● ', hl = { fg = 'yellow' } },
         {
           -- for neovim 0.6.0 or later, use built-in lsp, otherwise coc
           provider = function() return vim.api.nvim_eval('coc#status()') end,
-          enabled = function() return vim.fn.has('nvim-0.6.0') == 0 end
+          enabled = function() return vim.fn.has('nvim-0.6.0') == 0 end,
+          left_sep = { ' ', { str = 'right_rounded_thin', hl = { fg = 'green', bg = 'black' } } }
         },
         {
           provider = function() return require('lsp-status').status() end,
           enabled = function() return #vim.lsp.buf_get_clients() > 0 end,
+          left_sep = { ' ', { str = 'right_rounded_thin', hl = { fg = 'green', bg = 'black' } } }
         }
       },
       {}, -- mid
