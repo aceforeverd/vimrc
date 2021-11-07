@@ -14,17 +14,18 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -- sonokai link 'LspReferenceText', 'LspReferenceRead', 'LspReferenceWrite' default to 'CurrentWord'
+-- for lsp enabled buffer, 'Lspreference*' groups are used
+-- otherwise, 'illuminate*' groups are used
 vim.api.nvim_exec([[
 augroup illuminate_augroup
 autocmd!
-autocmd VimEnter * highlight illuminatedWord cterm=underline guibg=#5e5e61 gui=underline
-autocmd VimEnter * highlight illuminatedCurWord cterm=bold,underline guibg=#5e5e61 gui=bold,underline
+autocmd VimEnter * highlight illuminatedWord cterm=underline guibg=#5e5e5e gui=underline
+autocmd VimEnter * highlight illuminatedCurWord cterm=bold,underline guibg=#5e5e8f gui=bold,underline
 
-autocmd VimEnter * highlight LspReferenceText cterm=bold gui=bold guibg=#5e5e66
-autocmd VimEnter * highlight LspReferenceRead cterm=bold gui=bold guibg=#5e5e69
-autocmd VimEnter * highlight LspReferenceWrite cterm=bold gui=bold guibg=#5e5e6f
-augroup END
-]], false)
+autocmd VimEnter * highlight LspReferenceText guibg=#5e5e5f
+autocmd VimEnter * highlight LspReferenceRead cterm=underline gui=underline guibg=#5e5e6f
+autocmd VimEnter * highlight LspReferenceWrite cterm=bold gui=bold guibg=#5e5e9f
+augroup END]], false)
 
 vim.g.Illuminate_delay = vim.o.updatetime
 
