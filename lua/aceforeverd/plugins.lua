@@ -464,10 +464,15 @@ return packer.startup({
 
     use {
       "ThePrimeagen/refactoring.nvim",
-      requires = {
-        {"nvim-lua/plenary.nvim"},
-        {"nvim-treesitter/nvim-treesitter"}
-      }
+      requires = { { "nvim-lua/plenary.nvim" }, { "nvim-treesitter/nvim-treesitter" } }
+    }
+
+    use {
+      's1n7ax/nvim-comment-frame',
+      requires = { { 'nvim-treesitter' } },
+      config = function()
+        require('nvim-comment-frame').setup { keymap = '<leader>cc', multiline_keymap = '<leader>cm' }
+      end
     }
 
   end

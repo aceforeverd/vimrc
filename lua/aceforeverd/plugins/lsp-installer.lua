@@ -26,30 +26,19 @@ else
   print("Unsupported system")
   return
 end
--- those languages are managed via nvim-installer through nvim-lsp-installer
-local managed_ls = {
-  'bashls',
-  'cmake',
-  'sumneko_lua',
-  'lemminx',
-  'yamlls',
-  'jsonls'
-}
--- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')
-local lsp_installer = require("nvim-lsp-installer")
-lsp_installer.on_server_ready(function(server)
-  -- local opts = {}
-  local atch = require('aceforeverd.config.lsp-basic').on_attach
-  local caps = require('aceforeverd.config.lsp-basic').capabilities
-  if server.name == 'sumneko_lua' then
+
+local on_attach = require('aceforeverd.config.lsp-basic').on_attach
+local capabilities = require('aceforeverd.config.lsp-basic').capabilities
+
+local setup_sumeko_lua = function(server)
     local sumneko_root_path = server.root_dir .. '/extension/server'
     local sumneko_binary = sumneko_root_path .. "/bin/" .. system_name .. "/lua-language-server"
     local runtime_path = vim.split(package.path, ';')
     table.insert(runtime_path, "lua/?.lua")
     table.insert(runtime_path, "lua/?/init.lua")
     server:setup {
-      on_attach = atch,
-      capabilities = caps,
+      on_attach = on_attach,
+      capabilities = capabilities,
       cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
       settings = {
         Lua = {
@@ -73,40 +62,67 @@ lsp_installer.on_server_ready(function(server)
         }
       }
     }
-  elseif server.name == 'rust_analyzer' then
-    require('rust-tools').setup {
-      server = {
-        cmd = { server.root_dir .. '/rust-analyzer' },
-        on_attach = atch,
-        capabilities = caps
-      }
+end
+
+local setup_rust = function (server)
+  require('rust-tools').setup {
+    server = {
+      cmd = { server.root_dir .. '/rust-analyzer' },
+      on_attach = on_attach,
+      capabilities = capabilities
     }
-  elseif server.name == 'cmake' then
+  }
+end
+
+local setup_cmake = function(server)
     server:setup {
       cmd = { server.root_dir .. '/venv/bin/cmake-language-server' },
-      on_attach = atch,
-      capabilities = caps
+      on_attach = on_attach,
+      capabilities = capabilities
     }
-  elseif server.name == 'lemminx' then
-    server:setup {
-      cmd = { server.root_dir .. '/lemminx' },
-      on_attach = atch,
-      capabilities = caps
-    }
-  elseif server.name == 'yamlls' then
+end
+
+local setup_yaml = function(server)
     server:setup {
       cmd = {
         server.root_dir .. '/node_modules/yaml-language-server/bin/yaml-language-server',
         '--stdio'
       },
-      on_attach = atch,
-      capabilities = caps
+      on_attach = on_attach,
+      capabilities = capabilities
     }
-  elseif server.name == 'bashls' then
+end
+
+local setup_lemminux = function(server)
+    server:setup {
+      cmd = { server.root_dir .. '/lemminx' },
+      on_attach = on_attach,
+      capabilities = capabilities
+    }
+end
+
+local setup_bash = function(server)
     server:setup {
       cmd = { server.root_dir .. '/node_modules/bash-language-server/bin/main.js', 'start' },
-      on_attach = atch,
-      capabilities = caps
+      on_attach = on_attach,
+      capabilities = capabilities
     }
+end
+
+local setup_lsp_configs = {
+  sumneko_lua = setup_sumeko_lua,
+  rust_analyzer = setup_rust,
+  cmake = setup_cmake,
+  yamlls = setup_yaml,
+  lemminx = setup_lemminux,
+  bashls = setup_bash
+}
+
+-- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')
+local lsp_installer = require("nvim-lsp-installer")
+lsp_installer.on_server_ready(function(server)
+  local setup_func = setup_lsp_configs[server.name]
+  if setup_func ~= nil then
+    setup_func(server)
   end
 end)

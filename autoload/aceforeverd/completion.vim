@@ -333,10 +333,12 @@ function! aceforeverd#completion#init_source_coc() abort
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup end
 
-    highlight CocHighlightText guibg=#5e5e61 gui=undercurl
+    nnoremap <leader>k <cmd>call CocActionAsync('highlight')<cr>
+
+    highlight CocHighlightText cterm=bold cterm=bold guibg=#5e5e61 gui=bold,undercurl
     augroup coc_custom_highlight
         autocmd!
-        autocmd ColorScheme * highlight CocHighlightText guibg=#5e5e61 gui=undercurl
+        autocmd ColorScheme * highlight CocHighlightText cterm=bold guibg=#5e5e61 gui=bold,undercurl
     augroup END
 
     " Use `:Format` to format current buffer

@@ -41,16 +41,16 @@ cmp.setup({
   sources = {
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
+    { name = 'nvim_lua' },
+    { name = 'tag' },
     { name = 'buffer' },
     { name = 'path' },
-    { name = 'nvim_lua' },
-    { name = 'look', keyword_length = 2, default_map_opts = { convert_case = true, loud = true } },
-    { name = 'emoji' },
     { name = 'treesitter' },
+    { name = 'emoji' },
     { name = 'calc' },
-    { name = 'tmux', keyword_length = 3 },
     { name = 'spell' },
-    { name = 'tag' },
+    { name = 'tmux', keyword_length = 3, max_item_count = 5 },
+    { name = 'look', keyword_length = 2, default_map_opts = { convert_case = true, loud = true } },
     { name = 'cmdline' }
   },
   formatting = {
