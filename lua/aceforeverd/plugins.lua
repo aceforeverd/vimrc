@@ -48,7 +48,9 @@ return packer.startup({
         -- neovim builtin lsp status line component
         'nvim-lua/lsp-status.nvim',
         -- LSP signature hint as you type
-        'ray-x/lsp_signature.nvim'
+        'ray-x/lsp_signature.nvim',
+
+        'RRethy/vim-illuminate'
       },
       config = function() require('aceforeverd.plugins.lsp') end
     }
@@ -71,6 +73,7 @@ return packer.startup({
         'hrsh7th/cmp-nvim-lua',
         'hrsh7th/cmp-vsnip',
         'hrsh7th/cmp-emoji',
+        'hrsh7th/cmp-calc',
         'octaltree/cmp-look',
         'ray-x/cmp-treesitter',
         'hrsh7th/cmp-cmdline',
@@ -97,9 +100,11 @@ return packer.startup({
       cond = function() return vim.fn.has('nvim-0.6.0') == 1 end
     }
 
-    use { 'weilbith/nvim-code-action-menu', cmd = 'CodeActionMenu' }
+    use { 'weilbith/nvim-code-action-menu' }
 
     use { 'simrat39/rust-tools.nvim' }
+
+    use { 'nanotee/sqls.nvim', requires = { 'neovim/nvim-lspconfig' } }
 
     use {
       'mfussenegger/nvim-jdtls',
@@ -120,14 +125,7 @@ return packer.startup({
     use {
       'RRethy/vim-illuminate',
       cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
-      config = function()
-        vim.api.nvim_exec([[
-        augroup illuminate_augroup
-          autocmd!
-          autocmd VimEnter * highlight illuminatedWord cterm=underline guibg=#5e5e61
-        augroup END
-        ]], false)
-      end
+      config = [[require('aceforeverd.plugins.illuminate')]]
     }
 
     use {
@@ -137,7 +135,6 @@ return packer.startup({
     }
 
     -- use fzf to display builtin LSP results
-    -- use { 'ojroques/nvim-lspfuzzy', config = function() require('lspfuzzy').setup {} end }
     use {
       'gfanto/fzf-lsp.nvim',
       config = function()
@@ -257,11 +254,7 @@ return packer.startup({
           include_only_installed_plugins = true
         })
       end,
-      requires = {
-        { 'nvim-telescope/telescope.nvim' },
-        { 'nvim-lua/popup.nvim' },
-        { 'nvim-lua/plenary.nvim' }
-      }
+      requires = { 'nvim-telescope/telescope.nvim', 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' }
     }
 
     use {
@@ -422,6 +415,7 @@ return packer.startup({
 
     use {
       'lewis6991/spellsitter.nvim',
+      requires = { 'nvim-treesitter/nvim-treesitter' },
       config = function()
         require('spellsitter').setup { hl = 'SpellBad', captures = { 'comment' } }
       end
@@ -448,14 +442,20 @@ return packer.startup({
       config = function() require('aceforeverd.plugins.bufferline') end
     }
 
-    use { 'famiu/bufdelete.nvim' }
+    use {
+      'famiu/bufdelete.nvim',
+      config = [[vim.api.nvim_set_keymap('n', '<leader>bd', '<cmd>Bdelete<cr>', { noremap = true, silent =true })]]
+    }
 
     use {
       'chentau/marks.nvim',
       config = function() require('marks').setup { default_mappings = true } end
     }
 
-    use { 'simrat39/symbols-outline.nvim' }
+    use {
+      'simrat39/symbols-outline.nvim',
+      config = function() vim.g.symbols_outline = { highlight_hovered_item = true } end
+    }
 
     use {
       'ibhagwan/fzf-lua',

@@ -47,7 +47,8 @@ cmp.setup({
     { name = 'look', keyword_length = 2, default_map_opts = { convert_case = true, loud = true } },
     { name = 'emoji' },
     { name = 'treesitter' },
-    { name = 'tmux' },
+    { name = 'calc' },
+    { name = 'tmux', keyword_length = 3 },
     { name = 'spell' },
     { name = 'tag' },
     { name = 'cmdline' }
@@ -65,6 +66,7 @@ cmp.setup({
         look = "[Look]",
         emoji = "[Emoji]",
         treesitter = "[TreeSitter]",
+        calc = '[Calc]',
         tmux = "[Tmux]",
         luasnip = "[LuaSnip]",
         latex_symbols = "[Latex]",
@@ -76,17 +78,6 @@ cmp.setup({
     })
   }
 })
-
-cmp.setup.cmdline('/', {
-  sources = cmp.config.sources({ { name = 'nvim_lsp_document_symbol' } },
-                               { { name = 'buffer', keyword_length = 5 } })
-})
-cmp.setup.cmdline('?', {
-  sources = cmp.config.sources({ { name = 'nvim_lsp_document_symbol' } },
-                               { { name = 'buffer', keyword_length = 5 } })
-})
-
-cmp.setup.cmdline(':', { sources = cmp.config.sources({ { name = 'path' } }) })
 
 -- vsnip
 vim.api.nvim_set_keymap('i', '<c-j>',

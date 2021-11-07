@@ -28,7 +28,6 @@ local sources = {
     null_ls.builtins.diagnostics.shellcheck,
     null_ls.builtins.diagnostics.eslint,
     null_ls.builtins.diagnostics.hadolint,
-    null_ls.builtins.diagnostics.cppcheck,
     null_ls.builtins.diagnostics.vint.with({
             args = { "--enable-neovim", "-s", "-j", "$FILENAME" }
         })
