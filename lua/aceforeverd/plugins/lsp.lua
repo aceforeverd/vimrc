@@ -19,26 +19,6 @@ if vim.fn.has('nvim-0.6.0') == 0 then
   return
 end
 
--- lsp-status.nvim
-local lsp_status = require('lsp-status')
-lsp_status.config {
-  select_symbol = function(cursor_pos, symbol)
-    if symbol.valueRange then
-      local value_range = {
-        ["start"] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[1]) },
-        ["end"] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[2]) }
-      }
-
-      return require("lsp-status.util").in_range(cursor_pos, value_range)
-    end
-  end,
-  current_function = false,
-  show_filename = false,
-  status_symbol = '',
-  diagnostics = false
-}
-lsp_status.register_progress()
-
 local lspconfig = require('lspconfig')
 local lsp_basic = require('aceforeverd.config.lsp-basic')
 local on_attach = lsp_basic.on_attach
@@ -51,7 +31,7 @@ lspconfig.clangd.setup {
                                 { noremap = true, silent = true })
   end,
   capabilities = capabilities,
-  handlers = lsp_status.extensions.clangd.setup(),
+  handlers = require('lsp-status').extensions.clangd.setup(),
   init_options = { clangdFileStatus = true },
   cmd = {
     'clangd',
@@ -64,4 +44,5 @@ lspconfig.clangd.setup {
 }
 
 lspconfig.vimls.setup { on_attach = on_attach, capabilities = capabilities }
+lspconfig.pyright.setup { on_attach = on_attach, capabilities = capabilities }
 

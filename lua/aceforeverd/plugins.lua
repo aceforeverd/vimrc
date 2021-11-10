@@ -16,15 +16,18 @@
 local config_path = vim.fn.expand('<sfile>:p:h')
 vim.cmd(string.format("let &packpath = &packpath . ',' . '%s/bundle'", config_path))
 
-local execute = vim.api.nvim_command
-local fn = vim.fn
-
 local packer_install_path = config_path .. '/bundle/pack/packer/start/packer.nvim'
 
-if fn.empty(fn.glob(packer_install_path)) > 0 then
-  fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', packer_install_path })
-  execute 'packadd packer.nvim'
+if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
+  vim.fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', packer_install_path })
 end
+
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+  augroup end
+]])
 
 local packer = require('packer')
 
@@ -77,7 +80,6 @@ return packer.startup({
         'octaltree/cmp-look',
         'ray-x/cmp-treesitter',
         'hrsh7th/cmp-cmdline',
-        'hrsh7th/cmp-nvim-lsp-document-symbol',
         'f3fora/cmp-spell',
         { 'andersevenrud/compe-tmux', branch = 'cmp' },
         'quangnguyen30192/cmp-nvim-tags',
@@ -91,6 +93,8 @@ return packer.startup({
       'onsails/lspkind-nvim',
       config = function() require('lspkind').init { with_text = true } end
     }
+
+    use {'nvim-lua/lsp-status.nvim' }
 
     use {
       'kosayoda/nvim-lightbulb',
@@ -370,9 +374,6 @@ return packer.startup({
       config = function()
         require("which-key").setup {
           plugins = { registers = false }
-          -- your configuration comes here
-          -- or leave it empty to use the default settings
-          -- refer to the configuration section below
         }
       end
     }
@@ -389,23 +390,22 @@ return packer.startup({
         vim.api.nvim_set_keymap('n', 'g#', "g#<Cmd>lua require('hlslens').start()<CR>",
                                 { silent = true, noremap = true })
         vim.api.nvim_set_keymap('n', '<leader>l', '<Cmd>noh<CR>', { silent = true, noremap = true })
+
+        require('hlslens').setup({})
       end
     }
 
     use {
       'JoosepAlviste/nvim-ts-context-commentstring',
-      requires = { 'nvim-treesitter/nvim-treesitter' }
+      requires = { 'nvim-treesitter/nvim-treesitter' },
+      config =[[require('aceforeverd.plugins.commentstring')]]
     }
 
     use {
       "folke/todo-comments.nvim",
       requires = "nvim-lua/plenary.nvim",
       config = function()
-        require("todo-comments").setup {
-          -- your configuration comes here
-          -- or leave it empty to use the default settings
-          -- refer to the configuration section below
-        }
+        require("todo-comments").setup {}
       end
     }
 
@@ -448,13 +448,8 @@ return packer.startup({
     }
 
     use {
-      'chentau/marks.nvim',
-      config = function() require('marks').setup { default_mappings = true } end
-    }
-
-    use {
       'simrat39/symbols-outline.nvim',
-      config = function() vim.g.symbols_outline = { highlight_hovered_item = true } end
+      config = function() vim.g.symbols_outline = { highlight_hovered_item = false } end
     }
 
     use {
@@ -463,8 +458,9 @@ return packer.startup({
     }
 
     use {
-      "ThePrimeagen/refactoring.nvim",
-      requires = { { "nvim-lua/plenary.nvim" }, { "nvim-treesitter/nvim-treesitter" } }
+      'numToStr/Comment.nvim',
+      requires = { 'JoosepAlviste/nvim-ts-context-commentstring' },
+      config = [[require('aceforeverd.plugins.comment')]]
     }
 
     use {
@@ -474,7 +470,6 @@ return packer.startup({
         require('nvim-comment-frame').setup { keymap = '<leader>cc', multiline_keymap = '<leader>cm' }
       end
     }
-
   end
 })
 

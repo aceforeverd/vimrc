@@ -53,3 +53,17 @@ function! aceforeverd#util#has_float() abort
     " see https://github.com/neoclide/coc.nvim/wiki/F.A.Q#how-to-make-preview-window-shown-aside-with-pum
     return (has('textprop') && has('patch-8.1.1719') && has('*popup_create')) || (exists('*nvim_open_win'))
 endfunction
+
+" good util function to investigate highlight staffs
+" Note: for treesitter enabled neovim, try 'TSHighlightCapturesUnderCursor'
+function! aceforeverd#util#syn_query() abort
+    for id in synstack(line('.'), col('.'))
+        echomsg synIDattr(id, 'name')
+    endfor
+endfunction
+function! aceforeverd#util#syn_query_verbose() abort
+    for id in synstack(line('.'), col('.'))
+        execute 'highlight' synIDattr(id, 'name')
+    endfor
+endfunction
+

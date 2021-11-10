@@ -19,13 +19,13 @@
 vim.api.nvim_exec([[
 augroup illuminate_augroup
 autocmd!
-autocmd VimEnter * highlight illuminatedWord cterm=underline guibg=#5e5e5e gui=underline
-autocmd VimEnter * highlight illuminatedCurWord cterm=bold,underline guibg=#5e5e8f gui=bold,underline
-
-autocmd VimEnter * highlight LspReferenceText guibg=#5e5e5f
-autocmd VimEnter * highlight LspReferenceRead cterm=underline gui=underline guibg=#5e5e6f
-autocmd VimEnter * highlight LspReferenceWrite cterm=bold gui=bold guibg=#5e5e9f
-augroup END]], false)
+autocmd ColorScheme * highlight illuminatedWord cterm=underline guibg=#5e5e5e gui=underline
+autocmd ColorScheme * highlight illuminatedCurWord cterm=bold guibg=#5e5e8f gui=bold
+autocmd ColorScheme * highlight LspReferenceText guibg=#5e5e5f
+autocmd ColorScheme * highlight LspReferenceRead cterm=underline gui=underline guibg=#5e5e6f
+autocmd ColorScheme * highlight LspReferenceWrite cterm=bold,underline gui=bold,underline guibg=#5e5e9f
+augroup END
+]], false)
 
 vim.g.Illuminate_delay = vim.o.updatetime
 

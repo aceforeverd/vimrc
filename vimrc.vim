@@ -80,7 +80,7 @@ if !has('nvim-0.5.0')
     endif
 endif
 
-if !has('nvim-0.6.0')
+if g:my_cmp_source ==? 'coc'
    " nvim 0.6.0 or later use built-in lsp
    Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
    Plug 'antoinemadec/coc-fzf'
@@ -250,7 +250,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('jamessan/vim-gnupg')
 
     call dein#add('tomtom/tcomment_vim')
-    call dein#add('tpope/vim-commentary')
     call dein#add('raimondi/delimitmate')
     call dein#add('chrisbra/recover.vim')
     " text object manipulate
@@ -538,7 +537,7 @@ function! s:build_quickfix_list(lines)
     cc
 endfunction
 let g:fzf_action = {
-      \ 'ctrl-q': function('s:build_quickfix_list'),
+      \ 'ctrl-l': function('s:build_quickfix_list'),
       \ 'ctrl-a': 'tab split',
       \ 'ctrl-x': 'split',
       \ 'ctrl-v': 'vsplit' }
@@ -713,16 +712,15 @@ vmap <silent> <Leader>w <Plug>TranslateWV
 " vim-cmake
 let g:cmake_generate_options = ['-DCMAKE_EXPORT_COMPILE_COMMANDS=ON', '-DCMAKE_CXX_STANDARD=11', '-G Ninja' ]
 
-" tcomment_vim
-let g:tcomment_maps = 0
-
 " vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
+
+nnoremap <silent> <leader>cs :<c-u>call aceforeverd#util#syn_query()<cr>
+nnoremap <silent> <leader>cv :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
 
 call aceforeverd#settings#basic_color()
 " setup sonokai
 call aceforeverd#settings#sonokai()
-colorscheme sonokai
 
 if has('nvim-0.5')
     lua require('aceforeverd')
@@ -733,6 +731,9 @@ if !has('nvim-0.6.0')
    " for nvim 0.6.0 or later, use neovim built-in lsp
    call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
 endif
+
+" there is autocmd for ColorScheme in lua & init_cmp_source
+colorscheme sonokai
 
 let s:after_vimrc = s:home . '/after.vim'
 if filereadable(s:after_vimrc)

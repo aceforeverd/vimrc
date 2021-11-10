@@ -35,22 +35,29 @@ cmp.setup({
     ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<C-e>'] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
-    ['<CR>'] = cmp.mapping(
-        { i = cmp.mapping.confirm({ select = false }), c = cmp.mapping.confirm({ select = false }) })
+    ['<CR>'] = cmp.mapping({
+      i = cmp.mapping.confirm({ select = false }),
+      c = cmp.mapping.confirm({ select = false })
+    })
   },
   sources = {
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
     { name = 'nvim_lua' },
-    { name = 'tag' },
     { name = 'buffer' },
     { name = 'path' },
+    { name = 'tags', max_item_count = 10 },
     { name = 'treesitter' },
     { name = 'emoji' },
     { name = 'calc' },
     { name = 'spell' },
     { name = 'tmux', keyword_length = 3, max_item_count = 5 },
-    { name = 'look', keyword_length = 2, default_map_opts = { convert_case = true, loud = true } },
+    {
+      name = 'look',
+      keyword_length = 2,
+      max_item_count = 8,
+      default_map_opts = { convert_case = true, loud = true }
+    },
     { name = 'cmdline' }
   },
   formatting = {
@@ -71,7 +78,7 @@ cmp.setup({
         luasnip = "[LuaSnip]",
         latex_symbols = "[Latex]",
         spell = '[Spell]',
-        tag = '[Tag]',
+        tags = '[Tags]',
         cmdline = '[Cmdline]',
         nvim_lsp_document_symbol = '[DocumentSymbol]'
       }
