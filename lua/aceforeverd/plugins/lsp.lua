@@ -14,7 +14,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-if vim.fn.has('nvim-0.6.0') == 0 then
+if vim.g.my_cmp_source ~= 'nvim_lsp' then
   vim.g.loaded_cmp = true
   return
 end
@@ -23,6 +23,25 @@ local lspconfig = require('lspconfig')
 local lsp_basic = require('aceforeverd.config.lsp-basic')
 local on_attach = lsp_basic.on_attach
 local capabilities = lsp_basic.capabilities
+
+local lsp_status = require('lsp-status')
+lsp_status.config {
+  select_symbol = function(cursor_pos, symbol)
+    if symbol.valueRange then
+      local value_range = {
+        ["start"] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[1]) },
+        ["end"] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[2]) }
+      }
+
+      return require("lsp-status.util").in_range(cursor_pos, value_range)
+    end
+  end,
+  current_function = false,
+  show_filename = false,
+  status_symbol = '',
+  diagnostics = false
+}
+lsp_status.register_progress()
 
 lspconfig.clangd.setup {
   on_attach = function(client, bufnr)

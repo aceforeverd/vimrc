@@ -12,10 +12,7 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-if vim.fn.has('nvim-0.6.0') == 0 then
-    return
-end
+if vim.g.my_cmp_source ~= 'nvim_lsp' then return end
 
 local default_map_opts = { noremap = true, silent = true }
 
@@ -46,7 +43,6 @@ cmp.setup({
     { name = 'nvim_lua' },
     { name = 'buffer' },
     { name = 'path' },
-    { name = 'tags', max_item_count = 10 },
     { name = 'treesitter' },
     { name = 'emoji' },
     { name = 'calc' },
@@ -76,15 +72,15 @@ cmp.setup({
         calc = '[Calc]',
         tmux = "[Tmux]",
         luasnip = "[LuaSnip]",
-        latex_symbols = "[Latex]",
         spell = '[Spell]',
-        tags = '[Tags]',
         cmdline = '[Cmdline]',
-        nvim_lsp_document_symbol = '[DocumentSymbol]'
       }
     })
   }
 })
+
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 
 -- vsnip
 vim.api.nvim_set_keymap('i', '<c-j>',

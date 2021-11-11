@@ -337,9 +337,9 @@ function! aceforeverd#completion#init_source_coc() abort
 
     augroup coc_custom_highlight
         autocmd!
-        autocmd ColorScheme * highlight CocHighlightText cterm=bold guibg=#5e5e5e gui=bold
-        autocmd ColorScheme * highlight CocHighlightRead cterm=underline gui=underline guibg=#5e5e5f
-        autocmd ColorScheme * highlight CocHighlightWrite cterm=bold,underline gui=bold,underline guibg=#5e5e9f
+        autocmd ColorScheme * highlight CocHighlightText cterm=bold gui=bold guibg=#5e5e5e
+        autocmd ColorScheme * highlight CocHighlightRead cterm=underline gui=undercurl guibg=#5e5e5f
+        autocmd ColorScheme * highlight CocHighlightWrite cterm=bold,underline gui=bold,undercurl guibg=#5e5e9f
     augroup END
 
     " Use `:Format` to format current buffer

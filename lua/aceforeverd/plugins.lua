@@ -61,9 +61,7 @@ return packer.startup({
     use {
       'williamboman/nvim-lsp-installer',
       requires = { 'neovim/nvim-lspconfig' },
-      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
-      -- for thoese lsp servers installed here
-      -- should setup here as well
+      cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
       config = function() require('aceforeverd.plugins.lsp-installer') end
     }
 
@@ -84,7 +82,8 @@ return packer.startup({
         { 'andersevenrud/compe-tmux', branch = 'cmp' },
         'quangnguyen30192/cmp-nvim-tags',
 
-        'onsails/lspkind-nvim'
+        'onsails/lspkind-nvim',
+        'windwp/nvim-autopairs'
       },
       config = function() require('aceforeverd.plugins.nvim-cmp') end
     }
@@ -101,7 +100,7 @@ return packer.startup({
       config = function()
         vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
       end,
-      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end
+      cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
     }
 
     use { 'weilbith/nvim-code-action-menu' }
@@ -128,14 +127,8 @@ return packer.startup({
 
     use {
       'RRethy/vim-illuminate',
-      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
       config = [[require('aceforeverd.plugins.illuminate')]]
-    }
-
-    use {
-      'folke/trouble.nvim',
-      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
-      config = function() require("trouble").setup {} end
     }
 
     -- use fzf to display builtin LSP results
@@ -160,13 +153,13 @@ return packer.startup({
     use {
       'jose-elias-alvarez/null-ls.nvim',
       requires = { 'neovim/nvim-lspconfig' },
-      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
       config = function() require('aceforeverd.plugins.null-ls') end
     }
 
     use {
       'norcalli/nvim-colorizer.lua',
-      cond = function() return vim.fn.has('nvim-0.6.0') == 1 end,
+      cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
       config = function() require'colorizer'.setup() end
     }
 
@@ -263,7 +256,7 @@ return packer.startup({
 
     use {
       'fannheyward/telescope-coc.nvim',
-      cond = function() return vim.fn.has('nvim-0.6.0') == 0 end
+      cond = function() return vim.g.my_cmp_source == 'coc' end,
     }
 
     use {
@@ -391,7 +384,7 @@ return packer.startup({
                                 { silent = true, noremap = true })
         vim.api.nvim_set_keymap('n', '<leader>l', '<Cmd>noh<CR>', { silent = true, noremap = true })
 
-        require('hlslens').setup({})
+        require('hlslens').setup({ calm_down = true })
       end
     }
 
@@ -464,11 +457,23 @@ return packer.startup({
     }
 
     use {
+      'windwp/nvim-autopairs',
+      config = function()
+        require('aceforeverd.plugins.autopairs')
+      end
+    }
+
+    use {
       's1n7ax/nvim-comment-frame',
       requires = { { 'nvim-treesitter' } },
       config = function()
         require('nvim-comment-frame').setup { keymap = '<leader>cc', multiline_keymap = '<leader>cm' }
       end
+    }
+
+    use {
+      "luukvbaal/nnn.nvim",
+      config = function() require("nnn").setup() end
     }
   end
 })

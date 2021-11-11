@@ -13,12 +13,20 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-vim.g.Illuminate_delay = vim.o.updatetime
 
-vim.api.nvim_set_keymap('n', '<a-n>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>',
-                        { noremap = true })
-vim.api.nvim_set_keymap('n', '<a-p>',
-                        '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>',
-                        { noremap = true })
-vim.api.nvim_set_keymap('n', '<a-i>', '<cmd>lua require"illuminate".toggle_pause()<cr>',
-                        { noremap = true })
+if vim.g.my_cmp_source ~= 'nvim_lsp' then
+    return;
+end
+
+local npairs = require('nvim-autopairs')
+npairs.setup{
+    disable_filetype = { "TelescopePrompt"},
+    map_cr = false,
+}
+
+-- add some endwise rules
+-- NOTE: vim-endwise will break on neovim with nvim-treesitter highlight feature enabled
+--   see https://github.com/nvim-treesitter/nvim-treesitter/issues/703
+npairs.add_rules(require('nvim-autopairs.rules.endwise-elixir'))
+npairs.add_rules(require('nvim-autopairs.rules.endwise-lua'))
+npairs.add_rules(require('nvim-autopairs.rules.endwise-ruby'))

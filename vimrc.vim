@@ -87,6 +87,10 @@ if g:my_cmp_source ==? 'coc'
    Plug 'neoclide/coc-neco'
 endif
 
+if g:my_cmp_source !=? 'nvim_lsp'
+   Plug 'raimondi/delimitmate'
+endif
+
 Plug 'wincent/ferret'
 let g:FerretMap = 0
 
@@ -250,7 +254,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('jamessan/vim-gnupg')
 
     call dein#add('tomtom/tcomment_vim')
-    call dein#add('raimondi/delimitmate')
     call dein#add('chrisbra/recover.vim')
     " text object manipulate
     call dein#add('AndrewRadev/splitjoin.vim')
@@ -726,9 +729,7 @@ if has('nvim-0.5')
     lua require('aceforeverd')
 endif
 
-if !has('nvim-0.6.0')
-
-   " for nvim 0.6.0 or later, use neovim built-in lsp
+if g:my_cmp_source !=? 'nvim_lsp'
    call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
 endif
 

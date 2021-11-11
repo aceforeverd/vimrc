@@ -25,10 +25,14 @@ vim.api.nvim_exec([[
     let g:matchup_matchparen_offscreen = {}
 ]], false)
 
--- uncomment this if use coc-lua. for coc-sumneko-lua, this is not needed after enable NvimLuaDev
--- vim.api.nvim_exec([[
---     call coc#config('Lua.workspace.library', {$VIMRUNTIME . '/lua': v:true, $VIMRUNTIME . '/lua/vim': v:true, $VIMRUNTIME . '/lua/vim/lsp': v:true})
---     call coc#config('Lua.diagnostics.globals', ['vim'])
--- ]], false)
--- require('aceforeverd.plugins.colors')
-
+-- sonokai link 'LspReferenceText', 'LspReferenceRead', 'LspReferenceWrite' default to 'CurrentWord'
+-- for lsp enabled buffer, 'Lspreference*' groups are used
+-- otherwise, 'illuminate*' groups are used
+vim.cmd([[augroup illuminate_augroup
+autocmd!
+autocmd ColorScheme * highlight illuminatedWord cterm=underline gui=underline guibg=#5e5e5e
+autocmd ColorScheme * highlight illuminatedCurWord cterm=bold gui=bold guibg=#5e5e6f
+autocmd ColorScheme * highlight LspReferenceText cterm=bold gui=bold guibg=#5e5e5f
+autocmd ColorScheme * highlight LspReferenceRead cterm=underline gui=undercurl guibg=#5e5e5f
+autocmd ColorScheme * highlight LspReferenceWrite cterm=bold,underline gui=bold,undercurl guibg=#5e5e9f
+augroup END]])

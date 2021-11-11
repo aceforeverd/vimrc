@@ -75,7 +75,7 @@ local feline_config = {
         { provider = 'git_diff_changed', hl = { fg = 'orange', bg = 'black' } },
         { provider = 'git_diff_removed', hl = { fg = 'red', bg = 'black' } },
         {
-          provider = '  ',
+          provider = ' ┃ ',
           hl = { fg = 'white', bg = 'black' },
           enabled = gitsigns_has_diff
         },
@@ -103,13 +103,13 @@ local feline_config = {
         {
           -- for neovim 0.6.0 or later, use built-in lsp, otherwise coc
           provider = function() return vim.api.nvim_eval('coc#status()') end,
-          enabled = function() return vim.fn.has('nvim-0.6.0') == 0 end,
-          left_sep = { ' ', { str = 'right_rounded_thin', hl = { fg = 'green', bg = 'black' } } }
+          enabled = function() return vim.g.my_cmp_source == 'coc' end,
+          left_sep = { ' ', { str = 'vertical_bar', hl = { fg = 'green', bg = 'black' } } }
         },
         {
           provider = function() return require('lsp-status').status() end,
-          enabled = function() return #vim.lsp.buf_get_clients() > 0 end,
-          left_sep = { ' ', { str = 'right_rounded_thin', hl = { fg = 'green', bg = 'black' } } }
+          enabled = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
+          left_sep = { ' ', { str = 'vertical_bar', hl = { fg = 'green', bg = 'black' } } }
         }
       },
       {}, -- mid
