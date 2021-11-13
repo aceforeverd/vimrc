@@ -61,27 +61,29 @@ local pub_diag_config = {
   virtual_text = true,
   signs = true,
   underline = true,
-  update_in_insert = true,
+  update_in_insert = true
 }
 if vim.fn.has('nvim-0.6.0') == 1 then
   pub_diag_config['virtual_text'] = {
     prefix = '■', -- Could be '●', '▎', 'x'
-    source = 'always',
-  }
-  pub_diag_config['float'] = {
     source = 'always'
   }
+  pub_diag_config['float'] = { source = 'always' }
 end
 
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, pub_diag_config)
+vim.lsp.handlers['textDocument/publishDiagnostics'] =
+    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, pub_diag_config)
 
 -- Show line diagnostics automatically in hover window
-vim.cmd [[j
-augroup gp_nvim_lsp_customize
-autocmd!
-autocmd CursorHold,CursorHoldI * lua vim.lsp.diagnostic.show_line_diagnostics({focusable=false})
-augroup END
-]]
+--  disabled: should only show if cursor is in the `DiagnosticUnderline*` text.
+-- vim.cmd [[
+-- augroup gp_nvim_lsp_customize
+-- autocmd!
+-- autocmd CursorHold,CursorHoldI * lua vim.lsp.diagnostic.show_line_diagnostics({focusable=false})
+-- augroup END
+-- ]]
+
+local default_lsp_cfg = { on_attach = on_attach, capabilities = capabilities }
 
 lspconfig.clangd.setup {
   on_attach = function(client, bufnr)
@@ -102,6 +104,8 @@ lspconfig.clangd.setup {
   }
 }
 
-lspconfig.vimls.setup { on_attach = on_attach, capabilities = capabilities }
-lspconfig.pyright.setup { on_attach = on_attach, capabilities = capabilities }
-
+lspconfig.vimls.setup(default_lsp_cfg)
+lspconfig.pyright.setup(default_lsp_cfg)
+lspconfig.tsserver.setup(default_lsp_cfg)
+lspconfig.gopls.setup(default_lsp_cfg)
+lspconfig.dockerls.setup(default_lsp_cfg)

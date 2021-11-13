@@ -13,6 +13,10 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+if vim.g.my_cmp_source ~= 'nvim_lsp' then
+  return
+end
+
 local system_name
 if vim.fn.has("mac") == 1 then
   system_name = "macOS"

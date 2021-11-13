@@ -61,7 +61,6 @@ return packer.startup({
     use {
       'williamboman/nvim-lsp-installer',
       requires = { 'neovim/nvim-lspconfig' },
-      cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
       config = function() require('aceforeverd.plugins.lsp-installer') end
     }
 
@@ -284,8 +283,6 @@ return packer.startup({
 
     use { 'projekt0n/github-nvim-theme' }
 
-    use { 'Pocco81/Catppuccino.nvim' }
-
     use { 'monsonjeremy/onedark.nvim' }
 
     use {
@@ -474,6 +471,15 @@ return packer.startup({
     use {
       "luukvbaal/nnn.nvim",
       config = function() require("nnn").setup() end
+    }
+
+    use {
+      'Saecki/crates.nvim',
+      event = { "BufRead Cargo.toml" },
+      requires = { { 'nvim-lua/plenary.nvim' } },
+      config = function()
+        require('crates').setup()
+      end,
     }
   end
 })
