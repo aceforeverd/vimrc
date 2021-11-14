@@ -387,6 +387,16 @@ function! aceforeverd#completion#init_source_coc() abort
     vmap <c-j> <Plug>(coc-snippets-select)
 endfunction
 
+function! aceforeverd#completion#help() abort
+    let l:name = expand('<cword>')
+    try
+        execute 'help ' . l:name
+    catch /.*/
+        echo 'no help for ' . l:name
+        echoerr
+    endtry
+endfunction
+
 " ulility functions
 function! s:is_dir(path) abort
     return !empty(a:path) && (isdirectory(a:path) ||

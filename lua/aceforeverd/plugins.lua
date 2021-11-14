@@ -52,8 +52,6 @@ return packer.startup({
         'nvim-lua/lsp-status.nvim',
         -- LSP signature hint as you type
         'ray-x/lsp_signature.nvim',
-
-        'RRethy/vim-illuminate'
       },
       config = function() require('aceforeverd.plugins.lsp') end
     }
@@ -127,7 +125,8 @@ return packer.startup({
     use {
       'RRethy/vim-illuminate',
       cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
-      config = [[require('aceforeverd.plugins.illuminate')]]
+      config = function() require('aceforeverd.plugins.illuminate')
+      end
     }
 
     -- use fzf to display builtin LSP results
@@ -381,7 +380,7 @@ return packer.startup({
                                 { silent = true, noremap = true })
         vim.api.nvim_set_keymap('n', '<leader>l', '<Cmd>noh<CR>', { silent = true, noremap = true })
 
-        require('hlslens').setup({ calm_down = true })
+        require('hlslens').setup({ calm_down = false})
       end
     }
 
@@ -439,7 +438,7 @@ return packer.startup({
 
     use {
       'simrat39/symbols-outline.nvim',
-      config = function() vim.g.symbols_outline = { highlight_hovered_item = false } end
+      config = function() vim.g.symbols_outline = { highlight_hovered_item = true } end
     }
 
     use {

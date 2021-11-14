@@ -39,7 +39,7 @@ lsp_status.config {
   current_function = false,
   show_filename = false,
   status_symbol = '',
-  diagnostics = false
+  diagnostics = true
 }
 lsp_status.register_progress()
 

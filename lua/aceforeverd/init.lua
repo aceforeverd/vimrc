@@ -27,14 +27,17 @@ vim.api.nvim_exec([[
 
 -- sonokai link 'LspReferenceText', 'LspReferenceRead', 'LspReferenceWrite' default to 'CurrentWord'
 -- for lsp enabled buffer, 'Lspreference*' groups are used
--- otherwise, 'illuminate*' groups are used
 -- NOTE: do not put it in plugin settings, it should be sourced before colorscheme action
 vim.cmd([[augroup gp_lsp
 autocmd!
-autocmd ColorScheme * highlight illuminatedWord cterm=underline gui=underline guibg=#5e5e5e
-autocmd ColorScheme * highlight illuminatedCurWord cterm=bold gui=bold guibg=#5e5e6f
-
 autocmd ColorScheme * highlight LspReferenceText cterm=bold gui=bold guibg=#5e5e5f
 autocmd ColorScheme * highlight LspReferenceRead cterm=underline gui=undercurl guibg=#5e5e5f
 autocmd ColorScheme * highlight LspReferenceWrite cterm=bold,underline gui=bold,undercurl guibg=#5e5e9f
 augroup END]])
+
+vim.cmd[[
+augroup gp_illuminate_highlight
+autocmd!
+autocmd ColorScheme * highlight illuminatedWord guibg=#5e5e5e
+autocmd ColorScheme * highlight illuminatedCurWord cterm=bold guibg=#5e5e7f gui=bold
+augroup END]]

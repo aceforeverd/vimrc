@@ -361,7 +361,7 @@ set noerrorbells
 set novisualbell
 set t_vb=
 set timeoutlen=500
-set updatetime=500
+set updatetime=250
 
 if has('gui_macvim')
     augroup gp_gui_macvim
@@ -720,6 +720,10 @@ let g:vimspector_enable_mappings = 'HUMAN'
 
 nnoremap <silent> <leader>cs :<c-u>call aceforeverd#util#syn_query()<cr>
 nnoremap <silent> <leader>cv :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
+augroup gp_vim_helper
+   autocmd!
+   autocmd FileType vim,lua,help nnoremap <leader>hh :call aceforeverd#completion#help()<cr>
+augroup END
 
 call aceforeverd#settings#basic_color()
 " setup sonokai
