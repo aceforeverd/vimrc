@@ -38,7 +38,7 @@ packer.init({
   plugin_package = 'packer',
   max_jobs = 12,
   git = { clone_timeout = 30 },
-  profile = { enable = true, threshold = 1 }
+  profile = { enable = true, threshold = 1 },
 })
 
 return packer.startup({
@@ -51,15 +51,19 @@ return packer.startup({
         -- neovim builtin lsp status line component
         'nvim-lua/lsp-status.nvim',
         -- LSP signature hint as you type
-        'ray-x/lsp_signature.nvim'
+        'ray-x/lsp_signature.nvim',
       },
-      config = function() require('aceforeverd.plugins.lsp') end
+      config = function()
+        require('aceforeverd.plugins.lsp')
+      end,
     }
 
     use {
       'williamboman/nvim-lsp-installer',
       requires = { 'neovim/nvim-lspconfig' },
-      config = function() require('aceforeverd.plugins.lsp-installer') end
+      config = function()
+        require('aceforeverd.plugins.lsp-installer')
+      end,
     }
 
     use {
@@ -78,11 +82,14 @@ return packer.startup({
         'f3fora/cmp-spell',
         { 'andersevenrud/compe-tmux', branch = 'cmp' },
         'quangnguyen30192/cmp-nvim-tags',
+        'quangnguyen30192/cmp-nvim-ultisnips',
 
         'onsails/lspkind-nvim',
-        'windwp/nvim-autopairs'
+        'windwp/nvim-autopairs',
       },
-      config = function() require('aceforeverd.plugins.nvim-cmp') end
+      config = function()
+        require('aceforeverd.plugins.nvim-cmp')
+      end,
     }
 
     use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }
@@ -91,7 +98,9 @@ return packer.startup({
 
     use {
       'onsails/lspkind-nvim',
-      config = function() require('lspkind').init { with_text = true } end
+      config = function()
+        require('lspkind').init { with_text = true }
+      end,
     }
 
     use { 'nvim-lua/lsp-status.nvim' }
@@ -101,7 +110,9 @@ return packer.startup({
       config = function()
         vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
       end,
-      cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end
+      cond = function()
+        return vim.g.my_cmp_source == 'nvim_lsp'
+      end,
     }
 
     use { 'weilbith/nvim-code-action-menu' }
@@ -121,15 +132,19 @@ return packer.startup({
           on_attach = require('aceforeverd.config.lsp-basic').on_attach,
           capabilities = require('aceforeverd.config.lsp-basic').capabilities,
 
-          root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' })
+          root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' }),
         }
-      end
+      end,
     }
 
     use {
       'RRethy/vim-illuminate',
-      cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
-      config = function() require('aceforeverd.plugins.illuminate') end
+      cond = function()
+        return vim.g.my_cmp_source == 'nvim_lsp'
+      end,
+      config = function()
+        require('aceforeverd.plugins.illuminate')
+      end,
     }
 
     -- use fzf to display builtin LSP results
@@ -146,7 +161,7 @@ return packer.startup({
         -- vim.lsp.handlers["workspace/symbol"] = require('fzf_lsp').workspace_symbol_handler
         -- vim.lsp.handlers["callHierarchy/incomingCalls"] = require('fzf_lsp').ingoing_calls_handler
         -- vim.lsp.handlers["callHierarchy/outgoingCalls"] = require('fzf_lsp').outgoing_calls_handler
-      end
+      end,
     }
 
     use { 'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }, ft = { 'scala', 'sbt' } }
@@ -154,14 +169,22 @@ return packer.startup({
     use {
       'jose-elias-alvarez/null-ls.nvim',
       requires = { 'neovim/nvim-lspconfig' },
-      cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
-      config = function() require('aceforeverd.plugins.null-ls') end
+      cond = function()
+        return vim.g.my_cmp_source == 'nvim_lsp'
+      end,
+      config = function()
+        require('aceforeverd.plugins.null-ls')
+      end,
     }
 
     use {
       'norcalli/nvim-colorizer.lua',
-      cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
-      config = function() require'colorizer'.setup() end
+      cond = function()
+        return vim.g.my_cmp_source == 'nvim_lsp'
+      end,
+      config = function()
+        require'colorizer'.setup()
+      end,
     }
 
     use { 'nvim-lua/plenary.nvim' }
@@ -170,31 +193,28 @@ return packer.startup({
 
     use {
       'nvim-treesitter/nvim-treesitter',
+      requires = {
+        'nvim-treesitter/playground',
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        'nvim-treesitter/nvim-treesitter-refactor',
+      },
       run = ':TSUpdate',
-      config = function() require('aceforeverd.plugins.treesitter') end
+      config = function()
+        require('aceforeverd.plugins.treesitter')
+      end,
     }
-
-    use { 'nvim-treesitter/playground', requires = 'nvim-treesitter/nvim-treesitter' }
 
     use { 'p00f/nvim-ts-rainbow', requires = 'nvim-treesitter/nvim-treesitter' }
 
-    use {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-      requires = 'nvim-treesitter/nvim-treesitter'
-    }
-
-    use { 'nvim-treesitter/nvim-treesitter-refactor', requires = 'nvim-treesitter/nvim-treesitter' }
-
-    use {
-      'nvim-treesitter/nvim-tree-docs',
-      requires = { { 'nvim-treesitter/nvim-treesitter' }, { 'Olical/aniseed' } }
-    }
+    use { 'nvim-treesitter/nvim-tree-docs', requires = { { 'nvim-treesitter/nvim-treesitter' }, { 'Olical/aniseed' } } }
 
     use { 'Olical/conjure', ft = { 'clojure', 'fennel', 'janet', 'racket', 'scheme' } }
 
     use {
       'lukas-reineke/indent-blankline.nvim',
-      config = function() require('aceforeverd.plugins.indent') end
+      config = function()
+        require('aceforeverd.plugins.indent')
+      end,
     }
 
     use { 'hkupty/iron.nvim' }
@@ -208,35 +228,40 @@ return packer.startup({
     use { "b0o/schemastore.nvim" }
 
     -- automatically create Lsp diagnostic highlight group is the colorshceme not defined it
-    use { 'folke/lsp-colors.nvim', config = function() require('lsp-colors').setup {} end }
+    use {
+      'folke/lsp-colors.nvim',
+      config = function()
+        require('lsp-colors').setup {}
+      end,
+    }
 
     use {
       'nvim-telescope/telescope.nvim',
-      config = function() require('aceforeverd.plugins.telescope') end,
+      config = function()
+        require('aceforeverd.plugins.telescope')
+      end,
       requires = {
         'nvim-lua/popup.nvim',
         'nvim-lua/plenary.nvim',
         'nvim-telescope/telescope-symbols.nvim',
         'nvim-telescope/telescope-packer.nvim',
         'nvim-telescope/telescope-project.nvim',
-        'cljoly/telescope-repo.nvim'
-      }
+        'cljoly/telescope-repo.nvim',
+      },
     }
 
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
     use {
       "nvim-telescope/telescope-frecency.nvim",
-      requires = {
-        'nvim-telescope/telescope.nvim',
-        "tami5/sqlite.lua",
-        'kyazdani42/nvim-web-devicons'
-      }
+      requires = { 'nvim-telescope/telescope.nvim', "tami5/sqlite.lua", 'kyazdani42/nvim-web-devicons' },
     }
 
     use {
       'ahmedkhalf/project.nvim',
-      config = function() require("project_nvim").setup { manual_mode = false } end
+      config = function()
+        require("project_nvim").setup { manual_mode = false }
+      end,
     }
 
     use { 'jamestthompson3/nvim-remote-containers' }
@@ -249,15 +274,17 @@ return packer.startup({
         require("cheatsheet").setup({
           bundled_cheatsheets = true,
           bundled_plugin_cheatsheets = true,
-          include_only_installed_plugins = true
+          include_only_installed_plugins = true,
         })
       end,
-      requires = { 'nvim-telescope/telescope.nvim', 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' }
+      requires = { 'nvim-telescope/telescope.nvim', 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' },
     }
 
     use {
       'fannheyward/telescope-coc.nvim',
-      cond = function() return vim.g.my_cmp_source == 'coc' end
+      cond = function()
+        return vim.g.my_cmp_source == 'coc'
+      end,
     }
 
     use {
@@ -266,15 +293,17 @@ return packer.startup({
       config = function()
         require('neoclip').setup {
           enable_persistant_history = true,
-          db_path = vim.fn.stdpath("data") .. "/databases/neoclip.sqlite3"
+          db_path = vim.fn.stdpath("data") .. "/databases/neoclip.sqlite3",
         }
-      end
+      end,
     }
 
     use {
       'kyazdani42/nvim-tree.lua',
       requires = { 'kyazdani42/nvim-web-devicons' },
-      config = function() require('aceforeverd.plugins.nvim-tree') end
+      config = function()
+        require('aceforeverd.plugins.nvim-tree')
+      end,
     }
 
     use { 'phaazon/hop.nvim' }
@@ -295,14 +324,14 @@ return packer.startup({
         require('package-info').setup {
           colors = {
             up_to_date = "#3C4048", -- Text color for up to date package virtual text
-            outdated = "#d19a66" -- Text color for outdated package virtual text
+            outdated = "#d19a66", -- Text color for outdated package virtual text
           },
           icons = {
-            enable = true -- Whether to display icons
+            enable = true, -- Whether to display icons
           },
-          autostart = false
+          autostart = false,
         }
-      end
+      end,
     }
 
     use { 'mfussenegger/nvim-dap' }
@@ -315,13 +344,15 @@ return packer.startup({
       'nacro90/numb.nvim',
       config = function()
         require('numb').setup { show_numbers = true, show_cursorline = true, number_only = false }
-      end
+      end,
     }
 
     use {
       'TimUntersberger/neogit',
-      config = function() require('neogit').setup {} end,
-      cmd = 'Neogit'
+      config = function()
+        require('neogit').setup {}
+      end,
+      cmd = 'Neogit',
     }
 
     use { 'sindrets/diffview.nvim', requires = { 'kyazdani42/nvim-web-devicons' } }
@@ -333,15 +364,19 @@ return packer.startup({
     use {
       'pwntester/octo.nvim',
       requires = { 'nvim-telescope/telescope.nvim', 'kyazdani42/nvim-web-devicons' },
-      config = function() require"octo".setup() end,
-      cmd = 'Octo*'
+      config = function()
+        require"octo".setup()
+      end,
+      cmd = 'Octo*',
     }
 
     use { 'Pocco81/HighStr.nvim' }
 
     use {
       "akinsho/nvim-toggleterm.lua",
-      config = function() require("aceforeverd.plugins.toggleterm") end
+      config = function()
+        require("aceforeverd.plugins.toggleterm")
+      end,
     }
 
     use {
@@ -353,26 +388,26 @@ return packer.startup({
             ["function-name"] = ' ', -- Functions
             ["method-name"] = ' ', -- Methods (functions inside class-like objects)
             ["container-name"] = ' ', -- Containers (example: lua tables)
-            ["tag-name"] = '炙' -- Tags (example: html tags)
+            ["tag-name"] = '炙', -- Tags (example: html tags)
           },
-          separator = ' > '
+          separator = ' > ',
         })
       end,
-      requires = "nvim-treesitter/nvim-treesitter"
+      requires = "nvim-treesitter/nvim-treesitter",
     }
 
     use {
       "folke/which-key.nvim",
-      config = function() require("which-key").setup { plugins = { registers = false } } end
+      config = function()
+        require("which-key").setup { plugins = { registers = false } }
+      end,
     }
 
     use {
       'kevinhwang91/nvim-hlslens',
       config = function()
-        vim.api.nvim_set_keymap('n', '*', "*<Cmd>lua require('hlslens').start()<CR>",
-                                { silent = true, noremap = true })
-        vim.api.nvim_set_keymap('n', '#', "#<Cmd>lua require('hlslens').start()<CR>",
-                                { silent = true, noremap = true })
+        vim.api.nvim_set_keymap('n', '*', "*<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
+        vim.api.nvim_set_keymap('n', '#', "#<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
         vim.api.nvim_set_keymap('n', 'g*', "g*<Cmd>lua require('hlslens').start()<CR>",
                                 { silent = true, noremap = true })
         vim.api.nvim_set_keymap('n', 'g#', "g#<Cmd>lua require('hlslens').start()<CR>",
@@ -380,19 +415,23 @@ return packer.startup({
         vim.api.nvim_set_keymap('n', '<leader>l', '<Cmd>noh<CR>', { silent = true, noremap = true })
 
         require('hlslens').setup({ calm_down = false })
-      end
+      end,
     }
 
     use {
       'JoosepAlviste/nvim-ts-context-commentstring',
       requires = { 'nvim-treesitter/nvim-treesitter' },
-      config = [[require('aceforeverd.plugins.commentstring')]]
+      config = function()
+        require('aceforeverd.plugins.commentstring')
+      end,
     }
 
     use {
       "folke/todo-comments.nvim",
       requires = "nvim-lua/plenary.nvim",
-      config = function() require("todo-comments").setup {} end
+      config = function()
+        require("todo-comments").setup {}
+      end,
     }
 
     use { 'michaelb/sniprun', run = 'bash ./install.sh' }
@@ -404,64 +443,82 @@ return packer.startup({
       requires = { 'nvim-treesitter/nvim-treesitter' },
       config = function()
         require('spellsitter').setup { hl = 'SpellBad', captures = { 'comment' } }
-      end
+      end,
     }
 
     use {
       'lewis6991/gitsigns.nvim',
-      cond = function() return vim.fn.has('nvim-0.5.0') == 1 end,
+      cond = function()
+        return vim.fn.has('nvim-0.5.0') == 1
+      end,
       requires = { 'nvim-lua/plenary.nvim' },
-      config = function() require('aceforeverd.plugins.gitsigns') end
+      config = function()
+        require('aceforeverd.plugins.gitsigns')
+      end,
     }
 
     use {
       'famiu/feline.nvim',
-      cond = function() return vim.fn.has('nvim-0.5.0') == 1 end,
+      cond = function()
+        return vim.fn.has('nvim-0.5.0') == 1
+      end,
       requires = { 'kyazdani42/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
-      config = function() require('aceforeverd.plugins.feline') end
+      config = function()
+        require('aceforeverd.plugins.feline')
+      end,
     }
 
     use {
       'akinsho/nvim-bufferline.lua',
       requires = 'kyazdani42/nvim-web-devicons',
-      cond = function() return vim.fn.has('nvim-0.5.0') == 1 end,
-      config = function() require('aceforeverd.plugins.bufferline') end
+      cond = function()
+        return vim.fn.has('nvim-0.5.0') == 1
+      end,
+      config = function()
+        require('aceforeverd.plugins.bufferline')
+      end,
     }
 
     use {
       'famiu/bufdelete.nvim',
-      config = [[vim.api.nvim_set_keymap('n', '<leader>bd', '<cmd>Bdelete<cr>', { noremap = true, silent =true })]]
+      config = [[vim.api.nvim_set_keymap('n', '<leader>bd', '<cmd>Bdelete<cr>', { noremap = true, silent =true })]],
     }
 
     use {
       'simrat39/symbols-outline.nvim',
-      config = function() vim.g.symbols_outline = { highlight_hovered_item = true } end
+      config = function()
+        vim.g.symbols_outline = { highlight_hovered_item = true }
+      end,
     }
 
-    use {
-      'ibhagwan/fzf-lua',
-      requires = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' }
-    }
+    use { 'ibhagwan/fzf-lua', requires = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' } }
 
     use {
       'numToStr/Comment.nvim',
       requires = { 'JoosepAlviste/nvim-ts-context-commentstring' },
-      config = [[require('aceforeverd.plugins.comment')]]
+      config = [[require('aceforeverd.plugins.comment')]],
     }
 
-    use { 'windwp/nvim-autopairs', config = function() require('aceforeverd.plugins.autopairs') end }
+    use {
+      'windwp/nvim-autopairs',
+      config = function()
+        require('aceforeverd.plugins.autopairs')
+      end,
+    }
 
     use {
       's1n7ax/nvim-comment-frame',
       requires = { { 'nvim-treesitter' } },
       config = function()
         require('nvim-comment-frame').setup { keymap = '<leader>cc', multiline_keymap = '<leader>cm' }
-      end
+      end,
     }
 
     use {
       "luukvbaal/nnn.nvim",
-      config = function() require("nnn").setup() end
+      config = function()
+        require("nnn").setup()
+      end,
     }
 
     use {
@@ -472,6 +529,8 @@ return packer.startup({
         require('crates').setup()
       end,
     }
-  end
+
+    use { 'sindrets/winshift.nvim' }
+  end,
 })
 

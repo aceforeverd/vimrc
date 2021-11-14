@@ -675,7 +675,7 @@ let g:nvimgdb_disable_start_keymaps = 1
 map <Leader>gg <Plug>(git-messenger)
 
 " neoformat
-let g:neoformat_enabled_lua = ['luaformat']
+let g:neoformat_enabled_lua = ['luaformat', 'stylua']
 
 " vim-license
 let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
