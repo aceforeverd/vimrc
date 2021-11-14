@@ -14,20 +14,55 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 if vim.g.my_cmp_source ~= 'nvim_lsp' then return end
 
-local default_map_opts = { noremap = true, silent = true }
+vim.g.UltiSnipsRemoveSelectModeMappings = 0
+
+local has_words_before = function()
+  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and
+             vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local feedkey = function(key, mode)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
 
 local cmp = require('cmp')
+local luasnip = require('luasnip')
+
+local tab_map = function(fallback)
+  if cmp.visible() then
+    cmp.select_next_item()
+  elseif luasnip.expand_or_jumpable() then
+    feedkey('<Plug>luasnip-expand-or-jump', '')
+  elseif has_words_before() then
+    cmp.complete()
+  else
+    fallback()
+  end
+end
+local s_tab_map = function(fallback)
+  if cmp.visible() then
+    cmp.select_prev_item()
+  elseif luasnip.jumpable(-1) then
+    feedkey('<Plug>luasnip-jump-prev', '')
+  else
+    fallback()
+  end
+end
+
 local lspkind = require('lspkind')
+
 cmp.setup({
-  snippet = { expand = function(args) vim.fn["vsnip#anonymous"](args.body) end },
+  snippet = { expand = function(args) require('luasnip').lsp_expand(args.body) end },
   mapping = {
     ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
     ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
     ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
     ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 
-    ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' }),
+    ['<Tab>'] = cmp.mapping(tab_map, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(s_tab_map, { 'i', 's' }),
     ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
     ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
@@ -39,7 +74,10 @@ cmp.setup({
   },
   sources = {
     { name = 'nvim_lsp' },
+    { name = 'luasnip', opts = { use_show_condition = false } },
+    { name = 'ultisnips' },
     { name = 'vsnip' },
+
     { name = 'nvim_lua' },
     { name = 'buffer' },
     { name = 'path' },
@@ -62,6 +100,8 @@ cmp.setup({
       maxwidth = 50,
       menu = {
         nvim_lsp = "[LSP]",
+        luasnip = "[LuaSnip]",
+        ultisnips = '[UltiSnips]',
         vsnip = "[Vsnip]",
         buffer = "[Buffer]",
         path = "[Path]",
@@ -71,16 +111,16 @@ cmp.setup({
         treesitter = "[TreeSitter]",
         calc = '[Calc]',
         tmux = "[Tmux]",
-        luasnip = "[LuaSnip]",
         spell = '[Spell]',
-        cmdline = '[Cmdline]',
+        cmdline = '[Cmdline]'
       }
     })
   }
 })
 
+
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
+cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
 
 -- vsnip
 vim.api.nvim_set_keymap('i', '<c-j>',
@@ -89,8 +129,7 @@ vim.api.nvim_set_keymap('i', '<c-j>',
 vim.api.nvim_set_keymap('s', '<c-j>',
                         "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'",
                         { expr = true })
-
-vim.api.nvim_set_keymap('n', 's', '<Plug>(vsnip-select-text)', default_map_opts)
-vim.api.nvim_set_keymap('x', 's', '<Plug>(vsnip-select-text)', default_map_opts)
-vim.api.nvim_set_keymap('n', 'S', '<Plug>(vsnip-cut-text)', default_map_opts)
-vim.api.nvim_set_keymap('x', 'S', '<Plug>(vsnip-cut-text)', default_map_opts)
+vim.api.nvim_set_keymap('i', '<c-k>', "vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)' : '<C-k>'",
+                        { expr = true })
+vim.api.nvim_set_keymap('s', '<c-k>', "vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)' : '<C-k>'",
+                        { expr = true })

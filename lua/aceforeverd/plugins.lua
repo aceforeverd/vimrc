@@ -51,7 +51,7 @@ return packer.startup({
         -- neovim builtin lsp status line component
         'nvim-lua/lsp-status.nvim',
         -- LSP signature hint as you type
-        'ray-x/lsp_signature.nvim',
+        'ray-x/lsp_signature.nvim'
       },
       config = function() require('aceforeverd.plugins.lsp') end
     }
@@ -85,19 +85,23 @@ return packer.startup({
       config = function() require('aceforeverd.plugins.nvim-cmp') end
     }
 
+    use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }
+
+    use { 'hrsh7th/vim-vsnip', requires = { 'hrsh7th/vim-vsnip-integ' } }
+
     use {
       'onsails/lspkind-nvim',
       config = function() require('lspkind').init { with_text = true } end
     }
 
-    use {'nvim-lua/lsp-status.nvim' }
+    use { 'nvim-lua/lsp-status.nvim' }
 
     use {
       'kosayoda/nvim-lightbulb',
       config = function()
         vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
       end,
-      cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
+      cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end
     }
 
     use { 'weilbith/nvim-code-action-menu' }
@@ -125,8 +129,7 @@ return packer.startup({
     use {
       'RRethy/vim-illuminate',
       cond = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
-      config = function() require('aceforeverd.plugins.illuminate')
-      end
+      config = function() require('aceforeverd.plugins.illuminate') end
     }
 
     -- use fzf to display builtin LSP results
@@ -254,7 +257,7 @@ return packer.startup({
 
     use {
       'fannheyward/telescope-coc.nvim',
-      cond = function() return vim.g.my_cmp_source == 'coc' end,
+      cond = function() return vim.g.my_cmp_source == 'coc' end
     }
 
     use {
@@ -360,11 +363,7 @@ return packer.startup({
 
     use {
       "folke/which-key.nvim",
-      config = function()
-        require("which-key").setup {
-          plugins = { registers = false }
-        }
-      end
+      config = function() require("which-key").setup { plugins = { registers = false } } end
     }
 
     use {
@@ -380,22 +379,20 @@ return packer.startup({
                                 { silent = true, noremap = true })
         vim.api.nvim_set_keymap('n', '<leader>l', '<Cmd>noh<CR>', { silent = true, noremap = true })
 
-        require('hlslens').setup({ calm_down = false})
+        require('hlslens').setup({ calm_down = false })
       end
     }
 
     use {
       'JoosepAlviste/nvim-ts-context-commentstring',
       requires = { 'nvim-treesitter/nvim-treesitter' },
-      config =[[require('aceforeverd.plugins.commentstring')]]
+      config = [[require('aceforeverd.plugins.commentstring')]]
     }
 
     use {
       "folke/todo-comments.nvim",
       requires = "nvim-lua/plenary.nvim",
-      config = function()
-        require("todo-comments").setup {}
-      end
+      config = function() require("todo-comments").setup {} end
     }
 
     use { 'michaelb/sniprun', run = 'bash ./install.sh' }
@@ -452,12 +449,7 @@ return packer.startup({
       config = [[require('aceforeverd.plugins.comment')]]
     }
 
-    use {
-      'windwp/nvim-autopairs',
-      config = function()
-        require('aceforeverd.plugins.autopairs')
-      end
-    }
+    use { 'windwp/nvim-autopairs', config = function() require('aceforeverd.plugins.autopairs') end }
 
     use {
       's1n7ax/nvim-comment-frame',

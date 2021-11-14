@@ -185,8 +185,6 @@ if dein#load_state(s:dein_repo)
 
     " snippets
     call dein#add('honza/vim-snippets')
-    call dein#add('hrsh7th/vim-vsnip')
-    call dein#add('hrsh7th/vim-vsnip-integ')
 
     " interface
     call dein#add('sheerun/vim-polyglot', {'merged': 0})
