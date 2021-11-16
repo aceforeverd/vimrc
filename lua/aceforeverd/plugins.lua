@@ -124,17 +124,10 @@ return packer.startup({
     use {
       'mfussenegger/nvim-jdtls',
       ft = { 'java' },
-      config = function()
-        require('jdtls').start_or_attach {
-          -- The command that starts the language server
-          cmd = { 'java', '-Dosgi.bundles.defaultStartLevel=4' },
-          -- TODO: add more mappings from nvim-jdtls
-          on_attach = require('aceforeverd.config.lsp-basic').on_attach,
-          capabilities = require('aceforeverd.config.lsp-basic').capabilities,
-
-          root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' }),
-        }
-      end,
+      requires = { 'williamboman/nvim-lsp-installer' },
+      config = function ()
+        require('aceforeverd.plugins.jdtls').setup()
+      end
     }
 
     use {

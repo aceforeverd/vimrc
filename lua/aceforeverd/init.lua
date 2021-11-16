@@ -39,5 +39,5 @@ vim.cmd[[
 augroup gp_illuminate_highlight
 autocmd!
 autocmd ColorScheme * highlight illuminatedWord guibg=#5e5e5e
-autocmd ColorScheme * highlight illuminatedCurWord cterm=bold guibg=#5e5e7f gui=bold
+autocmd ColorScheme * highlight illuminatedCurWord guibg=#5e5e8f
 augroup END]]

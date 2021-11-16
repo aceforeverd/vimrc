@@ -30,7 +30,7 @@ lsp_status.config {
     if symbol.valueRange then
       local value_range = {
         ["start"] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[1]) },
-        ["end"] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[2]) }
+        ["end"] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[2]) },
       }
 
       return require("lsp-status.util").in_range(cursor_pos, value_range)
@@ -39,7 +39,7 @@ lsp_status.config {
   current_function = false,
   show_filename = false,
   status_symbol = '',
-  diagnostics = true
+  diagnostics = true,
 }
 lsp_status.register_progress()
 
@@ -47,9 +47,9 @@ local signs = {}
 local group = 'LspDiagnosticsSign'
 if vim.fn.has('nvim-0.6.0') == 1 then
   group = 'DiagnosticSign'
-  signs = vim.tbl_extend('keep', signs, { Error = " ", Warn = " ", Hint = " ", Info = " " })
+  signs = vim.tbl_extend('force', signs, { Error = " ", Warn = " ", Hint = " ", Info = " " })
 else
-  signs = vim.tbl_extend('keep', signs, { Error = " ", Warning = " ", Hint = " ", Information = " " })
+  signs = vim.tbl_extend('force', signs, { Error = " ", Warning = " ", Hint = " ", Information = " " })
 end
 
 for type, icon in pairs(signs) do
@@ -57,22 +57,17 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
-local pub_diag_config = {
-  virtual_text = true,
-  signs = true,
-  underline = true,
-  update_in_insert = true
-}
+local pub_diag_config = { virtual_text = true, signs = true, underline = true, update_in_insert = false }
 if vim.fn.has('nvim-0.6.0') == 1 then
   pub_diag_config['virtual_text'] = {
     prefix = '■', -- Could be '●', '▎', 'x'
-    source = 'always'
+    source = 'always',
   }
   pub_diag_config['float'] = { source = 'always' }
 end
 
-vim.lsp.handlers['textDocument/publishDiagnostics'] =
-    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, pub_diag_config)
+vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics,
+                                                                   pub_diag_config)
 
 -- Show line diagnostics automatically in hover window
 --  disabled: should only show if cursor is in the `DiagnosticUnderline*` text.
@@ -100,8 +95,8 @@ lspconfig.clangd.setup {
     "--clang-tidy",
     "--cross-file-rename",
     "--all-scopes-completion",
-    "--suggest-missing-includes"
-  }
+    "--suggest-missing-includes",
+  },
 }
 
 lspconfig.vimls.setup(default_lsp_cfg)
@@ -109,3 +104,22 @@ lspconfig.pyright.setup(default_lsp_cfg)
 lspconfig.tsserver.setup(default_lsp_cfg)
 lspconfig.gopls.setup(default_lsp_cfg)
 lspconfig.dockerls.setup(default_lsp_cfg)
+lspconfig.yamlls.setup(default_lsp_cfg)
+lspconfig.bashls.setup(default_lsp_cfg)
+
+-- install via 'npm i -g vscode-langservers-extracted'
+local html_addtional_cap = { textDocument = { completion = { completionItem = { snippetSupport = true } } } }
+local html_cfg = vim.tbl_deep_extend('force', default_lsp_cfg, { capabilities = html_addtional_cap })
+lspconfig.html.setup(html_cfg)
+lspconfig.cssls.setup(html_cfg)
+lspconfig.jsonls.setup(vim.tbl_deep_extend('keep', html_cfg, {
+  commands = {
+    JsonFormat = {
+      function()
+        vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line("$"), 0 })
+      end,
+    },
+  },
+}))
+
+lspconfig.tailwindcss.setup(default_lsp_cfg)

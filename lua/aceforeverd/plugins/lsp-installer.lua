@@ -13,6 +13,10 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+----------------------------------------------------------------------
+--        use lsp-installer only to handle lsps that is not         --
+--                easy to setup from system package                 --
+----------------------------------------------------------------------
 if vim.g.my_cmp_source ~= 'nvim_lsp' then
   return
 end
@@ -86,28 +90,9 @@ local setup_cmake = function(server)
     }
 end
 
-local setup_yaml = function(server)
-    server:setup {
-      cmd = {
-        server.root_dir .. '/node_modules/yaml-language-server/bin/yaml-language-server',
-        '--stdio'
-      },
-      on_attach = on_attach,
-      capabilities = capabilities
-    }
-end
-
 local setup_lemminux = function(server)
     server:setup {
       cmd = { server.root_dir .. '/lemminx' },
-      on_attach = on_attach,
-      capabilities = capabilities
-    }
-end
-
-local setup_bash = function(server)
-    server:setup {
-      cmd = { server.root_dir .. '/node_modules/bash-language-server/bin/main.js', 'start' },
       on_attach = on_attach,
       capabilities = capabilities
     }
@@ -117,9 +102,7 @@ local setup_lsp_configs = {
   sumneko_lua = setup_sumeko_lua,
   rust_analyzer = setup_rust,
   cmake = setup_cmake,
-  yamlls = setup_yaml,
   lemminx = setup_lemminux,
-  bashls = setup_bash
 }
 
 -- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')

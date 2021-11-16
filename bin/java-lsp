@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -eE
+
+if [ $# -ne 3 ]; then
+  echo "Usage: $0 {ROOT_PATH} {CFG_PATH} {WORKSPACE_PATH}"
+  exit 1
+fi
+
+# assume _ROOT_DIR, _CFG_PATH, _WORKSPACE_DIR all absolute path
+_ROOT_DIR=$1
+_CFG_PATH=$2
+_WORKSPACE_DIR=$3
+
+pushd "$_ROOT_DIR"
+
+JAR="$_ROOT_DIR/plugins/org.eclipse.equinox.launcher_*.jar"
+
+java \
+  -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044 \
+  -javaagent:"$_ROOT_DIR/lombok.jar" \
+  -Xbootclasspath/a:"$_ROOT_DIR/lombok.jar" \
+  -Declipse.application=org.eclipse.jdt.ls.core.id1 \
+  -Dosgi.bundles.defaultStartLevel=4 \
+  -Declipse.product=org.eclipse.jdt.ls.core.product \
+  -Dlog.protocol=true \
+  -Dlog.level=ALL \
+  -noverify \
+  -Xms2g \
+  -Xmx4G \
+  -jar $JAR \
+  -configuration "$_CFG_PATH" \
+  -data "$_WORKSPACE_DIR" \
+  --add-modules=ALL-SYSTEM \
+  --add-opens java.base/java.util=ALL-UNNAMED \
+  --add-opens java.base/java.lang=ALL-UNNAMED
+
+popd
