@@ -72,16 +72,6 @@ local setup_sumeko_lua = function(server)
     }
 end
 
-local setup_rust = function (server)
-  require('rust-tools').setup {
-    server = {
-      cmd = { server.root_dir .. '/rust-analyzer' },
-      on_attach = on_attach,
-      capabilities = capabilities
-    }
-  }
-end
-
 local setup_cmake = function(server)
     server:setup {
       cmd = { server.root_dir .. '/venv/bin/cmake-language-server' },
@@ -100,7 +90,6 @@ end
 
 local setup_lsp_configs = {
   sumneko_lua = setup_sumeko_lua,
-  rust_analyzer = setup_rust,
   cmake = setup_cmake,
   lemminx = setup_lemminux,
 }

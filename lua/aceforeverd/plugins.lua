@@ -117,9 +117,16 @@ return packer.startup({
 
     use { 'weilbith/nvim-code-action-menu' }
 
-    use { 'simrat39/rust-tools.nvim' }
-
     use { 'nanotee/sqls.nvim', requires = { 'neovim/nvim-lspconfig' } }
+
+    use {
+      'simrat39/rust-tools.nvim',
+      requires = { 'williamboman/nvim-lsp-installer' },
+      event = { 'BufRead Cargo.toml', 'FileType rust' },
+      config = function()
+        require('aceforeverd.plugins.rust-tools').setup()
+      end,
+    }
 
     use {
       'mfussenegger/nvim-jdtls',
@@ -127,6 +134,14 @@ return packer.startup({
       requires = { 'williamboman/nvim-lsp-installer' },
       config = function ()
         require('aceforeverd.plugins.jdtls').setup()
+      end
+    }
+
+    use { 'scalameta/nvim-metals',
+      requires = { "nvim-lua/plenary.nvim", 'williamboman/nvim-lsp-installer' },
+      ft = { 'scala', 'sbt' },
+      config = function ()
+        require('aceforeverd.plugins.metals').setup()
       end
     }
 
@@ -156,8 +171,6 @@ return packer.startup({
         -- vim.lsp.handlers["callHierarchy/outgoingCalls"] = require('fzf_lsp').outgoing_calls_handler
       end,
     }
-
-    use { 'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }, ft = { 'scala', 'sbt' } }
 
     use {
       'jose-elias-alvarez/null-ls.nvim',
