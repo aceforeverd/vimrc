@@ -85,13 +85,16 @@ cmp.setup({
     { name = 'nvim_lua' },
     {
       name = 'buffer',
-      get_bufnrs = function()
-        local bufs = {}
-        for _, win in ipairs(vim.api.nvim_list_wins()) do
-          bufs[vim.api.nvim_win_get_buf(win)] = true
-        end
-        return vim.tbl_keys(bufs)
-      end,
+      opts = {
+        get_bufnrs = function()
+          -- only the visible buffer
+          local bufs = {}
+          for _, win in ipairs(vim.api.nvim_list_wins()) do
+            bufs[vim.api.nvim_win_get_buf(win)] = true
+          end
+          return vim.tbl_keys(bufs)
+        end,
+      }
     },
     { name = 'path' },
     { name = 'treesitter' },
@@ -99,7 +102,7 @@ cmp.setup({
     { name = 'calc' },
     { name = 'spell' },
     { name = 'tmux', keyword_length = 3, max_item_count = 5 },
-    { name = 'look', keyword_length = 2, max_item_count = 8, default_map_opts = { convert_case = true, loud = true } },
+    { name = 'look', keyword_length = 2, max_item_count = 8, opts = { convert_case = true, loud = true } },
     { name = 'cmdline' },
   },
   formatting = {
@@ -126,11 +129,3 @@ cmp.setup({
   },
 })
 
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
-
--- vsnip
-vim.api.nvim_set_keymap('i', '<c-j>', "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'", { expr = true })
-vim.api.nvim_set_keymap('s', '<c-j>', "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'", { expr = true })
-vim.api.nvim_set_keymap('i', '<c-k>', "vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)' : '<C-k>'", { expr = true })
-vim.api.nvim_set_keymap('s', '<c-k>', "vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)' : '<C-k>'", { expr = true })

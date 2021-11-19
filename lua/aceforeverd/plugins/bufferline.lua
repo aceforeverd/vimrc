@@ -29,6 +29,10 @@ local map_opt = { noremap = true, silent = true }
 
 set_map('n', '<M-.>', '<Cmd>BufferLineCycleNext<CR>', map_opt)
 set_map('n', '<M-,>', '<Cmd>BufferLineCyclePrev<CR>', map_opt)
+-- override unimpaired mappings
+set_map('n', ']b', '<Cmd>BufferLineCycleNext<CR>', map_opt)
+set_map('n', '[b', '<Cmd>BufferLineCyclePrev<CR>', map_opt)
+
 set_map('n', '<M-<>', '<Cmd>BufferLineMovePrev<CR>', map_opt)
 set_map('n', '<M->>', '<Cmd>BufferLineMoveNext<CR>', map_opt)
 

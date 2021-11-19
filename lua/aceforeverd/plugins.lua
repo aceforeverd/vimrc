@@ -85,7 +85,6 @@ return packer.startup({
         'quangnguyen30192/cmp-nvim-ultisnips',
 
         'onsails/lspkind-nvim',
-        'windwp/nvim-autopairs',
       },
       config = function()
         require('aceforeverd.plugins.nvim-cmp')
@@ -94,7 +93,11 @@ return packer.startup({
 
     use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }
 
-    use { 'hrsh7th/vim-vsnip', requires = { 'hrsh7th/vim-vsnip-integ' } }
+    use { 'hrsh7th/vim-vsnip',
+      requires = { 'hrsh7th/vim-vsnip-integ' },
+      config = function ()
+      require('aceforeverd.plugins.vsnip').setup()
+    end }
 
     use {
       'onsails/lspkind-nvim',
@@ -179,7 +182,7 @@ return packer.startup({
         return vim.g.my_cmp_source == 'nvim_lsp'
       end,
       config = function()
-        require('aceforeverd.plugins.null-ls')
+        require('aceforeverd.plugins.null-ls').setup()
       end,
     }
 
@@ -203,6 +206,7 @@ return packer.startup({
         'nvim-treesitter/playground',
         'nvim-treesitter/nvim-treesitter-textobjects',
         'nvim-treesitter/nvim-treesitter-refactor',
+        'RRethy/nvim-treesitter-textsubjects'
       },
       run = ':TSUpdate',
       config = function()
@@ -276,6 +280,7 @@ return packer.startup({
 
     use {
       'sudormrfbin/cheatsheet.nvim',
+      cmd = { 'CheatSheet', 'CheatSheetEdit' },
       config = function()
         require("cheatsheet").setup({
           bundled_cheatsheets = true,
@@ -371,9 +376,9 @@ return packer.startup({
       'pwntester/octo.nvim',
       requires = { 'nvim-telescope/telescope.nvim', 'kyazdani42/nvim-web-devicons' },
       config = function()
-        require"octo".setup()
+        require('octo').setup()
       end,
-      cmd = 'Octo*',
+      cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' }
     }
 
     use { 'Pocco81/HighStr.nvim' }
@@ -507,6 +512,9 @@ return packer.startup({
 
     use {
       'windwp/nvim-autopairs',
+      cond = function()
+        return vim.g.my_autopair == 'nvim-autopair'
+      end,
       config = function()
         require('aceforeverd.plugins.autopairs')
       end,
@@ -522,6 +530,7 @@ return packer.startup({
 
     use {
       "luukvbaal/nnn.nvim",
+      cmd = { 'NnnExplorer', 'NnnPicker' },
       config = function()
         require("nnn").setup()
       end,
@@ -535,6 +544,8 @@ return packer.startup({
         require('crates').setup()
       end,
     }
+
+    use { 'AllenDang/nvim-expand-expr' }
 
     use { 'sindrets/winshift.nvim' }
   end,

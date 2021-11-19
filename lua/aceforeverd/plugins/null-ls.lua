@@ -13,6 +13,9 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+local M = {}
+
+function M.setup()
 local null_ls = require('null-ls')
 
 local sources = {
@@ -36,3 +39,6 @@ require("lspconfig")["null-ls"].setup({
     on_attach = require('aceforeverd.config.lsp-basic').on_attach,
     capabilities = require('aceforeverd.config.lsp-basic').capabilities
 })
+    end
+
+return M

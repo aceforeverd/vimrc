@@ -41,6 +41,10 @@ if !exists('g:my_cmp_source')
    endif
 endif
 
+if !exists('g:my_autopair')
+   let g:my_autopair = 'delimitmate'
+endif
+
 if !exists('g:my_name')
     let g:my_name = 'Ace'
 endif
@@ -87,15 +91,26 @@ if g:my_cmp_source ==? 'coc'
    Plug 'neoclide/coc-neco'
 endif
 
-if g:my_cmp_source !=? 'nvim_lsp'
+if g:my_autopair ==? 'delimitmate'
    Plug 'raimondi/delimitmate'
+endif
+
+if has('python3')
+   Plug 'SirVer/ultisnips'
+   " TODO:: condional map
+   let g:UltiSnipsExpandTrigger       = '<leader>e'
+   let g:UltiSnipsListSnippets        = '<c-tab>'
+   let g:UltiSnipsJumpForwardTrigger  = '<c-j>'
+   let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 endif
 
 Plug 'wincent/ferret'
 let g:FerretMap = 0
 
 Plug 'google/vim-maktaba'
-" Plug 'google/vim-coverage'
+Plug 'google/vim-glaive'
+Plug 'google/vim-coverage'
+Plug 'google/vim-codefmt'
 
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
 let g:doge_enable_mappings = 0
