@@ -10,14 +10,15 @@
 
 + Vim 8.0+ or Neovim 0.4.0+
 + git
-+ nodejs env with [neovim node client](https://github.com/neovim/node-client) installed
-+ python3.8+ env with [pynvim](https://github.com/neovim/pynvim) installed
 
 ## Optional Dependencies
 
++ nodejs env with [neovim node client](https://github.com/neovim/node-client) installed
++ python3.8+ env with [pynvim](https://github.com/neovim/pynvim) installed
++ sqlite3
 + searchers:
-  [the_silver_searcher](https://github.com/ggreer/the_silver_searcher)
-  [ripgrep](https://github.com/BurntSushi/ripgrep)
+  - [the_silver_searcher](https://github.com/ggreer/the_silver_searcher)
+  - [ripgrep](https://github.com/BurntSushi/ripgrep)
 + taging: [ctags](https://github.com/universal-ctags/ctags), [gtags](https://www.gnu.org/software/global/)
 + utilities: [bat](https://github.com/sharkdp/bat), [delta](https://github.com/dandavison/delta)
 + [nerd font](https://github.com/ryanoasis/nerd-fonts)
@@ -25,7 +26,6 @@
 + shells: [shellcheck](https://github.com/koalaman/shellcheck), [shfmt](https://github.com/mvdan/sh)
 + [vim-vint](https://github.com/Vimjas/vint)
 + [bash-language-server](https://github.com/bash-lsp/bash-language-server)
-+ language toolchains: rust/rustup, java, go, haskell etc
 
 ---
 
