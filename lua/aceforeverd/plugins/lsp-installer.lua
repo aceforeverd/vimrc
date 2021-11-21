@@ -35,6 +35,8 @@ else
   return
 end
 
+-- TODO: if a lsp server is not available (command not found), install and setup via lsp-installer
+
 local on_attach = require('aceforeverd.config.lsp-basic').on_attach
 local capabilities = require('aceforeverd.config.lsp-basic').capabilities
 

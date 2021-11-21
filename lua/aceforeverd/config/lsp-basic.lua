@@ -43,10 +43,22 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', default_map_opts)
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', default_map_opts)
 
-  -- lsp_signature.nvim
-  require('lsp_signature').on_attach()
+  -- if vim.fn.has('nvim-0.6.0') == 1 then
+  --   if client.supports_method('textDocument/documentHighlight') then
+  --     -- neovim nighly have problem with vim-illumninate
+  --     vim.cmd [[
+  --     autocmd BufNew,BufEnter <buffer> IlluminationDisable
+  --     autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+  --     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+  --     ]]
+  --   end
+  -- else
   -- vim-illuminate
   require('illuminate').on_attach(client)
+  -- end
+
+  -- lsp_signature.nvim
+  require('lsp_signature').on_attach()
 
   require('lsp-status').on_attach(client)
 end

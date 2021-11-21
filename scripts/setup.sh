@@ -105,6 +105,7 @@ if [[ -n "$INSTALL_PLUGINS" ]]; then
         ln -s vimrc.vim init.vim
         echo -e "${GREEN}installing plugins for neovim ... ${NC}"
         nvim --headless -u init.vim -c "call aceforeverd#util#install()" -c "qa!"
+        nvim --headless -u init.vim -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
         echo -e "${GREEN}all plugins installed${NC}"
     else
         ln -s vimrc.vim vimrc

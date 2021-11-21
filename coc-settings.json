@@ -166,6 +166,20 @@
       "args": ["-"]
     }
   },
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-11",
+      "path": "/Users/danielace/.sdkman/candidates/java/11.0.11.hs-adpt",
+      "default": true
+    },
+    {
+      "name": "JavaSE-14",
+      "path": "/Users/danielace/.sdkman/candidates/java/16.0.1.hs-adpt"
+    }
+  ],
+  "java.home": "/Users/danielace/.sdkman/candidates/java/11.0.11.hs-adpt",
+  "java.jdt.ls.vmargs": "-javaagent:/Users/danielace/.m2/repository/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar",
+  "metals.javaHome": "/Users/danielace/.sdkman/candidates/java/11.0.11.hs-adpt",
   "metals.statusBarEnabled": true,
   "metals.showInferredType": true,
   "metals.showImplicitArguments": true,

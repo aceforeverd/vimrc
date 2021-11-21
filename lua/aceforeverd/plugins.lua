@@ -26,6 +26,7 @@ vim.cmd([[
   augroup packer_user_config
     autocmd!
     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+    autocmd User PackerComplete lua vim.api.nvim_notify('Packer Done', 2, {})
   augroup end
 ]])
 
@@ -264,7 +265,12 @@ return packer.startup({
 
     use {
       "nvim-telescope/telescope-frecency.nvim",
-      requires = { 'nvim-telescope/telescope.nvim', "tami5/sqlite.lua", 'kyazdani42/nvim-web-devicons' },
+      requires = {
+        'nvim-telescope/telescope.nvim',
+        -- requires sqlite3 installed
+        "tami5/sqlite.lua",
+        'kyazdani42/nvim-web-devicons'
+      },
     }
 
     use {

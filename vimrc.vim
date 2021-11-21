@@ -368,6 +368,8 @@ set matchtime=2
 set history=1000
 set wildmenu
 set backspace=indent,eol,start
+" set spell
+set spelllang=en_us,en
 
 " No annoying sound on errors
 set noerrorbells
