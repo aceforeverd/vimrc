@@ -211,7 +211,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
     call dein#add('wfxr/minimap.vim')
-    call dein#add('sainnhe/sonokai', {'merged': 0})
+    call dein#add('sainnhe/sonokai', {'merged': 0, 'hook_source': 'colorscheme sonokai'})
     call dein#add('rafi/awesome-vim-colorschemes', {'merged': 0})
 
     call dein#add('embear/vim-localvimrc')
@@ -753,7 +753,8 @@ if g:my_cmp_source !=? 'nvim_lsp'
 endif
 
 " there is autocmd for ColorScheme in lua & init_cmp_source
-colorscheme sonokai
+"  hook for sonokai
+call dein#call_hook('source')
 
 let s:after_vimrc = s:home . '/after.vim'
 if filereadable(s:after_vimrc)
