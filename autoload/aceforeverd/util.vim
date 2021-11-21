@@ -29,9 +29,6 @@ function! aceforeverd#util#install() abort
         execute 'CocUpdateSync'
         echomsg "Coc Plugins installed\n"
     endif
-    " if has('nvim-0.5')
-    "     execute 'PackerInstall'
-    " endif
 endfunction
 
 " update all plugins managed by different plug manager

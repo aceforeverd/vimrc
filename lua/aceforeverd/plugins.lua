@@ -39,6 +39,9 @@ packer.init({
   plugin_package = 'packer',
   max_jobs = 12,
   git = { clone_timeout = 30 },
+  display = {
+    open_fn = require('packer.util').float,
+  },
   profile = { enable = true, threshold = 1 },
 })
 

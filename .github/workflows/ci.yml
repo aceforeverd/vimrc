@@ -40,7 +40,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: ['14']
+        node_version: ['16']
         os: [ubuntu-latest, macOS-latest]
         neovim: [true, false]
         vim_version: [stable, nightly]
