@@ -18,17 +18,14 @@ Plug 'tpope/vim-endwise'
 Plug 'Shougo/neco-syntax'
 Plug 'Shougo/context_filetype.vim'
 Plug 'Shougo/neco-vim'
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+Plug 'rafi/awesome-vim-colorschemes'
 Plug 'dense-analysis/ale'
 
-Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'Shougo/neoinclude.vim'
-Plug 'rafi/awesome-vim-colorschemes'
 Plug 'Raimondi/delimitMate'
 
 Plug 'mhinz/vim-startify'
@@ -37,13 +34,97 @@ Plug 'itchyny/lightline.vim'
 
 Plug 'wincent/terminus'
 
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'mattn/vim-lsp-settings'
+
+Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
+Plug 'prabirshrestha/asyncomplete-file.vim'
+Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+Plug 'prabirshrestha/asyncomplete-necovim.vim'
+Plug 'htlsne/asyncomplete-look'
+
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+    inoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    inoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+    let g:lsp_format_sync_timeout = 1000
+    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+    autocmd User asyncomplete_setup call s:asyncomplete_setup_sources()
+augroup END
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+function! s:asyncomplete_setup_sources() abort
+
+  inoremap <silent> <expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ asyncomplete#force_refresh()
+
+  inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+  call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
+        \ 'name': 'neosnippet',
+        \ 'allowlist': ['*'],
+        \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
+        \ }))
+
+  call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+        \ 'name': 'buffer',
+        \ 'allowlist': ['*'],
+        \ 'blocklist': ['go'],
+        \ 'completor': function('asyncomplete#sources#buffer#completor'),
+        \ 'config': {
+          \    'max_buffer_size': 5000000,
+          \  },
+          \ }))
+  call asyncomplete#register_source({
+        \ 'name': 'look',
+        \ 'allowlist': ['text', 'markdown'],
+        \ 'completor': function('asyncomplete#sources#look#completor'),
+        \ })
+  call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+        \ 'name': 'file',
+        \ 'allowlist': ['*'],
+        \ 'priority': 10,
+        \ 'completor': function('asyncomplete#sources#file#completor')
+        \ }))
+  call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
+        \ 'name': 'necosyntax',
+        \ 'allowlist': ['*'],
+        \ 'completor': function('asyncomplete#sources#necosyntax#completor'),
+        \ }))
+  call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+        \ 'name': 'necovim',
+        \ 'allowlist': ['vim'],
+        \ 'completor': function('asyncomplete#sources#necovim#completor'),
+        \ }))
+endfunction
 
 call plug#end()
 
@@ -165,7 +246,7 @@ endtry
 set laststatus=2
 
 " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
-if &term == 'xterm-256color' || &term == 'screen-256color'
+if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
     " when start insert mode - blinking vertical bar
     let &t_SI = "\<Esc>[5 q"
     " when end insert/replace mode(common) - blinking block
@@ -256,92 +337,19 @@ let g:ale_sign_warning = '⚠'
 let g:ale_sign_info = 'ℹ'
 nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
+let g:ale_disable_lsp = 1
 
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh']
 
 
 set completeopt-=preview
-" echodoc
-let g:echodoc#enable_at_startup = 1
-
-" deoplete
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option({
-            \ 'auto_complete': v:true,
-            \ 'ignore_case': v:true,
-            \ 'smart_case': v:true,
-            \ })
-if !has('nvim')
-    call deoplete#custom#option('yarp', v:true)
-endif
+set completeopt+=menuone,noselect
 
 " <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> pumvisible() ? deoplete#smart_close_popup()."\<C-h>" :
-            \ delimitMate#BS()
-
-" Tab complete
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ deoplete#mappings#manual_complete()
-inoremap <expr> <S-TAB>
-            \ pumvisible() ? "\<C-p>" :
-            \ "\<S-TAB>"
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-call deoplete#custom#source('omni', 'input_patterns', {
-            \ 'ruby': ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::'],
-            \ 'java': '[^. *\t]\.\w*',
-            \ 'php': '\w+|[^. \t]->\w*|\w+::\w*',
-            \ 'javascript': '[^. *\t]\.\w*',
-            \ 'typescript': '[^. *\t]\.\w*|\h\w*:',
-            \ 'css': '[^. *\t]\.\w*',
-            \ })
-
-call deoplete#custom#source('omni', 'function',{
-            \ 'typescript': [ 'LanguageClient#complete', 'tsuquyomi#complete' ],
-            \ 'c': [ 'ClangComplete', 'LanguageClient#complete' ],
-            \ 'cpp': [ 'ClangComplete', 'LanguageClient#complete' ],
-            \ 'rust': [ 'racer#RacerComplete', 'LanguageClient#complete'],
-            \ 'php': [ 'phpactor#Complete', 'LanguageClient#complete' ],
-            \ })
-
-" source rank
-call deoplete#custom#source('look', 'rank', 70)
-
-" neoinclude
-if !exists('g:neoinclude#exts')
-    let g:neoinclude#exts = {}
-endif
-let g:neoinclude#exts.c = ['', 'h']
-let g:neoinclude#exts.cpp = ['', 'h', 'hpp', 'hxx']
-
-if !exists('g:neoinclude#paths')
-    let g:neoinclude#paths = {}
-endif
-
-let g:neoinclude#paths.c = '.,'
-            \ . '/usr/lib/gcc/*/*/include/,'
-            \ . '/usr/local/include/,'
-            \ . '/usr/lib/gcc/*/*/include-fixed/,'
-            \ . '/usr/include/,,'
-
-let g:neoinclude#paths.cpp = '.,'
-            \ . '/usr/include/c++/*/,'
-            \ . '/usr/include/c++/*/*/,'
-            \ . '/usr/include/c++/*/backward/,'
-            \ . '/usr/local/include/,'
-            \ . '/usr/lib/gcc/*/*/include/,'
-            \ . '/usr/lib/gcc/*/*/include-fixed/,'
-            \ . '/usr/lib/gcc/*/*/include/g++-v*/,'
-            \ . '/usr/lib/gcc/*/*/include/g++-v*/backward,'
-            \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
-            \ . '/usr/include/,,'
+" inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> pumvisible() ? deoplete#smart_close_popup()."\<C-h>" :
+"             \ delimitMate#BS()
 
 
 inoremap <C-Space> <C-x><c-o>
