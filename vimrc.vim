@@ -2,19 +2,24 @@
 
 set nocompatible
 
+let s:home = expand('<sfile>:p:h')
+let s:common_path = s:home . '/bundle'
+let s:common_pkg = s:common_path . '/pkgs'
+
 if !has('nvim')
-    let g:vimrc = $HOME . '/.vimrc'
+    let g:vimrc = s:home . '/vimrc'
 else
-    let g:vimrc = $HOME . '/.config/nvim/init.vim'
+    let g:vimrc = s:home . '/init.vim'
 endif
 
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+nnoremap <Leader>ec :execute 'edit' g:vimrc<CR>
+
+if empty(glob(s:home. '/autoload/plug.vim'))
+    silent execute '!curl -fLo '.s:home.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-call plug#begin('~/.vim-commons/pkgs')
+call plug#begin(s:common_pkg)
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
@@ -31,7 +36,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 Plug 'rafi/awesome-vim-colorschemes'
-Plug 'dense-analysis/ale'
 
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
@@ -45,7 +49,7 @@ omap ah <Plug>(GitGutterTextObjectOuterPending)
 xmap ih <Plug>(GitGutterTextObjectInnerVisual)
 xmap ah <Plug>(GitGutterTextObjectOuterVisual)
 if has('nvim-0.4.0')
-  let g:gitgutter_highlight_linenrs = 1
+    let g:gitgutter_highlight_linenrs = 1
 endif
 let g:gitgutter_close_preview_on_escape = 1
 if has('nvim-0.4.0') || has('popupwin')
@@ -56,17 +60,21 @@ Plug 'itchyny/lightline.vim'
 
 Plug 'wincent/terminus'
 
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'mattn/vim-lsp-settings'
+if has('timers')
+    Plug 'dense-analysis/ale'
 
-Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
-Plug 'prabirshrestha/asyncomplete-buffer.vim'
-Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
-Plug 'prabirshrestha/asyncomplete-necovim.vim'
-Plug 'htlsne/asyncomplete-look'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+    Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+    Plug 'prabirshrestha/asyncomplete-necovim.vim'
+    Plug 'htlsne/asyncomplete-look'
+endif
+
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
 
 
 function! s:on_lsp_buffer_enabled() abort
@@ -102,50 +110,52 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 function! s:asyncomplete_setup_sources() abort
+    set completeopt-=preview
+    set completeopt+=menuone,noselect
 
-  inoremap <silent> <expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ asyncomplete#force_refresh()
+    inoremap <silent> <expr> <TAB>
+                \ pumvisible() ? "\<C-n>" :
+                \ <SID>check_back_space() ? "\<TAB>" :
+                \ asyncomplete#force_refresh()
 
-  inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-  call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
-        \ 'name': 'neosnippet',
-        \ 'allowlist': ['*'],
-        \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
-        \ }))
+    call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
+                \ 'name': 'neosnippet',
+                \ 'allowlist': ['*'],
+                \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
+                \ }))
 
-  call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-        \ 'name': 'buffer',
-        \ 'allowlist': ['*'],
-        \ 'blocklist': ['go'],
-        \ 'completor': function('asyncomplete#sources#buffer#completor'),
-        \ 'config': {
-          \    'max_buffer_size': 5000000,
-          \  },
-          \ }))
-  call asyncomplete#register_source({
-        \ 'name': 'look',
-        \ 'allowlist': ['text', 'markdown'],
-        \ 'completor': function('asyncomplete#sources#look#completor'),
-        \ })
-  call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-        \ 'name': 'file',
-        \ 'allowlist': ['*'],
-        \ 'priority': 10,
-        \ 'completor': function('asyncomplete#sources#file#completor')
-        \ }))
-  call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
-        \ 'name': 'necosyntax',
-        \ 'allowlist': ['*'],
-        \ 'completor': function('asyncomplete#sources#necosyntax#completor'),
-        \ }))
-  call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-        \ 'name': 'necovim',
-        \ 'allowlist': ['vim'],
-        \ 'completor': function('asyncomplete#sources#necovim#completor'),
-        \ }))
+    call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+                \ 'name': 'buffer',
+                \ 'allowlist': ['*'],
+                \ 'blocklist': ['go'],
+                \ 'completor': function('asyncomplete#sources#buffer#completor'),
+                \ 'config': {
+                \    'max_buffer_size': 5000000,
+                \  },
+                \ }))
+    call asyncomplete#register_source({
+                \ 'name': 'look',
+                \ 'allowlist': ['text', 'markdown'],
+                \ 'completor': function('asyncomplete#sources#look#completor'),
+                \ })
+    call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+                \ 'name': 'file',
+                \ 'allowlist': ['*'],
+                \ 'priority': 10,
+                \ 'completor': function('asyncomplete#sources#file#completor')
+                \ }))
+    call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
+                \ 'name': 'necosyntax',
+                \ 'allowlist': ['*'],
+                \ 'completor': function('asyncomplete#sources#necosyntax#completor'),
+                \ }))
+    call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+                \ 'name': 'necovim',
+                \ 'allowlist': ['vim'],
+                \ 'completor': function('asyncomplete#sources#necovim#completor'),
+                \ }))
 endfunction
 
 call plug#end()
@@ -247,8 +257,8 @@ nnoremap <leader>tn :tabnew<cr>
 nnoremap <leader>to :tabonly<cr>
 nnoremap <leader>tc :tabclose<cr>
 nnoremap <leader>tm :tabmove<cr>
-nnoremap <leader>tl :tabnext<cr>
-nnoremap <leader>th :tabprevious<cr>
+nnoremap ]v :tabnext<cr>
+nnoremap [v :tabprevious<cr>
 nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " swith to last active tab
@@ -274,7 +284,9 @@ if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
     " when end insert/replace mode(common) - blinking block
     let &t_EI = "\<Esc>[1 q"
     " when start replace mode
-    let &t_SR = "\<Esc>[4 q"
+    if v:version > 800
+        let &t_SR = "\<Esc>[4 q"
+    endif
 endif
 
 " if exists('$TMUX')
@@ -283,8 +295,8 @@ endif
 " endif
 
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-		\,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-		\,sm:block-blinkwait175-blinkoff150-blinkon175
+            \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+            \,sm:block-blinkwait175-blinkoff150-blinkon175
 augroup cursor_shape
     autocmd!
     autocmd VimLeave * let &t_te .= "\<Esc>[3 q"
@@ -293,7 +305,7 @@ augroup END
 
 " Make VIM remember position in file after reopen
 if has('autocmd')
-   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
 try
@@ -307,9 +319,9 @@ autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
 " fzf
 nnoremap <c-p> :FZF<CR>
 let g:fzf_action = {
-      \ 'ctrl-a': 'tab split',
-      \ 'ctrl-x': 'split',
-      \ 'ctrl-v': 'vsplit' }
+            \ 'ctrl-a': 'tab split',
+            \ 'ctrl-x': 'split',
+            \ 'ctrl-v': 'vsplit' }
 
 " fzf-vim
 command! Helptags :call fzf#vim#helptags(<bang>0)
@@ -364,9 +376,6 @@ let g:ale_disable_lsp = 1
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh']
 
-
-set completeopt-=preview
-set completeopt+=menuone,noselect
 
 " <C-h>, <BS>: close popup and delete backword char.
 " inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
