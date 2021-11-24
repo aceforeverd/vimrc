@@ -8,12 +8,21 @@ else
     let g:vimrc = $HOME . '/.config/nvim/init.vim'
 endif
 
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin('~/.vim-commons/pkgs')
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-repeat'
 
 Plug 'Shougo/neco-syntax'
 Plug 'Shougo/context_filetype.vim'
@@ -29,7 +38,20 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'Raimondi/delimitMate'
 
 Plug 'mhinz/vim-startify'
+
 Plug 'airblade/vim-gitgutter'
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+if has('nvim-0.4.0')
+  let g:gitgutter_highlight_linenrs = 1
+endif
+let g:gitgutter_close_preview_on_escape = 1
+if has('nvim-0.4.0') || has('popupwin')
+    let g:gitgutter_preview_win_floating = 1
+endif
+
 Plug 'itchyny/lightline.vim'
 
 Plug 'wincent/terminus'
