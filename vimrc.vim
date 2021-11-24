@@ -1,3 +1,5 @@
+" lightweight vim configuration
+
 set nocompatible
 
 if !has('nvim')
@@ -6,67 +8,34 @@ else
     let g:vimrc = $HOME . '/.config/nvim/init.vim'
 endif
 
-" vim plug
-" ============================================================================================
 call plug#begin('~/.vim-commons/pkgs')
 
-Plug 'google/vim-searchindex'
-Plug 'beloglazov/vim-online-thesaurus'
-
-Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
-Plug 'tomtom/tcomment_vim'
-Plug 'w0rp/ale'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-endwise'
+
 Plug 'Shougo/neco-syntax'
 Plug 'Shougo/context_filetype.vim'
 Plug 'Shougo/neco-vim'
+Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'Rip-Rip/clang_complete'
+
+Plug 'dense-analysis/ale'
+
 Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/neoinclude.vim'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'Raimondi/delimitMate'
-Plug 'alvan/vim-closetag'
+
 Plug 'mhinz/vim-startify'
 Plug 'airblade/vim-gitgutter'
-Plug 'vim-airline/vim-airline'
+Plug 'itchyny/lightline.vim'
 
-Plug 'autozimu/LanguageClient-neovim', {
-            \ 'branch': 'next',
-            \ 'do': 'bash install.sh',
-            \ }
-let g:LanguageClient_autoStart = 0
-let g:LanguageClient_selectionUI = 'fzf'
-let g:LanguageClient_loadSettings = 1
-let g:LanguageClient_serverCommands = {
-            \ 'rust': ['rustup', 'run', 'beta', 'rls'],
-            \ 'typescript': ['javascript-typescript-stdio'],
-            \ 'javascript': ['javascript-typescript-sdtio'],
-            \ 'go': ['go-langserver'],
-            \ 'yaml': ['/usr/bin/node', $HOME . '/.npm_global/lib64/node_modules/yaml-language-server/out/server/src/server.js', '--stdio'],
-            \ 'css': ['css-language-server', '--stdio'],
-            \ 'sass': ['css-language-server', '--stdio'],
-            \ 'less': ['css-language-server', '--stdio'],
-            \ 'dockerfile': ['docker-langserver', '--stdio'],
-            \ 'reason': ['ocaml-language-server', '--stdio'],
-            \ 'ocaml': ['ocaml-language-server', '--stdio'],
-            \ 'vue': ['vls'],
-            \ 'lua': ['lua-lsp'],
-            \ 'ruby': ['language_server-ruby'],
-            \ 'c': ['clangd'],
-            \ 'cpp': ['cquery', '--language-server'],
-            \ 'python': ['pyls'],
-            \ 'dart': ['dart_language_server', '--force_trace_level=off'],
-            \ 'haskell': ['hie', '--lsp'],
-            \ 'sh': [ 'bash-language-server', 'start' ],
-            \ }
-nnoremap <silent> gK :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+Plug 'wincent/terminus'
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -122,6 +91,15 @@ set novisualbell
 set t_vb=
 set timeoutlen=500
 set updatetime=500
+
+
+set background=dark
+if has('nvim')
+    let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+endif
+if has('termguicolors') && (has('nvim') || empty($TMUX))
+    set termguicolors
+endif
 colorscheme onedark
 
 if has('gui_macvim')
@@ -131,7 +109,7 @@ endif
 syntax enable
 
 " Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
+if $COLORTERM ==? 'gnome-terminal'
     set t_Co=256
 endif
 
@@ -221,7 +199,6 @@ try
 catch
 endtry
 
-autocmd BufRead,BufNewFile *.h setlocal filetype=c
 autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
 
 " fzf
@@ -233,34 +210,7 @@ let g:fzf_action = {
 
 " fzf-vim
 command! Helptags :call fzf#vim#helptags(<bang>0)
-command! HelptagsGen :call pathogen#helptags()
 
-" --column: Show column number
-" --line-number: Show line number
-" --no-heading: Do not show file headings in results
-" --fixed-strings: Search term as a literal string
-" --ignore-case: Case insensitive search
-" --no-ignore: Do not respect .gitignore, etc...
-" --hidden: Search hidden files and folders
-" --follow: Follow symlinks
-" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
-" --color: Search color options
-command! -bang -nargs=* Rg call fzf#vim#grep(
-      \ 'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color=always '.shellescape(<q-args>), 1,
-      \   <bang>0)
-command! -bang -nargs=* Ag
-      \ call fzf#vim#ag(<q-args>,
-      \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-      \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \                 <bang>0)
-command! -bang -nargs=? -complete=dir Files
-      \ call fzf#vim#files(<q-args>, <bang>0)
-
-
-nmap <Leader><Tab> <plug>(fzf-maps-n)
-imap <Leader><Tab> <plug>(fzf-maps-i)
-xmap <Leader><Tab> <plug>(fzf-maps-x)
-omap <Leader><Tab> <plug>(fzf-maps-o)
 if executable('rg')
     set grepprg=rg\ --vimgrep
 endif
@@ -280,10 +230,6 @@ augroup delimitMateCustom
     autocmd FileType html,xhtml,xml let b:delimitMate_matchpairs = "(:),[:],{:}"
     autocmd FileType rust let b:delimitMate_quotes = "\" `"
 augroup END
-
-" vim-closetag
-let g:closetag_filenames = '*.html,*.xhtml,*.xml'
-let g:closetag_emptyTags_caseSensitive = 1
 
 " startify
 let g:startify_session_dir = '~/.vim/sessions/'
@@ -310,13 +256,6 @@ let g:ale_sign_warning = '⚠'
 let g:ale_sign_info = 'ℹ'
 nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
-
-" Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#ale#enabled = 1
-let g:airline_detect_modified=1
-let g:airline_detect_paste=1
-let g:airline_theme='onedark'
 
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh']
@@ -374,10 +313,6 @@ call deoplete#custom#source('omni', 'function',{
 
 " source rank
 call deoplete#custom#source('look', 'rank', 70)
-
-" clang_complete
-let g:clang_complete_macros = 1
-let g:clang_complete_patterns = 1
 
 " neoinclude
 if !exists('g:neoinclude#exts')
