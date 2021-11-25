@@ -28,6 +28,8 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-eunuch'
 
 Plug 'Shougo/neco-syntax'
 Plug 'Shougo/context_filetype.vim'
@@ -39,6 +41,7 @@ Plug 'rafi/awesome-vim-colorschemes'
 
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
+Plug 'honza/vim-snippets'
 Plug 'Raimondi/delimitMate'
 
 Plug 'mhinz/vim-startify'
@@ -95,10 +98,13 @@ function! s:on_lsp_buffer_enabled() abort
     inoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
     let g:lsp_format_sync_timeout = 1000
-    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+    augroup gp_vim_lsp
+        autocmd!
+        autocmd! ColorScheme * highlight lspReference cterm=bold gui=bold guibg=#5e5e5e
+    augroup END
 endfunction
 
-augroup lsp_install
+augroup gp_lsp_install
     au!
     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
@@ -188,7 +194,10 @@ set scrolloff=3
 set hidden
 set ignorecase
 set smartcase
+
 set hlsearch
+nnoremap <leader>l :nohlsearch<cr>
+
 set incsearch
 set lazyredraw
 set magic
@@ -205,6 +214,7 @@ set t_vb=
 set timeoutlen=500
 set updatetime=500
 
+set guifont=FiraCodeNerdFontComplete-Regular:h13
 
 set background=dark
 if has('nvim')
@@ -213,7 +223,7 @@ endif
 if has('termguicolors') && (has('nvim') || empty($TMUX))
     set termguicolors
 endif
-colorscheme onedark
+colorscheme one
 
 if has('gui_macvim')
     autocmd GUIEnter * set vb t_vb=
@@ -331,9 +341,9 @@ if executable('rg')
 endif
 
 " neosnippet
-imap <Leader>e <Plug>(neosnippet_expand_or_jump)
-smap <Leader>e <Plug>(neosnippet_expand_or_jump)
-xmap <Leader>e <Plug>(neosnippet_expand_target)
+imap <leader>e <Plug>(neosnippet_expand_or_jump)
+smap <leader>e <Plug>(neosnippet_expand_or_jump)
+xmap <leader>e <Plug>(neosnippet_expand_target)
 let g:neosnippet#enable_snipmate_compatibility = 1
 
 "" see help delimitMateExpansion
