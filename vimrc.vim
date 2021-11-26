@@ -30,6 +30,9 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-apathy'
+Plug 'tpope/vim-rsi'
 
 Plug 'Shougo/neco-syntax'
 Plug 'Shougo/context_filetype.vim'
@@ -78,7 +81,6 @@ endif
 
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
@@ -251,8 +253,6 @@ set number
 set expandtab
 set smarttab
 
-" 1 tab == 4 spaces
-set shiftwidth=4
 set tabstop=4
 
 set linebreak
