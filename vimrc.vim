@@ -121,12 +121,18 @@ function! s:asyncomplete_setup_sources() abort
     set completeopt-=preview
     set completeopt+=menuone,noselect
 
+    let g:asyncomplete_min_chars = 2
+
     inoremap <silent> <expr> <TAB>
                 \ pumvisible() ? "\<C-n>" :
                 \ <SID>check_back_space() ? "\<TAB>" :
                 \ asyncomplete#force_refresh()
 
     inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+    imap <expr> <CR> pumvisible() ? asyncomplete#close_popup() . "<Plug>delimitMateCR" : "<Plug>delimitMateCR"
+    inoremap <expr> <BS> pumvisible() ? asyncomplete#close_popup() . "\<bs>" : delimitMate#BS()
+    inoremap <expr> <c-h> pumvisible() ? asyncomplete#cancel_popup() . "\<c-h>" : "\<c-h>"
 
     call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
                 \ 'name': 'neosnippet',
@@ -385,13 +391,6 @@ let g:ale_disable_lsp = 1
 
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh']
-
-
-" <C-h>, <BS>: close popup and delete backword char.
-" inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> pumvisible() ? deoplete#smart_close_popup()."\<C-h>" :
-"             \ delimitMate#BS()
-
 
 inoremap <C-Space> <C-x><c-o>
 if !has('gui_running')
