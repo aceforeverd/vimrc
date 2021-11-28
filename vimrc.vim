@@ -24,7 +24,6 @@ call plug#begin(s:common_pkg)
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
@@ -77,10 +76,16 @@ if has('timers')
     Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
     Plug 'prabirshrestha/asyncomplete-necovim.vim'
     Plug 'htlsne/asyncomplete-look'
+
+    " Hack: need this to work well with endwise
+    imap <expr> <Plug>(MyICrMap) pumvisible() ? asyncomplete#close_popup() . "<Plug>delimitMateCR" : "<Plug>delimitMateCR"
+    imap <CR> <Plug>(MyICrMap)
 endif
 
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+
+Plug 'tpope/vim-endwise'
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
@@ -121,7 +126,7 @@ function! s:asyncomplete_setup_sources() abort
     set completeopt-=preview
     set completeopt+=menuone,noselect
 
-    let g:asyncomplete_min_chars = 2
+    let g:asyncomplete_min_chars = 1
 
     inoremap <silent> <expr> <TAB>
                 \ pumvisible() ? "\<C-n>" :
@@ -130,7 +135,6 @@ function! s:asyncomplete_setup_sources() abort
 
     inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-    imap <expr> <CR> pumvisible() ? asyncomplete#close_popup() . "<Plug>delimitMateCR" : "<Plug>delimitMateCR"
     inoremap <expr> <BS> pumvisible() ? asyncomplete#close_popup() . "\<bs>" : delimitMate#BS()
     inoremap <expr> <c-h> pumvisible() ? asyncomplete#cancel_popup() . "\<c-h>" : "\<c-h>"
 
@@ -186,6 +190,7 @@ let g:maplocalleader = '\'
 
 let $LANG='en'
 set langmenu=en
+set shortmess+=c
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc,*.gch
