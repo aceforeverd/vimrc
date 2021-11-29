@@ -147,7 +147,6 @@ function! s:asyncomplete_setup_sources() abort
     call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
                 \ 'name': 'buffer',
                 \ 'allowlist': ['*'],
-                \ 'blocklist': ['go'],
                 \ 'completor': function('asyncomplete#sources#buffer#completor'),
                 \ 'config': {
                 \    'max_buffer_size': 5000000,
@@ -155,7 +154,7 @@ function! s:asyncomplete_setup_sources() abort
                 \ }))
     call asyncomplete#register_source({
                 \ 'name': 'look',
-                \ 'allowlist': ['text', 'markdown'],
+                \ 'allowlist': ['*'],
                 \ 'completor': function('asyncomplete#sources#look#completor'),
                 \ })
     call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
