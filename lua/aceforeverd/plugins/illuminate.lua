@@ -12,12 +12,16 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-vim.g.Illuminate_delay = vim.o.updatetime
+local M = {}
 
-vim.api.nvim_set_keymap('n', '<a-n>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>',
-                        { noremap = true })
-vim.api.nvim_set_keymap('n', '<a-p>',
-                        '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>',
-                        { noremap = true })
-vim.api.nvim_set_keymap('n', '<a-i>', '<cmd>lua require"illuminate".toggle_pause()<cr>',
-                        { noremap = true })
+function M.setup()
+  vim.g.Illuminate_delay = vim.o.updatetime
+
+  vim.api.nvim_set_keymap("n", "<a-n>", '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>',
+                          { noremap = true })
+  vim.api.nvim_set_keymap("n", "<a-p>", '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>',
+                          { noremap = true })
+  vim.api.nvim_set_keymap("n", "<a-i>", '<cmd>lua require"illuminate".toggle_pause()<cr>', { noremap = true })
+end
+
+return M

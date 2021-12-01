@@ -99,12 +99,20 @@ lspconfig.clangd.setup {
   },
 }
 
+-- npm install -g vim-language-server
 lspconfig.vimls.setup(default_lsp_cfg)
+-- npm install -g pyright
 lspconfig.pyright.setup(default_lsp_cfg)
+-- npm install -g typescript typescript-language-server
 lspconfig.tsserver.setup(default_lsp_cfg)
+
+-- go install golang.org/x/tools/gopls@latest or :GoInstallBinaries
 lspconfig.gopls.setup(default_lsp_cfg)
+-- npm install -g dockerfile-language-server-nodejs
 lspconfig.dockerls.setup(default_lsp_cfg)
+-- npm install -g yaml-language-server
 lspconfig.yamlls.setup(default_lsp_cfg)
+-- npm instal -g bash-language-server
 lspconfig.bashls.setup(default_lsp_cfg)
 
 -- install via 'npm i -g vscode-langservers-extracted'
@@ -112,6 +120,7 @@ local html_addtional_cap = { textDocument = { completion = { completionItem = { 
 local html_cfg = vim.tbl_deep_extend('force', default_lsp_cfg, { capabilities = html_addtional_cap })
 lspconfig.html.setup(html_cfg)
 lspconfig.cssls.setup(html_cfg)
+
 lspconfig.jsonls.setup(vim.tbl_deep_extend('keep', html_cfg, {
   commands = {
     JsonFormat = {
@@ -120,6 +129,12 @@ lspconfig.jsonls.setup(vim.tbl_deep_extend('keep', html_cfg, {
       end,
     },
   },
+  settings = {
+    json = {
+      schemas = require('schemastore').json.schemas(),
+    },
+  },
 }))
 
+-- npm install -g @tailwindcss/language-server
 lspconfig.tailwindcss.setup(default_lsp_cfg)

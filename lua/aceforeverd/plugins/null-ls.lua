@@ -24,6 +24,7 @@ local sources = {
     null_ls.builtins.formatting.cmake_format,
     null_ls.builtins.formatting.eslint,
     null_ls.builtins.formatting.shfmt,
+    null_ls.builtins.formatting.shellharden,
 
     null_ls.builtins.diagnostics.shellcheck,
     null_ls.builtins.diagnostics.eslint,

@@ -149,10 +149,7 @@ function! aceforeverd#completion#init_source_deoplete() abort
                 \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
                 \ . '/usr/include/,,'
 
-    let g:neosnippet#enable_snipmate_compatibility = 1
-    imap <c-e> <Plug>(neosnippet_expand_or_jump)
-    smap <c-e> <Plug>(neosnippet_expand_or_jump)
-    xmap <c-e> <Plug>(neosnippet_expand_target)
+    call aceforeverd#completion#neosnippet()
 
     " denite
     augroup gp_denite
@@ -160,6 +157,16 @@ function! aceforeverd#completion#init_source_deoplete() abort
         autocmd FileType denite call aceforeverd#settings#denite_settings()
         autocmd FileType denite-filter call aceforeverd#settings#denite_filter_settings()
     augroup END
+endfunction
+
+function! aceforeverd#completion#neosnippet() abort
+    if g:my_ultisnips_enable == 0
+        " ultisnips handle snippets in honza/vim-snippets, neosnippet do not need handle it
+        let g:neosnippet#enable_snipmate_compatibility = 1
+    endif
+    imap <Leader>e <Plug>(neosnippet_expand_or_jump)
+    smap <Leader>e <Plug>(neosnippet_expand_or_jump)
+    xmap <Leader>e <Plug>(neosnippet_expand_target)
 endfunction
 
 

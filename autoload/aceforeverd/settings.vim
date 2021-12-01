@@ -13,6 +13,29 @@
 " You should have received a copy of the GNU General Public License
 " along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+function! aceforeverd#settings#my_init() abort
+    if !exists('g:my_cmp_source')
+        if has('nvim-0.6.0')
+            let g:my_cmp_source = 'nvim_lsp'
+        else
+            let g:my_cmp_source = 'coc'
+        endif
+    endif
+
+    let g:my_autopair = get(g:, 'my_autopair', 'delimitmate')
+
+    let g:my_neosnippet_enable = get(g:, 'my_neosnippet_enable', 1)
+    let g:my_ultisnips_enable = get(g:, 'my_ultisnips_enable', 1)
+    let g:my_vsnip_enable = get(g:, 'my_vsnip_enable', 1)
+
+    if !exists('g:my_name')
+        let g:my_name = 'Ace'
+    endif
+    if !exists('g:my_email')
+        let g:my_email = 'teapot@aceforeverd.com'
+    endif
+endfunction
+
 function! aceforeverd#settings#denite_filter_settings() abort
     imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
 endfunction

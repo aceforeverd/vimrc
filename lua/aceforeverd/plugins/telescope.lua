@@ -26,8 +26,7 @@ telescope.setup {
   extensions = {
     frecency = {
       show_scores = true,
-      show_unindexed = true,
-      workspaces = { ["openmldb"] = "/Users/danielace/Git/4paradigm/OpenMLDB" }
+      show_unindexed = false,
     },
     fzf = {
       fuzzy = true, -- false will only do exact matching
@@ -36,7 +35,7 @@ telescope.setup {
       case_mode = "smart_case" -- or "ignore_case" or "respect_case"
       -- the default case_mode is "smart_case"
     },
-    project = { base_dirs = { '~/Git' }, hidden_files = true }
+    project = { base_dirs = { '~/Git' } }
   }
 }
 
@@ -44,6 +43,8 @@ telescope.load_extension('fzf')
 
 -- telescope-frecency
 telescope.load_extension("frecency")
+
+-- telescope.load_extension('neoclip')
 
 local set_map = vim.api.nvim_set_keymap
 
@@ -66,4 +67,7 @@ set_map('n', '<Leader>fs', "<Cmd>lua require'telescope'.extensions.projects.proj
         { noremap = true, silent = true })
 
 set_map('n', '<Leader>fb', "<cmd>lua require('telescope.builtin').buffers()<cr>",
+        { noremap = true, silent = true })
+
+set_map('n', '<Leader>fu', "<cmd>require'telescope'.extensions.ultisnips.ultisnips{}<cr>",
         { noremap = true, silent = true })

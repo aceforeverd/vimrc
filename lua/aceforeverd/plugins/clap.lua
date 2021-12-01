@@ -13,13 +13,11 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 local M = {}
 
 function M.setup()
-    vim.api.nvim_set_keymap('i', '<M-j>', [[vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : "\<M-j>"]], { expr = true, noremap = true })
-    vim.api.nvim_set_keymap('s', '<M-j>', [[vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : "\<M-j>"]], { expr = true, noremap = true })
-    vim.api.nvim_set_keymap('i', '<M-k>', [[vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)' : "\<M-k>"]], { expr = true, noremap = true })
-    vim.api.nvim_set_keymap('s', '<M-k>', [[vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)' : "\<M-k>"]], { expr = true, noremap = true })
+    vim.g.clap_provider_yanks_history = vim.fn.stdpath('data') .. '/clap_yanks_history'
 end
 
 return M

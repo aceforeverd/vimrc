@@ -33,27 +33,23 @@ if filereadable(s:before_vimrc)
     execute('source ' . s:before_vimrc)
 endif
 
-if !exists('g:my_cmp_source')
-   if has('nvim-0.6.0')
-      let g:my_cmp_source = 'nvim_lsp'
-   else
-      let g:my_cmp_source = 'coc'
-   endif
-endif
-
-if !exists('g:my_autopair')
-   let g:my_autopair = 'delimitmate'
-endif
-
-if !exists('g:my_name')
-    let g:my_name = 'Ace'
-endif
-if !exists('g:my_email')
-    let g:my_email = 'teapot@aceforeverd.com'
-endif
+call aceforeverd#settings#my_init()
 
 let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
 let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
+
+if empty(glob(s:home. '/autoload/plug.vim'))
+    silent execute '!curl -fLo '.s:home.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    augroup gp_vim_plug_bootstrap
+       autocmd!
+       autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    augroup END
+endif
+
+" global leader
+let g:mapleader = ','
+" local leader
+let g:maplocalleader = '\'
 
 " vim plug
 " ============================================================================================
@@ -93,15 +89,32 @@ endif
 
 if g:my_autopair ==? 'delimitmate'
    Plug 'raimondi/delimitmate'
+   "" see help delimitMateExpansion
+   let g:delimitMate_expand_cr = 2
+   let g:delimitMate_expand_space = 1
+   let g:delimitMate_balance_matchpairs = 1
+   augroup delimitMateCustom
+      autocmd!
+      autocmd FileType html,xhtml,xml let b:delimitMate_matchpairs = "(:),[:],{:}"
+      autocmd FileType rust let b:delimitMate_quotes = "\" `"
+   augroup END
+elseif g:my_autopair ==? 'lexima'
+   Plug 'cohama/lexima.vim'
 endif
 
-if has('python3')
+if has('python3') && g:my_ultisnips_enable == 1
    Plug 'SirVer/ultisnips'
    " TODO:: condional map
-   let g:UltiSnipsExpandTrigger       = '<leader>e'
+   let g:UltiSnipsExpandTrigger       = '<A-l>'
    let g:UltiSnipsListSnippets        = '<c-tab>'
    let g:UltiSnipsJumpForwardTrigger  = '<c-j>'
    let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+endif
+
+if g:my_neosnippet_enable == 1
+   Plug 'Shougo/neosnippet-snippets'
+   Plug 'Shougo/neosnippet.vim'
+   call aceforeverd#completion#neosnippet()
 endif
 
 Plug 'wincent/ferret'
@@ -114,8 +127,6 @@ Plug 'google/vim-codefmt'
 
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
 let g:doge_enable_mappings = 0
-
-Plug 'mg979/docgen.vim'
 
 if g:my_cmp_source ==? 'deoplete'
     Plug 'autozimu/LanguageClient-neovim', {
@@ -161,8 +172,6 @@ if dein#load_state(s:dein_repo)
         call dein#add('c9s/perlomni.vim', {'on_ft': 'perl'})
         call dein#add('clojure-vim/async-clj-omni')
         call dein#add('Shougo/neoinclude.vim')
-        call dein#add('Shougo/neosnippet-snippets')
-        call dein#add('Shougo/neosnippet.vim')
         call dein#add('Shougo/denite.nvim')
         call dein#add('Shougo/neoyank.vim')
     endif
@@ -195,6 +204,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('tpope/vim-dadbod')
     call dein#add('tpope/vim-projectionist')
     call dein#add('tpope/vim-sleuth')
+    call dein#add('tpope/vim-apathy')
 
     call dein#add('lambdalisue/suda.vim')
 
@@ -204,7 +214,6 @@ if dein#load_state(s:dein_repo)
     " interface
     call dein#add('sheerun/vim-polyglot', {'merged': 0})
     call dein#add('chrisbra/unicode.vim', {'merged': 0})
-    call dein#add('preservim/tagbar')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('mhinz/vim-startify')
     call dein#add('ntpeters/vim-better-whitespace')
@@ -214,15 +223,12 @@ if dein#load_state(s:dein_repo)
     call dein#add('sainnhe/sonokai', {'merged': 0, 'hook_source': 'colorscheme sonokai'})
     call dein#add('rafi/awesome-vim-colorschemes', {'merged': 0})
 
-    call dein#add('embear/vim-localvimrc')
-
     " motion
     call dein#add('rhysd/clever-f.vim')
     call dein#add('justinmk/vim-sneak')
     call dein#add('andymass/vim-matchup')
     " Tools
     call dein#add('editorconfig/editorconfig-vim')
-    call dein#add('mattn/emmet-vim')
     call dein#add('will133/vim-dirdiff')
     call dein#add('dstein64/vim-startuptime')
     call dein#add('jsfaint/gen_tags.vim')
@@ -244,7 +250,8 @@ if dein#load_state(s:dein_repo)
     call dein#add('tpope/vim-fugitive')
     call dein#add('lambdalisue/gina.vim')
     call dein#add('junegunn/gv.vim')
-    call dein#add('mattn/gist-vim')
+    call dein#add('mattn/gist-vim', {'depends': 'webapi-vim'})
+    call dein#add('mattn/webapi-vim')
     call dein#add('idanarye/vim-merginal')
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit')
@@ -285,15 +292,12 @@ if dein#load_state(s:dein_repo)
     " Haskell
     call dein#add('neovimhaskell/haskell-vim')
     call dein#add('eagletmt/neco-ghc')
-    call dein#add('Twinside/vim-hoogle')
     " vimL
     call dein#add('mhinz/vim-lookup')
 
     call dein#add('kevinoid/vim-jsonc')
     call dein#add('tweekmonster/exception.vim')
     call dein#add('tweekmonster/helpful.vim')
-    " Elixir
-    call dein#add('slashmili/alchemist.vim')
     " markdown
     call dein#add('mzlogin/vim-markdown-toc', {'on_ft': 'markdown'})
     call dein#add('iamcco/markdown-preview.nvim', {
@@ -316,8 +320,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('lervag/vimtex', {'merged': 0})
 
     call dein#add('kovisoft/slimv', {'merged': 0})
-    " clojure
-    call dein#add('clojure-vim/acid.nvim', {'on_ft': 'clojure'})
     " gentoo
     call dein#add('gentoo/gentoo-syntax')
 
@@ -335,11 +337,6 @@ endif
 
 filetype plugin on
 filetype indent on
-
-" global leader
-let g:mapleader = ','
-" local leader
-let g:maplocalleader = '\'
 
 let $LANG='en'
 set langmenu=en
@@ -425,8 +422,8 @@ endif
 
 " terminal mode mapping
 function! s:terminal_mapping() abort
-    let g:floaterm_width = 0.8
-    let g:floaterm_height = 0.8
+    let g:floaterm_width = 0.9
+    let g:floaterm_height = 0.9
     tnoremap <C-w>j <C-\><C-n><C-w>j
     tnoremap <C-w>k <C-\><C-n><C-w>k
     tnoremap <C-w>l <C-\><C-n><C-w>l
@@ -598,15 +595,6 @@ endif
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
 
-"" see help delimitMateExpansion
-let g:delimitMate_expand_cr = 2
-let g:delimitMate_expand_space = 1
-let g:delimitMate_balance_matchpairs = 1
-augroup delimitMateCustom
-    autocmd!
-    autocmd FileType html,xhtml,xml let b:delimitMate_matchpairs = "(:),[:],{:}"
-    autocmd FileType rust let b:delimitMate_quotes = "\" `"
-augroup END
 
 " startify
 let g:startify_session_dir = '~/.vim/sessions/'
@@ -638,6 +626,9 @@ set completeopt-=preview
 set completeopt+=menuone
 set completeopt+=noselect
 set shortmess+=c
+if has('termguicolors')
+   set pumblend=20
+endif
 
 " Enable omni completion.
 augroup omni_complete
@@ -737,7 +728,7 @@ nnoremap <silent> <leader>cs :<c-u>call aceforeverd#util#syn_query()<cr>
 nnoremap <silent> <leader>cv :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
 augroup gp_vim_helper
    autocmd!
-   autocmd FileType vim,lua,help nnoremap <leader>hh :call aceforeverd#completion#help()<cr>
+   autocmd FileType vim,lua,help nnoremap <leader>hl :call aceforeverd#completion#help()<cr>
 augroup END
 
 call aceforeverd#settings#basic_color()

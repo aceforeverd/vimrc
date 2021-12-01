@@ -27,6 +27,7 @@ vim.cmd([[
     autocmd!
     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
     autocmd User PackerComplete lua vim.api.nvim_notify('Packer Done', 2, {})
+    autocmd FileType packer nnoremap <buffer> <esc> :<cmd>lua require('packer.display').quit()<cr>
   augroup end
 ]])
 
@@ -39,9 +40,7 @@ packer.init({
   plugin_package = 'packer',
   max_jobs = 12,
   git = { clone_timeout = 30 },
-  display = {
-    open_fn = require('packer.util').float,
-  },
+  display = { open_fn = require('packer.util').float, keybindings = { quit = 'q' } },
   profile = { enable = true, threshold = 1 },
 })
 
@@ -77,16 +76,15 @@ return packer.startup({
         'hrsh7th/cmp-buffer',
         'hrsh7th/cmp-path',
         'hrsh7th/cmp-nvim-lua',
-        'hrsh7th/cmp-vsnip',
         'hrsh7th/cmp-emoji',
         'hrsh7th/cmp-calc',
         'octaltree/cmp-look',
         'ray-x/cmp-treesitter',
-        'hrsh7th/cmp-cmdline',
-        'f3fora/cmp-spell',
         { 'andersevenrud/compe-tmux', branch = 'cmp' },
-        'quangnguyen30192/cmp-nvim-tags',
         'quangnguyen30192/cmp-nvim-ultisnips',
+
+        'notomo/cmp-neosnippet',
+        'hrsh7th/cmp-vsnip',
 
         'onsails/lspkind-nvim',
       },
@@ -97,11 +95,16 @@ return packer.startup({
 
     use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }
 
-    use { 'hrsh7th/vim-vsnip',
+    use {
+      'hrsh7th/vim-vsnip',
       requires = { 'hrsh7th/vim-vsnip-integ' },
-      config = function ()
-      require('aceforeverd.plugins.vsnip').setup()
-    end }
+      cond = function()
+        return vim.g.my_vsnip_enable == 1
+      end,
+      config = function()
+        require('aceforeverd.plugins.vsnip').setup()
+      end,
+    }
 
     use {
       'onsails/lspkind-nvim',
@@ -139,17 +142,18 @@ return packer.startup({
       'mfussenegger/nvim-jdtls',
       ft = { 'java' },
       requires = { 'williamboman/nvim-lsp-installer' },
-      config = function ()
+      config = function()
         require('aceforeverd.plugins.jdtls').setup()
-      end
+      end,
     }
 
-    use { 'scalameta/nvim-metals',
+    use {
+      'scalameta/nvim-metals',
       requires = { "nvim-lua/plenary.nvim", 'williamboman/nvim-lsp-installer' },
       ft = { 'scala', 'sbt' },
-      config = function ()
+      config = function()
         require('aceforeverd.plugins.metals').setup()
-      end
+      end,
     }
 
     use {
@@ -158,7 +162,7 @@ return packer.startup({
         return vim.g.my_cmp_source == 'nvim_lsp'
       end,
       config = function()
-        require('aceforeverd.plugins.illuminate')
+        require('aceforeverd.plugins.illuminate').setup()
       end,
     }
 
@@ -191,6 +195,15 @@ return packer.startup({
     }
 
     use {
+      -- requires cargo
+      'liuchengxu/vim-clap',
+      run = ':Clap install-binary',
+      config = function()
+        require('aceforeverd.plugins.clap').setup()
+      end,
+    }
+
+    use {
       'norcalli/nvim-colorizer.lua',
       cond = function()
         return vim.g.my_cmp_source == 'nvim_lsp'
@@ -210,7 +223,7 @@ return packer.startup({
         'nvim-treesitter/playground',
         'nvim-treesitter/nvim-treesitter-textobjects',
         'nvim-treesitter/nvim-treesitter-refactor',
-        'RRethy/nvim-treesitter-textsubjects'
+        'RRethy/nvim-treesitter-textsubjects',
       },
       run = ':TSUpdate',
       config = function()
@@ -261,6 +274,7 @@ return packer.startup({
         'nvim-telescope/telescope-packer.nvim',
         'nvim-telescope/telescope-project.nvim',
         'cljoly/telescope-repo.nvim',
+        'fhill2/telescope-ultisnips.nvim',
       },
     }
 
@@ -272,7 +286,7 @@ return packer.startup({
         'nvim-telescope/telescope.nvim',
         -- requires sqlite3 installed
         "tami5/sqlite.lua",
-        'kyazdani42/nvim-web-devicons'
+        'kyazdani42/nvim-web-devicons',
       },
     }
 
@@ -311,16 +325,15 @@ return packer.startup({
       "AckslD/nvim-neoclip.lua",
       requires = { 'tami5/sqlite.lua', module = 'sqlite' },
       config = function()
-        require('neoclip').setup {
-          enable_persistant_history = true,
-          db_path = vim.fn.stdpath("data") .. "/databases/neoclip.sqlite3",
-        }
+        require('aceforeverd.plugins.neoclip').setup()
       end,
     }
 
     use {
       'kyazdani42/nvim-tree.lua',
       requires = { 'kyazdani42/nvim-web-devicons' },
+      cmd = { 'NvimTreeToggle', 'NvimTreeClipboard', 'NvimTreeFindFileToggle' },
+      keys = { '<space>r' },
       config = function()
         require('aceforeverd.plugins.nvim-tree')
       end,
@@ -335,24 +348,6 @@ return packer.startup({
     use { 'projekt0n/github-nvim-theme' }
 
     use { 'monsonjeremy/onedark.nvim' }
-
-    use {
-      'vuki656/package-info.nvim',
-      requires = { "MunifTanjim/nui.nvim" },
-      ft = { 'json' },
-      config = function()
-        require('package-info').setup {
-          colors = {
-            up_to_date = "#3C4048", -- Text color for up to date package virtual text
-            outdated = "#d19a66", -- Text color for outdated package virtual text
-          },
-          icons = {
-            enable = true, -- Whether to display icons
-          },
-          autostart = false,
-        }
-      end,
-    }
 
     use { 'mfussenegger/nvim-dap' }
 
@@ -387,7 +382,7 @@ return packer.startup({
       config = function()
         require('octo').setup()
       end,
-      cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' }
+      cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' },
     }
 
     use { 'Pocco81/HighStr.nvim' }
@@ -454,7 +449,11 @@ return packer.startup({
       end,
     }
 
-    use { 'michaelb/sniprun', run = 'bash ./install.sh' }
+    use {
+      'michaelb/sniprun',
+      run = 'bash ./install.sh',
+      cmd = { 'SnipRun', 'SnipClose', 'SnipInfo', 'SnipReset', 'SnipTerminate', 'SnipReplMemoryClean' },
+    }
 
     use { 'rcarriga/nvim-notify', opt = true }
 
@@ -501,7 +500,9 @@ return packer.startup({
 
     use {
       'famiu/bufdelete.nvim',
-      config = [[vim.api.nvim_set_keymap('n', '<leader>bd', '<cmd>Bdelete<cr>', { noremap = true, silent =true })]],
+      config = function ()
+        vim.api.nvim_set_keymap('n', '<leader>bd', '<cmd>Bdelete<cr>', { noremap = true, silent =true })
+      end
     }
 
     use {
@@ -509,6 +510,7 @@ return packer.startup({
       config = function()
         vim.g.symbols_outline = { highlight_hovered_item = true }
       end,
+      cmd = { 'SymbolsOutline' }
     }
 
     use { 'ibhagwan/fzf-lua', requires = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' } }
@@ -516,24 +518,18 @@ return packer.startup({
     use {
       'numToStr/Comment.nvim',
       requires = { 'JoosepAlviste/nvim-ts-context-commentstring' },
-      config = [[require('aceforeverd.plugins.comment')]],
+      config = function()
+        require('aceforeverd.plugins.comment')
+      end,
     }
 
     use {
       'windwp/nvim-autopairs',
       cond = function()
-        return vim.g.my_autopair == 'nvim-autopair'
+        return vim.g.my_autopair == 'nvim-autopairs'
       end,
       config = function()
         require('aceforeverd.plugins.autopairs')
-      end,
-    }
-
-    use {
-      's1n7ax/nvim-comment-frame',
-      requires = { { 'nvim-treesitter' } },
-      config = function()
-        require('nvim-comment-frame').setup { keymap = '<leader>cc', multiline_keymap = '<leader>cm' }
       end,
     }
 
@@ -542,6 +538,20 @@ return packer.startup({
       cmd = { 'NnnExplorer', 'NnnPicker' },
       config = function()
         require("nnn").setup()
+      end,
+    }
+
+    use {
+      'vuki656/package-info.nvim',
+      requires = { "MunifTanjim/nui.nvim" },
+      event = { 'BufRead package.json' },
+      config = function()
+        require('package-info').setup {
+          icons = {
+            enable = true, -- Whether to display icons
+          },
+          autostart = true,
+        }
       end,
     }
 
@@ -556,7 +566,7 @@ return packer.startup({
 
     use { 'AllenDang/nvim-expand-expr' }
 
-    use { 'sindrets/winshift.nvim' }
+    use { 'sindrets/winshift.nvim', cmd = { 'WinShift' } }
   end,
 })
 

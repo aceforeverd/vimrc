@@ -28,6 +28,8 @@ local bit_blue = palette.bg_blue[1]
 local bit_yellow = '#e5c463'
 local bit_red = palette.bg_red[1]
 
+-- TODO: add some short_provider & icon
+
 function OsIcon()
   if vim.fn.has('mac') == 1 then
     return icons.MAC

@@ -12,14 +12,20 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 local M = {}
 
 function M.setup()
-    vim.api.nvim_set_keymap('i', '<M-j>', [[vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : "\<M-j>"]], { expr = true, noremap = true })
-    vim.api.nvim_set_keymap('s', '<M-j>', [[vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : "\<M-j>"]], { expr = true, noremap = true })
-    vim.api.nvim_set_keymap('i', '<M-k>', [[vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)' : "\<M-k>"]], { expr = true, noremap = true })
-    vim.api.nvim_set_keymap('s', '<M-k>', [[vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)' : "\<M-k>"]], { expr = true, noremap = true })
+  require('neoclip').setup {
+    enable_persistant_history = true,
+    db_path = vim.fn.stdpath("data") .. "/databases/neoclip.sqlite3",
+    keys = {
+      i = { select = '<c-y>', paste = '<cr>', paste_behind = '<c-l>', custom = {} },
+      n = { select = '<c-y>', paste = 'p', paste_behind = 'P', custom = {} },
+    },
+  }
+
+  vim.api.nvim_set_keymap('n', '<space>l', ':lua require("telescope").extensions.neoclip.default()<cr>',
+                          { silent = true, noremap = true })
 end
 
 return M
