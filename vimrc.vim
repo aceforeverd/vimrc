@@ -731,7 +731,14 @@ nnoremap <silent> <leader>cs :<c-u>call aceforeverd#util#syn_query()<cr>
 nnoremap <silent> <leader>cv :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
 augroup gp_vim_helper
    autocmd!
-   autocmd FileType vim,lua,help nnoremap <leader>hl :call aceforeverd#completion#help()<cr>
+   autocmd FileType vim,lua,help nnoremap <leader>gh :call aceforeverd#completion#help()<cr>
+augroup END
+
+" vim dirvish gtfo
+nnoremap goo go
+augroup gp_dirvish_tw
+   autocmd!
+   autocmd FileType dirvish highlight DirvishSuffix ctermfg=250 ctermbg=235 guifg=#e4e3e1 guibg=#312c2b
 augroup END
 
 call aceforeverd#settings#basic_color()

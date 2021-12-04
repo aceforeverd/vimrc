@@ -34,14 +34,18 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', default_map_opts)
   buf_set_keymap('n', '<Leader>wl',
                  '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', default_map_opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', default_map_opts)
+  buf_set_keymap('n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', default_map_opts)
   buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', default_map_opts)
   buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', default_map_opts)
   buf_set_keymap('n', '<c-k>', '<cmd>lua vim.diagnostic.goto_prev()<CR>', default_map_opts)
   buf_set_keymap('n', '<c-j>', '<cmd>lua vim.diagnostic.goto_next()<CR>', default_map_opts)
-  buf_set_keymap('n', '<Leader>dl', '<cmd>lua vim.diagnostic.open_float()<CR>', default_map_opts)
-  buf_set_keymap('n', '<Leader>dq', '<cmd>lua vim.diagnostic.setloclist()<CR>', default_map_opts)
-  buf_set_keymap('n', '<Leader>da', '<cmd>lua vim.diagnostic.setqflist()<CR>', default_map_opts)
+
+  buf_set_keymap('n', '<space>dp', '<cmd>lua vim.diagnostic.open_float()<CR>', default_map_opts)
+  -- buffer local diagnostic
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', default_map_opts)
+  -- all diagnostic
+  buf_set_keymap('n', '<space>a', '<cmd>lua vim.diagnostic.setqflist()<CR>', default_map_opts)
+
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', default_map_opts)
   buf_set_keymap('v', '<cr>', ':lua vim.lsp.buf.range_formatting()<cr>', { noremap = true })
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
