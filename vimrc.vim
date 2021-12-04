@@ -33,10 +33,10 @@ if filereadable(s:before_vimrc)
     execute('source ' . s:before_vimrc)
 endif
 
-call aceforeverd#settings#my_init()
-
 let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
 let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
+
+call aceforeverd#settings#my_init()
 
 if empty(glob(s:home. '/autoload/plug.vim'))
     silent execute '!curl -fLo '.s:home.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
