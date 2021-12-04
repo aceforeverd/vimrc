@@ -20,6 +20,7 @@ local packer_install_path = config_path .. '/bundle/pack/packer/start/packer.nvi
 
 if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
   vim.fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', packer_install_path })
+  vim.api.nvim_notify('automatically installed packer.nvim into ' .. packer_install_path, 2, {})
 end
 
 vim.cmd([[
@@ -80,7 +81,7 @@ return packer.startup({
         'hrsh7th/cmp-calc',
         'octaltree/cmp-look',
         'ray-x/cmp-treesitter',
-        { 'andersevenrud/compe-tmux', branch = 'cmp' },
+        'andersevenrud/cmp-tmux',
         'quangnguyen30192/cmp-nvim-ultisnips',
 
         'notomo/cmp-neosnippet',
@@ -322,14 +323,6 @@ return packer.startup({
     }
 
     use {
-      "AckslD/nvim-neoclip.lua",
-      requires = { 'tami5/sqlite.lua', module = 'sqlite' },
-      config = function()
-        require('aceforeverd.plugins.neoclip').setup()
-      end,
-    }
-
-    use {
       'kyazdani42/nvim-tree.lua',
       requires = { 'kyazdani42/nvim-web-devicons' },
       cmd = { 'NvimTreeToggle', 'NvimTreeClipboard', 'NvimTreeFindFileToggle' },
@@ -427,7 +420,11 @@ return packer.startup({
                                 { silent = true, noremap = true })
         vim.api.nvim_set_keymap('n', 'g#', "g#<Cmd>lua require('hlslens').start()<CR>",
                                 { silent = true, noremap = true })
-        vim.api.nvim_set_keymap('n', '<leader>l', '<Cmd>noh<CR>', { silent = true, noremap = true })
+
+        if vim.fn.has('nvim-0.6.0') == 0 then
+          -- nvim 0.6.0's <c-l> set nohlsearch by default
+          vim.api.nvim_set_keymap('n', '<leader>l', '<Cmd>noh<CR>', { silent = true, noremap = true })
+        end
 
         require('hlslens').setup({ calm_down = false })
       end,
@@ -460,8 +457,12 @@ return packer.startup({
     use {
       'lewis6991/spellsitter.nvim',
       requires = { 'nvim-treesitter/nvim-treesitter' },
+      opt = true,
       config = function()
-        require('spellsitter').setup { hl = 'SpellBad', captures = { 'comment' } }
+        require('spellsitter').setup {
+          enable = { 'cpp', 'lua', 'python', 'java', 'c', 'vim', 'sh' },
+          hl = 'SpellBad',
+        }
       end,
     }
 
@@ -500,9 +501,9 @@ return packer.startup({
 
     use {
       'famiu/bufdelete.nvim',
-      config = function ()
-        vim.api.nvim_set_keymap('n', '<leader>bd', '<cmd>Bdelete<cr>', { noremap = true, silent =true })
-      end
+      config = function()
+        vim.api.nvim_set_keymap('n', '<leader>bd', '<cmd>Bdelete<cr>', { noremap = true, silent = true })
+      end,
     }
 
     use {
@@ -510,10 +511,16 @@ return packer.startup({
       config = function()
         vim.g.symbols_outline = { highlight_hovered_item = true }
       end,
-      cmd = { 'SymbolsOutline' }
+      cmd = { 'SymbolsOutline' },
     }
 
-    use { 'ibhagwan/fzf-lua', requires = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' } }
+    use {
+      'ibhagwan/fzf-lua',
+      requires = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' },
+      config = function()
+        require('fzf-lua').setup { winopts = { width = 0.9 } }
+      end,
+    }
 
     use {
       'numToStr/Comment.nvim',
@@ -563,8 +570,6 @@ return packer.startup({
         require('crates').setup()
       end,
     }
-
-    use { 'AllenDang/nvim-expand-expr' }
 
     use { 'sindrets/winshift.nvim', cmd = { 'WinShift' } }
   end,

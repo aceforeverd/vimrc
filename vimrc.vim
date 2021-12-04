@@ -219,9 +219,12 @@ if dein#load_state(s:dein_repo)
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
+    call dein#add('vifm/vifm.vim')
     call dein#add('wfxr/minimap.vim')
     call dein#add('sainnhe/sonokai', {'merged': 0, 'hook_source': 'colorscheme sonokai'})
     call dein#add('rafi/awesome-vim-colorschemes', {'merged': 0})
+    call dein#add('justinmk/vim-gtfo')
+    call dein#add('justinmk/vim-dirvish')
 
     " motion
     call dein#add('rhysd/clever-f.vim')
@@ -250,7 +253,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('tpope/vim-fugitive')
     call dein#add('lambdalisue/gina.vim')
     call dein#add('junegunn/gv.vim')
-    call dein#add('mattn/gist-vim', {'depends': 'webapi-vim'})
+    call dein#add('mattn/gist-vim')
     call dein#add('mattn/webapi-vim')
     call dein#add('idanarye/vim-merginal')
     call dein#add('rhysd/committia.vim')
@@ -365,8 +368,8 @@ set matchtime=2
 set history=1000
 set wildmenu
 set backspace=indent,eol,start
+set spelllang=en_us,en,cjk
 " set spell
-set spelllang=en_us,en
 
 " No annoying sound on errors
 set noerrorbells
@@ -545,7 +548,7 @@ augroup gp_filetype
 augroup END
 
 " fzf
-nnoremap <c-p> :FZF<CR>
+nnoremap <c-p> :FZF --info=inline<CR>
 function! s:build_quickfix_list(lines)
     call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
     copen
@@ -617,7 +620,7 @@ let g:mkdp_auto_close = 0
 
 " easy-align
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-vmap <Enter> <Plug>(EasyAlign)
+" vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
@@ -715,8 +718,8 @@ augroup END
 " vim-translator
 let g:translator_default_engines = ['google']
 let g:translator_history_enable = 1
-nmap <silent> <Leader>w <Plug>TranslateW
-vmap <silent> <Leader>w <Plug>TranslateWV
+nmap <silent> <Leader>tr <Plug>TranslateW
+vmap <silent> <Leader>tr <Plug>TranslateWV
 
 " vim-cmake
 let g:cmake_generate_options = ['-DCMAKE_EXPORT_COMPILE_COMMANDS=ON', '-DCMAKE_CXX_STANDARD=11', '-G Ninja' ]

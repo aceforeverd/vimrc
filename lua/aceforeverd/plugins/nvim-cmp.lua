@@ -76,10 +76,6 @@ local sources_1 = {
   { name = 'calc' },
 
   { name = 'treesitter' },
-}
-
-  -- inaccurate source, limit number
-local source_2 ={
   {
     name = 'buffer',
     option = {
@@ -130,9 +126,10 @@ cmp.setup({
     ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<C-e>'] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
     ['<C-h>'] = cmp.mapping({ i = i_ctrl_h, c = cmp.mapping.close() }),
+    -- TODO: CR show jump after select inside jump
     ['<CR>'] = cmp.mapping({ i = cmp.mapping.confirm({ select = false }), c = cmp.mapping.confirm({ select = false }) }),
   },
-  sources = cmp.config.sources(sources_1, source_2),
+  sources = cmp.config.sources(sources_1),
   formatting = {
     format = lspkind.cmp_format({
       with_text = true,

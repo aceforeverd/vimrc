@@ -138,3 +138,44 @@ lspconfig.jsonls.setup(vim.tbl_deep_extend('keep', html_cfg, {
 
 -- npm install -g @tailwindcss/language-server
 lspconfig.tailwindcss.setup(default_lsp_cfg)
+
+lspconfig.diagnosticls.setup(vim.tbl_deep_extend('keep', default_lsp_cfg, {
+  filetypes = {'cpp'},
+  init_options = {
+    linters = {
+      cpplint = {
+        command = "cpplint",
+        args = { "%file" },
+        debounce = 100,
+        isStderr = true,
+        isStdout = false,
+        sourceName = "cpplint",
+        offsetLine = 0,
+        offsetColumn = 0,
+        formatPattern = {
+          "^[^:]+:(\\d+):(\\d+)?\\s+(.+?)\\s\\[(\\d)\\]$",
+          {
+            line = 1,
+            column = 2,
+            message = 3,
+            security = 4
+          }
+        },
+        securities = {
+          "info",
+          "warning",
+          "warning",
+          "warning",
+          "error"
+        }
+      }
+    },
+    filetypes = {
+      cpp = {"cpplint"},
+    },
+    formatters = {
+    },
+    formatFiletypes = {
+    }
+  }
+}))

@@ -48,23 +48,27 @@ local gitsigns_has_diff = function()
   return dict ~= nil or dict.changed ~= nil or dict.removed ~= nil
 end
 
+local vi_mode_hl = function()
+  local val = {}
+
+  val.name = vi_mode_utils.get_mode_highlight_name()
+  val.fg = 'black'
+  val.bg = vi_mode_utils.get_mode_color()
+  val.style = 'bold'
+
+  return val
+end
+
 local feline_config = {
   components = {
     active = {
       { -- left
-        { provider = '▊ ', hl = { fg = bit_red } },
         {
-          provider = 'vi_mode',
-          hl = function()
-            local val = {}
-
-            val.name = vi_mode_utils.get_mode_highlight_name()
-            val.fg = vi_mode_utils.get_mode_color()
-            val.style = 'bold'
-
-            return val
+          provider = function ()
+            return '  ' .. vi_mode_utils.get_vim_mode()
           end,
-          right_sep = ' '
+          hl = vi_mode_hl,
+          right_sep = { str = ' ', hl = vi_mode_hl }
         },
         {
           provider = 'git_branch',

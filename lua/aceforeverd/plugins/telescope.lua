@@ -44,8 +44,6 @@ telescope.load_extension('fzf')
 -- telescope-frecency
 telescope.load_extension("frecency")
 
--- telescope.load_extension('neoclip')
-
 local set_map = vim.api.nvim_set_keymap
 
 set_map('n', '<Leader>fl', '<Cmd>Telescope<CR>', { noremap = true, silent = false })
@@ -69,5 +67,5 @@ set_map('n', '<Leader>fs', "<Cmd>lua require'telescope'.extensions.projects.proj
 set_map('n', '<Leader>fb', "<cmd>lua require('telescope.builtin').buffers()<cr>",
         { noremap = true, silent = true })
 
-set_map('n', '<Leader>fu', "<cmd>require'telescope'.extensions.ultisnips.ultisnips{}<cr>",
+set_map('n', '<Leader>fu', "<cmd>lua require'telescope'.extensions.ultisnips.ultisnips{}<cr>",
         { noremap = true, silent = true })

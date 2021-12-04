@@ -30,35 +30,33 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', default_map_opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', default_map_opts)
   buf_set_keymap('n', 'gK', '<cmd>lua vim.lsp.buf.signature_help()<CR>', default_map_opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', default_map_opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', default_map_opts)
-  buf_set_keymap('n', '<space>wl',
+  buf_set_keymap('n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', default_map_opts)
+  buf_set_keymap('n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', default_map_opts)
+  buf_set_keymap('n', '<Leader>wl',
                  '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', default_map_opts)
   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', default_map_opts)
   buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', default_map_opts)
   buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', default_map_opts)
-  buf_set_keymap('n', '<space>dl', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', default_map_opts)
-  buf_set_keymap('n', '<c-k>', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', default_map_opts)
-  buf_set_keymap('n', '<c-j>', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', default_map_opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', default_map_opts)
+  buf_set_keymap('n', '<c-k>', '<cmd>lua vim.diagnostic.goto_prev()<CR>', default_map_opts)
+  buf_set_keymap('n', '<c-j>', '<cmd>lua vim.diagnostic.goto_next()<CR>', default_map_opts)
+  buf_set_keymap('n', '<Leader>dl', '<cmd>lua vim.diagnostic.open_float()<CR>', default_map_opts)
+  buf_set_keymap('n', '<Leader>dq', '<cmd>lua vim.diagnostic.setloclist()<CR>', default_map_opts)
+  buf_set_keymap('n', '<Leader>da', '<cmd>lua vim.diagnostic.setqflist()<CR>', default_map_opts)
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', default_map_opts)
+  buf_set_keymap('v', '<cr>', ':lua vim.lsp.buf.range_formatting()<cr>', { noremap = true })
+  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 
-  -- if vim.fn.has('nvim-0.6.0') == 1 then
-  --   if client.supports_method('textDocument/documentHighlight') then
-  --     -- neovim nighly have problem with vim-illumninate
-  --     vim.cmd [[
-  --     autocmd BufNew,BufEnter <buffer> IlluminationDisable
-  --     autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-  --     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-  --     ]]
-  --   end
-  -- else
-  -- vim-illuminate
   require('illuminate').on_attach(client)
-  -- end
 
   -- lsp_signature.nvim
-  require('lsp_signature').on_attach()
+  require('lsp_signature').on_attach({
+      bind = true,
+      handler_opts = {
+        border = "rounded"
+      },
+      transparency = 25,
+      toggle_key = '<A-x>'
+    }, bufnr)
 
   require('lsp-status').on_attach(client)
 end
