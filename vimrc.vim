@@ -92,23 +92,23 @@ function! s:on_lsp_buffer_enabled() abort
     setlocal signcolumn=yes
     if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
     nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gD <plug>(lsp-declaration)
+    nmap <buffer> gpd <plug>(lsp-peek-definition)
     nmap <buffer> gs <plug>(lsp-document-symbol-search)
     nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
     nmap <buffer> gr <plug>(lsp-references)
     nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gpi <plug>(lsp-peek-implementation)
     nmap <buffer> gt <plug>(lsp-type-definition)
     nmap <buffer> <leader>rn <plug>(lsp-rename)
     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
     nmap <buffer> K <plug>(lsp-hover)
+    nmap <buffer> <leader>ca <Plug>(lsp-code-action)
     inoremap <buffer> <expr><c-f> lsp#scroll(+4)
     inoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
     let g:lsp_format_sync_timeout = 1000
-    augroup gp_vim_lsp
-        autocmd!
-        autocmd! ColorScheme * highlight lspReference cterm=bold gui=bold guibg=#5e5e5e
-    augroup END
 endfunction
 
 augroup gp_lsp_install
@@ -235,6 +235,12 @@ endif
 if has('termguicolors') && (has('nvim') || empty($TMUX))
     set termguicolors
 endif
+
+augroup gp_vim_lsp_color
+    autocmd!
+    autocmd! ColorScheme * highlight lspReference cterm=bold gui=bold guibg=#5e5e5e
+augroup END
+
 colorscheme one
 
 if has('gui_macvim')
@@ -337,11 +343,13 @@ endtry
 autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
 
 " fzf
-nnoremap <c-p> :FZF<CR>
+nnoremap <c-p> :FZF --info=inline<CR>
 let g:fzf_action = {
             \ 'ctrl-a': 'tab split',
             \ 'ctrl-x': 'split',
             \ 'ctrl-v': 'vsplit' }
+let g:fzf_layout = {
+      \ 'window': { 'width': 0.8, 'height': 0.8 }}
 
 " fzf-vim
 command! Helptags :call fzf#vim#helptags(<bang>0)
