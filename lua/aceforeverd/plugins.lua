@@ -249,9 +249,7 @@ return packer.startup({
 
     use { 'sakhnik/nvim-gdb' }
 
-    use { 'rafcamlet/nvim-luapad', ft = { 'lua' } }
-
-    use { 'folke/lua-dev.nvim', ft = { 'lua' } }
+    use { 'folke/lua-dev.nvim' }
 
     use { "b0o/schemastore.nvim" }
 
@@ -316,17 +314,10 @@ return packer.startup({
     }
 
     use {
-      'fannheyward/telescope-coc.nvim',
-      cond = function()
-        return vim.g.my_cmp_source == 'coc'
-      end,
-    }
-
-    use {
       'kyazdani42/nvim-tree.lua',
       requires = { 'kyazdani42/nvim-web-devicons' },
       cmd = { 'NvimTreeToggle', 'NvimTreeClipboard', 'NvimTreeFindFileToggle' },
-      keys = { '<space>r' },
+      keys = { '<space>t' },
       config = function()
         require('aceforeverd.plugins.nvim-tree')
       end,
@@ -480,7 +471,7 @@ return packer.startup({
     use {
       'famiu/feline.nvim',
       cond = function()
-        return vim.fn.has('nvim-0.5.0') == 1
+        return vim.g.my_status_line == 'feline'
       end,
       requires = { 'kyazdani42/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
       config = function()
@@ -492,7 +483,7 @@ return packer.startup({
       'akinsho/nvim-bufferline.lua',
       requires = 'kyazdani42/nvim-web-devicons',
       cond = function()
-        return vim.fn.has('nvim-0.5.0') == 1
+        return vim.g.my_buffer_line == 'bufferline'
       end,
       config = function()
         require('aceforeverd.plugins.bufferline')
@@ -571,7 +562,6 @@ return packer.startup({
       end,
     }
 
-    use { 'sindrets/winshift.nvim', cmd = { 'WinShift' } }
   end,
 })
 

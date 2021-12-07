@@ -28,6 +28,9 @@ function! aceforeverd#settings#my_init() abort
     let g:my_ultisnips_enable = get(g:, 'my_ultisnips_enable', 1)
     let g:my_vsnip_enable = get(g:, 'my_vsnip_enable', 1)
 
+    let g:my_status_line = get(g:, 'my_status_line', 'feline')
+    let g:my_buffer_line = get(g:, 'my_buffer_line', 'bufferline')
+
     if !exists('g:my_name')
         let g:my_name = 'Ace'
     endif

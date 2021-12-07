@@ -46,7 +46,7 @@ local on_attach = function(client, bufnr)
   -- all diagnostic
   buf_set_keymap('n', '<space>a', '<cmd>lua vim.diagnostic.setqflist()<CR>', default_map_opts)
 
-  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', default_map_opts)
+  buf_set_keymap('n', '<space>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', default_map_opts)
   buf_set_keymap('v', '<cr>', ':lua vim.lsp.buf.range_formatting()<cr>', { noremap = true })
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 

@@ -13,19 +13,27 @@
 
 ## Optional Dependencies
 
-+ nodejs env with [neovim node client](https://github.com/neovim/node-client) installed
++ nodejs env
++ rust env
 + python3.8+ env with [pynvim](https://github.com/neovim/pynvim) installed
 + sqlite3
 + searchers:
   - [the_silver_searcher](https://github.com/ggreer/the_silver_searcher)
   - [ripgrep](https://github.com/BurntSushi/ripgrep)
 + taging: [ctags](https://github.com/universal-ctags/ctags), [gtags](https://www.gnu.org/software/global/)
-+ utilities: [bat](https://github.com/sharkdp/bat), [delta](https://github.com/dandavison/delta)
++ utilities:
+  - [fd](https://github.com/sharkdp/fd)
+  - [code-minimap](https://github.com/wfxr/code-minimap)
+  - [bat](https://github.com/sharkdp/bat)
+  - [delta](https://github.com/dandavison/delta)
+  - [nnn](https://github.com/jarun/nnn)
+  - [vifm](https://vifm.info/)
 + [nerd font](https://github.com/ryanoasis/nerd-fonts)
 + C family tools: [clangd](https://clangd.llvm.org/), cpplint, clang-format, etc
-+ shells: [shellcheck](https://github.com/koalaman/shellcheck), [shfmt](https://github.com/mvdan/sh)
-+ [vim-vint](https://github.com/Vimjas/vint)
-+ [bash-language-server](https://github.com/bash-lsp/bash-language-server)
++ lint/format tools:
+  - [shellcheck](https://github.com/koalaman/shellcheck)
+  - [shfmt](https://github.com/mvdan/sh)
+  - [vim-vint](https://github.com/Vimjas/vint)
 
 ---
 
@@ -50,5 +58,3 @@ cd "$CLONE_PATH"
 # or for vim
 ./scripts/setup.sh -t vim
 ```
-
-## 3. enjoy

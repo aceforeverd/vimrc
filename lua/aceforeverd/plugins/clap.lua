@@ -23,6 +23,7 @@ function M.setup()
     vim.api.nvim_set_keymap('n', '<leader>cl', ':Clap<cr>', {noremap = true, silent = true})
     vim.api.nvim_set_keymap('n', '<leader>cf', ':Clap files<cr>', {noremap = true, silent = true})
     vim.api.nvim_set_keymap('n', '<leader>cb', ':Clap buffers<cr>', {noremap = true, silent = true})
+    vim.api.nvim_set_keymap('n', '<Space>l', ':Clap yanks<cr>', {noremap = true, silent = true})
 end
 
 return M

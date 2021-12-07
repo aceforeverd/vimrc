@@ -12,7 +12,7 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-vim.api.nvim_set_keymap('n', '<Space>r', [[<Cmd>lua require 'nvim-tree'.toggle()<CR>]],
+vim.api.nvim_set_keymap('n', '<Space>t', [[<Cmd>lua require 'nvim-tree'.toggle()<CR>]],
                         { noremap = true, silent = false })
 
 require('nvim-tree').setup {

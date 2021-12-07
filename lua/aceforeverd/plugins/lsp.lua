@@ -19,6 +19,9 @@ if vim.g.my_cmp_source ~= 'nvim_lsp' then
   return
 end
 
+-- basic settings
+vim.o.pumblend = 20
+
 local lspconfig = require('lspconfig')
 local lsp_basic = require('aceforeverd.config.lsp-basic')
 local on_attach = lsp_basic.on_attach
@@ -111,7 +114,15 @@ lspconfig.gopls.setup(default_lsp_cfg)
 -- npm install -g dockerfile-language-server-nodejs
 lspconfig.dockerls.setup(default_lsp_cfg)
 -- npm install -g yaml-language-server
-lspconfig.yamlls.setup(default_lsp_cfg)
+lspconfig.yamlls.setup(vim.tbl_deep_extend('keep', default_lsp_cfg, {
+    settings = {
+    yaml = {
+      schemas = {
+        ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*"
+      },
+    },
+  }
+}))
 -- npm instal -g bash-language-server
 lspconfig.bashls.setup(default_lsp_cfg)
 
@@ -162,11 +173,11 @@ lspconfig.diagnosticls.setup(vim.tbl_deep_extend('keep', default_lsp_cfg, {
           }
         },
         securities = {
-          "info",
-          "warning",
-          "warning",
-          "warning",
-          "error"
+          [1] = "info",
+          [2] = "warning",
+          [3] = "warning",
+          [4] = "warning",
+          [5] = "error"
         }
       }
     },

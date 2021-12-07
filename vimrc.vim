@@ -85,6 +85,9 @@ if g:my_cmp_source ==? 'coc'
    Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
    Plug 'antoinemadec/coc-fzf'
    Plug 'neoclide/coc-neco'
+
+   " coc-fzf
+   let g:coc_fzf_preview = 'up:80%'
 endif
 
 if g:my_autopair ==? 'delimitmate'
@@ -371,6 +374,7 @@ set backspace=indent,eol,start
 set spelllang=en_us,en,cjk
 " set spell
 
+set showcmd
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
@@ -427,6 +431,7 @@ endif
 function! s:terminal_mapping() abort
     let g:floaterm_width = 0.9
     let g:floaterm_height = 0.9
+    let g:floaterm_keymap_new = '<Leader>fn'
     tnoremap <C-w>j <C-\><C-n><C-w>j
     tnoremap <C-w>k <C-\><C-n><C-w>k
     tnoremap <C-w>l <C-\><C-n><C-w>l
@@ -575,9 +580,10 @@ command! -bar -bang SMaps exe 'call fzf#vim#maps("s", <bang>0)'
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
-
-" coc-fzf
-let g:coc_fzf_preview = 'up:80%'
+nnoremap <Space>b :Buffers<CR>
+nnoremap <Space>c :Commands<CR>
+nnoremap <Space>f :Files<CR>
+nnoremap <Space>r :Rg<CR>
 
 " from vim-rsi
 " <c-a> & <c-e> -> <HOME> & <END>, <c-b> & <c-f> -> forward & backward
@@ -629,9 +635,11 @@ set completeopt-=preview
 set completeopt+=menuone
 set completeopt+=noselect
 set shortmess+=c
-if has('termguicolors')
-   set pumblend=20
-endif
+set mousemodel=popup_setpos
+
+" only apply to vim
+set shortmess-=S
+
 
 " Enable omni completion.
 augroup omni_complete
@@ -641,6 +649,7 @@ augroup omni_complete
 augroup END
 
 " vim-sneak
+let g:sneak#label = 1
 map <Leader>s <Plug>Sneak_s
 map <Leader>S <Plug>Sneak_S
 
