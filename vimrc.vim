@@ -47,6 +47,7 @@ Plug 'honza/vim-snippets'
 Plug 'Raimondi/delimitMate'
 
 Plug 'mhinz/vim-startify'
+Plug 'rhysd/committia.vim'
 
 Plug 'airblade/vim-gitgutter'
 omap ih <Plug>(GitGutterTextObjectInnerPending)
@@ -105,6 +106,9 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
     nmap <buffer> K <plug>(lsp-hover)
     nmap <buffer> <leader>ca <Plug>(lsp-code-action)
+    nmap <buffer> <space>q <Plug>(lsp-document-diagnostics)
+    nmap <buffer> <space>a :LspDocumentDiagnostics --buffers=*
+    xmap <buffer> <cr> <Plug>(lsp-document-range-format)
     inoremap <buffer> <expr><c-f> lsp#scroll(+4)
     inoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
@@ -190,6 +194,7 @@ let g:maplocalleader = '\'
 let $LANG='en'
 set langmenu=en
 set shortmess+=c
+set shortmess-=S
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc,*.gch
@@ -277,6 +282,7 @@ set textwidth=500
 set autoindent "Auto indent
 set smartindent "Smart indent
 set wrap "Wrap lines
+set showcmd
 
 " map <silent> <leader><cr> :noh<cr>
 nnoremap <leader>tn :tabnew<cr>
@@ -335,7 +341,7 @@ if has('autocmd')
 endif
 
 try
-    set undodir=$HOME/.vim/temp_dirs/undodir/
+    let &undodir = s:common_path . '/undodir/'
     set undofile
 catch
 endtry
@@ -344,7 +350,13 @@ autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
 
 " fzf
 nnoremap <c-p> :FZF --info=inline<CR>
+function! s:build_quickfix_list(lines)
+    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+    copen
+    cc
+endfunction
 let g:fzf_action = {
+            \ 'ctrl-l': function('s:build_quickfix_list'),
             \ 'ctrl-a': 'tab split',
             \ 'ctrl-x': 'split',
             \ 'ctrl-v': 'vsplit' }
@@ -353,6 +365,20 @@ let g:fzf_layout = {
 
 " fzf-vim
 command! Helptags :call fzf#vim#helptags(<bang>0)
+command! -bar -bang IMaps exe 'call fzf#vim#maps("i", <bang>0)'
+command! -bar -bang VMaps exe 'call fzf#vim#maps("v", <bang>0)'
+command! -bar -bang XMaps exe 'call fzf#vim#maps("x", <bang>0)'
+command! -bar -bang OMaps exe 'call fzf#vim#maps("o", <bang>0)'
+command! -bar -bang TMaps exe 'call fzf#vim#maps("t", <bang>0)'
+command! -bar -bang SMaps exe 'call fzf#vim#maps("s", <bang>0)'
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+nnoremap <space>b :Buffers<CR>
+nnoremap <space>r :Rg<CR>
+nnoremap <space>c :Commands<CR>
 
 if executable('rg')
     set grepprg=rg\ --vimgrep
