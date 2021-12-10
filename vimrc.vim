@@ -285,6 +285,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('AndrewRadev/splitjoin.vim')
     call dein#add('AndrewRadev/sideways.vim')
     call dein#add('AndrewRadev/tagalong.vim')
+    call dein#add('AndrewRadev/switch.vim')
     call dein#add('chrisbra/NrrwRgn')
     call dein#add('machakann/vim-sandwich')
 
@@ -538,6 +539,7 @@ function! s:delete_path(key, value) abort
     return a:value
 endfunction
 command! DeinClean exe 'echo map(dein#check_clean(), function("<SID>delete_path"))'
+command! DeinLog exe 'echo dein#get_log()'
 
 " suda.vim
 command! SudaWrite exe 'w suda://%'
@@ -742,6 +744,9 @@ augroup gp_vim_helper
    autocmd!
    autocmd FileType vim,lua,help nnoremap <leader>gh :call aceforeverd#completion#help()<cr>
 augroup END
+
+" switch.vim
+let g:switch_mapping = ''
 
 " vim dirvish gtfo
 nnoremap goo go

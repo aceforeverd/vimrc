@@ -151,7 +151,7 @@ lspconfig.jsonls.setup(vim.tbl_deep_extend('keep', html_cfg, {
 lspconfig.tailwindcss.setup(default_lsp_cfg)
 
 lspconfig.diagnosticls.setup(vim.tbl_deep_extend('keep', default_lsp_cfg, {
-  filetypes = {'cpp'},
+  filetypes = {'cpp', 'yaml'},
   init_options = {
     linters = {
       cpplint = {
@@ -179,10 +179,26 @@ lspconfig.diagnosticls.setup(vim.tbl_deep_extend('keep', default_lsp_cfg, {
           [4] = "warning",
           [5] = "error"
         }
+      },
+      actionlint = {
+        command = "actionlint",
+        args =  {"%file"},
+        sourceName = "actionlint",
+        rootPatterns = {".github"},
+        ignore = {"/*", "!/.github", "/.github/*", "!/.github/workflows"},
+        formatPattern = {
+          "^[^:]+:(\\d+):(\\d+):\\s+(.+)$",
+          {
+            line = 1,
+            column = 2,
+            message = 3
+          }
+        }
       }
     },
     filetypes = {
       cpp = {"cpplint"},
+      yaml = {"actionlint"}
     },
     formatters = {
     },

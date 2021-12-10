@@ -26,11 +26,11 @@ end
 vim.cmd([[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
     autocmd User PackerComplete lua vim.api.nvim_notify('Packer Done', 2, {})
     autocmd FileType packer nnoremap <buffer> <esc> :<cmd>lua require('packer.display').quit()<cr>
   augroup end
 ]])
+    -- autocmd BufWritePost plugins.lua source <afile> | PackerCompile
 
 local packer = require('packer')
 
@@ -245,7 +245,10 @@ return packer.startup({
       end,
     }
 
-    use { 'hkupty/iron.nvim' }
+    use { 'hkupty/iron.nvim', config = function ()
+      vim.g.iron_map_defaults = 0
+      vim.g.iron_map_extended = 0
+    end }
 
     use { 'sakhnik/nvim-gdb' }
 
@@ -317,7 +320,7 @@ return packer.startup({
       'kyazdani42/nvim-tree.lua',
       requires = { 'kyazdani42/nvim-web-devicons' },
       cmd = { 'NvimTreeToggle', 'NvimTreeClipboard', 'NvimTreeFindFileToggle' },
-      keys = { '<space>t' },
+      keys = { '<space>e' },
       config = function()
         require('aceforeverd.plugins.nvim-tree')
       end,
@@ -381,16 +384,7 @@ return packer.startup({
     use {
       "SmiteshP/nvim-gps",
       config = function()
-        require("nvim-gps").setup({
-          icons = {
-            ["class-name"] = ' ', -- Classes and class-like objects
-            ["function-name"] = ' ', -- Functions
-            ["method-name"] = ' ', -- Methods (functions inside class-like objects)
-            ["container-name"] = ' ', -- Containers (example: lua tables)
-            ["tag-name"] = '炙', -- Tags (example: html tags)
-          },
-          separator = ' > ',
-        })
+        require('aceforeverd.plugins.gps').setup()
       end,
       requires = "nvim-treesitter/nvim-treesitter",
     }
@@ -404,6 +398,9 @@ return packer.startup({
 
     use {
       'kevinhwang91/nvim-hlslens',
+      cond = function ()
+        return vim.g.with_hlslens == 1
+      end,
       config = function()
         vim.api.nvim_set_keymap('n', '*', "*<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
         vim.api.nvim_set_keymap('n', '#', "#<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
@@ -458,6 +455,14 @@ return packer.startup({
     }
 
     use {
+      'nvim-orgmode/orgmode',
+      requires = { 'nvim-orgmode/orgmode' },
+      config = function ()
+        require('aceforeverd.plugins.orgmode').setup()
+      end
+    }
+
+    use {
       'lewis6991/gitsigns.nvim',
       cond = function()
         return vim.fn.has('nvim-0.5.0') == 1
@@ -471,7 +476,7 @@ return packer.startup({
     use {
       'famiu/feline.nvim',
       cond = function()
-        return vim.g.my_status_line == 'feline'
+        return vim.g.my_statusline == 'feline'
       end,
       requires = { 'kyazdani42/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
       config = function()
@@ -480,10 +485,28 @@ return packer.startup({
     }
 
     use {
+      'itchyny/lightline.vim',
+      cond = function ()
+        return vim.g.my_statusline == 'lightline'
+      end
+    }
+
+    use {
+      'noib3/cokeline.nvim',
+      cond = function ()
+        return vim.g.my_tabline == 'cokeline'
+      end,
+      requires = { 'kyazdani42/nvim-web-devicons' },
+      config = function ()
+        require('aceforeverd.plugins.cokeline').setup()
+      end
+    }
+
+    use {
       'akinsho/nvim-bufferline.lua',
       requires = 'kyazdani42/nvim-web-devicons',
       cond = function()
-        return vim.g.my_buffer_line == 'bufferline'
+        return vim.g.my_tabline == 'bufferline'
       end,
       config = function()
         require('aceforeverd.plugins.bufferline')

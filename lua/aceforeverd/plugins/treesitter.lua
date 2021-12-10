@@ -11,10 +11,24 @@
 -- GNU General Public License for more details.
 --
 -- You should have received a copy of the GNU General Public License
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.org = {
+  install_info = {
+    url = 'https://github.com/milisims/tree-sitter-org',
+    revision = 'main',
+    files = {'src/parser.c', 'src/scanner.cc'},
+  },
+  filetype = 'org',
+}
+
 require('nvim-treesitter.configs').setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ignore_install = {}, -- TSModuleInfo fail on fennel
-  highlight = { enable = true, disable = { 'yaml', 'coc-explorer' } },
+  highlight = {
+    enable = true,
+    disable = { 'yaml', 'coc-explorer' },
+    additional_vim_regex_highlighting = {'org'}, -- Required since TS highlighter doesn't support all syntax features (conceal)
+  },
   indent = { enable = true, disable = { 'yaml' } },
   incremental_selection = {
     enable = true,
@@ -144,7 +158,15 @@ require('nvim-treesitter.configs').setup {
         ["[R"] = "@parameter.outer",
         ["{;"] = "@statement.outer"
       }
-    }
+    },
+    lsp_interop = {
+      enable = true,
+      border = 'none',
+      peek_definition_code = {
+        ["<leader>df"] = "@function.outer",
+        ["<leader>dF"] = "@class.outer",
+      },
+    },
   },
   textsubjects = {
     enable = true,
