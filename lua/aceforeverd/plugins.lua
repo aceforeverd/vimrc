@@ -499,6 +499,9 @@ return packer.startup({
       'itchyny/lightline.vim',
       cond = function ()
         return vim.g.my_statusline == 'lightline'
+      end,
+      config = function ()
+        vim.cmd[[call aceforeverd#statusline#lightline()]]
       end
     }
 
