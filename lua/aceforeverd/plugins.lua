@@ -480,8 +480,19 @@ return packer.startup({
       end,
       requires = { 'kyazdani42/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
       config = function()
-        require('aceforeverd.plugins.feline')
+        require('aceforeverd.plugins.statusline.feline')
       end,
+    }
+
+    use {
+      'nvim-lualine/lualine.nvim',
+      cond = function ()
+        return vim.g.my_statusline == 'lualine'
+      end,
+      requires = { 'kyazdani42/nvim-web-devicons' },
+      config = function ()
+        require('aceforeverd.plugins.statusline.lualine').setup()
+      end
     }
 
     use {
@@ -498,7 +509,7 @@ return packer.startup({
       end,
       requires = { 'kyazdani42/nvim-web-devicons' },
       config = function ()
-        require('aceforeverd.plugins.cokeline').setup()
+        require('aceforeverd.plugins.tabline.cokeline').setup()
       end
     }
 
@@ -509,7 +520,7 @@ return packer.startup({
         return vim.g.my_tabline == 'bufferline'
       end,
       config = function()
-        require('aceforeverd.plugins.bufferline')
+        require('aceforeverd.plugins.tabline.bufferline')
       end,
     }
 

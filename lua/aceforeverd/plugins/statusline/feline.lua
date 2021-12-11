@@ -122,15 +122,7 @@ local feline_config = {
       { -- right
         {
           provider = function()
-            if require('nvim-gps').is_available() then
-              return require('nvim-gps').get_location()
-            end
-            local text = require('nvim-treesitter').statusline({ indicator_size = 40 })
-            if text then
-              return text
-            else
-              return ""
-            end
+            return require('aceforeverd.utility.statusline').gps()
           end,
           hl = { fg = '#fda5b4' },
           right_sep = ' '
@@ -154,8 +146,7 @@ local feline_config = {
         },
         {
           provider = function()
-            return 'IN:' .. tostring(vim.fn.indent(vim.fn.line('.'))) .. '/' ..
-                       tostring(vim.o.shiftwidth)
+            return require('aceforeverd.utility.statusline').indent()
           end,
           hl = { fg = '#ffff0a' },
           left_sep = { ' ' },
