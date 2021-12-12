@@ -15,8 +15,30 @@
 
 local M = {}
 
+local set_map = vim.api.nvim_set_keymap
+local map_opt = { noremap = false, silent = true }
+
 function M.setup()
-    require('cokeline').setup({ })
+  require('cokeline').setup({})
+
+  set_map('n', '<M-.>', '<Plug>(cokeline-focus-next)', map_opt)
+  set_map('n', '<M-,>', '<Plug>(cokeline-focus-prev)', map_opt)
+  -- override unimpaired mappings
+  set_map('n', ']b', '<Plug>(cokeline-focus-next)', map_opt)
+  set_map('n', '[b', '<Plug>(cokeline-focus-prev)', map_opt)
+
+  set_map('n', '<M->>', '<Plug>(cokeline-switch-next)', map_opt)
+  set_map('n', '<M-<>', '<Plug>(cokeline-switch-prev)', map_opt)
+
+  set_map('n', '<M-1>', '<Plug>(cokeline-focus-1)', map_opt)
+  set_map('n', '<M-2>', '<Plug>(cokeline-focus-2)', map_opt)
+  set_map('n', '<M-3>', '<Plug>(cokeline-focus-3)', map_opt)
+  set_map('n', '<M-4>', '<Plug>(cokeline-focus-4)', map_opt)
+  set_map('n', '<M-5>', '<Plug>(cokeline-focus-5)', map_opt)
+  set_map('n', '<M-6>', '<Plug>(cokeline-focus-6)', map_opt)
+  set_map('n', '<M-7>', '<Plug>(cokeline-focus-7)', map_opt)
+  set_map('n', '<M-7>', '<Plug>(cokeline-focus-8)', map_opt)
+  set_map('n', '<M-9>', '<Plug>(cokeline-focus-9)', map_opt)
 end
 
 return M
