@@ -309,6 +309,12 @@ endtry
 
 set laststatus=2
 
+" netrw
+augroup gp_netrw_cs
+    autocmd!
+    autocmd FileType netrw highlight netrwSuffixes ctermfg=250 ctermbg=235 guifg=#e4e3e1 guibg=#312c2b
+augroup END
+
 " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
 if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
     " when start insert mode - blinking vertical bar
@@ -435,3 +441,10 @@ if !has('gui_running')
     inoremap <C-@> <C-x><C-o>
 endif
 
+function! s:syn_query_verbose() abort
+    for id in synstack(line('.'), col('.'))
+        execute 'highlight' synIDattr(id, 'name')
+    endfor
+endfunction
+
+nnoremap <silent> <leader>cv :<c-u>call <SID>syn_query_verbose()<cr>
