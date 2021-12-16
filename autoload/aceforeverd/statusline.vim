@@ -21,18 +21,18 @@ function! aceforeverd#statusline#lsp_status() abort
     return v:lua.require('lsp-status').status()
 endfunction
 
-function aceforeverd#statusline#lightline() abort
+function! aceforeverd#statusline#lightline() abort
     let g:lightline = {
-      \ 'colorscheme': 'powerline',
+      \ 'colorscheme': 'deus',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'modified' ],
+      \             [ 'gitbranch', 'readonly', 'modified' ],
       \             [ 'lsp-status' ]
       \    ],
       \   'right': [
-      \     [ 'lineinfo' ],
-      \     [ 'percent' ],
-      \     [ 'gps', 'fileformat', 'fileencoding', 'filetype']
+      \     [ 'lineinfo', 'percent' ],
+      \     [ 'fileencoding', 'fileformat', 'spell' ],
+      \     [ 'gps', 'filetype' ]
       \   ]
       \ },
       \ 'inactive': {
@@ -42,7 +42,8 @@ function aceforeverd#statusline#lightline() abort
       \ 'tabline': {},
       \ 'component_function': {
       \   'gps': 'aceforeverd#statusline#nvim_gps',
-      \   'lsp-status': 'aceforeverd#statusline#lsp_status'
+      \   'lsp-status': 'aceforeverd#statusline#lsp_status',
+      \   'gitbranch': 'FugitiveHead'
       \ }
       \ }
 endfunction

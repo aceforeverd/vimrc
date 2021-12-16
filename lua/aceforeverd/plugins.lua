@@ -436,7 +436,7 @@ return packer.startup({
 
     use {
       'michaelb/sniprun',
-      run = 'bash ./install.sh',
+      run = 'bash install.sh',
       cmd = { 'SnipRun', 'SnipClose', 'SnipInfo', 'SnipReset', 'SnipTerminate', 'SnipReplMemoryClean' },
     }
 

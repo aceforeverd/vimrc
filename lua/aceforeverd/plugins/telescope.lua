@@ -47,6 +47,7 @@ telescope.load_extension("frecency")
 local set_map = vim.api.nvim_set_keymap
 
 set_map('n', '<Leader>fl', '<Cmd>Telescope<CR>', { noremap = true, silent = false })
+set_map('n', '<Leader>fg', '<Cmd>Telescope grep_string<CR>', { noremap = true, silent = false })
 
 set_map('n', '<leader>fo', '<cmd>lua require("telescope").extensions.repo.list{}<cr>',
         { noremap = true, silent = true })

@@ -32,8 +32,8 @@ function M.setup()
       },
       lualine_y = { "fileformat", "location" },
       lualine_z = {
-        { [[require('aceforeverd.utility.statusline').file_size()]] },
         "progress",
+        { [[require('aceforeverd.utility.statusline').file_size()]] },
       },
     },
     extensions = {

@@ -538,6 +538,7 @@ function! s:delete_path(key, value) abort
     echomsg 'DeinClean: deleted ' . a:value
     return a:value
 endfunction
+command! DeinUpdate exe 'call dein#update()'
 command! DeinClean exe 'echo map(dein#check_clean(), function("<SID>delete_path"))'
 command! DeinLog exe 'echo dein#get_log()'
 
@@ -625,6 +626,13 @@ let g:startify_relative_path = 1
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh', 'vim', 'help']
 " markdown-preview
 let g:mkdp_auto_close = 0
+
+" markdown local settings
+augroup gp_markdown
+  autocmd!
+  autocmd FileType markdown,rmd,pandoc.markdown map <buffer> <leader>mp <Plug>MarkdownPreview
+  autocmd FileType markdown,rmd,pandoc.markdown setlocal spell
+augroup END
 
 " easy-align
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
