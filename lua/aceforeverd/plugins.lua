@@ -83,9 +83,11 @@ return packer.startup({
         'ray-x/cmp-treesitter',
         'andersevenrud/cmp-tmux',
         'quangnguyen30192/cmp-nvim-ultisnips',
+        'petertriho/cmp-git',
 
         'notomo/cmp-neosnippet',
         'hrsh7th/cmp-vsnip',
+        'f3fora/cmp-spell',
 
         'onsails/lspkind-nvim',
       },
@@ -95,6 +97,21 @@ return packer.startup({
     }
 
     use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }
+
+    use({
+      'SirVer/ultisnips',
+      cond = function()
+        return vim.g.my_ultisnips_enable == 1 and vim.fn.has('python3')
+      end,
+      setup = function()
+        vim.g.UltiSnipsRemoveSelectModeMappings = 0
+        -- TODO:: condional map
+        vim.g.UltiSnipsExpandTrigger = '<M-l>'
+        vim.g.UltiSnipsListSnippets = '<c-tab>'
+        vim.g.UltiSnipsJumpForwardTrigger = '<c-j>'
+        vim.g.UltiSnipsJumpBackwardTrigger = '<c-k>'
+      end,
+    })
 
     use {
       'hrsh7th/vim-vsnip',
@@ -199,6 +216,9 @@ return packer.startup({
       -- requires cargo
       'liuchengxu/vim-clap',
       run = ':Clap install-binary',
+      setup = function ()
+        require('aceforeverd.plugins.clap').before_load()
+      end,
       config = function()
         require('aceforeverd.plugins.clap').setup()
       end,
@@ -265,6 +285,11 @@ return packer.startup({
     }
 
     use {
+      'creativenull/diagnosticls-configs-nvim',
+      opt = true
+    }
+
+    use {
       'nvim-telescope/telescope.nvim',
       config = function()
         require('aceforeverd.plugins.telescope')
@@ -277,6 +302,7 @@ return packer.startup({
         'nvim-telescope/telescope-project.nvim',
         'cljoly/telescope-repo.nvim',
         'fhill2/telescope-ultisnips.nvim',
+        'jvgrootveld/telescope-zoxide'
       },
     }
 
@@ -295,7 +321,10 @@ return packer.startup({
     use {
       'ahmedkhalf/project.nvim',
       config = function()
-        require("project_nvim").setup { manual_mode = false }
+        require("project_nvim").setup {
+          manual_mode = false,
+          silent_chdir = false
+        }
       end,
     }
 
@@ -457,6 +486,7 @@ return packer.startup({
     use {
       'nvim-orgmode/orgmode',
       requires = { 'nvim-orgmode/orgmode' },
+      ft = { 'org' },
       config = function ()
         require('aceforeverd.plugins.orgmode').setup()
       end
@@ -474,7 +504,7 @@ return packer.startup({
     }
 
     use {
-      'famiu/feline.nvim',
+      'feline-nvim/feline.nvim',
       cond = function()
         return vim.g.my_statusline == 'feline'
       end,
@@ -536,7 +566,7 @@ return packer.startup({
 
     use {
       'simrat39/symbols-outline.nvim',
-      config = function()
+      setup = function()
         vim.g.symbols_outline = { highlight_hovered_item = true }
       end,
       cmd = { 'SymbolsOutline' },
@@ -597,6 +627,14 @@ return packer.startup({
       config = function()
         require('crates').setup()
       end,
+    }
+
+    use {
+      'chentau/marks.nvim',
+      opt = true,
+      config = function ()
+        require('marks').setup{}
+      end
     }
 
   end,
