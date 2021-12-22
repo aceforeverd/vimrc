@@ -21,16 +21,7 @@ if vim.g.my_cmp_source ~= 'nvim_lsp' then
   return
 end
 
-local system_name
-if vim.fn.has("mac") == 1 then
-  system_name = "macOS"
-elseif vim.fn.has("unix") == 1 then
-  system_name = "Linux"
-elseif vim.fn.has('win32') == 1 then
-  print("Unsupported system for windows")
-  -- system_name = "Windows"
-  return
-else
+if vim.fn.has("mac") ~= 1 and vim.fn.has('unix') ~= 1 then
   print("Unsupported system")
   return
 end
@@ -40,9 +31,14 @@ end
 local on_attach = require('aceforeverd.config.lsp-basic').on_attach
 local capabilities = require('aceforeverd.config.lsp-basic').capabilities
 
+local general_lsp_config = {
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
+
 local setup_sumeko_lua = function(server)
   local sumneko_root_path = server.root_dir .. '/extension/server'
-  local sumneko_binary = sumneko_root_path .. "/bin/" .. system_name .. "/lua-language-server"
+  local sumneko_binary = sumneko_root_path .. "/bin/" .. "/lua-language-server"
 
   local luadev = require("lua-dev").setup({
     -- add any options here, or leave empty to use the default settings
@@ -74,10 +70,17 @@ local setup_lemminux = function(server)
     }
 end
 
+local setup_bashls = function(server)
+  server:setup(vim.tbl_deep_extend('force', general_lsp_config, {
+    cmd = { server.root_dir .. '/node_modules/.bin/bash-language-server', 'start' },
+  }))
+end
+
 local setup_lsp_configs = {
   sumneko_lua = setup_sumeko_lua,
   cmake = setup_cmake,
   lemminx = setup_lemminux,
+  bashls = setup_bashls,
 }
 
 -- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')

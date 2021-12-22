@@ -44,6 +44,8 @@ telescope.load_extension('fzf')
 -- telescope-frecency
 telescope.load_extension("frecency")
 
+local map_opts = { noremap = true, silent = false }
+
 local set_map = vim.api.nvim_set_keymap
 
 set_map('n', '<Leader>fl', '<Cmd>Telescope<CR>', { noremap = true, silent = false })
@@ -57,7 +59,7 @@ set_map("n", "<leader>fr", "<Cmd>lua require('telescope').extensions.frecency.fr
 set_map("n", "<leader>ff", "<Cmd>lua require('telescope.builtin').find_files()<CR>",
         { noremap = true, silent = true })
 
-set_map('n', '<Leader>fp', "<Cmd>lua require('telescope').extensions.packer.plugins()<CR>",
+set_map('n', '<Leader>fp', "<Cmd>lua require('telescope').extensions.packer.packer()<CR>",
         { noremap = true, silent = true })
 
 set_map('n', '<Leader>fj', "<Cmd>lua require'telescope'.extensions.project.project{}<CR>",
@@ -70,3 +72,5 @@ set_map('n', '<Leader>fb', "<cmd>lua require('telescope.builtin').buffers()<cr>"
 
 set_map('n', '<Leader>fu', "<cmd>lua require'telescope'.extensions.ultisnips.ultisnips{}<cr>",
         { noremap = true, silent = true })
+
+set_map('n', '<Leader>fz', '<cmd>lua require"telescope".extensions.zoxide.list{}<cr>', map_opts)

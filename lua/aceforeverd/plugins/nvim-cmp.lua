@@ -16,8 +16,6 @@ if vim.g.my_cmp_source ~= 'nvim_lsp' then
   return
 end
 
-vim.g.UltiSnipsRemoveSelectModeMappings = 0
-
 local has_words_before = function()
   if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
     return false
@@ -76,6 +74,7 @@ local sources_1 = {
   { name = 'calc' },
 
   { name = 'treesitter' },
+  { name = 'spell' },
   {
     name = 'buffer',
     option = {
@@ -92,6 +91,7 @@ local sources_1 = {
   { name = 'emoji' },
   { name = 'tmux', keyword_length = 3 },
   { name = 'look', keyword_length = 3, option = { convert_case = true, loud = true } },
+  { name = 'cmp_git' },
 }
 
 local snip_idx = 3
@@ -149,6 +149,8 @@ cmp.setup({
         calc = '[Calc]',
         tmux = "[Tmux]",
         rg = '[Rg]',
+        spell = '[Spell]',
+        cmp_git = '[Git]',
       },
     }),
   },
