@@ -185,7 +185,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('Shougo/echodoc.vim')
 
     call dein#add('voldikss/vim-floaterm')
-    call dein#add('kassio/neoterm')
 
     call dein#add('tpope/vim-endwise')
     call dein#add('tpope/vim-surround')
@@ -227,7 +226,11 @@ if dein#load_state(s:dein_repo)
     call dein#add('sainnhe/sonokai', {'merged': 0, 'hook_source': 'colorscheme sonokai'})
     call dein#add('rafi/awesome-vim-colorschemes', {'merged': 0})
     call dein#add('justinmk/vim-gtfo')
-    call dein#add('justinmk/vim-dirvish')
+    if has('nvim')
+      call dein#add('justinmk/vim-dirvish')
+    else
+      call dein#add('tpope/vim-vinegar')
+    endif
 
     " motion
     call dein#add('rhysd/clever-f.vim')
@@ -682,7 +685,7 @@ let g:tmuxcomplete#trigger = ''
 augroup gp_lookup
     autocmd!
     autocmd FileType vim nnoremap <buffer><silent> <LocalLeader><C-]> :call lookup#lookup()<CR>
-    autocmd FileType vim,lua nnoremap gs :call plugin_browse#try_open()<CR>
+    autocmd FileType vim,lua nnoremap <buffer> gs :call plugin_browse#try_open()<CR>
 augroup END
 
 " gina
@@ -691,9 +694,6 @@ let g:gina#command#blame#formatter#format = '%su%=by %au on %ti, %ma/%in'
 let g:livepreview_engine = 'xelatex'
 
 let g:tex_flavor = 'latex'
-
-" localvimrc
-let g:localvimrc_name = [ '.lc.vim' ]
 
 " vim-better-whitespace
 let g:better_whitespace_operator = ''
@@ -750,7 +750,7 @@ nnoremap <silent> <leader>cs :<c-u>call aceforeverd#util#syn_query()<cr>
 nnoremap <silent> <leader>cv :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
 augroup gp_vim_helper
    autocmd!
-   autocmd FileType vim,lua,help nnoremap <leader>gh :call aceforeverd#completion#help()<cr>
+   autocmd FileType vim,lua,help nnoremap <buffer> <leader>gh :call aceforeverd#completion#help()<cr>
 augroup END
 
 " switch.vim

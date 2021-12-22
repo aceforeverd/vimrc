@@ -81,41 +81,53 @@ local feline_config = {
         { provider = 'git_diff_changed', hl = { fg = 'orange', bg = 'black' } },
         { provider = 'git_diff_removed', hl = { fg = 'red', bg = 'black' } },
         {
+          -- right seperator for git diffs
           provider = ' ┃ ',
           hl = { fg = 'white', bg = 'black' },
           enabled = gitsigns_has_diff
         },
         {
           provider = 'diagnostic_errors',
-          enabled = function() return lsp.diagnostics_exist('Error') end,
+          enabled = function() return lsp.diagnostics_exist('ERROR') end,
           left_sep = { { str = 'vertical_bar_thin', hl = { fg = 'violet' } } },
           hl = { fg = 'red' }
         },
         {
           provider = 'diagnostic_warnings',
-          enabled = function() return lsp.diagnostics_exist('Warning') end,
+          enabled = function() return lsp.diagnostics_exist('WARN') end,
           hl = { fg = 'yellow' }
         },
         {
           provider = 'diagnostic_hints',
-          enabled = function() return lsp.diagnostics_exist('Hint') end,
+          enabled = function() return lsp.diagnostics_exist('HINT') end,
           hl = { fg = 'cyan' }
         },
         {
           provider = 'diagnostic_info',
-          enabled = function() return lsp.diagnostics_exist('Information') end,
+          enabled = function() return lsp.diagnostics_exist('INFO') end,
           hl = { fg = 'skyblue' }
+        },
+        {
+          -- right separator for builtin lsp diagnostics
+          provider = ' ┃ ',
+          enabled = function ()
+            return #vim.diagnostic.get(0) ~= 0
+          end,
+          hl = { fg = 'green', bg = 'black' },
         },
         {
           -- for neovim 0.6.0 or later, use built-in lsp, otherwise coc
           provider = function() return vim.api.nvim_eval('coc#status()') end,
           enabled = function() return vim.g.my_cmp_source == 'coc' end,
-          left_sep = { ' ', { str = 'vertical_bar', hl = { fg = 'green', bg = 'black' } } }
         },
+        --[[ {
+          provider = 'lsp_client_names',
+          enabled = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
+          left_sep = { ' ', { str = 'vertical_bar_thin', hl = { fg = 'yellow', bg = 'black' } } }
+        }, ]]
         {
           provider = function() return require('lsp-status').status() end,
           enabled = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
-          left_sep = { ' ', { str = 'vertical_bar', hl = { fg = 'green', bg = 'black' } } }
         }
       },
       {}, -- mid
