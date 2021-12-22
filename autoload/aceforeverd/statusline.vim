@@ -21,16 +21,24 @@ function! aceforeverd#statusline#lsp_status() abort
     return v:lua.require('lsp-status').status()
 endfunction
 
+function! aceforeverd#statusline#file_size() abort
+    return luaeval('require("aceforeverd.utility.statusline").file_size()')
+endf
+
+function! aceforeverd#statusline#git_diff()
+    return get(b:, 'gitsigns_status', '')
+endf
+
 function! aceforeverd#statusline#lightline() abort
     let g:lightline = {
       \ 'colorscheme': 'deus',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'modified' ],
+      \             [ 'readonly', 'modified','gitbranch', 'git_diff' ],
       \             [ 'lsp-status' ]
       \    ],
       \   'right': [
-      \     [ 'lineinfo', 'percent' ],
+      \     [ 'lineinfo', 'total_line', 'percent', 'file_size' ],
       \     [ 'fileencoding', 'fileformat', 'spell' ],
       \     [ 'gps', 'filetype' ]
       \   ]
@@ -40,10 +48,15 @@ function! aceforeverd#statusline#lightline() abort
       \   'right': [ [ 'lineinfo' ], [ 'percent' ] ]
       \ },
       \ 'tabline': {},
+      \ 'component': {
+      \   'total_line': '%L',
+      \  },
       \ 'component_function': {
       \   'gps': 'aceforeverd#statusline#nvim_gps',
       \   'lsp-status': 'aceforeverd#statusline#lsp_status',
-      \   'gitbranch': 'FugitiveHead'
+      \   'gitbranch': 'FugitiveHead',
+      \   'file_size': 'aceforeverd#statusline#file_size',
+      \   'git_diff': 'aceforeverd#statusline#git_diff'
       \ }
       \ }
 endfunction
