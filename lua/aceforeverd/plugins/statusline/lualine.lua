@@ -30,13 +30,17 @@ function M.setup()
         { [[require('aceforeverd.utility.statusline').indent()]] },
         "encoding",
       },
-      lualine_y = { "fileformat", "location" },
+      lualine_y = {
+        "fileformat",
+        "location",
+      },
       lualine_z = {
         "progress",
-        { [[require('aceforeverd.utility.statusline').file_size()]] },
+        "filesize"
       },
     },
     extensions = {
+      "quickfix",
       "fugitive",
     },
   }))
