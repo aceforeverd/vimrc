@@ -64,6 +64,40 @@ endif
 
 Plug 'itchyny/lightline.vim'
 
+function! GitStatus()
+    let [a,m,r] = GitGutterGetHunkSummary()
+    return printf('+%d ~%d -%d', a, m, r)
+endfunction
+function! s:lightline_setup() abort
+    let g:lightline = {
+      \ 'colorscheme': 'deus',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'modified', 'gitbranch', 'git_diff' ],
+      \    ],
+      \   'right': [
+      \     [ 'lineinfo', 'total_line', 'percent', 'file_size' ],
+      \     [ 'fileencoding', 'fileformat', 'spell' ],
+      \     [ 'filetype' ]
+      \   ]
+      \ },
+      \ 'inactive': {
+      \   'left': [ [ 'filename' ] ],
+      \   'right': [ [ 'lineinfo' ], [ 'percent' ] ]
+      \ },
+      \ 'tabline': {},
+      \ 'component': {
+      \   'total_line': '%L',
+      \  },
+      \ 'component_function': {
+      \   'lsp-status': 'aceforeverd#statusline#lsp_status',
+      \   'gitbranch': 'FugitiveHead',
+      \   'git_diff': 'GitStatus',
+      \ }
+      \ }
+endfunction
+call s:lightline_setup()
+
 Plug 'wincent/terminus'
 
 if has('timers')
@@ -88,6 +122,7 @@ Plug 'mattn/vim-lsp-settings'
 
 Plug 'tpope/vim-endwise'
 
+" let g:lsp_diagnostics_float_cursor = 1
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
