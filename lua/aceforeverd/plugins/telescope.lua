@@ -48,8 +48,11 @@ local map_opts = { noremap = true, silent = false }
 
 local set_map = vim.api.nvim_set_keymap
 
-set_map('n', '<Leader>fl', '<Cmd>Telescope<CR>', { noremap = true, silent = false })
-set_map('n', '<Leader>fg', '<Cmd>Telescope grep_string<CR>', { noremap = true, silent = false })
+set_map('n', '<Leader>fl', '<Cmd>Telescope<CR>', map_opts)
+set_map('n', '<Leader>fe', '<Cmd>Telescope grep_string<CR>', map_opts)
+set_map('n', '<Leader>fgf', '<Cmd>Telescope git_files<CR>', map_opts)
+set_map('n', '<Leader>fgs', '<Cmd>Telescope git_status<CR>', map_opts)
+set_map('n', '<Leader>fgb', '<Cmd>Telescope git_branches<CR>', map_opts)
 
 set_map('n', '<leader>fo', '<cmd>lua require("telescope").extensions.repo.list{}<cr>',
         { noremap = true, silent = true })

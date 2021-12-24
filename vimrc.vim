@@ -413,6 +413,7 @@ scriptencoding utf-8
 set fileformats=unix,dos,mac
 
 set number
+" use space for tab
 set expandtab
 set smarttab
 
@@ -543,6 +544,7 @@ function! s:delete_path(key, value) abort
 endfunction
 command! DeinUpdate exe 'call dein#update()'
 command! DeinClean exe 'echo map(dein#check_clean(), function("<SID>delete_path"))'
+command! DeinRecache exe 'call dein#recache_runtimepath() | echo "Done"'
 command! DeinLog exe 'echo dein#get_log()'
 
 " suda.vim
