@@ -24,7 +24,7 @@ function! aceforeverd#settings#my_init() abort
 
     let g:my_autopair = get(g:, 'my_autopair', 'delimitmate')
 
-    let g:my_neosnippet_enable = get(g:, 'my_neosnippet_enable', 1)
+    let g:my_neosnippet_enable = get(g:, 'my_neosnippet_enable', 0)
     let g:my_ultisnips_enable = get(g:, 'my_ultisnips_enable', 1)
     let g:my_vsnip_enable = get(g:, 'my_vsnip_enable', 1)
 

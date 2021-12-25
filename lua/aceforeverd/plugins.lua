@@ -334,7 +334,7 @@ return packer.startup({
 
     use {
       'sudormrfbin/cheatsheet.nvim',
-      cmd = { 'CheatSheet', 'CheatSheetEdit' },
+      cmd = { 'Cheatsheet', 'CheatsheetEdit' },
       config = function()
         require("cheatsheet").setup({
           bundled_cheatsheets = true,
@@ -594,7 +594,7 @@ return packer.startup({
         return vim.g.my_autopair == 'nvim-autopairs'
       end,
       config = function()
-        require('aceforeverd.plugins.autopairs')
+        require('aceforeverd.plugins.autopairs').setup()
       end,
     }
 

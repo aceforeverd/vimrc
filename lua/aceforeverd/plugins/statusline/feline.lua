@@ -45,7 +45,7 @@ local gitsigns_has_diff = function()
   if dict == nil then
     return false
   end
-  return dict ~= nil or dict.changed ~= nil or dict.removed ~= nil
+  return dict.added ~= 0 or dict.changed ~= 0 or dict.removed ~= 0
 end
 
 local vi_mode_hl = function()
@@ -155,6 +155,16 @@ local feline_config = {
           left_sep = { ' ' },
           right_sep = { ' ', { str = 'vertical_bar', hl = { bg = 'NONE' } } },
           hl = { fg = '#ffff0a' }
+        },
+        {
+          provider = function ()
+            return vim.o.spelllang
+          end,
+          enabled = function ()
+            return vim.o.spell == true
+          end,
+          right_sep = { str = 'vertical_bar', hl = { fg = 'magenta' } },
+          hl = { fg = 'magenta' },
         },
         {
           provider = function()

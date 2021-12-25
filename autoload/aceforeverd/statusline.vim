@@ -25,7 +25,7 @@ function! aceforeverd#statusline#file_size() abort
     return luaeval('require("aceforeverd.utility.statusline").file_size()')
 endf
 
-function! aceforeverd#statusline#git_diff()
+function! aceforeverd#statusline#git_diff() abort
     return get(b:, 'gitsigns_status', '')
 endf
 
@@ -34,7 +34,7 @@ function! aceforeverd#statusline#lightline() abort
       \ 'colorscheme': 'deus',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'modified','gitbranch', 'git_diff' ],
+      \             [ 'readonly', 'modified', 'gitbranch', 'git_diff' ],
       \             [ 'lsp-status' ]
       \    ],
       \   'right': [

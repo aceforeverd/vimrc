@@ -157,9 +157,26 @@ lspconfig.jsonls.setup(vim.tbl_deep_extend('keep', html_cfg, {
 lspconfig.tailwindcss.setup(default_lsp_cfg)
 
 lspconfig.diagnosticls.setup(vim.tbl_deep_extend('keep', default_lsp_cfg, {
-  filetypes = { 'cpp', 'yaml', 'sh' },
+  filetypes = { 'cpp', 'yaml', 'sh', 'vim' },
   init_options = {
     linters = {
+      vint = {
+        command = "vint",
+        debounce = 100,
+        args = {"--enable-neovim", "--no-color", "-"},
+        offsetLine = 0,
+        offsetColumn = 0,
+        sourceName = "vint",
+        formatLines = 1,
+        formatPattern = {
+          "[^:]+:(\\d+):(\\d+):\\s*(.*)(\\r|\\n)*$",
+          {
+            line = 1,
+            column = 2,
+            message = 3
+          }
+        }
+      },
       cpplint = {
         command = 'cpplint',
         args = { '%file' },
@@ -227,6 +244,7 @@ lspconfig.diagnosticls.setup(vim.tbl_deep_extend('keep', default_lsp_cfg, {
       },
     },
     filetypes = {
+      vim = { 'vint' },
       sh = { 'shellcheck' },
       cpp = { 'cpplint' },
       yaml = { 'actionlint' },
