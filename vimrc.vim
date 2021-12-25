@@ -105,14 +105,8 @@ elseif g:my_autopair ==? 'lexima'
    Plug 'cohama/lexima.vim'
 endif
 
-if has('python3') && g:my_ultisnips_enable == 1
-   Plug 'SirVer/ultisnips'
-   " TODO:: condional map
-   let g:UltiSnipsExpandTrigger       = '<A-l>'
-   let g:UltiSnipsListSnippets        = '<c-tab>'
-   let g:UltiSnipsJumpForwardTrigger  = '<c-j>'
-   let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
-endif
+" Plug 'tpope/vim-projectionist'
+Plug 'tyru/open-browser.vim'
 
 if g:my_neosnippet_enable == 1
    Plug 'Shougo/neosnippet-snippets'
@@ -204,7 +198,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('tpope/vim-obsession')
     call dein#add('tpope/vim-tbone')
     call dein#add('tpope/vim-dadbod')
-    call dein#add('tpope/vim-projectionist')
+    " call dein#add('tpope/vim-projectionist')
     call dein#add('tpope/vim-sleuth')
     call dein#add('tpope/vim-apathy')
 

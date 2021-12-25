@@ -477,7 +477,7 @@ return packer.startup({
       opt = true,
       config = function()
         require('spellsitter').setup {
-          enable = { 'cpp', 'lua', 'python', 'java', 'c', 'vim', 'sh' },
+          -- enable = { 'cpp', 'lua', 'python', 'java', 'c', 'vim', 'sh' },
           hl = 'SpellBad',
         }
       end,
