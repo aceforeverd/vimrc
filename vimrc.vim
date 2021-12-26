@@ -68,15 +68,36 @@ function! GitStatus()
     let [a,m,r] = GitGutterGetHunkSummary()
     return printf('+%d ~%d -%d', a, m, r)
 endfunction
+function! LspStatus() abort
+    return reduce(lsp#get_progress(), { acc, val -> acc .. '/' .. val }, '')
+endfunction
+function! LspDiagnosticCount() abort
+    let s:counts = lsp#get_buffer_diagnostics_counts()
+    let s:d = ''
+    if s:counts['error'] != 0
+        let s:d = s:d .. '  ' .. s:counts['error']
+    endif
+    if s:counts['warning'] != 0
+        let s:d = s:d .. '  ' .. s:counts['warning']
+    endif
+    if s:counts['information'] != 0
+        let s:d = s:d .. '  ' .. s:counts['information']
+    endif
+    if s:counts['hint'] != 0
+        let s:d = s:d .. ' ﯦ' .. s:counts['hint']
+    endif
+    return s:d
+endfunction
 function! s:lightline_setup() abort
     let g:lightline = {
       \ 'colorscheme': 'deus',
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'modified', 'gitbranch', 'git_diff' ],
+      \   'left': [ [ 'mode', 'paste', 'git_branch' ],
+      \             [ 'readonly', 'modified', 'git_diff', 'diagnostic_count' ],
+      \             [ 'lsp_status' ]
       \    ],
       \   'right': [
-      \     [ 'lineinfo', 'total_line', 'percent', 'file_size' ],
+      \     [ 'lineinfo', 'total_line', 'percent' ],
       \     [ 'fileencoding', 'fileformat', 'spell' ],
       \     [ 'filetype' ]
       \   ]
@@ -90,8 +111,9 @@ function! s:lightline_setup() abort
       \   'total_line': '%L',
       \  },
       \ 'component_function': {
-      \   'lsp-status': 'aceforeverd#statusline#lsp_status',
-      \   'gitbranch': 'FugitiveHead',
+      \   'lsp_status': 'LspStatus',
+      \   'diagnostic_count': 'LspDiagnosticCount',
+      \   'git_branch': 'FugitiveHead',
       \   'git_diff': 'GitStatus',
       \ }
       \ }
@@ -122,7 +144,7 @@ Plug 'mattn/vim-lsp-settings'
 
 Plug 'tpope/vim-endwise'
 
-" let g:lsp_diagnostics_float_cursor = 1
+let g:lsp_diagnostics_float_cursor = 1
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
