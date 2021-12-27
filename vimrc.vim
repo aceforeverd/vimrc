@@ -75,16 +75,16 @@ function! LspDiagnosticCount() abort
     let s:counts = lsp#get_buffer_diagnostics_counts()
     let s:d = ''
     if s:counts['error'] != 0
-        let s:d = s:d .. '  ' .. s:counts['error']
+        let s:d ..= '  ' .. s:counts['error']
     endif
     if s:counts['warning'] != 0
-        let s:d = s:d .. '  ' .. s:counts['warning']
+        let s:d ..= '  ' .. s:counts['warning']
     endif
     if s:counts['information'] != 0
-        let s:d = s:d .. '  ' .. s:counts['information']
+        let s:d ..= '  ' .. s:counts['information']
     endif
     if s:counts['hint'] != 0
-        let s:d = s:d .. ' ﯦ' .. s:counts['hint']
+        let s:d ..= ' ﯦ' .. s:counts['hint']
     endif
     return s:d
 endfunction
@@ -476,10 +476,7 @@ let g:startify_relative_path = 1
 let g:gitgutter_max_signs = 1000
 
 " Ale
-let g:ale_linters = {
-            \ 'go': ['go build', 'gofmt', 'go vet', 'golint', 'gotype'],
-            \ 'rust': ['cargo', 'rls', 'rustc'],
-            \ }
+" let g:ale_linters = {}
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
