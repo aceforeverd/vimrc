@@ -66,7 +66,17 @@ Plug 'itchyny/lightline.vim'
 
 function! GitStatus()
     let [a,m,r] = GitGutterGetHunkSummary()
-    return printf('+%d ~%d -%d', a, m, r)
+    let s:diff_str = ''
+    if a != 0
+        let s:diff_str ..= ' +' .. a
+    endif
+    if m != 0
+        let s:diff_str ..= ' ~' .. m
+    endif
+    if r != 0
+        let s:diff_str ..= ' -' .. r
+    endif
+    return s:diff_str
 endfunction
 function! LspStatus() abort
     return reduce(lsp#get_progress(), { acc, val -> acc .. '/' .. val }, '')
@@ -84,7 +94,7 @@ function! LspDiagnosticCount() abort
         let s:d ..= '  ' .. s:counts['information']
     endif
     if s:counts['hint'] != 0
-        let s:d ..= ' ﯦ' .. s:counts['hint']
+        let s:d ..= ' ' .. s:counts['hint']
     endif
     return s:d
 endfunction
