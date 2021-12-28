@@ -83,13 +83,12 @@ local feline_config = {
         {
           -- right seperator for git diffs
           provider = ' ┃ ',
-          hl = { fg = 'white', bg = 'black' },
+          hl = { fg = 'violet', bg = 'black' },
           enabled = gitsigns_has_diff
         },
         {
           provider = 'diagnostic_errors',
           enabled = function() return lsp.diagnostics_exist('ERROR') end,
-          left_sep = { { str = 'vertical_bar_thin', hl = { fg = 'violet' } } },
           hl = { fg = 'red' }
         },
         {
@@ -170,7 +169,7 @@ local feline_config = {
           provider = function()
             return require('aceforeverd.utility.statusline').indent()
           end,
-          hl = { fg = '#ffff0a' },
+          hl = { fg = bit_green },
           left_sep = { ' ' },
           right_sep = { ' ', { str = 'vertical_bar', hl = { bg = 'NONE' } } }
         },

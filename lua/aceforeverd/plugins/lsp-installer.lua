@@ -37,43 +37,36 @@ local general_lsp_config = {
 }
 
 local setup_sumeko_lua = function(server)
-  local sumneko_root_path = server.root_dir .. '/extension/server'
-  local sumneko_binary = sumneko_root_path .. "/bin/" .. "/lua-language-server"
-
   local luadev = require("lua-dev").setup({
+    runtime_path = true, -- it will be slow
     -- add any options here, or leave empty to use the default settings
     lspconfig = {
       on_attach = on_attach,
       capabilities = capabilities,
-      cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
     },
   })
 
   -- vim.api.nvim_notify(require('luaunit').prettystr(luadev), 2, {})
 
-  server:setup (luadev)
+  server:setup(luadev)
 end
 
 local setup_cmake = function(server)
-    server:setup {
-      cmd = { server.root_dir .. '/venv/bin/cmake-language-server' },
-      on_attach = on_attach,
-      capabilities = capabilities
-    }
+    server:setup (general_lsp_config)
 end
 
 local setup_lemminux = function(server)
-    server:setup {
-      cmd = { server.root_dir .. '/lemminx' },
-      on_attach = on_attach,
-      capabilities = capabilities
-    }
+    server:setup(general_lsp_config)
 end
 
 local setup_bashls = function(server)
-  server:setup(vim.tbl_deep_extend('force', general_lsp_config, {
-    cmd = { server.root_dir .. '/node_modules/.bin/bash-language-server', 'start' },
-  }))
+  server:setup(vim.tbl_deep_extend('force', general_lsp_config, {}))
+end
+
+local setup_diagnosticls = function(server)
+  server:setup(
+    vim.tbl_deep_extend('keep', general_lsp_config, require('aceforeverd.plugins.lsp.diagnosticls').get_config())
+  )
 end
 
 local setup_lsp_configs = {
@@ -81,6 +74,7 @@ local setup_lsp_configs = {
   cmake = setup_cmake,
   lemminx = setup_lemminux,
   bashls = setup_bashls,
+  diagnosticls = setup_diagnosticls,
 }
 
 -- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')

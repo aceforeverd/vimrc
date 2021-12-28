@@ -530,8 +530,8 @@ return packer.startup({
       cond = function ()
         return vim.g.my_statusline == 'lightline'
       end,
-      config = function ()
-        vim.cmd[[call aceforeverd#statusline#lightline()]]
+      setup = function ()
+        require('aceforeverd.plugins.statusline.lightline').setup()
       end
     }
 
@@ -636,6 +636,21 @@ return packer.startup({
         require('marks').setup{}
       end
     }
+
+    use({
+      's1n7ax/nvim-comment-frame',
+      requires = {
+        'nvim-treesitter/nvim-treesitter',
+      },
+      config = function()
+        require('nvim-comment-frame').setup{
+          -- single line comment
+          keymap = '<leader>cc',
+          -- multiple line comment
+          multiline_keymap = '<leader>cm',
+        }
+      end,
+    })
 
   end,
 })

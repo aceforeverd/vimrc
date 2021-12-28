@@ -18,45 +18,21 @@ function! aceforeverd#statusline#nvim_gps() abort
 endfunction
 
 function! aceforeverd#statusline#lsp_status() abort
-    return v:lua.require('lsp-status').status()
+    if g:my_cmp_source ==? 'nvim_lsp'
+        return v:lua.require('lsp-status').status()
+    elseif g:my_cmp_source ==? 'coc'
+        return coc#status()
+    elseif g:my_cmp_source ==? 'vim_lsp'
+        return reduce(lsp#get_progress(), { acc, val -> acc .. '/' .. val }, '')
+    endif
+    return ''
 endfunction
 
 function! aceforeverd#statusline#file_size() abort
-    return luaeval('require("aceforeverd.utility.statusline").file_size()')
+    return v:lua.require('aceforeverd.utility.statusline').file_size()
 endf
 
 function! aceforeverd#statusline#git_diff() abort
     return get(b:, 'gitsigns_status', '')
 endf
 
-function! aceforeverd#statusline#lightline() abort
-    let g:lightline = {
-      \ 'colorscheme': 'deus',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'modified', 'gitbranch', 'git_diff' ],
-      \             [ 'lsp-status' ]
-      \    ],
-      \   'right': [
-      \     [ 'lineinfo', 'total_line', 'percent', 'file_size' ],
-      \     [ 'fileencoding', 'fileformat', 'spell' ],
-      \     [ 'gps', 'filetype' ]
-      \   ]
-      \ },
-      \ 'inactive': {
-      \   'left': [ [ 'filename' ] ],
-      \   'right': [ [ 'lineinfo' ], [ 'percent' ] ]
-      \ },
-      \ 'tabline': {},
-      \ 'component': {
-      \   'total_line': '%L',
-      \  },
-      \ 'component_function': {
-      \   'gps': 'aceforeverd#statusline#nvim_gps',
-      \   'lsp-status': 'aceforeverd#statusline#lsp_status',
-      \   'gitbranch': 'FugitiveHead',
-      \   'file_size': 'aceforeverd#statusline#file_size',
-      \   'git_diff': 'aceforeverd#statusline#git_diff'
-      \ }
-      \ }
-endfunction

@@ -15,6 +15,10 @@
 
 function! aceforeverd#settings#my_init() abort
     if !exists('g:my_cmp_source')
+        " nvim_lsp: neovim builtin lsp
+        " coc:      coc.nvim
+        " vim_lsp:  vim-lsp
+        " deplete:  deplete.nvim
         if has('nvim-0.6.0')
             let g:my_cmp_source = 'nvim_lsp'
         else
