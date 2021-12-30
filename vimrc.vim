@@ -244,7 +244,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('sbdchd/neoformat')
     call dein#add('junegunn/vim-easy-align')
     " debug/test
-    call dein#add('janko/vim-test')
+    call dein#add('vim-test/vim-test')
     call dein#add('skywind3000/asyncrun.vim')
     call dein#add('skywind3000/asynctasks.vim')
     call dein#add('jpalardy/vim-slime')
@@ -750,7 +750,7 @@ augroup gp_vim_helper
 augroup END
 
 " switch.vim
-let g:switch_mapping = ''
+let g:switch_mapping = '<space>s'
 
 " vim dirvish gtfo
 nnoremap goo go

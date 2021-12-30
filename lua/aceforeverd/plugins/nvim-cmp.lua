@@ -34,8 +34,6 @@ local luasnip = require('luasnip')
 local tab_map = function(fallback)
   if cmp.visible() then
     cmp.select_next_item()
-  elseif luasnip.expand_or_jumpable() then
-    feedkey('<Plug>luasnip-expand-or-jump', '')
   elseif has_words_before() then
     cmp.complete()
   else
@@ -46,7 +44,21 @@ end
 local s_tab_map = function(fallback)
   if cmp.visible() then
     cmp.select_prev_item()
-  elseif luasnip.jumpable(-1) then
+  else
+    fallback()
+  end
+end
+
+local i_ctrl_j = function(fallback)
+  if luasnip.expand_or_jumpable() then
+    feedkey('<Plug>luasnip-expand-or-jump', '')
+  else
+    fallback()
+  end
+end
+
+local i_ctrl_k = function(fallback)
+  if luasnip.jumpable(-1) then
     feedkey('<Plug>luasnip-jump-prev', '')
   else
     fallback()
@@ -126,8 +138,11 @@ cmp.setup({
     ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<C-e>'] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
     ['<C-h>'] = cmp.mapping({ i = i_ctrl_h, c = cmp.mapping.close() }),
+    ['<C-j>'] = cmp.mapping(i_ctrl_j, {'i', 's'}),
+    ['<C-k>'] = cmp.mapping(i_ctrl_k, {'i', 's'}),
     -- TODO: CR show jump after select inside jump
     ['<CR>'] = cmp.mapping({ i = cmp.mapping.confirm({ select = false }), c = cmp.mapping.confirm({ select = false }) }),
+    ['<C-space>'] = cmp.mapping(cmp.complete),
   },
   sources = cmp.config.sources(sources_1),
   formatting = {

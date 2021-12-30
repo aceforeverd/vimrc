@@ -110,17 +110,9 @@ lspconfig.clangd.setup({
   },
 })
 
--- npm install -g vim-language-server
-lspconfig.vimls.setup(default_lsp_cfg)
--- npm install -g pyright
-lspconfig.pyright.setup(default_lsp_cfg)
--- npm install -g typescript typescript-language-server
-lspconfig.tsserver.setup(default_lsp_cfg)
-
 -- go install golang.org/x/tools/gopls@latest or :GoInstallBinaries
 lspconfig.gopls.setup(default_lsp_cfg)
--- npm install -g dockerfile-language-server-nodejs
-lspconfig.dockerls.setup(default_lsp_cfg)
+
 -- npm install -g yaml-language-server
 lspconfig.yamlls.setup(vim.tbl_deep_extend('keep', default_lsp_cfg, {
   settings = {
@@ -152,7 +144,4 @@ lspconfig.jsonls.setup(vim.tbl_deep_extend('keep', html_cfg, {
     },
   },
 }))
-
--- npm install -g @tailwindcss/language-server
-lspconfig.tailwindcss.setup(default_lsp_cfg)
 

@@ -36,6 +36,12 @@ local general_lsp_config = {
   capabilities = capabilities,
 }
 
+-- for those do not need extra configs in lsp-config setup, use this generalized one
+-- TODO: extra param to override general_lsp_config
+local setup_generalized = function(server)
+    server:setup (general_lsp_config)
+end
+
 local setup_sumeko_lua = function(server)
   local luadev = require("lua-dev").setup({
     runtime_path = true, -- it will be slow
@@ -51,14 +57,6 @@ local setup_sumeko_lua = function(server)
   server:setup(luadev)
 end
 
-local setup_cmake = function(server)
-    server:setup (general_lsp_config)
-end
-
-local setup_lemminux = function(server)
-    server:setup(general_lsp_config)
-end
-
 local setup_bashls = function(server)
   server:setup(vim.tbl_deep_extend('force', general_lsp_config, {}))
 end
@@ -71,10 +69,15 @@ end
 
 local setup_lsp_configs = {
   sumneko_lua = setup_sumeko_lua,
-  cmake = setup_cmake,
-  lemminx = setup_lemminux,
   bashls = setup_bashls,
   diagnosticls = setup_diagnosticls,
+  pyright = setup_generalized,
+  cmake = setup_generalized,
+  lemminx = setup_generalized,
+  vimls = setup_generalized,
+  dockerls = setup_generalized,
+  tailwindcss = setup_generalized,
+  tsserver = setup_generalized,
 }
 
 -- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')

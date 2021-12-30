@@ -85,7 +85,6 @@ return packer.startup({
         'quangnguyen30192/cmp-nvim-ultisnips',
         'petertriho/cmp-git',
 
-        'notomo/cmp-neosnippet',
         'hrsh7th/cmp-vsnip',
         'f3fora/cmp-spell',
 
