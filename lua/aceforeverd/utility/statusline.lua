@@ -51,4 +51,28 @@ function M.file_size()
     return string.format(index == 1 and '%g%s' or '%.2f%s', fsize, suffix[index])
 end
 
+local E = vim.diagnostic.severity.ERROR
+local W = vim.diagnostic.severity.WARN
+local I = vim.diagnostic.severity.INFO
+local H = vim.diagnostic.severity.HINT
+local severity_symbols = {
+    [E] = ' ',
+    [W] = ' ',
+    [I] = '',
+    [H] = '',
+}
+
+local function diagnostic(severity)
+    local cnt = vim.tbl_count(vim.diagnostic.get(0, { severity = severity }))
+    if cnt ~= 0 then
+        return string.format('%s%d', severity_symbols[severity], cnt)
+    else
+        return ''
+    end
+end
+
+function M.lsp_diagnostic()
+    return string.format('%s%s%s%s', diagnostic(E), diagnostic(W), diagnostic(I), diagnostic(H))
+end
+
 return M

@@ -28,7 +28,7 @@ local on_attach = lsp_basic.on_attach
 local capabilities = lsp_basic.capabilities
 
 local lsp_status = require('lsp-status')
-local lsp_status_diagnostic_enable = vim.g.my_cmp_source == 'lightline'
+local lsp_status_diagnostic_enable = vim.g.my_statusline == 'lightline'
 lsp_status.config({
   select_symbol = function(cursor_pos, symbol)
     if symbol.valueRange then

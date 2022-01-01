@@ -25,7 +25,7 @@ function M.setup()
     active = {
       left = {
         { 'mode', 'paste', 'git_branch' },
-        { 'readonly', 'modified', 'git_diff' },
+        { 'readonly', 'modified', 'git_diff', 'lsp_diagnostic' },
         { 'lsp_status' },
       },
       right = {
@@ -44,6 +44,7 @@ function M.setup()
     component_function = {
       gps = [[aceforeverd#statusline#nvim_gps]],
       lsp_status = [[aceforeverd#statusline#lsp_status]],
+      lsp_diagnostic = [[aceforeverd#statusline#lsp_diagnostic]],
       git_branch = [[FugitiveHead]],
       git_diff = [[aceforeverd#statusline#git_diff]],
       file_size = [[aceforeverd#statusline#file_size]],

@@ -30,9 +30,12 @@ endfunction
 
 function! aceforeverd#statusline#file_size() abort
     return v:lua.require('aceforeverd.utility.statusline').file_size()
-endf
+endfunction
 
 function! aceforeverd#statusline#git_diff() abort
     return get(b:, 'gitsigns_status', '')
-endf
+endfunction
 
+function! aceforeverd#statusline#lsp_diagnostic() abort
+    return v:lua.require('aceforeverd.utility.statusline').lsp_diagnostic()
+endfunction
