@@ -64,9 +64,13 @@ return packer.startup({
 
     use {
       'williamboman/nvim-lsp-installer',
-      requires = { 'neovim/nvim-lspconfig' },
+      requires = {
+        'neovim/nvim-lspconfig',
+        'folke/lua-dev.nvim',
+        'b0o/schemastore.nvim'
+      },
       config = function()
-        require('aceforeverd.plugins.lsp-installer')
+        require('aceforeverd.plugins.lsp-installer').setup()
       end,
     }
 
@@ -270,10 +274,6 @@ return packer.startup({
     end }
 
     use { 'sakhnik/nvim-gdb' }
-
-    use { 'folke/lua-dev.nvim' }
-
-    use { "b0o/schemastore.nvim" }
 
     -- automatically create Lsp diagnostic highlight group is the colorshceme not defined it
     use {
