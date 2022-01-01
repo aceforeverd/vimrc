@@ -718,6 +718,12 @@ let g:gen_tags#ctags_auto_update = 0
 let g:gen_tags#gtags_auto_update = 0
 let g:gen_tags#ctags_opts = '--links=no'
 let g:gen_tags#gtags_opts = '--skip-symlink'
+if !executable('gtags')
+    let g:loaded_gentags#gtags = 1
+endif
+if !executable('ctags')
+    let g:loaded_gentags#ctags = 1
+endif
 
 " vim-go
 let g:go_fmt_autosave = 0
