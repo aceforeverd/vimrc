@@ -28,11 +28,7 @@ function M.setup()
     null_ls.builtins.formatting.stylua,
 
     null_ls.builtins.diagnostics.shellcheck,
-    null_ls.builtins.diagnostics.eslint,
     null_ls.builtins.diagnostics.hadolint,
-    null_ls.builtins.diagnostics.vint.with({
-      args = { '--enable-neovim', '--no-color', '-s', '-j', '$FILENAME' },
-    }),
   }
 
   null_ls.setup({

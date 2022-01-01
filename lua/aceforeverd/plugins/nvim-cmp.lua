@@ -181,3 +181,4 @@ vim.cmd[[
   augroup END
 ]]
 
+require("cmp_git").setup()

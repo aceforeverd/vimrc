@@ -636,7 +636,7 @@ return packer.startup({
       end
     }
 
-    use({
+    use {
       's1n7ax/nvim-comment-frame',
       requires = {
         'nvim-treesitter/nvim-treesitter',
@@ -649,7 +649,7 @@ return packer.startup({
           multiline_keymap = '<leader>cm',
         }
       end,
-    })
+    }
 
   end,
 })
