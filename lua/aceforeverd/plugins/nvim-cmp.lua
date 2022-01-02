@@ -101,7 +101,7 @@ local sources_1 = {
     },
   },
   { name = 'emoji' },
-  { name = 'tmux', keyword_length = 3 },
+  { name = 'tmux', keyword_length = 3, max_item_count = 10 },
   { name = 'look', keyword_length = 3, option = { convert_case = true, loud = true } },
   { name = 'cmp_git' },
 }

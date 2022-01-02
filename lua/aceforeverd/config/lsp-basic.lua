@@ -19,8 +19,12 @@ local default_map_opts = { noremap = true, silent = true }
 local lsp_status = require('lsp-status')
 
 function M.on_attach(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  local function buf_set_keymap(...)
+    vim.api.nvim_buf_set_keymap(bufnr, ...)
+  end
+  local function buf_set_option(...)
+    vim.api.nvim_buf_set_option(bufnr, ...)
+  end
 
   -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -34,8 +38,12 @@ function M.on_attach(client, bufnr)
   buf_set_keymap('n', 'gK', '<cmd>lua vim.lsp.buf.signature_help()<CR>', default_map_opts)
   buf_set_keymap('n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', default_map_opts)
   buf_set_keymap('n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', default_map_opts)
-  buf_set_keymap('n', '<Leader>wl',
-                 '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', default_map_opts)
+  buf_set_keymap(
+    'n',
+    '<Leader>wl',
+    '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
+    default_map_opts
+  )
   buf_set_keymap('n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', default_map_opts)
   buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', default_map_opts)
   buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', default_map_opts)
@@ -50,19 +58,19 @@ function M.on_attach(client, bufnr)
 
   buf_set_keymap('n', '<space>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', default_map_opts)
   buf_set_keymap('v', '<cr>', ':lua vim.lsp.buf.range_formatting()<cr>', { noremap = true })
-  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
+  vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
 
   require('illuminate').on_attach(client)
 
   -- lsp_signature.nvim
   require('lsp_signature').on_attach({
-      bind = true,
-      handler_opts = {
-        border = "rounded"
-      },
-      transparency = 25,
-      toggle_key = '<A-x>'
-    }, bufnr)
+    bind = true,
+    handler_opts = {
+      border = 'rounded',
+    },
+    transparency = 25,
+    toggle_key = '<A-x>',
+  }, bufnr)
 
   require('lsp-status').on_attach(client)
 end
@@ -73,7 +81,17 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 M.capabilities = capabilities
 
-local handlers = {}
+-- basic border, check :help nvim_open_win()
+local border = {
+  {"╭", 'FloatBorder' },
+  {"─", 'FloatBorder' },
+  {"╮",  'FloatBorder' },
+  {"│",  'FloatBorder' },
+  {"╯", 'FloatBorder' },
+  {"─", 'FloatBorder' },
+  {"╰", 'FloatBorder' },
+  {"│", 'FloatBorder' },
+}
 
 local severity_emoji_map = {
   [vim.diagnostic.severity.ERROR] = '😡',
@@ -94,17 +112,16 @@ if vim.fn.has('nvim-0.6.0') == 1 then
   pub_diag_config['float'] = { source = 'always' }
 end
 
-handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics,
-  pub_diag_config
-)
-
-M.handlers = handlers
+M.handlers = {
+  ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, pub_diag_config),
+  ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+  ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+}
 
 M.general_cfg = {
   on_attach = M.on_attach,
   capabilities = M.capabilities,
-  handlers = M.handlers
+  handlers = M.handlers,
 }
 
 return M

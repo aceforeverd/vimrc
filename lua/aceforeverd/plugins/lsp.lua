@@ -98,3 +98,5 @@ lspconfig.clangd.setup({
 
 -- go install golang.org/x/tools/gopls@latest or :GoInstallBinaries
 lspconfig.gopls.setup(default_lsp_cfg)
+
+lspconfig.taplo.setup(default_lsp_cfg)

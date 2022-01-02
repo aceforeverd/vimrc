@@ -65,7 +65,7 @@ local severity_symbols = {
 local function diagnostic(severity)
     local cnt = vim.tbl_count(vim.diagnostic.get(0, { severity = severity }))
     if cnt ~= 0 then
-        return string.format('%s%d', severity_symbols[severity], cnt)
+        return string.format('%s%d ', severity_symbols[severity], cnt)
     else
         return ''
     end

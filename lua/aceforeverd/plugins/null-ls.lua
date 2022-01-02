@@ -27,7 +27,7 @@ function M.setup()
     null_ls.builtins.formatting.shellharden,
     null_ls.builtins.formatting.stylua,
 
-    null_ls.builtins.diagnostics.shellcheck,
+    -- null_ls.builtins.diagnostics.shellcheck,
     null_ls.builtins.diagnostics.hadolint,
   }
 
@@ -35,6 +35,7 @@ function M.setup()
     sources = sources,
     diagnostics_format = '#{s}: #{m} (#{c})',
     on_attach = require('aceforeverd.config.lsp-basic').on_attach,
+    handlers = require('aceforeverd.config.lsp-basic').handlers,
   })
 end
 
