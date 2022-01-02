@@ -31,14 +31,9 @@ function M.setup()
   end
 
   -- TODO: if a lsp server is not available (command not found), install and setup via lsp-installer
+  local lsp_basic = require('aceforeverd.config.lsp-basic')
 
-  local on_attach = require('aceforeverd.config.lsp-basic').on_attach
-  local capabilities = require('aceforeverd.config.lsp-basic').capabilities
-
-  local general_lsp_config = {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
+  local general_lsp_config = lsp_basic.general_cfg
 
   local setup_generalized_with_cfg_override = function(cfg_override)
     return function(server)
@@ -55,10 +50,7 @@ function M.setup()
     local luadev = require('lua-dev').setup({
       runtime_path = true, -- it will be slow
       -- add any options here, or leave empty to use the default settings
-      lspconfig = {
-        on_attach = on_attach,
-        capabilities = capabilities,
-      },
+      lspconfig = general_lsp_config,
     })
 
     -- vim.api.nvim_notify(require('luaunit').prettystr(luadev), 2, {})

@@ -13,10 +13,12 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+local M = {}
+
 local default_map_opts = { noremap = true, silent = true }
 local lsp_status = require('lsp-status')
 
-local on_attach = function(client, bufnr)
+function M.on_attach(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -69,10 +71,40 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
+M.capabilities = capabilities
 
-local M = {
-    on_attach = on_attach,
-    capabilities = capabilities,
+local handlers = {}
+
+local severity_emoji_map = {
+  [vim.diagnostic.severity.ERROR] = '😡',
+  [vim.diagnostic.severity.WARN] = '😨',
+  [vim.diagnostic.severity.INFO] = '😟',
+  [vim.diagnostic.severity.HINT] = '🤔',
+}
+
+local pub_diag_config = { virtual_text = true, signs = true, underline = true, update_in_insert = false }
+if vim.fn.has('nvim-0.6.0') == 1 then
+  pub_diag_config['virtual_text'] = {
+    prefix = '🤡', -- Could be '●', '▎', 'x'
+    source = 'always',
+    format = function(diagnostic)
+      return string.format('%s %s', diagnostic.message, severity_emoji_map[diagnostic.severity])
+    end,
+  }
+  pub_diag_config['float'] = { source = 'always' }
+end
+
+handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics,
+  pub_diag_config
+)
+
+M.handlers = handlers
+
+M.general_cfg = {
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+  handlers = M.handlers
 }
 
 return M

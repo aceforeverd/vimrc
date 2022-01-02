@@ -146,13 +146,13 @@ if dein#load_state(s:dein_repo)
     call dein#begin(s:dein_repo)
 
     call dein#add(s:dein_path)
-    if !has('nvim')
-        " optional plugins for vim
-        call dein#add('roxma/nvim-yarp')
-        call dein#add('roxma/vim-hug-neovim-rpc')
-    endif
 
     if g:my_cmp_source ==? 'deoplete'
+        if !has('nvim')
+            " optional plugins for vim
+            call dein#add('roxma/nvim-yarp')
+            call dein#add('roxma/vim-hug-neovim-rpc')
+        endif
         call dein#add('Shougo/deoplete.nvim')
         call dein#add('deoplete-plugins/deoplete-go', {
                     \ 'build': 'make',
@@ -173,10 +173,12 @@ if dein#load_state(s:dein_repo)
         call dein#add('Shougo/neoyank.vim')
     endif
 
-    call dein#add('Shougo/context_filetype.vim')
-    call dein#add('Shougo/neco-syntax')
-    call dein#add('Shougo/neco-vim')
-    call dein#add('Shougo/echodoc.vim')
+    if g:my_cmp_source !=? 'nvim_lsp'
+        call dein#add('Shougo/context_filetype.vim')
+        call dein#add('Shougo/neco-syntax')
+        call dein#add('Shougo/neco-vim')
+        call dein#add('Shougo/echodoc.vim')
+    endif
 
     call dein#add('voldikss/vim-floaterm')
 
@@ -259,11 +261,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit')
     call dein#add('cohama/agit.vim')
-    call dein#add('rhysd/git-messenger.vim', {
-            \   'lazy' : 1,
-            \   'on_cmd' : 'GitMessenger',
-            \   'on_map' : '<Plug>(git-messenger',
-            \ })
 
     " search
     call dein#add('junegunn/fzf', {

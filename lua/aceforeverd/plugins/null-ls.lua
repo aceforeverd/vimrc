@@ -33,8 +33,8 @@ function M.setup()
 
   null_ls.setup({
     sources = sources,
+    diagnostics_format = '#{s}: #{m} (#{c})',
     on_attach = require('aceforeverd.config.lsp-basic').on_attach,
-    capabilities = require('aceforeverd.config.lsp-basic').capabilities,
   })
 end
 

@@ -24,8 +24,6 @@ vim.o.pumblend = 20
 
 local lspconfig = require('lspconfig')
 local lsp_basic = require('aceforeverd.config.lsp-basic')
-local on_attach = lsp_basic.on_attach
-local capabilities = lsp_basic.capabilities
 
 local lsp_status = require('lsp-status')
 local lsp_status_diagnostic_enable = vim.g.my_statusline == 'lightline'
@@ -61,20 +59,6 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
-local pub_diag_config = { virtual_text = true, signs = true, underline = true, update_in_insert = false }
-if vim.fn.has('nvim-0.6.0') == 1 then
-  pub_diag_config['virtual_text'] = {
-    prefix = '😡', -- Could be '●', '▎', 'x'
-    source = 'always',
-  }
-  pub_diag_config['float'] = { source = 'always' }
-end
-
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics,
-  pub_diag_config
-)
-
 -- Show line diagnostics automatically in hover window
 --  disabled: should only show if cursor is in the `DiagnosticUnderline*` text.
 -- vim.cmd [[
@@ -84,7 +68,9 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
 -- augroup END
 -- ]]
 
-local default_lsp_cfg = { on_attach = on_attach, capabilities = capabilities }
+local default_lsp_cfg = lsp_basic.general_cfg
+local on_attach = lsp_basic.on_attach
+local capabilities = lsp_basic.capabilities
 
 lspconfig.clangd.setup({
   on_attach = function(client, bufnr)
@@ -98,7 +84,7 @@ lspconfig.clangd.setup({
     )
   end,
   capabilities = capabilities,
-  handlers = require('lsp-status').extensions.clangd.setup(),
+  handlers = vim.tbl_deep_extend('error', lsp_basic.handlers, require('lsp-status').extensions.clangd.setup()),
   init_options = { clangdFileStatus = true },
   cmd = {
     'clangd',
@@ -112,4 +98,3 @@ lspconfig.clangd.setup({
 
 -- go install golang.org/x/tools/gopls@latest or :GoInstallBinaries
 lspconfig.gopls.setup(default_lsp_cfg)
-
