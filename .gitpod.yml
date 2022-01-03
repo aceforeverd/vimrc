@@ -1,6 +1,5 @@
-image: archlinux:latest
+image:
+  file: ./Dockerfile
 tasks:
-  - init: |
-      pacman -Syu --noconfirm vim nvim
-    command: |
+  - command: |
       echo 'Welcome'
