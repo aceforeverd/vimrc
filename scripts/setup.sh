@@ -99,6 +99,8 @@ fi
 
 echo -e "${GREEN}Plugin managers all setted${NC}"
 
+CI=${CI:-}
+NVIM_ARGS=
 if [ -n "$CI" ]; then
     NVIM_ARGS='--headless'
 fi
