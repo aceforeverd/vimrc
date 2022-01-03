@@ -75,7 +75,9 @@ function M.setup()
       settings = {
         yaml = {
           schemas = {
+            -- check default in https://github.com/SchemaStore/schemastore/blob/master/src/api/json/catalog.json
             ['https://json.schemastore.org/github-workflow.json'] = '/.github/workflows/*',
+            ['https://json.schemastore.org/prometheus.json'] = { 'prometheus*.yml', 'prometheus*.yaml' },
           },
         },
       },

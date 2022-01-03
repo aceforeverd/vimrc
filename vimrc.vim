@@ -106,16 +106,12 @@ elseif g:my_autopair ==? 'lexima'
 endif
 
 " Plug 'tpope/vim-projectionist'
-Plug 'tyru/open-browser.vim'
 
 if g:my_neosnippet_enable == 1
    Plug 'Shougo/neosnippet-snippets'
    Plug 'Shougo/neosnippet.vim'
    call aceforeverd#completion#neosnippet()
 endif
-
-Plug 'wincent/ferret'
-let g:FerretMap = 0
 
 Plug 'google/vim-maktaba'
 Plug 'google/vim-glaive'
@@ -239,6 +235,8 @@ if dein#load_state(s:dein_repo)
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('AndrewRadev/bufferize.vim')
     call dein#add('mg979/vim-visual-multi')
+    call dein#add('tyru/open-browser.vim')
+    call dein#add('wincent/ferret')
 
     call dein#add('alpertuna/vim-header')
     call dein#add('antoyo/vim-licenses')
@@ -680,6 +678,12 @@ augroup gp_lookup
     autocmd FileType vim nnoremap <buffer><silent> <LocalLeader><C-]> :call lookup#lookup()<CR>
     autocmd FileType vim,lua nnoremap <buffer> gs :call plugin_browse#try_open()<CR>
 augroup END
+
+" open-browser
+command! OpenB execute 'normal <Plug>(openbrowser-open)'
+
+" ferret
+let g:FerretMap = 0
 
 " gina
 let g:gina#command#blame#formatter#format = '%su%=by %au on %ti, %ma/%in'
