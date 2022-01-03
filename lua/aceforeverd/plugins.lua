@@ -651,6 +651,13 @@ return packer.startup({
       end,
     }
 
+    use {
+      'wfxr/minimap.vim',
+      cond = function ()
+        return vim.fn.executable('code-minimap') == 1
+      end
+    }
+
   end,
 })
 

@@ -97,5 +97,5 @@ jobs:
             git clean -dfx
             rm -rf bundle dein
             ./scripts/setup.sh
-            nvim --headless -c 'checkhealth' -c 'saveas! checkhealth.info' -c 'qa!'
+            nvim --headless -u init.vim -c 'checkhealth' -c 'set buftype=' -c 'saveas! checkhealth.info' -c 'qa!'
             cat checkhealth.info

@@ -214,7 +214,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
     call dein#add('vifm/vifm.vim')
-    call dein#add('wfxr/minimap.vim')
     call dein#add('sainnhe/sonokai', {'merged': 0, 'hook_source': 'colorscheme sonokai'})
     call dein#add('rafi/awesome-vim-colorschemes', {'merged': 0})
     call dein#add('justinmk/vim-gtfo')
@@ -718,6 +717,12 @@ let g:gen_tags#ctags_auto_update = 0
 let g:gen_tags#gtags_auto_update = 0
 let g:gen_tags#ctags_opts = '--links=no'
 let g:gen_tags#gtags_opts = '--skip-symlink'
+if !executable('gtags')
+    let g:loaded_gentags#gtags = 1
+endif
+if !executable('ctags')
+    let g:loaded_gentags#ctags = 1
+endif
 
 " vim-go
 let g:go_fmt_autosave = 0
