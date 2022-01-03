@@ -1,6 +1,6 @@
 image: archlinux:latest
 tasks:
   - init: |
-      sudo pacman -Syu --noconfirm vim nvim
+      pacman -Syu --noconfirm vim nvim
     command: |
       echo 'Welcome'
