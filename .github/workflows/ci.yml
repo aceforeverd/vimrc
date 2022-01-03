@@ -97,5 +97,6 @@ jobs:
             git clean -dfx
             rm -rf bundle dein
             ./scripts/setup.sh
+            nvim --headless -u init.vim -c 'sleep 5' -c 'qa!'
             nvim --headless -u init.vim -c 'checkhealth' -c 'saveas! checkhealth.info' -c 'qa!'
             cat checkhealth.info
