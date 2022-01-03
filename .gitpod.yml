@@ -1,5 +1,0 @@
-image:
-  file: ./Dockerfile
-tasks:
-  - command: |
-      echo 'Welcome'
