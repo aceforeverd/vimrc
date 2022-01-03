@@ -91,12 +91,11 @@ jobs:
             ./scripts/setup.sh -t vim
 
       - name: test neovim
-        timeout-minutes: 30
+        timeout-minutes: 15
         if: ${{ matrix.neovim == true }}
         run: |
             git clean -dfx
             rm -rf bundle dein
             ./scripts/setup.sh
-            nvim --headless -c 'TSInstallSync' -c 'qa!'
             nvim --headless -c 'checkhealth' -c 'saveas! checkhealth.info' -c 'qa!'
             cat checkhealth.info
