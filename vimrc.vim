@@ -79,7 +79,7 @@ function! GitStatus()
     return s:diff_str
 endfunction
 function! LspStatus() abort
-    return reduce(lsp#get_progress(), { acc, val -> acc .. '/' .. val }, '')
+    return lsp#get_server_status()
 endfunction
 function! LspDiagnosticCount() abort
     let s:counts = lsp#get_buffer_diagnostics_counts()
