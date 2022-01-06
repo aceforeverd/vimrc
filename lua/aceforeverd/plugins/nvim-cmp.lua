@@ -107,15 +107,15 @@ local sources_1 = {
 }
 
 local snip_idx = 3
-if vim.g.my_vsnip_enable == 1 then
+if vim.g.with_vsnip == 1 then
   table.insert(sources_1, snip_idx, { name = 'vsnip' })
   snip_idx = snip_idx + 1
 end
-if vim.g.my_ultisnips_enable == 1 then
+if vim.g.with_ultisnips == 1 then
   table.insert(sources_1, snip_idx, { name = 'ultisnips'} )
   snip_idx = snip_idx + 1
 end
-if vim.g.my_neosnippet_enable == 1 then
+if vim.g.with_neosnippet == 1 then
   table.insert(sources_1, snip_idx, { name = 'neosnippet' })
   snip_idx = snip_idx + 1
 end

@@ -107,7 +107,7 @@ endif
 
 " Plug 'tpope/vim-projectionist'
 
-if g:my_neosnippet_enable == 1
+if g:with_neosnippet == 1
    Plug 'Shougo/neosnippet-snippets'
    Plug 'Shougo/neosnippet.vim'
    call aceforeverd#completion#neosnippet()

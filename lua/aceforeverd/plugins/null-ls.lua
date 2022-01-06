@@ -19,9 +19,7 @@ function M.setup()
   local null_ls = require('null-ls')
 
   local sources = {
-    null_ls.builtins.formatting.prettier,
-    null_ls.builtins.formatting.clang_format,
-    null_ls.builtins.formatting.cmake_format,
+    -- null_ls.builtins.formatting.prettier,
     null_ls.builtins.formatting.eslint,
     null_ls.builtins.formatting.shfmt,
     null_ls.builtins.formatting.shellharden,

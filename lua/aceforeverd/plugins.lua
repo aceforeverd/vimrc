@@ -104,7 +104,7 @@ return packer.startup({
     use({
       'SirVer/ultisnips',
       cond = function()
-        return vim.g.my_ultisnips_enable == 1 and vim.fn.has('python3')
+        return vim.g.with_ultisnips == 1 and vim.fn.has('python3')
       end,
       setup = function()
         vim.g.UltiSnipsRemoveSelectModeMappings = 0
@@ -120,7 +120,7 @@ return packer.startup({
       'hrsh7th/vim-vsnip',
       requires = { 'hrsh7th/vim-vsnip-integ' },
       cond = function()
-        return vim.g.my_vsnip_enable == 1
+        return vim.g.with_vsnip == 1
       end,
       config = function()
         require('aceforeverd.plugins.vsnip').setup()
@@ -193,8 +193,8 @@ return packer.startup({
       config = function()
         -- vim.lsp.handlers["textDocument/codeAction"] = require('fzf_lsp').code_action_handler
         vim.lsp.handlers["textDocument/definition"] = require('fzf_lsp').definition_handler
-        vim.lsp.handlers["textDocument/declaration"] = require('fzf_lsp').declaration_handler
-        vim.lsp.handlers["textDocument/typeDefinition"] = require('fzf_lsp').type_definition_handler
+        -- vim.lsp.handlers["textDocument/declaration"] = require('fzf_lsp').declaration_handler
+        -- vim.lsp.handlers["textDocument/typeDefinition"] = require('fzf_lsp').type_definition_handler
         vim.lsp.handlers["textDocument/implementation"] = require('fzf_lsp').implementation_handler
         vim.lsp.handlers["textDocument/references"] = require('fzf_lsp').references_handler
         -- vim.lsp.handlers["textDocument/documentSymbol"] = require('fzf_lsp').document_symbol_handler
@@ -485,7 +485,8 @@ return packer.startup({
     use {
       'nvim-orgmode/orgmode',
       requires = { 'nvim-orgmode/orgmode' },
-      ft = { 'org' },
+      -- ft = { 'org' },
+      opt = true,
       config = function ()
         require('aceforeverd.plugins.orgmode').setup()
       end
