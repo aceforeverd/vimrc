@@ -12,37 +12,32 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-local lualine = require("lualine")
+local lualine = require('lualine')
 
 local M = {}
 
 function M.setup()
-  lualine.setup(vim.tbl_deep_extend("force", lualine.get_config(), {
-    options = {
-      theme = "powerline_dark",
-    },
+  lualine.setup(vim.tbl_deep_extend('force', lualine.get_config(), {
+    options = { theme = 'powerline_dark' },
     sections = {
+      lualine_b = { 'branch', 'diff', { 'diagnostics', diagnostics_color = { hint = { fg = '#108080' } } }},
       lualine_c = { [[require('lsp-status').status()]] },
       lualine_x = {
-        { [[require('aceforeverd.utility.statusline').gps()]], color = { fg = "#fda5b4" } },
-        "filetype",
+        { [[require('aceforeverd.utility.statusline').gps()]], color = { fg = '#fda5b4' } },
+        'filetype',
         { [[require('aceforeverd.utility.statusline').indent()]] },
-        "encoding",
+        {
+          'vim.bo.spelllang',
+          cond = function()
+            return vim.wo.spell == true
+          end,
+        },
+        'encoding',
       },
-      lualine_y = {
-        "fileformat",
-        "location",
-      },
-      lualine_z = {
-        "progress",
-        "filesize"
-      },
+      lualine_y = { 'fileformat', 'location' },
+      lualine_z = { 'progress', 'filesize' },
     },
-    extensions = {
-      "quickfix",
-      "fugitive",
-    },
+    extensions = { 'quickfix', 'fugitive' },
   }))
 end
 
