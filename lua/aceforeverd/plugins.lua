@@ -99,7 +99,13 @@ return packer.startup({
       end,
     }
 
-    use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }
+    use({
+      'L3MON4D3/LuaSnip',
+      requires = { 'saadparwaiz1/cmp_luasnip' },
+      config = function()
+        require('aceforeverd.plugins.snip').luasnip_setup()
+      end,
+    })
 
     use({
       'SirVer/ultisnips',
@@ -123,7 +129,7 @@ return packer.startup({
         return vim.g.with_vsnip == 1
       end,
       config = function()
-        require('aceforeverd.plugins.vsnip').setup()
+        require('aceforeverd.plugins.snip').vsnip_setup()
       end,
     }
 
