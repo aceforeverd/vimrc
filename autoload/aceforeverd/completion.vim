@@ -160,7 +160,7 @@ function! aceforeverd#completion#init_source_deoplete() abort
 endfunction
 
 function! aceforeverd#completion#neosnippet() abort
-    if g:my_ultisnips_enable == 0
+    if g:with_ultisnips == 0
         " ultisnips handle snippets in honza/vim-snippets, neosnippet do not need handle it
         let g:neosnippet#enable_snipmate_compatibility = 1
     endif
