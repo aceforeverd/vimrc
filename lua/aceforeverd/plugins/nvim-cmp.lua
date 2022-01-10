@@ -12,173 +12,200 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-if vim.g.my_cmp_source ~= 'nvim_lsp' then
-  return
-end
 
-local has_words_before = function()
-  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
-    return false
+local M = {}
+
+function M.setup()
+  if vim.g.my_cmp_source ~= 'nvim_lsp' then
+    return
   end
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
 
-local feedkey = function(key, mode)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-end
+  local has_words_before = function()
+    if vim.api.nvim_buf_get_option(0, 'buftype') == 'prompt' then
+      return false
+    end
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+  end
 
-local cmp = require('cmp')
-local luasnip = require('luasnip')
+  local feedkey = function(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+  end
 
-local tab_map = function(fallback)
-  if cmp.visible() then
-    cmp.select_next_item()
-  elseif has_words_before() then
-    cmp.complete()
-  else
+  local cmp = require('cmp')
+  local luasnip = require('luasnip')
+
+  local tab_map = function(fallback)
+    if cmp.visible() then
+      cmp.select_next_item()
+    elseif has_words_before() then
+      cmp.complete()
+    else
+      fallback()
+    end
+  end
+
+  local s_tab_map = function(fallback)
+    if cmp.visible() then
+      cmp.select_prev_item()
+    else
+      fallback()
+    end
+  end
+
+  local i_ctrl_j = function(fallback)
+    if luasnip.expand_or_jumpable() then
+      feedkey('<Plug>luasnip-expand-or-jump', '')
+    else
+      fallback()
+    end
+  end
+
+  local i_ctrl_k = function(fallback)
+    if luasnip.jumpable(-1) then
+      feedkey('<Plug>luasnip-jump-prev', '')
+    else
+      fallback()
+    end
+  end
+
+  -- cancel any selection and perform i_ctlr-h
+  local i_ctrl_h = function(fallback)
+    if cmp.visible() then
+      cmp.abort()
+    end
     fallback()
   end
-end
 
-local s_tab_map = function(fallback)
-  if cmp.visible() then
-    cmp.select_prev_item()
-  else
-    fallback()
+  local lspkind = require('lspkind')
+
+  -- level 1 source
+  local sources_1 = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip', option = { use_show_condition = false } },
+    -- ultisnips inject here
+
+    { name = 'nvim_lua' },
+    { name = 'path' },
+    { name = 'calc' },
+
+    { name = 'cmp_git' },
+    { name = 'treesitter' },
+    { name = 'spell' },
+    {
+      name = 'buffer',
+      option = {
+        get_bufnrs = function()
+          -- only the visible buffer
+          local bufs = {}
+          for _, win in ipairs(vim.api.nvim_list_wins()) do
+            bufs[vim.api.nvim_win_get_buf(win)] = true
+          end
+          return vim.tbl_keys(bufs)
+        end,
+      },
+    },
+    { name = 'emoji' },
+    { name = 'tmux', keyword_length = 3, max_item_count = 10 },
+    { name = 'dictionary', keyword_length = 2 },
+  }
+
+  local snip_idx = 3
+  if vim.g.with_vsnip == 1 then
+    table.insert(sources_1, snip_idx, { name = 'vsnip' })
+    snip_idx = snip_idx + 1
   end
-end
-
-local i_ctrl_j = function(fallback)
-  if luasnip.expand_or_jumpable() then
-    feedkey('<Plug>luasnip-expand-or-jump', '')
-  else
-    fallback()
+  if vim.g.with_ultisnips == 1 then
+    table.insert(sources_1, snip_idx, { name = 'ultisnips' })
+    snip_idx = snip_idx + 1
   end
-end
-
-local i_ctrl_k = function(fallback)
-  if luasnip.jumpable(-1) then
-    feedkey('<Plug>luasnip-jump-prev', '')
-  else
-    fallback()
+  if vim.g.with_neosnippet == 1 then
+    table.insert(sources_1, snip_idx, { name = 'neosnippet' })
+    snip_idx = snip_idx + 1
   end
-end
 
--- cancel any selection and perform i_ctlr-h
-local i_ctrl_h = function(fallback)
-  if cmp.visible() then
-    cmp.abort()
-  end
-  fallback()
-end
-
-local lspkind = require('lspkind')
-
--- level 1 source
-local sources_1 = {
-  { name = 'nvim_lsp' },
-  { name = 'luasnip', option = { use_show_condition = false } },
-  -- ultisnips inject here
-
-  { name = 'nvim_lua' },
-  { name = 'path' },
-  { name = 'calc' },
-
-  { name = 'cmp_git' },
-  { name = 'treesitter' },
-  { name = 'spell' },
-  {
-    name = 'buffer',
-    option = {
-      get_bufnrs = function()
-        -- only the visible buffer
-        local bufs = {}
-        for _, win in ipairs(vim.api.nvim_list_wins()) do
-          bufs[vim.api.nvim_win_get_buf(win)] = true
-        end
-        return vim.tbl_keys(bufs)
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        require('luasnip').lsp_expand(args.body)
       end,
     },
-  },
-  { name = 'emoji' },
-  { name = 'tmux', keyword_length = 3, max_item_count = 10 },
-  { name = 'look', keyword_length = 3, option = { convert_case = true, loud = true } },
-}
+    mapping = {
+      ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+      ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+      ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+      ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 
-local snip_idx = 3
-if vim.g.with_vsnip == 1 then
-  table.insert(sources_1, snip_idx, { name = 'vsnip' })
-  snip_idx = snip_idx + 1
-end
-if vim.g.with_ultisnips == 1 then
-  table.insert(sources_1, snip_idx, { name = 'ultisnips'} )
-  snip_idx = snip_idx + 1
-end
-if vim.g.with_neosnippet == 1 then
-  table.insert(sources_1, snip_idx, { name = 'neosnippet' })
-  snip_idx = snip_idx + 1
-end
+      ['<Tab>'] = cmp.mapping(tab_map, { 'i', 's' }),
+      ['<S-Tab>'] = cmp.mapping(s_tab_map, { 'i', 's' }),
+      ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<C-e>'] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
+      ['<C-h>'] = cmp.mapping({ i = i_ctrl_h, c = cmp.mapping.close() }),
+      ['<C-j>'] = cmp.mapping(i_ctrl_j, { 'i', 's' }),
+      ['<C-k>'] = cmp.mapping(i_ctrl_k, { 'i', 's' }),
+      -- TODO: CR show jump after select inside jump
+      ['<CR>'] = cmp.mapping({
+        i = cmp.mapping.confirm({ select = false }),
+        c = cmp.mapping.confirm({ select = false }),
+      }),
+      ['<C-space>'] = cmp.mapping(cmp.complete),
+    },
+    sources = cmp.config.sources(sources_1),
+    formatting = {
+      format = lspkind.cmp_format({
+        with_text = true,
+        maxwidth = 50,
+        menu = {
+          nvim_lsp = '[LSP]',
+          luasnip = '[LuaSnip]',
+          ultisnips = '[UltiSnips]',
+          vsnip = '[Vsnip]',
+          neosnippet = '[NeoSnippet]',
+          buffer = '[Buffer]',
+          path = '[Path]',
+          nvim_lua = '[Lua]',
+          look = '[Look]',
+          emoji = '[Emoji]',
+          treesitter = '[TreeSitter]',
+          calc = '[Calc]',
+          dictionary = '[Dictionary]',
+          tmux = '[Tmux]',
+          rg = '[Rg]',
+          spell = '[Spell]',
+          cmp_git = '[Git]',
+        },
+      }),
+    },
 
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-    end,
-  },
-  mapping = {
-    ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-    ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-    ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-    ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+    -- add sorting rules
+  })
 
-    ['<Tab>'] = cmp.mapping(tab_map, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(s_tab_map, { 'i', 's' }),
-    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    ['<C-e>'] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
-    ['<C-h>'] = cmp.mapping({ i = i_ctrl_h, c = cmp.mapping.close() }),
-    ['<C-j>'] = cmp.mapping(i_ctrl_j, {'i', 's'}),
-    ['<C-k>'] = cmp.mapping(i_ctrl_k, {'i', 's'}),
-    -- TODO: CR show jump after select inside jump
-    ['<CR>'] = cmp.mapping({ i = cmp.mapping.confirm({ select = false }), c = cmp.mapping.confirm({ select = false }) }),
-    ['<C-space>'] = cmp.mapping(cmp.complete),
-  },
-  sources = cmp.config.sources(sources_1),
-  formatting = {
-    format = lspkind.cmp_format({
-      with_text = true,
-      maxwidth = 50,
-      menu = {
-        nvim_lsp = "[LSP]",
-        luasnip = "[LuaSnip]",
-        ultisnips = '[UltiSnips]',
-        vsnip = "[Vsnip]",
-        neosnippet = '[NeoSnippet]',
-        buffer = "[Buffer]",
-        path = "[Path]",
-        nvim_lua = "[Lua]",
-        look = "[Look]",
-        emoji = "[Emoji]",
-        treesitter = "[TreeSitter]",
-        calc = '[Calc]',
-        tmux = "[Tmux]",
-        rg = '[Rg]',
-        spell = '[Spell]',
-        cmp_git = '[Git]',
-      },
-    }),
-  },
-
-  -- add sorting rules
-})
-
--- disable nvim-cmp on some buffer
-vim.cmd[[
+  -- disable nvim-cmp on some buffer
+  vim.cmd([[
   augroup gp_nvim_cmp
   autocmd!
   autocmd FileType clap_input lua require('cmp').setup.buffer { enabled = false }
   augroup END
-]]
+]])
 
-require("cmp_git").setup()
+end
+
+function M.cmp_git()
+  require('cmp_git').setup()
+end
+
+function M.cmp_dict()
+  require('cmp_dictionary').setup({
+    dic = {
+      ['*'] = '/usr/share/dict/words',
+    },
+    -- The following are default values, so you don't need to write them if you don't want to change them
+    exact = 2,
+    async = false,
+    capacity = 5,
+    debug = false,
+  })
+end
+
+return M

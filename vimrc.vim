@@ -363,6 +363,7 @@ set matchtime=2
 set history=1000
 set wildmenu
 set backspace=indent,eol,start
+set dictionary+=/usr/share/dict/words
 set spelllang=en_us,en,cjk
 " set spell
 
