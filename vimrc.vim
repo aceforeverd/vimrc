@@ -520,6 +520,14 @@ try
 catch
 endtry
 
+" scroll window and cursor together, cursor location compared to current window not change
+nnoremap <M-j> <C-e>j
+nnoremap <M-k> <C-y>k
+
+" ====================================================
+" =       start plugin configs
+" ====================================================
+
 " dein.vim
 function! s:delete_path(key, value) abort
     call delete(a:value, 'rf')
@@ -676,6 +684,7 @@ augroup END
 
 " open-browser
 command! OpenB execute 'normal <Plug>(openbrowser-open)'
+vmap <Leader>os <Plug>(openbrowser-search)
 
 " ferret
 let g:FerretMap = 0
