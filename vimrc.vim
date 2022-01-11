@@ -44,7 +44,7 @@ Plug 'rafi/awesome-vim-colorschemes'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
-Plug 'Raimondi/delimitMate'
+Plug 'raimondi/delimitMate'
 
 Plug 'mhinz/vim-startify'
 Plug 'rhysd/committia.vim'
