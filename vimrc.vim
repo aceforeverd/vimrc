@@ -252,12 +252,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('tpope/vim-fugitive')
     call dein#add('lambdalisue/gina.vim')
     call dein#add('junegunn/gv.vim')
-    call dein#add('mattn/gist-vim')
-    call dein#add('mattn/webapi-vim')
-    call dein#add('idanarye/vim-merginal')
     call dein#add('rhysd/committia.vim')
-    call dein#add('jreybert/vimagit')
-    call dein#add('cohama/agit.vim')
 
     " search
     call dein#add('junegunn/fzf', {
@@ -765,6 +760,9 @@ augroup gp_dirvish_tw
    autocmd!
    autocmd FileType dirvish highlight DirvishSuffix ctermfg=250 ctermbg=235 guifg=#e4e3e1 guibg=#312c2b
 augroup END
+
+" vim-sandwich
+nnoremap ss s
 
 call aceforeverd#settings#basic_color()
 " setup sonokai

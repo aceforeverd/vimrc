@@ -534,6 +534,21 @@ return packer.startup({
     })
 
     use({
+      'ruifm/gitlinker.nvim',
+      requires = 'nvim-lua/plenary.nvim',
+      config = function()
+        require('gitlinker').setup()
+      end,
+    })
+
+    use {
+      'anuvyklack/pretty-fold.nvim',
+      config = function()
+        require('aceforeverd.plugins.enhance').pretty_fold()
+      end
+    }
+
+    use({
       'feline-nvim/feline.nvim',
       cond = function()
         return vim.g.my_statusline == 'feline'

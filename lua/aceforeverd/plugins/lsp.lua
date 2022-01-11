@@ -72,6 +72,11 @@ local default_lsp_cfg = lsp_basic.general_cfg
 local on_attach = lsp_basic.on_attach
 local capabilities = lsp_basic.capabilities
 
+local clangd_caps = vim.tbl_deep_extend('force', capabilities, {
+  -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428#issuecomment-997226723
+  offsetEncoding = { 'utf-16' }
+})
+
 lspconfig.clangd.setup({
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
@@ -83,7 +88,7 @@ lspconfig.clangd.setup({
       { noremap = true, silent = true }
     )
   end,
-  capabilities = capabilities,
+  capabilities = clangd_caps,
   handlers = vim.tbl_deep_extend('error', lsp_basic.handlers, require('lsp-status').extensions.clangd.setup()),
   init_options = { clangdFileStatus = true },
   cmd = {

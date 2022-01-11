@@ -176,3 +176,6 @@ require('nvim-treesitter.configs').setup {
     }
   },
 }
+
+-- :set foldmethod=expr to enable fold with expr, default is manual
+vim.cmd [[set foldexpr=nvim_treesitter#foldexpr()]]
