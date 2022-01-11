@@ -24,4 +24,8 @@ function M.pretty_fold()
   require('pretty-fold.preview').setup_keybinding()
 end
 
+function M.hop()
+  require('hop').setup()
+end
+
 return M

@@ -267,7 +267,7 @@ return packer.startup({
       },
       run = ':TSUpdate',
       config = function()
-        require('aceforeverd.plugins.treesitter')
+        require('aceforeverd.plugins.treesitter').setup()
       end,
     })
 
@@ -376,7 +376,12 @@ return packer.startup({
       end,
     })
 
-    use({ 'phaazon/hop.nvim' })
+    use({
+      'phaazon/hop.nvim',
+      config = function()
+        require('aceforeverd.plugins.enhance').hop()
+      end,
+    })
 
     use({ 'rafamadriz/friendly-snippets' })
 
@@ -437,6 +442,22 @@ return packer.startup({
         require('aceforeverd.plugins.gps').setup()
       end,
       requires = 'nvim-treesitter/nvim-treesitter',
+    })
+
+    use ({
+      'romgrk/nvim-treesitter-context',
+      requires = { 'nvim-treesitter/nvim-treesitter' },
+      config = function ()
+        require('aceforeverd.plugins.treesitter').ts_context()
+      end
+    })
+
+    use ({
+      'mfussenegger/nvim-treehopper',
+      requires = { 'nvim-treesitter/nvim-treesitter' },
+      config = function ()
+        require('aceforeverd.plugins.treesitter').tree_hopper()
+      end
     })
 
     use({
