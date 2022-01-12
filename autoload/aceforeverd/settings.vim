@@ -160,3 +160,31 @@ function! aceforeverd#settings#basic_color() abort
         " endif
     " endif
 endfunction
+
+function! aceforeverd#settings#glaive() abort
+    call glaive#Install()
+    Glaive codefmt plugin[mappings]
+endfunction
+
+" little utilities to open current file editing/file under cursor in netrw/dirvish with in browser
+"
+" @param type:
+"    1. 'b' -> file current editing
+"    2. 'c' -> file under cursor, apply to netrw & dirvish
+""
+function! aceforeverd#settings#open_with_browser(type) abort
+    if a:type ==? 'b'
+        " file current editing
+        let s:file_path = expand('%:p')
+    elseif a:type ==? 'c'
+        " file under cursor
+        let s:file_path = expand('<cfile>:p')
+    endif
+
+    if !filereadable(s:file_path)
+        echomsg 'file ' . s:file_path . ' not exists!'
+        return
+    endif
+
+    execute '!open ' . s:file_path
+endfunction
