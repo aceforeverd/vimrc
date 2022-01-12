@@ -163,6 +163,29 @@ function M.setup()
           ['{;'] = '@statement.outer',
         },
       },
+      swap = {
+        enable = true,
+        swap_next = {
+          ['<M-l>'] = '@parameter.inner',
+        },
+        swap_previous = {
+          ['<M-h>'] = '@parameter.inner',
+        },
+      },
+      select = {
+        enable = true,
+
+        -- Automatically jump forward to textobj, similar to targets.vim
+        lookahead = true,
+
+        keymaps = {
+          -- You can use the capture groups defined in textobjects.scm
+          ['af'] = '@function.outer',
+          ['if'] = '@function.inner',
+          ['ac'] = '@class.outer',
+          ['ic'] = '@class.inner',
+        },
+      },
       lsp_interop = {
         enable = true,
         border = 'none',
