@@ -13,19 +13,27 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 -- enhance nvim behavior
 
 local M = {}
 
 function M.pretty_fold()
-  require('pretty-fold').setup{}
+  require('pretty-fold').setup({})
   -- 'h' preview fold, 'l' open fold
   require('pretty-fold.preview').setup_keybinding()
 end
 
 function M.hop()
   require('hop').setup()
+end
+
+function M.which_key()
+  require('which-key').setup({ plugins = { registers = false } })
+end
+
+function M.registers_pre()
+  -- disable visual mode cause it won't work in quickfix or floaterm
+  vim.g.registers_visual_mode = 0
 end
 
 return M

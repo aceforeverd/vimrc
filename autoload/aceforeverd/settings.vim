@@ -37,6 +37,7 @@ function! aceforeverd#settings#my_init() abort
 
     " whether to enable hlslens.nvim
     let g:with_hlslens = get(g:, 'with_hlslens', 0)
+    let g:with_registers = get(g:, 'with_registers', 1)
 
     if !exists('g:my_name')
         let g:my_name = 'Ace'

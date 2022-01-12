@@ -422,7 +422,15 @@ return packer.startup({
 
     use({ 'sindrets/diffview.nvim', requires = { 'kyazdani42/nvim-web-devicons' } })
 
-    use({ 'tversteeg/registers.nvim' })
+    use({
+      'tversteeg/registers.nvim',
+      cond = function()
+        return vim.g.with_registers == 1
+      end,
+      setup = function ()
+        require('aceforeverd.plugins.enhance').registers_pre()
+      end
+    })
 
     use({ 'npxbr/glow.nvim', ft = { 'markdown' } })
 
@@ -471,7 +479,7 @@ return packer.startup({
     use({
       'folke/which-key.nvim',
       config = function()
-        require('which-key').setup({ plugins = { registers = false } })
+        require('aceforeverd.plugins.enhance').which_key()
       end,
     })
 
