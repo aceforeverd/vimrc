@@ -263,9 +263,8 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-css', 'coc-clangd',
                 \ 'coc-docker', 'coc-fish',
                 \ 'coc-java', 'coc-diagnostic',
-                \ 'coc-fzf-preview', 'coc-xml',
+                \ 'coc-xml', 'coc-toml',
                 \ 'coc-metals', 'coc-emoji',
-                \ 'coc-toml',
                 \ 'coc-word', 'coc-texlab',
                 \ 'coc-esbonio', 'coc-sql',
                 \ ]
