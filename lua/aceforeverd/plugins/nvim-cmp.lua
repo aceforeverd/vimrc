@@ -119,10 +119,6 @@ function M.setup()
     table.insert(sources_1, snip_idx, { name = 'ultisnips' })
     snip_idx = snip_idx + 1
   end
-  if vim.g.with_neosnippet == 1 then
-    table.insert(sources_1, snip_idx, { name = 'neosnippet' })
-    snip_idx = snip_idx + 1
-  end
 
   cmp.setup({
     snippet = {
@@ -161,7 +157,6 @@ function M.setup()
           luasnip = '[LuaSnip]',
           ultisnips = '[UltiSnips]',
           vsnip = '[Vsnip]',
-          neosnippet = '[NeoSnippet]',
           buffer = '[Buffer]',
           path = '[Path]',
           nvim_lua = '[Lua]',

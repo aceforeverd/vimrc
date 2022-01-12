@@ -278,6 +278,14 @@ return packer.startup({
       requires = { { 'nvim-treesitter/nvim-treesitter' }, { 'Olical/aniseed' } },
     })
 
+    use({
+      'mizlan/iswap.nvim',
+      requires = { 'nvim-treesitter/nvim-treesitter' },
+      config = function ()
+        require('aceforeverd.plugins.treesitter').iswap()
+      end
+    })
+
     use({ 'Olical/conjure', ft = { 'clojure', 'fennel', 'janet', 'racket', 'scheme' } })
 
     use({
