@@ -208,9 +208,22 @@ function M.setup()
   vim.cmd([[set foldexpr=nvim_treesitter#foldexpr()]])
 end
 
+local ctx_max_lines = function ()
+  if vim.fn.has('nvim-0.7.0') == 0 then
+    -- vim.o.scrolloff print big number in nvim 0.6.1
+    return 2
+  end
+
+  if vim.o.scrolloff >= 2 then
+    return vim.o.scrolloff - 1
+  end
+
+  return 1
+end
+
 function M.ts_context()
   require('treesitter-context').setup({
-    max_lines = 2, -- keep nearest two ancestors
+    max_lines = ctx_max_lines()
   })
 end
 
