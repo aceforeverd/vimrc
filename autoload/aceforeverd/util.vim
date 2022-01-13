@@ -48,7 +48,7 @@ endfunction
 
 function! aceforeverd#util#has_float() abort
     " see https://github.com/neoclide/coc.nvim/wiki/F.A.Q#how-to-make-preview-window-shown-aside-with-pum
-    return (has('textprop') && has('patch-8.1.1719') && has('*popup_create')) || (exists('*nvim_open_win'))
+    return (has('textprop') && has('patch-8.1.1719')) || (exists('*nvim_open_win'))
 endfunction
 
 " good util function to investigate highlight staffs
