@@ -77,3 +77,4 @@ set_map('n', '<Leader>fu', "<cmd>lua require'telescope'.extensions.ultisnips.ult
         { noremap = true, silent = true })
 
 set_map('n', '<Leader>fz', '<cmd>lua require"telescope".extensions.zoxide.list{}<cr>', map_opts)
+set_map('n', '<Leader>ft', [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]], map_opts)

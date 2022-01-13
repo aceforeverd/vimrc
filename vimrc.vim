@@ -702,9 +702,6 @@ let g:current_line_whitespace_disabled_soft = 1
 
 let g:nvimgdb_disable_start_keymaps = 1
 
-" git-messenger
-map <Leader>gg <Plug>(git-messenger)
-
 " neoformat
 let g:neoformat_enabled_lua = ['luaformat', 'stylua']
 
@@ -713,7 +710,12 @@ let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
 
 if aceforeverd#util#has_float()
     " matchup
-    let g:matchup_matchparen_offscreen = {'method': 'popup'}
+    if has('nvim-0.5.0')
+        " conflicts with ts-context.nvim
+        let g:matchup_matchparen_offscreen = {'method': 'status_manual'}
+    else
+        let g:matchup_matchparen_offscreen = {'method': 'popup'}
+    endif
 endif
 let g:matchup_matchparen_deferred = 1
 
@@ -765,17 +767,17 @@ let g:switch_mapping = '<space>s'
 
 " vim dirvish gtfo
 nnoremap goo go
-augroup gp_dirvish_tw
-   autocmd!
-   autocmd FileType dirvish highlight DirvishSuffix ctermfg=250 ctermbg=235 guifg=#e4e3e1 guibg=#312c2b
-augroup END
 
 " vim-sandwich
 nnoremap ss s
 
 call aceforeverd#settings#basic_color()
 " setup sonokai
-call aceforeverd#settings#sonokai()
+augroup gp_colorscheme
+    autocmd!
+    autocmd ColorSchemePre sonokai call aceforeverd#settings#sonokai_pre()
+    autocmd ColorScheme * call aceforeverd#settings#hl_groups()
+augroup END
 
 if has('nvim-0.5')
     lua require('aceforeverd')

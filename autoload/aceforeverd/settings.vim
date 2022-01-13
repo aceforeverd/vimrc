@@ -120,7 +120,7 @@ function! aceforeverd#settings#denite_settings() abort
 
 endfunction
 
-function! aceforeverd#settings#sonokai() abort
+function! aceforeverd#settings#sonokai_pre() abort
     if has('nvim')
         let g:sonokai_enable_italic = 1
         if has('nvim-0.6.0')
@@ -137,6 +137,25 @@ function! aceforeverd#settings#sonokai() abort
     let g:sonokai_better_performance = 1
     let g:sonokai_diagnostic_text_highlight = 1
     let g:sonokai_diagnostic_virtual_text = 'colored'
+endfunction
+
+" common highlight customization
+function! aceforeverd#settings#hl_groups() abort
+    " sonokai link 'LspReferenceText', 'LspReferenceRead', 'LspReferenceWrite' default to 'CurrentWord'
+    " for lsp enabled buffer, 'Lspreference*' groups are used
+    highlight LspReferenceText cterm=bold gui=bold guibg=#5e5e5f
+    highlight LspReferenceRead cterm=underline gui=undercurl guibg=#5e5e5f
+    highlight LspReferenceWrite cterm=bold,underline gui=bold,undercurl guibg=#5e5e9f
+    highlight illuminatedWord guibg=#5e5e5e
+    highlight illuminatedCurWord guibg=#5e5e8f
+
+    " coc highlight groups
+    highlight CocHighlightText cterm=bold gui=bold guibg=#5e5e5e
+    highlight CocHighlightRead cterm=underline gui=undercurl guibg=#5e5e5f
+    highlight CocHighlightWrite cterm=bold,underline gui=bold,undercurl guibg=#5e5e9f
+
+    " tree view
+    highlight DirvishSuffix ctermfg=250 ctermbg=235 guifg=#e4e3e1 guibg=#312c2b
 endfunction
 
 function! aceforeverd#settings#basic_color() abort

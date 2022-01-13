@@ -329,6 +329,7 @@ return packer.startup({
         'nvim-telescope/telescope-symbols.nvim',
         'nvim-telescope/telescope-packer.nvim',
         'nvim-telescope/telescope-project.nvim',
+        'nvim-telescope/telescope-file-browser.nvim',
         'cljoly/telescope-repo.nvim',
         'fhill2/telescope-ultisnips.nvim',
         'jvgrootveld/telescope-zoxide',
