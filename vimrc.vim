@@ -711,10 +711,10 @@ let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
 if aceforeverd#util#has_float()
     " matchup
     if has('nvim-0.5.0')
-        " conflicts with ts-context.nvim
-        let g:matchup_matchparen_offscreen = {'method': 'status_manual'}
+        " disable due to conflicts with ts-context.nvim
+        let g:matchup_matchparen_offscreen = {}
     else
-        let g:matchup_matchparen_offscreen = {'method': 'popup'}
+        let g:matchup_matchparen_offscreen = {'method': 'popup', 'scrolloff': 1}
     endif
 endif
 let g:matchup_matchparen_deferred = 1

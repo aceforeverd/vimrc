@@ -56,6 +56,8 @@ return packer.startup({
         'nvim-lua/lsp-status.nvim',
         -- LSP signature hint as you type
         'ray-x/lsp_signature.nvim',
+        -- fzf handlers
+        'gfanto/fzf-lsp.nvim',
       },
       config = function()
         require('aceforeverd.plugins.lsp')
@@ -203,23 +205,6 @@ return packer.startup({
       end,
     })
 
-    -- use fzf to display builtin LSP results
-    use({
-      'gfanto/fzf-lsp.nvim',
-      config = function()
-        -- vim.lsp.handlers["textDocument/codeAction"] = require('fzf_lsp').code_action_handler
-        vim.lsp.handlers['textDocument/definition'] = require('fzf_lsp').definition_handler
-        -- vim.lsp.handlers["textDocument/declaration"] = require('fzf_lsp').declaration_handler
-        -- vim.lsp.handlers["textDocument/typeDefinition"] = require('fzf_lsp').type_definition_handler
-        vim.lsp.handlers['textDocument/implementation'] = require('fzf_lsp').implementation_handler
-        vim.lsp.handlers['textDocument/references'] = require('fzf_lsp').references_handler
-        -- vim.lsp.handlers["textDocument/documentSymbol"] = require('fzf_lsp').document_symbol_handler
-        -- vim.lsp.handlers["workspace/symbol"] = require('fzf_lsp').workspace_symbol_handler
-        -- vim.lsp.handlers["callHierarchy/incomingCalls"] = require('fzf_lsp').ingoing_calls_handler
-        -- vim.lsp.handlers["callHierarchy/outgoingCalls"] = require('fzf_lsp').outgoing_calls_handler
-      end,
-    })
-
     use({
       'jose-elias-alvarez/null-ls.nvim',
       requires = { 'neovim/nvim-lspconfig' },
@@ -264,18 +249,13 @@ return packer.startup({
         'nvim-treesitter/nvim-treesitter-textobjects',
         'nvim-treesitter/nvim-treesitter-refactor',
         'RRethy/nvim-treesitter-textsubjects',
+        'p00f/nvim-ts-rainbow',
+        { 'nvim-treesitter/nvim-tree-docs', requires = { 'Olical/aniseed' } },
       },
       run = ':TSUpdate',
       config = function()
         require('aceforeverd.plugins.treesitter').setup()
       end,
-    })
-
-    use({ 'p00f/nvim-ts-rainbow', requires = 'nvim-treesitter/nvim-treesitter' })
-
-    use({
-      'nvim-treesitter/nvim-tree-docs',
-      requires = { { 'nvim-treesitter/nvim-treesitter' }, { 'Olical/aniseed' } },
     })
 
     use({
@@ -297,7 +277,7 @@ return packer.startup({
 
     use({
       'hkupty/iron.nvim',
-      config = function()
+      setup = function()
         vim.g.iron_map_defaults = 0
         vim.g.iron_map_extended = 0
       end,

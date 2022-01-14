@@ -21,7 +21,3 @@ set_map('x', ']"', '"', { noremap = true, silent = true })
 set_map('n', '{{', '{', { noremap = true, silent = true })
 set_map('n', '}}', '}', { noremap = true, silent = true })
 
-vim.api.nvim_exec([[
-    let g:matchup_matchparen_offscreen = {}
-]], false)
-

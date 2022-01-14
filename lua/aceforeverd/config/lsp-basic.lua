@@ -116,6 +116,9 @@ M.handlers = {
   ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, pub_diag_config),
   ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
   ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+  ['textDocument/definition'] = require('fzf_lsp').definition_handler,
+  ['textDocument/implementation'] = require('fzf_lsp').implementation_handler,
+  ['textDocument/references'] = require('fzf_lsp').references_handler,
 }
 
 M.general_cfg = {
