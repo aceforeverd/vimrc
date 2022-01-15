@@ -36,7 +36,7 @@ function M.setup()
   local general_lsp_config = M.general_lsp_config
 
   local setup_generalized_with_cfg_override = function(cfg_override)
-    if cfg_override.on_attach ~= nil and type(cfg_override.on_attach) == 'function' then
+    if type(cfg_override.on_attach) == 'function' then
       -- extend the function
       local extra_on_attach = cfg_override.on_attach
       cfg_override.on_attach = function(client, bufnr)

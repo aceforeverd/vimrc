@@ -39,10 +39,10 @@ end
 function M.spectre()
   require('spectre').setup()
 
-  vim.cmd[[
+  vim.cmd([[
     command! Spectre lua require('spectre').open()
     command! SpectreCFile lua require('spectre').open_file_search()
-  ]]
+  ]])
 end
 
 function M.hlslens()
@@ -65,6 +65,12 @@ function M.light_bulb()
     autocmd!
     autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
   augroup END]])
+end
+
+function M.toggle_term()
+  require('toggleterm').setup({
+    open_mapping = [[<C-\>x]],
+  })
 end
 
 return M

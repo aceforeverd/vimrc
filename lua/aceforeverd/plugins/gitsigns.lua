@@ -12,44 +12,50 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-require('gitsigns').setup {
-  signs = {
-    delete = { show_count = true },
-    topdelete = { show_count = true },
-    changedelete = { show_count = true }
-  },
-  keymaps = {
-    -- Default keymap options
-    noremap = true,
-    buffer = true,
+local M = {}
 
-    ['n ]c'] = {
-      expr = true,
-      "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"
+function M.setup()
+  require('gitsigns').setup({
+    signs = {
+      delete = { show_count = true },
+      topdelete = { show_count = true },
+      changedelete = { show_count = true },
     },
-    ['n [c'] = {
-      expr = true,
-      "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"
+    keymaps = {
+      -- Default keymap options
+      noremap = true,
+      buffer = true,
+
+      ['n ]c'] = {
+        expr = true,
+        "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'",
+      },
+      ['n [c'] = {
+        expr = true,
+        "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'",
+      },
+
+      ['n <leader>hs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+      ['n <leader>hu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
+      ['n <leader>hr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+      ['n <leader>hR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
+      ['n <leader>hp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+      ['n <leader>bb'] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
+
+      -- Text objects
+      ['o ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
+      ['x ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
     },
+    diff_opts = { internal = true },
+    numhl = true,
+    linehl = false,
+    watch_gitdir = { interval = 1000 },
+    attach_to_untracked = false,
+    current_line_blame = true,
+    sign_priority = 5,
+    update_debounce = 100,
+    status_formatter = nil,
+  })
+end
 
-    ['n <leader>hs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
-    ['n <leader>hu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-    ['n <leader>hr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-    ['n <leader>hR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
-    ['n <leader>hp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
-    ['n <leader>bb'] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
-
-    -- Text objects
-    ['o ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
-    ['x ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
-  },
-  diff_opts = { internal = true },
-  numhl = true,
-  linehl = false,
-  watch_gitdir = { interval = 1000 },
-  attach_to_untracked = false,
-  current_line_blame = true,
-  sign_priority = 5,
-  update_debounce = 100,
-  status_formatter = nil
-}
+return M

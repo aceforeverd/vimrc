@@ -410,7 +410,7 @@ return packer.startup({
     use({
       'akinsho/nvim-toggleterm.lua',
       config = function()
-        require('aceforeverd.plugins.toggleterm')
+        require('aceforeverd.plugins.enhance').toggle_term()
       end,
     })
 
@@ -508,7 +508,7 @@ return packer.startup({
       end,
       requires = { 'nvim-lua/plenary.nvim' },
       config = function()
-        require('aceforeverd.plugins.gitsigns')
+        require('aceforeverd.plugins.gitsigns').setup()
       end,
     })
 
