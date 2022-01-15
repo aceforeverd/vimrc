@@ -190,7 +190,9 @@ function M.setup()
 end
 
 function M.cmp_git()
-  require('cmp_git').setup()
+  require('cmp_git').setup({
+     filetypes = { "gitcommit", 'markdown' },
+  })
 end
 
 function M.cmp_dict()
