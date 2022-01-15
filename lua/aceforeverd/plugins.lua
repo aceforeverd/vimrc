@@ -343,7 +343,7 @@ return packer.startup({
       cmd = { 'NvimTreeToggle', 'NvimTreeClipboard', 'NvimTreeFindFileToggle' },
       keys = { '<space>e' },
       config = function()
-        require('aceforeverd.plugins.nvim-tree')
+        require('aceforeverd.plugins.nvim-tree').setup()
       end,
     })
 

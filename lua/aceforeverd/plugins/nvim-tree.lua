@@ -12,29 +12,41 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-vim.api.nvim_set_keymap('n', '<Space>e', [[<Cmd>lua require 'nvim-tree'.toggle()<CR>]],
-                        { noremap = true, silent = false })
+local M = {}
 
-require('nvim-tree').setup {
-  disable_netrw = false,
-  hijack_netrw = true,
-  open_on_setup = false,
-  ignore_ft_on_setup = {},
-  update_to_buf_dir = { enable = false, auto_open = false },
-  auto_close = false,
-  open_on_tab = false,
-  hijack_cursor = false,
-  update_cwd = true,
-  diagnostics = {
-    enable = true,
-    icons = { hint = "", info = "", warning = "", error = "" }
-  },
-  update_focused_file = { enable = true, update_cwd = true, ignore_list = {} },
-  system_open = { cmd = nil, args = {} },
-  view = {
-    width = '20%',
-    side = 'left',
-    auto_resize = true,
-    mappings = { custom_only = false, list = {} }
-  }
-}
+function M.setup()
+  vim.api.nvim_set_keymap(
+    'n',
+    '<Space>e',
+    [[<Cmd>lua require 'nvim-tree'.toggle()<CR>]],
+    { noremap = true, silent = false }
+  )
+
+  vim.g.nvim_tree_highlight_opened_files = 2
+
+  require('nvim-tree').setup({
+    disable_netrw = false,
+    hijack_netrw = true,
+    open_on_setup = false,
+    ignore_ft_on_setup = {},
+    update_to_buf_dir = { enable = false, auto_open = false },
+    auto_close = false,
+    open_on_tab = false,
+    hijack_cursor = false,
+    update_cwd = true,
+    diagnostics = {
+      enable = true,
+      icons = { hint = '', info = '', warning = '', error = '' },
+    },
+    update_focused_file = { enable = true, update_cwd = true, ignore_list = {} },
+    system_open = { cmd = nil, args = {} },
+    view = {
+      width = '20%',
+      side = 'left',
+      auto_resize = true,
+      mappings = { custom_only = false, list = {} },
+    },
+  })
+end
+
+return M
