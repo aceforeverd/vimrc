@@ -85,22 +85,11 @@ return packer.startup({
         'hrsh7th/cmp-nvim-lua',
         'hrsh7th/cmp-emoji',
         'hrsh7th/cmp-calc',
-        {
-          'uga-rosa/cmp-dictionary',
-          config = function()
-            require('aceforeverd.plugins.nvim-cmp').cmp_dict()
-          end,
-        },
+        'uga-rosa/cmp-dictionary',
         'ray-x/cmp-treesitter',
         'andersevenrud/cmp-tmux',
         'quangnguyen30192/cmp-nvim-ultisnips',
-        {
-          'petertriho/cmp-git',
-          config = function ()
-            require('aceforeverd.plugins.nvim-cmp').cmp_git()
-          end
-        },
-
+        'petertriho/cmp-git',
         'hrsh7th/cmp-vsnip',
         'f3fora/cmp-spell',
 
@@ -125,12 +114,7 @@ return packer.startup({
         return vim.g.with_ultisnips == 1 and vim.fn.has('python3')
       end,
       setup = function()
-        vim.g.UltiSnipsRemoveSelectModeMappings = 0
-        -- TODO:: condional map
-        vim.g.UltiSnipsExpandTrigger = '<M-l>'
-        vim.g.UltiSnipsListSnippets = '<c-tab>'
-        vim.g.UltiSnipsJumpForwardTrigger = '<c-j>'
-        vim.g.UltiSnipsJumpBackwardTrigger = '<c-k>'
+        require('aceforeverd.plugins.snip').ultisnip_setup_pre()
       end,
     })
 
@@ -152,19 +136,17 @@ return packer.startup({
       end,
     })
 
-    use({ 'nvim-lua/lsp-status.nvim' })
-
     use({
       'kosayoda/nvim-lightbulb',
       config = function()
-        vim.cmd([[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]])
+        require('aceforeverd.plugins.enhance').light_bulb()
       end,
       cond = function()
         return vim.g.my_cmp_source == 'nvim_lsp'
       end,
     })
 
-    use({ 'weilbith/nvim-code-action-menu' })
+    use({ 'weilbith/nvim-code-action-menu', cmd = { 'CodeActionMenu' } })
 
     use({ 'nanotee/sqls.nvim', requires = { 'neovim/nvim-lspconfig' } })
 
@@ -261,9 +243,9 @@ return packer.startup({
     use({
       'mizlan/iswap.nvim',
       requires = { 'nvim-treesitter/nvim-treesitter' },
-      config = function ()
+      config = function()
         require('aceforeverd.plugins.treesitter').iswap()
-      end
+      end,
     })
 
     use({ 'Olical/conjure', ft = { 'clojure', 'fennel', 'janet', 'racket', 'scheme' } })
@@ -271,7 +253,7 @@ return packer.startup({
     use({
       'lukas-reineke/indent-blankline.nvim',
       config = function()
-        require('aceforeverd.plugins.indent')
+        require('aceforeverd.plugins.indent').setup()
       end,
     })
 
@@ -301,7 +283,7 @@ return packer.startup({
     use({
       'nvim-telescope/telescope.nvim',
       config = function()
-        require('aceforeverd.plugins.telescope')
+        require('aceforeverd.plugins.telescope').setup()
       end,
       requires = {
         'nvim-lua/popup.nvim',
@@ -408,9 +390,9 @@ return packer.startup({
       cond = function()
         return vim.g.with_registers == 1
       end,
-      setup = function ()
+      setup = function()
         require('aceforeverd.plugins.enhance').registers_pre()
-      end
+      end,
     })
 
     use({ 'npxbr/glow.nvim', ft = { 'markdown' } })
@@ -441,20 +423,20 @@ return packer.startup({
       requires = 'nvim-treesitter/nvim-treesitter',
     })
 
-    use ({
+    use({
       'romgrk/nvim-treesitter-context',
       requires = { 'nvim-treesitter/nvim-treesitter' },
-      config = function ()
+      config = function()
         require('aceforeverd.plugins.treesitter').ts_context()
-      end
+      end,
     })
 
-    use ({
+    use({
       'mfussenegger/nvim-treehopper',
       requires = { 'nvim-treesitter/nvim-treesitter' },
-      config = function ()
+      config = function()
         require('aceforeverd.plugins.treesitter').tree_hopper()
-      end
+      end,
     })
 
     use({
@@ -470,27 +452,7 @@ return packer.startup({
         return vim.g.with_hlslens == 1
       end,
       config = function()
-        vim.api.nvim_set_keymap('n', '*', "*<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
-        vim.api.nvim_set_keymap('n', '#', "#<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
-        vim.api.nvim_set_keymap(
-          'n',
-          'g*',
-          "g*<Cmd>lua require('hlslens').start()<CR>",
-          { silent = true, noremap = true }
-        )
-        vim.api.nvim_set_keymap(
-          'n',
-          'g#',
-          "g#<Cmd>lua require('hlslens').start()<CR>",
-          { silent = true, noremap = true }
-        )
-
-        if vim.fn.has('nvim-0.6.0') == 0 then
-          -- nvim 0.6.0's <c-l> set nohlsearch by default
-          vim.api.nvim_set_keymap('n', '<leader>l', '<Cmd>noh<CR>', { silent = true, noremap = true })
-        end
-
-        require('hlslens').setup({ calm_down = false })
+        require('aceforeverd.plugins.enhance').hlslens()
       end,
     })
 
@@ -498,7 +460,7 @@ return packer.startup({
       'JoosepAlviste/nvim-ts-context-commentstring',
       requires = { 'nvim-treesitter/nvim-treesitter' },
       config = function()
-        require('aceforeverd.plugins.commentstring')
+        require('aceforeverd.plugins.treesitter').comment_string()
       end,
     })
 
@@ -555,16 +517,16 @@ return packer.startup({
       'ruifm/gitlinker.nvim',
       requires = 'nvim-lua/plenary.nvim',
       config = function()
-        require('gitlinker').setup()
+        require('gitlinker').setup({})
       end,
     })
 
-    use {
+    use({
       'anuvyklack/pretty-fold.nvim',
       config = function()
         require('aceforeverd.plugins.enhance').pretty_fold()
-      end
-    }
+      end,
+    })
 
     use({
       'feline-nvim/feline.nvim',
@@ -638,6 +600,7 @@ return packer.startup({
     use({
       'ibhagwan/fzf-lua',
       requires = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' },
+      cmd = { 'FzfLua' },
       config = function()
         require('fzf-lua').setup({ winopts = { width = 0.9 } })
       end,
@@ -705,6 +668,7 @@ return packer.startup({
       requires = {
         'nvim-treesitter/nvim-treesitter',
       },
+      keys = { '<leader>cc', '<leader>cm' },
       config = function()
         require('nvim-comment-frame').setup({
           -- single line comment
@@ -719,6 +683,14 @@ return packer.startup({
       'wfxr/minimap.vim',
       cond = function()
         return vim.fn.executable('code-minimap') == 1
+      end,
+      cmd = { 'MinimapToggle' },
+    })
+
+    use({
+      'nvim-pack/nvim-spectre',
+      config = function()
+        require('aceforeverd.plugins.enhance').spectre()
       end,
     })
   end,

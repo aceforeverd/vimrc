@@ -113,10 +113,14 @@ if g:with_neosnippet == 1
    call aceforeverd#completion#neosnippet()
 endif
 
+Plug 'mg979/docgen.vim'
+
 Plug 'google/vim-maktaba'
-Plug 'google/vim-glaive'
 Plug 'google/vim-coverage'
 Plug 'google/vim-codefmt'
+Plug 'google/vimdoc'
+
+Plug 'google/vim-glaive'
 
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
 let g:doge_enable_mappings = 0
@@ -598,7 +602,7 @@ cnoremap   <C-X><C-A> <C-A>
 cnoremap <expr> <C-F> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"
 
 if executable('rg')
-    set grepprg=rg\ --vimgrep
+    set grepprg=rg\ --vimgrep\ --smart-case
 endif
 
 " editorconfig

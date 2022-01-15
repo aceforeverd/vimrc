@@ -56,4 +56,13 @@ function M.luasnip_setup()
   -- keymaps defined in nvim-cmp.lua
 end
 
+function M.ultisnip_setup_pre()
+  vim.g.UltiSnipsRemoveSelectModeMappings = 0
+  -- TODO:: condional map
+  vim.g.UltiSnipsExpandTrigger = '<M-l>'
+  vim.g.UltiSnipsListSnippets = '<c-tab>'
+  vim.g.UltiSnipsJumpForwardTrigger = '<c-j>'
+  vim.g.UltiSnipsJumpBackwardTrigger = '<c-k>'
+end
+
 return M

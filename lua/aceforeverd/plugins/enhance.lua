@@ -13,7 +13,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
--- enhance nvim behavior
+-- enhance nvim behaviors
 
 local M = {}
 
@@ -34,6 +34,37 @@ end
 function M.registers_pre()
   -- disable visual mode cause it won't work in quickfix or floaterm
   vim.g.registers_visual_mode = 0
+end
+
+function M.spectre()
+  require('spectre').setup()
+
+  vim.cmd[[
+    command! Spectre lua require('spectre').open()
+    command! SpectreCFile lua require('spectre').open_file_search()
+  ]]
+end
+
+function M.hlslens()
+  vim.api.nvim_set_keymap('n', '*', "*<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
+  vim.api.nvim_set_keymap('n', '#', "#<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
+  vim.api.nvim_set_keymap('n', 'g*', "g*<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
+  vim.api.nvim_set_keymap('n', 'g#', "g#<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
+
+  if vim.fn.has('nvim-0.6.0') == 0 then
+    -- nvim 0.6.0's <c-l> set nohlsearch by default
+    vim.api.nvim_set_keymap('n', '<leader>l', '<Cmd>noh<CR>', { silent = true, noremap = true })
+  end
+
+  require('hlslens').setup({ calm_down = false })
+end
+
+function M.light_bulb()
+  vim.cmd([[
+  augroup gp_light_bulb
+    autocmd!
+    autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
+  augroup END]])
 end
 
 return M

@@ -238,4 +238,17 @@ function M.iswap()
   })
 end
 
+function M.comment_string()
+  require('nvim-treesitter.configs').setup({
+    context_commentstring = { enable = true, enable_autocmd = false },
+  })
+
+  vim.api.nvim_set_keymap(
+    'n',
+    '<leader>ct',
+    "require('ts_context_commentstring.internal').update_commentstring()<cr>",
+    { silent = true, noremap = true }
+  )
+end
+
 return M

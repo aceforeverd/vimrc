@@ -20,6 +20,9 @@ function M.setup()
     return
   end
 
+  M.cmp_dict()
+  M.cmp_git()
+
   local has_words_before = function()
     if vim.api.nvim_buf_get_option(0, 'buftype') == 'prompt' then
       return false
