@@ -60,7 +60,7 @@ return packer.startup({
         'gfanto/fzf-lsp.nvim',
       },
       config = function()
-        require('aceforeverd.plugins.lsp')
+        require('aceforeverd.plugins.lsp').setup()
       end,
     })
 
@@ -70,6 +70,7 @@ return packer.startup({
         'neovim/nvim-lspconfig',
         'folke/lua-dev.nvim',
         'b0o/schemastore.nvim',
+        'nanotee/sqls.nvim',
       },
       config = function()
         require('aceforeverd.plugins.lsp-installer').setup()
@@ -147,8 +148,6 @@ return packer.startup({
     })
 
     use({ 'weilbith/nvim-code-action-menu', cmd = { 'CodeActionMenu' } })
-
-    use({ 'nanotee/sqls.nvim', requires = { 'neovim/nvim-lspconfig' } })
 
     use({
       'simrat39/rust-tools.nvim',

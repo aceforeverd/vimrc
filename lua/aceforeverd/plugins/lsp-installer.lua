@@ -20,6 +20,9 @@
 
 local M = {}
 
+-- TODO: if a lsp server is not available (command not found), install and setup via lsp-installer
+M.general_lsp_config = require('aceforeverd.config.lsp-basic').general_cfg
+
 function M.setup()
   if vim.g.my_cmp_source ~= 'nvim_lsp' then
     return
@@ -30,12 +33,18 @@ function M.setup()
     return
   end
 
-  -- TODO: if a lsp server is not available (command not found), install and setup via lsp-installer
-  local lsp_basic = require('aceforeverd.config.lsp-basic')
-
-  local general_lsp_config = lsp_basic.general_cfg
+  local general_lsp_config = M.general_lsp_config
 
   local setup_generalized_with_cfg_override = function(cfg_override)
+    if cfg_override.on_attach ~= nil and type(cfg_override.on_attach) == 'function' then
+      -- extend the function
+      local extra_on_attach = cfg_override.on_attach
+      cfg_override.on_attach = function(client, bufnr)
+        general_lsp_config.on_attach(client, bufnr)
+        extra_on_attach(client, bufnr)
+      end
+    end
+
     return function(server)
       server:setup(vim.tbl_deep_extend('force', general_lsp_config, cfg_override))
     end
@@ -106,6 +115,11 @@ function M.setup()
     dockerls = setup_generalized,
     tailwindcss = setup_generalized,
     tsserver = setup_generalized,
+    sqls = setup_generalized_with_cfg_override({
+      on_attach = function(client, bufnr)
+        require('sqls').on_attach(client, bufnr)
+      end,
+    }),
   }
 
   -- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')

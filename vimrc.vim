@@ -754,7 +754,8 @@ nmap <silent> <Leader>tr <Plug>TranslateW
 vmap <silent> <Leader>tr <Plug>TranslateWV
 
 " vim-cmake
-let g:cmake_generate_options = ['-DCMAKE_EXPORT_COMPILE_COMMANDS=ON', '-DCMAKE_CXX_STANDARD=11', '-G Ninja' ]
+let g:cmake_generate_options = [ '-G Ninja' ]
+let g:cmake_link_compile_commands = 1
 
 " vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
