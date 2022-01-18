@@ -742,10 +742,7 @@ let g:go_doc_popup_window = 1
 let g:go_term_enabled = 1
 let g:go_def_mapping_enabled = 0
 let g:go_doc_keywordprg_enabled = 0
-augroup gp_vim_go
-    autocmd!
-    autocmd FileType go nnoremap <c-]> :GoDef<CR>
-augroup END
+let g:go_gopls_enabled = 0
 
 " vim-translator
 let g:translator_default_engines = ['google']
