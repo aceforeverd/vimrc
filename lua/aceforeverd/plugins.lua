@@ -307,6 +307,7 @@ return packer.startup({
         'nvim-telescope/telescope-packer.nvim',
         'nvim-telescope/telescope-project.nvim',
         'nvim-telescope/telescope-file-browser.nvim',
+        'nvim-telescope/telescope-github.nvim',
         'cljoly/telescope-repo.nvim',
         'fhill2/telescope-ultisnips.nvim',
         'jvgrootveld/telescope-zoxide',
@@ -510,8 +511,7 @@ return packer.startup({
     use({
       'nvim-orgmode/orgmode',
       requires = { 'nvim-orgmode/orgmode' },
-      -- ft = { 'org' },
-      opt = true,
+      ft = { 'org' },
       config = function()
         require('aceforeverd.plugins.orgmode').setup()
       end,
@@ -707,6 +707,7 @@ return packer.startup({
       config = function()
         require('aceforeverd.plugins.enhance').spectre()
       end,
+      cmd = { 'Spectre', 'SpectreCFile' },
     })
   end,
 })

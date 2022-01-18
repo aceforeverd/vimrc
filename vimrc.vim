@@ -139,7 +139,10 @@ let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
 
 " polyglot
-let g:polyglot_disabled = ['sensible', 'go', 'autoindent']
+let g:polyglot_disabled = ['sensible', 'autoindent']
+" if !has('nvim')
+"     call add(g:polyglot_disabled, 'go')
+" endif
 let g:vim_json_syntax_conceal = 1
 
 if dein#load_state(s:dein_repo)
@@ -171,6 +174,7 @@ if dein#load_state(s:dein_repo)
         call dein#add('Shougo/neoinclude.vim')
         call dein#add('Shougo/denite.nvim')
         call dein#add('Shougo/neoyank.vim')
+        call dein#add('eagletmt/neco-ghc')
     endif
 
     if g:my_cmp_source !=? 'nvim_lsp'
@@ -218,7 +222,9 @@ if dein#load_state(s:dein_repo)
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
     call dein#add('vifm/vifm.vim')
-    call dein#add('sainnhe/sonokai', {'merged': 0, 'hook_source': 'colorscheme sonokai'})
+    call dein#add('sainnhe/sonokai', {
+                \ 'merged': 0,
+                \ 'hook_post_source': 'colorscheme sonokai'})
     call dein#add('rafi/awesome-vim-colorschemes', {'merged': 0})
     call dein#add('justinmk/vim-gtfo')
     if has('nvim')
@@ -280,7 +286,8 @@ if dein#load_state(s:dein_repo)
     call dein#add('machakann/vim-sandwich')
 
     " Go
-    call dein#add('fatih/vim-go', {'on_if': '!has("nvim")'})
+    call dein#add('fatih/vim-go', {'on_if': '!has("nvim")',
+                \ 'hook_source': 'call aceforeverd#settings#vim_go()'})
     " c/c++/objc
     call dein#add('puremourning/vimspector', {'on_if': 'has("python3")'})
     " Typescript
@@ -288,7 +295,6 @@ if dein#load_state(s:dein_repo)
 
     " Haskell
     call dein#add('neovimhaskell/haskell-vim')
-    call dein#add('eagletmt/neco-ghc')
     " vimL
     call dein#add('mhinz/vim-lookup')
 
@@ -651,14 +657,6 @@ set mousemodel=popup_setpos
 " only apply to vim
 set shortmess-=S
 
-
-" Enable omni completion.
-augroup omni_complete
-    autocmd!
-    " neco-ghc
-    autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-augroup END
-
 " vim-sneak
 let g:sneak#label = 1
 map <Leader>s <Plug>Sneak_s
@@ -735,15 +733,6 @@ if !executable('ctags')
     let g:loaded_gentags#ctags = 1
 endif
 
-" vim-go
-let g:go_fmt_autosave = 0
-let g:go_mod_fmt_autosave = 0
-let g:go_doc_popup_window = 1
-let g:go_term_enabled = 1
-let g:go_def_mapping_enabled = 0
-let g:go_doc_keywordprg_enabled = 0
-let g:go_gopls_enabled = 0
-
 " vim-translator
 let g:translator_default_engines = ['google']
 let g:translator_history_enable = 1
@@ -789,9 +778,9 @@ if g:my_cmp_source !=? 'nvim_lsp'
    call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
 endif
 
-" there is autocmd for ColorScheme in lua & init_cmp_source
-"  hook for sonokai
+" there is autocmd for ColorScheme in lua & init_cmp_source hook for sonokai
 call dein#call_hook('source')
+call dein#call_hook('post_source')
 
 let s:after_vimrc = s:home . '/after.vim'
 if filereadable(s:after_vimrc)

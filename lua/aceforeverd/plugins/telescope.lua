@@ -39,7 +39,6 @@ function M.setup()
         case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
         -- the default case_mode is "smart_case"
       },
-      project = { base_dirs = { '~/Git' } },
     },
   })
 
@@ -54,6 +53,7 @@ function M.setup()
 
   set_map('n', '<Leader>fl', '<Cmd>Telescope<CR>', map_opts)
   set_map('n', '<Leader>fe', '<Cmd>Telescope grep_string<CR>', map_opts)
+
   set_map('n', '<Leader>fgf', '<Cmd>Telescope git_files<CR>', map_opts)
   set_map('n', '<Leader>fgs', '<Cmd>Telescope git_status<CR>', map_opts)
   set_map('n', '<Leader>fgb', '<Cmd>Telescope git_branches<CR>', map_opts)
@@ -88,12 +88,6 @@ function M.setup()
   set_map(
     'n',
     '<Leader>fj',
-    "<Cmd>lua require'telescope'.extensions.project.project{}<CR>",
-    { noremap = true, silent = true }
-  )
-  set_map(
-    'n',
-    '<Leader>fs',
     "<Cmd>lua require'telescope'.extensions.projects.projects{}<CR>",
     { noremap = true, silent = true }
   )
@@ -104,6 +98,31 @@ function M.setup()
     'n',
     '<Leader>fu',
     "<cmd>lua require'telescope'.extensions.ultisnips.ultisnips{}<cr>",
+    { noremap = true, silent = true }
+  )
+
+  set_map(
+    'n',
+    '<Leader>fI',
+    "<cmd>lua require'telescope'.extensions.gh.issues()<cr>",
+    { noremap = true, silent = true }
+  )
+  set_map(
+    'n',
+    '<Leader>fP',
+    "<cmd>lua require'telescope'.extensions.gh.pull_request()<cr>",
+    { noremap = true, silent = true }
+  )
+  set_map(
+    'n',
+    '<Leader>fR',
+    "<cmd>lua require'telescope'.extensions.gh.run()<cr>",
+    { noremap = true, silent = true }
+  )
+  set_map(
+    'n',
+    '<Leader>fG',
+    "<cmd>lua require'telescope'.extensions.gh.gist()<cr>",
     { noremap = true, silent = true }
   )
 

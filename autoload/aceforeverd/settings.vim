@@ -208,3 +208,13 @@ function! aceforeverd#settings#open_with_browser(type) abort
 
     execute '!open ' . s:file_path
 endfunction
+
+function! aceforeverd#settings#vim_go() abort
+    let g:go_fmt_autosave = 0
+    let g:go_mod_fmt_autosave = 0
+    let g:go_doc_popup_window = 1
+    let g:go_term_enabled = 1
+    let g:go_def_mapping_enabled = 0
+    let g:go_doc_keywordprg_enabled = 0
+    let g:go_gopls_enabled = 0
+endfunction

@@ -95,6 +95,7 @@ function M.setup()
     { name = 'cmp_git' },
     { name = 'treesitter' },
     { name = 'spell' },
+    { name = 'orgmode' },
     {
       name = 'buffer',
       option = {
@@ -172,6 +173,7 @@ function M.setup()
           rg = '[Rg]',
           spell = '[Spell]',
           cmp_git = '[Git]',
+          orgmode = '[ORG]'
         },
       }),
     },
