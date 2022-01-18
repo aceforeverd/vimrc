@@ -47,6 +47,10 @@ function M.on_attach(client, bufnr)
   buf_set_keymap('n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', default_map_opts)
   buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', default_map_opts)
   buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', default_map_opts)
+
+  buf_set_keymap('n', '<Leader>ci', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', default_map_opts)
+  buf_set_keymap('n', '<Leader>co', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', default_map_opts)
+
   buf_set_keymap('n', '<c-k>', '<cmd>lua vim.diagnostic.goto_prev()<CR>', default_map_opts)
   buf_set_keymap('n', '<c-j>', '<cmd>lua vim.diagnostic.goto_next()<CR>', default_map_opts)
 
@@ -58,6 +62,7 @@ function M.on_attach(client, bufnr)
 
   buf_set_keymap('n', '<space>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', default_map_opts)
   buf_set_keymap('v', '<cr>', ':lua vim.lsp.buf.range_formatting()<cr>', { noremap = true })
+
   vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
 
   require('illuminate').on_attach(client)

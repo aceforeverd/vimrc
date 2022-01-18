@@ -60,7 +60,7 @@ return packer.startup({
         'gfanto/fzf-lsp.nvim',
       },
       config = function()
-        require('aceforeverd.plugins.lsp').setup()
+        require('aceforeverd.lsp').setup()
       end,
     })
 
@@ -73,7 +73,7 @@ return packer.startup({
         'nanotee/sqls.nvim',
       },
       config = function()
-        require('aceforeverd.plugins.lsp-installer').setup()
+        require('aceforeverd.lsp.installer').setup()
       end,
     })
 
@@ -121,7 +121,14 @@ return packer.startup({
 
     use({
       'hrsh7th/vim-vsnip',
-      requires = { 'hrsh7th/vim-vsnip-integ' },
+      requires = {
+        {
+          'hrsh7th/vim-vsnip-integ',
+          cond = function()
+            return vim.g.with_vsnip == 1
+          end,
+        },
+      },
       cond = function()
         return vim.g.with_vsnip == 1
       end,
@@ -173,6 +180,15 @@ return packer.startup({
       ft = { 'scala', 'sbt' },
       config = function()
         require('aceforeverd.plugins.metals').setup()
+      end,
+    })
+
+    use({
+      'ray-x/go.nvim',
+      requires = { 'neovim/nvim-lspconfig' },
+      ft = { 'go', 'gomod', 'gohtmltmpl', 'gotexttmpl' },
+      config = function()
+        require('aceforeverd.lsp').go()
       end,
     })
 
@@ -400,7 +416,7 @@ return packer.startup({
       'pwntester/octo.nvim',
       requires = { 'nvim-telescope/telescope.nvim', 'kyazdani42/nvim-web-devicons' },
       config = function()
-        require('octo').setup()
+        require('aceforeverd.plugins.octo').setup()
       end,
       cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' },
     })

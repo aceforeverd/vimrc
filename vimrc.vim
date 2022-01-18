@@ -280,7 +280,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('machakann/vim-sandwich')
 
     " Go
-    call dein#add('fatih/vim-go')
+    call dein#add('fatih/vim-go', {'on_if': '!has("nvim")'})
     " c/c++/objc
     call dein#add('puremourning/vimspector', {'on_if': 'has("python3")'})
     " Typescript

@@ -1,4 +1,4 @@
--- Copyright (C) 2021  Ace <teapot@aceforeverd.com>
+-- Copyright (C) 2022  Ace <teapot@aceforeverd.com>
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -16,24 +16,9 @@
 local M = {}
 
 function M.setup()
-  local null_ls = require('null-ls')
-
-  local sources = {
-    -- null_ls.builtins.formatting.prettier,
-    null_ls.builtins.formatting.eslint,
-    null_ls.builtins.formatting.shfmt,
-    null_ls.builtins.formatting.shellharden,
-    null_ls.builtins.formatting.stylua,
-
-    -- null_ls.builtins.diagnostics.shellcheck,
-    null_ls.builtins.diagnostics.hadolint,
-  }
-
-  null_ls.setup({
-    sources = sources,
-    diagnostics_format = '#{s}: #{m} (#{c})',
-    on_attach = require('aceforeverd.lsp.common').on_attach,
-    handlers = require('aceforeverd.lsp.common').handlers,
+  require('octo').setup({
+    user_icon = '👴',
+    timeline_marker = '📣',
   })
 end
 

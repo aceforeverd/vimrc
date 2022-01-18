@@ -54,8 +54,8 @@ function M.setup()
       allow_incremental_sync = true,
     };
     -- TODO: add more mappings from nvim-jdtls
-    on_attach = require('aceforeverd.config.lsp-basic').on_attach,
-    capabilities = require('aceforeverd.config.lsp-basic').capabilities,
+    on_attach = require('aceforeverd.lsp.common').on_attach,
+    capabilities = require('aceforeverd.lsp.common').capabilities,
 
     root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew', 'pom.xml' }),
   }

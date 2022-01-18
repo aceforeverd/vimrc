@@ -21,7 +21,7 @@
 local M = {}
 
 -- TODO: if a lsp server is not available (command not found), install and setup via lsp-installer
-M.general_lsp_config = require('aceforeverd.config.lsp-basic').general_cfg
+M.general_lsp_config = require('aceforeverd.lsp.common').general_cfg
 
 function M.setup()
   if vim.g.my_cmp_source ~= 'nvim_lsp' then
@@ -57,7 +57,7 @@ function M.setup()
 
   local setup_sumeko_lua = function(server)
     local luadev = require('lua-dev').setup({
-      runtime_path = true, -- it will be slow
+      runtime_path = false, -- true -> it will be slow
       -- add any options here, or leave empty to use the default settings
       lspconfig = general_lsp_config,
     })
@@ -79,7 +79,7 @@ function M.setup()
 
   local setup_lsp_configs = {
     sumneko_lua = setup_sumeko_lua,
-    diagnosticls = setup_generalized_with_cfg_override(require('aceforeverd.plugins.lsp.diagnosticls').get_config()),
+    diagnosticls = setup_generalized_with_cfg_override(require('aceforeverd.lsp.diagnosticls').get_config()),
     yamlls = setup_generalized_with_cfg_override({
       settings = {
         yaml = {

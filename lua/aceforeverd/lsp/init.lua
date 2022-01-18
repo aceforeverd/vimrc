@@ -27,7 +27,7 @@ function M.setup()
   vim.o.pumblend = 20
 
   local lspconfig = require('lspconfig')
-  local lsp_basic = require('aceforeverd.config.lsp-basic')
+  local lsp_basic = require('aceforeverd.lsp.common')
 
   local lsp_status = require('lsp-status')
   local lsp_status_diagnostic_enable = vim.g.my_statusline == 'lightline'
@@ -105,10 +105,22 @@ function M.setup()
     },
   })
 
-  -- go install golang.org/x/tools/gopls@latest or :GoInstallBinaries
-  lspconfig.gopls.setup(default_lsp_cfg)
-
+  -- cargo install --locked taplo-lsp
   lspconfig.taplo.setup(default_lsp_cfg)
+end
+
+function M.go()
+  -- :GoInstallBinaries
+  require('go').setup({
+    lsp_cfg = false,
+  })
+
+  local opts = vim.tbl_deep_extend(
+    'force',
+    require('go.lsp').config(),
+    require('aceforeverd.lsp.common').general_cfg
+  )
+  require('lspconfig').gopls.setup(opts)
 end
 
 return M

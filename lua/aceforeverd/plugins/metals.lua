@@ -19,8 +19,8 @@ function M.setup()
     local metals = require('metals')
     local metals_config = metals.bare_config()
     metals_config.init_options.statusBarProvider = "on"
-    metals_config.on_attch = require('aceforeverd.config.lsp-basic').on_attach
-    metals_config.capabilities = require('aceforeverd.config.lsp-basic').capabilities
+    metals_config.on_attch = require('aceforeverd.lsp.common').on_attach
+    metals_config.capabilities = require('aceforeverd.lsp.common').capabilities
 
     metals.initialize_or_attach(metals_config)
 end

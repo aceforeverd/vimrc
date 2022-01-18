@@ -32,8 +32,8 @@ function M.setup()
   require('rust-tools').setup({
     server = {
       cmd = { server.root_dir .. '/rust-analyzer' },
-      on_attach = require('aceforeverd.config.lsp-basic').on_attach,
-      capabilities = require('aceforeverd.config.lsp-basic').capabilities,
+      on_attach = require('aceforeverd.lsp.common').on_attach,
+      capabilities = require('aceforeverd.lsp.common').capabilities,
     }
   })
 end
