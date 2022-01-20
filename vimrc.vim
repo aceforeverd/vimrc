@@ -595,6 +595,11 @@ nnoremap <Space>c :Commands<CR>
 nnoremap <Space>f :Files<CR>
 nnoremap <Space>r :Rg<CR>
 
+command! -bang -nargs=* GGrep
+            \ call fzf#vim#grep(
+            \   'git grep --line-number -- '.shellescape(<q-args>), 0,
+            \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+
 " from vim-rsi
 " <c-a> & <c-e> -> <HOME> & <END>, <c-b> & <c-f> -> forward & backward
 inoremap        <C-A> <C-O>^
