@@ -14,20 +14,36 @@
 " along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 function! plugin_browse#try_open() abort
-    let l:uri = plugin_browse#get_uri()
-    call plugin_browse#open(l:uri)
+    let l:uri_list = plugin_browse#get_uri()
+    if empty(l:uri_list)
+        echomsg 'no plugin uri found in current line ' . line('.') . ' open as url'
+        return
+    endif
+
+    call plugin_browse#open(l:uri_list)
 endfunction
 
 function! plugin_browse#get_uri() abort
-    " match uri inside quotes with pattern {owner}/{repo}
-    return matchstr(getline('.'), '[''"]\zs[^''"/ ]\+\/[^''"/ ]\+\ze[''"]')
+    " match uri inside quotes with pattern {owner}/{repo}, support multiple matches in the given string
+    let l:matched_list = []
+    call substitute(getline('.'), '[''"]\zs[^''"/ ]\+\/[^''"/ ]\+\ze[''"]', '\=add(l:matched_list, submatch(0))', 'g')
+    return l:matched_list
 endfunction
 
-function! plugin_browse#open(uri) abort
-    if empty(a:uri)
-        echomsg 'no plugin uri found in line ' . line('.') . ' open as url'
+" TODO: a option to open all plugins once
+function! plugin_browse#open(uris) abort
+    if type(a:uris) != v:t_string && type(a:uris) != v:t_list
+        echomsg 'invalid parameter type'
+        return
+    endif
+
+    if type(a:uris) == v:t_string
+        execute '!open https://github.com/' . a:uris
+    elseif len(a:uris) == 1
+        call plugin_browse#open(a:uris[0])
     else
-        execute '!open https://github.com/' . a:uri
+        " TODO: selct which one to open
+        echomsg a:uris
     endif
 endfunction
 
