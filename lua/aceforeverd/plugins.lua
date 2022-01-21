@@ -214,18 +214,6 @@ return packer.startup({
     })
 
     use({
-      -- requires cargo
-      'liuchengxu/vim-clap',
-      run = ':Clap install-binary',
-      setup = function()
-        require('aceforeverd.plugins.clap').before_load()
-      end,
-      config = function()
-        require('aceforeverd.plugins.clap').setup()
-      end,
-    })
-
-    use({
       'norcalli/nvim-colorizer.lua',
       cond = function()
         return vim.g.my_cmp_source == 'nvim_lsp'

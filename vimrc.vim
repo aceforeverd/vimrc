@@ -122,6 +122,9 @@ Plug 'google/vimdoc'
 
 Plug 'google/vim-glaive'
 
+Plug 'liuchengxu/vim-clap', {'do': 'make'}
+call aceforeverd#settings#clap()
+
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
 let g:doge_enable_mappings = 0
 
@@ -544,6 +547,7 @@ function! s:delete_path(key, value) abort
     echomsg 'DeinClean: deleted ' . a:value
     return a:value
 endfunction
+command! DeinInstall exe 'call dein#install()'
 command! DeinUpdate exe 'call dein#update()'
 command! DeinClean exe 'echo map(dein#check_clean(), function("<SID>delete_path"))'
 command! DeinRecache exe 'call dein#recache_runtimepath() | echo "Done"'
