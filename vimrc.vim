@@ -118,12 +118,14 @@ Plug 'mg979/docgen.vim'
 Plug 'google/vim-maktaba'
 Plug 'google/vim-coverage'
 Plug 'google/vim-codefmt'
-Plug 'google/vimdoc'
 
 Plug 'google/vim-glaive'
 
 call aceforeverd#settings#clap(s:common_path)
 Plug 'liuchengxu/vim-clap', {'do': 'make'}
+
+Plug 'pechorin/any-jump.vim'
+let g:any_jump_disable_default_keybindings = 1
 
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
 let g:doge_enable_mappings = 0
