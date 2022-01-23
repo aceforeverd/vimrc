@@ -219,9 +219,9 @@ function! aceforeverd#settings#vim_go() abort
     let g:go_gopls_enabled = 0
 endfunction
 
-function! aceforeverd#settings#clap() abort
+function! aceforeverd#settings#clap(root_path) abort
     let g:clap_enable_yanks_provider = 1
-    let g:clap_provider_yanks_history = stdpath('data') . '/clap_yanks_history'
+    let g:clap_provider_yanks_history = a:root_path . '/clap_yanks_history'
     nnoremap <leader>cl :Clap<CR>
     nnoremap <leader>cf :Clap files<CR>
     nnoremap <leader>cb :Clap buffers<cr>

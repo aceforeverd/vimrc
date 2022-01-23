@@ -379,7 +379,7 @@ function! aceforeverd#completion#init_source_coc() abort
 
     " coc-highlight
     nnoremap <Leader>cp :call CocAction('pickColor')<CR>
-    nnoremap <Leader>cf :call CocAction('colorPresentation')<CR>
+    nnoremap <Leader>cP :call CocAction('colorPresentation')<CR>
 
     " coc-snippets
     imap <expr> <C-l> coc#expandableOrJumpable() ? "<Plug>(coc-snippets-expand-jump)" : "\<C-l>"

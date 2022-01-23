@@ -83,7 +83,7 @@ jobs:
           npm install -g neovim yarn
 
       - name: test vim
-        timeout-minutes: 15
+        timeout-minutes: 30
         if: ${{ matrix.neovim == false }}
         run: |
             git clean -dfx
@@ -91,7 +91,7 @@ jobs:
             ./scripts/setup.sh -t vim
 
       - name: test neovim
-        timeout-minutes: 15
+        timeout-minutes: 30
         if: ${{ matrix.neovim == true }}
         run: |
             git clean -dfx
