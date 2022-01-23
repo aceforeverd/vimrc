@@ -538,7 +538,7 @@ return packer.startup({
       end,
       requires = { 'kyazdani42/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
       config = function()
-        require('aceforeverd.plugins.statusline.feline')
+        require('aceforeverd.statusline.feline')
       end,
     })
 
@@ -549,7 +549,7 @@ return packer.startup({
       end,
       requires = { 'kyazdani42/nvim-web-devicons' },
       config = function()
-        require('aceforeverd.plugins.statusline.lualine').setup()
+        require('aceforeverd.statusline.lualine').setup()
       end,
     })
 
@@ -559,7 +559,7 @@ return packer.startup({
         return vim.g.my_statusline == 'lightline'
       end,
       setup = function()
-        require('aceforeverd.plugins.statusline.lightline').setup()
+        require('aceforeverd.statusline.lightline').setup()
       end,
     })
 
@@ -570,7 +570,7 @@ return packer.startup({
       end,
       requires = { 'kyazdani42/nvim-web-devicons' },
       config = function()
-        require('aceforeverd.plugins.tabline.cokeline').setup()
+        require('aceforeverd.tabline.cokeline').setup()
       end,
     })
 
@@ -581,7 +581,7 @@ return packer.startup({
         return vim.g.my_tabline == 'bufferline'
       end,
       config = function()
-        require('aceforeverd.plugins.tabline.bufferline')
+        require('aceforeverd.tabline.bufferline')
       end,
     })
 
@@ -697,5 +697,7 @@ return packer.startup({
       end,
       cmd = { 'Spectre', 'SpectreCFile' },
     })
+
+    use { 'gennaro-tedesco/nvim-jqx' }
   end,
 })
