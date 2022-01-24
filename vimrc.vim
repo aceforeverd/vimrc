@@ -155,12 +155,16 @@ if dein#load_state(s:dein_repo)
 
     call dein#add(s:dein_path)
 
+    if !has('nvim')
+        " optional plugins for vim
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+        call dein#add('gelguy/wilder.nvim', {
+                    \ 'hook_post_source': 'call aceforeverd#completion#wider()'
+                    \ })
+    endif
+
     if g:my_cmp_source ==? 'deoplete'
-        if !has('nvim')
-            " optional plugins for vim
-            call dein#add('roxma/nvim-yarp')
-            call dein#add('roxma/vim-hug-neovim-rpc')
-        endif
         call dein#add('Shougo/deoplete.nvim')
         call dein#add('deoplete-plugins/deoplete-go', {
                     \ 'build': 'make',

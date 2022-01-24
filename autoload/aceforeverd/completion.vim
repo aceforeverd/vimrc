@@ -433,3 +433,7 @@ function! s:coc_hover() abort
         execute '!' . &keywordprg . ' ' . expand('<cword>')
     endif
 endfunction
+
+function! aceforeverd#completion#wider() abort
+    call wilder#setup({'modes': [':', '/', '?']})
+endfunction
