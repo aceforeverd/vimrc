@@ -15,11 +15,21 @@
 
 local M = {}
 
-function M.setup()
-    require('orgmode').setup({
-        org_agenda_files = {'~/Dropbox/org/*', '~/my-orgs/**/*'},
-        org_default_notes_file = '~/Dropbox/org/refile.org',
-    })
+function M.norg()
+  require('neorg').setup({
+    -- Tell Neorg what modules to load
+    load = {
+      ['core.defaults'] = {}, -- Load all the default modules
+      ['core.norg.concealer'] = {}, -- Allows for use of icons
+      ['core.norg.dirman'] = { -- Manage your directories with Neorg
+        config = {
+          workspaces = {
+            my_workspace = '~/Dropbox/org',
+          },
+        },
+      },
+    },
+  })
 end
 
 return M

@@ -497,11 +497,10 @@ return packer.startup({
     })
 
     use({
-      'nvim-orgmode/orgmode',
-      requires = { 'nvim-orgmode/orgmode' },
-      ft = { 'org' },
+      'nvim-neorg/neorg',
+      requires = { 'nvim-treesitter/nvim-treesitter', 'nvim-lua/plenary.nvim' },
       config = function()
-        require('aceforeverd.plugins.orgmode').setup()
+        require('aceforeverd.plugins.orgmode').norg()
       end,
     })
 
@@ -698,6 +697,6 @@ return packer.startup({
       cmd = { 'Spectre', 'SpectreCFile' },
     })
 
-    use { 'gennaro-tedesco/nvim-jqx' }
+    use({ 'gennaro-tedesco/nvim-jqx' })
   end,
 })

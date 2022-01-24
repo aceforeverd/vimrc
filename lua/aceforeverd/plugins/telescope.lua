@@ -80,8 +80,15 @@ function M.setup()
 
   set_map(
     'n',
-    '<Leader>fp',
+    '<Leader>fP',
     "<Cmd>lua require('telescope').extensions.packer.packer()<CR>",
+    { noremap = true, silent = true }
+  )
+
+  set_map(
+    'n',
+    '<Leader>fp',
+    "<Cmd>lua require'telescope'.extensions.project.project{}<CR>",
     { noremap = true, silent = true }
   )
 

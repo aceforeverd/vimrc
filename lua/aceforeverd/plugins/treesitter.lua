@@ -15,23 +15,12 @@
 local M = {}
 
 function M.setup()
-  local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-  parser_config.org = {
-    install_info = {
-      url = 'https://github.com/milisims/tree-sitter-org',
-      revision = 'main',
-      files = { 'src/parser.c', 'src/scanner.cc' },
-    },
-    filetype = 'org',
-  }
-
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'maintained', -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     ignore_install = {}, -- TSModuleInfo fail on fennel
     highlight = {
       enable = true,
       disable = { 'yaml', 'coc-explorer' },
-      additional_vim_regex_highlighting = { 'org' }, -- Required since TS highlighter doesn't support all syntax features (conceal)
     },
     indent = { enable = true, disable = { 'yaml' } },
     incremental_selection = {
