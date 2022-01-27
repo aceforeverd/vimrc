@@ -123,7 +123,7 @@ endfunction
 function! aceforeverd#settings#sonokai_pre() abort
     if has('nvim')
         let g:sonokai_enable_italic = 1
-        if has('nvim-0.6.0')
+        if has('nvim-0.7.0')
             let g:sonokai_style = 'espresso'
         else
             let g:sonokai_style = 'shusia'

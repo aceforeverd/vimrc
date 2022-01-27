@@ -58,6 +58,8 @@ function M.setup()
   set_map('n', '<Leader>fgs', '<Cmd>Telescope git_status<CR>', map_opts)
   set_map('n', '<Leader>fgb', '<Cmd>Telescope git_branches<CR>', map_opts)
 
+  set_map('n', '<Leader>fs', [[<cmd>lua require('telescope.builtin').spell_suggest()<CR>]], map_opts)
+
   set_map(
     'n',
     '<leader>fo',
@@ -80,7 +82,7 @@ function M.setup()
 
   set_map(
     'n',
-    '<Leader>fP',
+    '<Leader>fx',
     "<Cmd>lua require('telescope').extensions.packer.packer()<CR>",
     { noremap = true, silent = true }
   )
@@ -120,18 +122,8 @@ function M.setup()
     "<cmd>lua require'telescope'.extensions.gh.pull_request()<cr>",
     { noremap = true, silent = true }
   )
-  set_map(
-    'n',
-    '<Leader>fR',
-    "<cmd>lua require'telescope'.extensions.gh.run()<cr>",
-    { noremap = true, silent = true }
-  )
-  set_map(
-    'n',
-    '<Leader>fG',
-    "<cmd>lua require'telescope'.extensions.gh.gist()<cr>",
-    { noremap = true, silent = true }
-  )
+  set_map('n', '<Leader>fR', "<cmd>lua require'telescope'.extensions.gh.run()<cr>", { noremap = true, silent = true })
+  set_map('n', '<Leader>fG', "<cmd>lua require'telescope'.extensions.gh.gist()<cr>", { noremap = true, silent = true })
 
   set_map('n', '<Leader>fz', '<cmd>lua require"telescope".extensions.zoxide.list{}<cr>', map_opts)
   set_map('n', '<Leader>ft', [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]], map_opts)

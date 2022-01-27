@@ -115,11 +115,7 @@ function M.go()
     lsp_cfg = false,
   })
 
-  local opts = vim.tbl_deep_extend(
-    'force',
-    require('go.lsp').config(),
-    require('aceforeverd.lsp.common').general_cfg
-  )
+  local opts = vim.tbl_deep_extend('force', require('go.lsp').config(), require('aceforeverd.lsp.common').general_cfg)
   require('lspconfig').gopls.setup(opts)
 end
 

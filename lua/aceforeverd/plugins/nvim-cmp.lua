@@ -95,7 +95,6 @@ function M.setup()
     { name = 'cmp_git' },
     { name = 'treesitter' },
     { name = 'spell' },
-    { name = 'orgmode' },
     {
       name = 'buffer',
       option = {
@@ -173,7 +172,6 @@ function M.setup()
           rg = '[Rg]',
           spell = '[Spell]',
           cmp_git = '[Git]',
-          orgmode = '[ORG]'
         },
       }),
     },
@@ -188,12 +186,11 @@ function M.setup()
   autocmd FileType clap_input lua require('cmp').setup.buffer { enabled = false }
   augroup END
 ]])
-
 end
 
 function M.cmp_git()
   require('cmp_git').setup({
-     filetypes = { "gitcommit", 'markdown' },
+    filetypes = { 'gitcommit', 'markdown' },
   })
 end
 

@@ -216,6 +216,7 @@ if dein#load_state(s:dein_repo)
     " call dein#add('tpope/vim-projectionist')
     call dein#add('tpope/vim-sleuth')
     call dein#add('tpope/vim-apathy')
+    call dein#add('tpope/vim-characterize')
 
     call dein#add('lambdalisue/suda.vim')
 
@@ -269,7 +270,6 @@ if dein#load_state(s:dein_repo)
 
     " VCS
     call dein#add('tpope/vim-fugitive')
-    call dein#add('lambdalisue/gina.vim')
     call dein#add('junegunn/gv.vim')
     call dein#add('rhysd/committia.vim')
 
@@ -657,10 +657,8 @@ augroup gp_markdown
 augroup END
 
 " easy-align
-" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-" vmap <Enter> <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
+vmap <Leader>a <Plug>(EasyAlign)
+nmap <Leader>a <Plug>(EasyAlign)
 
 " basic completion settings
 set completeopt-=preview
@@ -706,9 +704,6 @@ vmap <Leader>os <Plug>(openbrowser-search)
 " ferret
 let g:FerretMap = 0
 
-" gina
-let g:gina#command#blame#formatter#format = '%su%=by %au on %ti, %ma/%in'
-
 let g:livepreview_engine = 'xelatex'
 
 let g:tex_flavor = 'latex'
@@ -716,8 +711,6 @@ let g:tex_flavor = 'latex'
 " vim-better-whitespace
 let g:better_whitespace_operator = ''
 let g:current_line_whitespace_disabled_soft = 1
-
-let g:nvimgdb_disable_start_keymaps = 1
 
 " neoformat
 let g:neoformat_enabled_lua = ['luaformat', 'stylua']

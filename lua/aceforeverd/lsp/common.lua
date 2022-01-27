@@ -88,14 +88,14 @@ M.capabilities = capabilities
 
 -- basic border, check :help nvim_open_win()
 local border = {
-  {"╭", 'FloatBorder' },
-  {"─", 'FloatBorder' },
-  {"╮",  'FloatBorder' },
-  {"│",  'FloatBorder' },
-  {"╯", 'FloatBorder' },
-  {"─", 'FloatBorder' },
-  {"╰", 'FloatBorder' },
-  {"│", 'FloatBorder' },
+  { '╭', 'FloatBorder' },
+  { '─', 'FloatBorder' },
+  { '╮', 'FloatBorder' },
+  { '│', 'FloatBorder' },
+  { '╯', 'FloatBorder' },
+  { '─', 'FloatBorder' },
+  { '╰', 'FloatBorder' },
+  { '│', 'FloatBorder' },
 }
 
 local severity_emoji_map = {

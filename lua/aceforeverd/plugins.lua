@@ -103,7 +103,10 @@ return packer.startup({
 
     use({
       'L3MON4D3/LuaSnip',
-      requires = { 'saadparwaiz1/cmp_luasnip' },
+      requires = {
+        'rafamadriz/friendly-snippets',
+        'saadparwaiz1/cmp_luasnip',
+      },
       config = function()
         require('aceforeverd.plugins.snip').luasnip_setup()
       end,
@@ -185,7 +188,10 @@ return packer.startup({
 
     use({
       'ray-x/go.nvim',
-      requires = { 'neovim/nvim-lspconfig' },
+      requires = {
+        'neovim/nvim-lspconfig',
+        { 'ray-x/guihua.lua', run = 'cd lua/fzy && make' },
+    },
       ft = { 'go', 'gomod', 'gohtmltmpl', 'gotexttmpl' },
       config = function()
         require('aceforeverd.lsp').go()
@@ -268,7 +274,12 @@ return packer.startup({
       end,
     })
 
-    use({ 'sakhnik/nvim-gdb' })
+    use({
+      'sakhnik/nvim-gdb',
+      setup = function()
+        vim.g.nvimgdb_disable_start_keymaps = 1
+      end,
+    })
 
     -- automatically create Lsp diagnostic highlight group is the colorshceme not defined it
     use({
@@ -357,8 +368,6 @@ return packer.startup({
         require('aceforeverd.plugins.enhance').hop()
       end,
     })
-
-    use({ 'rafamadriz/friendly-snippets' })
 
     use({ 'marko-cerovac/material.nvim' })
 
@@ -499,6 +508,9 @@ return packer.startup({
     use({
       'nvim-neorg/neorg',
       requires = { 'nvim-treesitter/nvim-treesitter', 'nvim-lua/plenary.nvim' },
+      setup = vim.cmd("autocmd BufRead,BufNewFile *.norg setlocal filetype=norg"),
+      after = {"nvim-treesitter"},  -- you may also specify telescope
+      ft = "norg",
       config = function()
         require('aceforeverd.plugins.orgmode').norg()
       end,
