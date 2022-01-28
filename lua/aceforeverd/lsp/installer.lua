@@ -120,6 +120,7 @@ function M.setup()
         require('sqls').on_attach(client, bufnr)
       end,
     }),
+    remark_ls = setup_generalized,
   }
 
   -- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')

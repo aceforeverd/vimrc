@@ -581,7 +581,7 @@ return packer.startup({
       end,
       requires = { 'kyazdani42/nvim-web-devicons' },
       config = function()
-        require('aceforeverd.tabline.cokeline').setup()
+        require('aceforeverd.tabline').cokeline()
       end,
     })
 
@@ -592,7 +592,7 @@ return packer.startup({
         return vim.g.my_tabline == 'bufferline'
       end,
       config = function()
-        require('aceforeverd.tabline.bufferline')
+        require('aceforeverd.tabline').bufferline()
       end,
     })
 
@@ -624,7 +624,7 @@ return packer.startup({
       'numToStr/Comment.nvim',
       requires = { 'JoosepAlviste/nvim-ts-context-commentstring' },
       config = function()
-        require('aceforeverd.plugins.comment')
+        require('aceforeverd.plugins.comment').setup()
       end,
     })
 
@@ -674,22 +674,6 @@ return packer.startup({
       opt = true,
       config = function()
         require('marks').setup({})
-      end,
-    })
-
-    use({
-      's1n7ax/nvim-comment-frame',
-      requires = {
-        'nvim-treesitter/nvim-treesitter',
-      },
-      keys = { '<leader>cc', '<leader>cm' },
-      config = function()
-        require('nvim-comment-frame').setup({
-          -- single line comment
-          keymap = '<leader>cc',
-          -- multiple line comment
-          multiline_keymap = '<leader>cm',
-        })
       end,
     })
 

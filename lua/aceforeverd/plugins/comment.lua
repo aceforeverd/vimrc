@@ -13,27 +13,33 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -- disable tcomment maps in case map conflict
-vim.g.tcomment_maps = 0
+local M = {}
 
-require('Comment').setup {
-  mappings = {
-    basic = true,
-    extra = true,
-    extended = true
-  },
-  pre_hook = function(ctx)
-    local U = require 'Comment.utils'
+function M.setup()
+  vim.g.tcomment_maps = 0
 
-    local location = nil
-    if ctx.ctype == U.ctype.block then
-      location = require('ts_context_commentstring.utils').get_cursor_location()
-    elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
-      location = require('ts_context_commentstring.utils').get_visual_start_location()
-    end
+  require('Comment').setup({
+    mappings = {
+      basic = true,
+      extra = true,
+      extended = true,
+    },
+    pre_hook = function(ctx)
+      local U = require('Comment.utils')
 
-    return require('ts_context_commentstring.internal').calculate_commentstring {
-      key = ctx.ctype == U.ctype.line and '__default' or '__multiline',
-      location = location
-    }
-  end
-}
+      local location = nil
+      if ctx.ctype == U.ctype.block then
+        location = require('ts_context_commentstring.utils').get_cursor_location()
+      elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+        location = require('ts_context_commentstring.utils').get_visual_start_location()
+      end
+
+      return require('ts_context_commentstring.internal').calculate_commentstring({
+        key = ctx.ctype == U.ctype.line and '__default' or '__multiline',
+        location = location,
+      })
+    end,
+  })
+end
+
+return M

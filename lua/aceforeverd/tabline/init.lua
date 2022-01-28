@@ -18,7 +18,39 @@ local M = {}
 local set_map = vim.api.nvim_set_keymap
 local map_opt = { noremap = false, silent = true }
 
-function M.setup()
+function M.bufferline()
+  require('bufferline').setup({
+    options = {
+      numbers = function(opts)
+        return string.format('%s|%s.)', opts.id, opts.raise(opts.ordinal))
+      end,
+      always_show_bufferline = true,
+      diagnostics = vim.g.my_cmp_source,
+      separator_style = 'slant',
+    },
+  })
+
+  set_map('n', '<M-.>', '<Cmd>BufferLineCycleNext<CR>', map_opt)
+  set_map('n', '<M-,>', '<Cmd>BufferLineCyclePrev<CR>', map_opt)
+  -- override unimpaired mappings
+  set_map('n', ']b', '<Cmd>BufferLineCycleNext<CR>', map_opt)
+  set_map('n', '[b', '<Cmd>BufferLineCyclePrev<CR>', map_opt)
+
+  set_map('n', '<M-<>', '<Cmd>BufferLineMovePrev<CR>', map_opt)
+  set_map('n', '<M->>', '<Cmd>BufferLineMoveNext<CR>', map_opt)
+
+  set_map('n', '<M-1>', '<Cmd>BufferLineGoToBuffer 1<CR>', map_opt)
+  set_map('n', '<M-2>', '<Cmd>BufferLineGoToBuffer 2<CR>', map_opt)
+  set_map('n', '<M-3>', '<Cmd>BufferLineGoToBuffer 3<CR>', map_opt)
+  set_map('n', '<M-4>', '<Cmd>BufferLineGoToBuffer 4<CR>', map_opt)
+  set_map('n', '<M-5>', '<Cmd>BufferLineGoToBuffer 5<CR>', map_opt)
+  set_map('n', '<M-6>', '<Cmd>BufferLineGoToBuffer 6<CR>', map_opt)
+  set_map('n', '<M-7>', '<Cmd>BufferLineGoToBuffer 7<CR>', map_opt)
+  set_map('n', '<M-7>', '<Cmd>BufferLineGoToBuffer 8<CR>', map_opt)
+  set_map('n', '<M-9>', '<Cmd>BufferLineGoToBuffer 9<CR>', map_opt)
+end
+
+function M.cokeline()
   require('cokeline').setup({})
 
   set_map('n', '<M-.>', '<Plug>(cokeline-focus-next)', map_opt)

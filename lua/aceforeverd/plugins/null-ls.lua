@@ -24,7 +24,9 @@ function M.setup()
     null_ls.builtins.formatting.shfmt,
     null_ls.builtins.formatting.shellharden,
     null_ls.builtins.formatting.stylua,
+    null_ls.builtins.formatting.protolint,
 
+    null_ls.builtins.diagnostics.protolint,
     -- null_ls.builtins.diagnostics.shellcheck,
     null_ls.builtins.diagnostics.hadolint,
   }

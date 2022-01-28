@@ -197,7 +197,7 @@ function M.setup()
   vim.cmd([[set foldexpr=nvim_treesitter#foldexpr()]])
 end
 
-local ctx_max_lines = function ()
+local ctx_max_lines = function()
   if vim.fn.has('nvim-0.7.0') == 0 then
     -- vim.o.scrolloff print big number in nvim 0.6.1
     return 2
@@ -212,7 +212,7 @@ end
 
 function M.ts_context()
   require('treesitter-context').setup({
-    max_lines = ctx_max_lines()
+    max_lines = ctx_max_lines(),
   })
 end
 
@@ -234,8 +234,8 @@ function M.comment_string()
 
   vim.api.nvim_set_keymap(
     'n',
-    '<leader>ct',
-    "require('ts_context_commentstring.internal').update_commentstring()<cr>",
+    '<leader>uc',
+    ":lua require('ts_context_commentstring.internal').update_commentstring()<CR>",
     { silent = true, noremap = true }
   )
 end
