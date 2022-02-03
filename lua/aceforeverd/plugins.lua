@@ -523,7 +523,7 @@ return packer.startup({
       end,
       requires = { 'nvim-lua/plenary.nvim' },
       config = function()
-        require('aceforeverd.plugins.gitsigns').setup()
+        require('aceforeverd.plugins.git').gitsigns()
       end,
     })
 
@@ -531,7 +531,7 @@ return packer.startup({
       'ruifm/gitlinker.nvim',
       requires = 'nvim-lua/plenary.nvim',
       config = function()
-        require('gitlinker').setup({})
+        require('aceforeverd.plugins.git').gitlinker()
       end,
     })
 

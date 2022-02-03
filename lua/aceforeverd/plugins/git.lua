@@ -14,7 +14,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 local M = {}
 
-function M.setup()
+function M.gitsigns()
   require('gitsigns').setup({
     signs = {
       delete = { show_count = true },
@@ -56,6 +56,32 @@ function M.setup()
     update_debounce = 100,
     status_formatter = nil,
   })
+end
+
+function M.gitlinker()
+  require('gitlinker').setup({})
+
+  local set_map = vim.api.nvim_set_keymap
+
+  set_map('n', '<leader>gY', [[<cmd>lua require('gitlinker').get_repo_url()<cr>]], { silent = true })
+  set_map(
+    'n',
+    '<leader>gb',
+    [[<cmd>lua require('gitlinker').get_buf_range_url("n", {action_callback = require"gitlinker.actions".open_in_browser})<cr>]],
+    { silent = true }
+  )
+  set_map(
+    'v',
+    '<leader>gb',
+    [[<cmd>lua require('gitlinker').get_buf_range_url("v", {action_callback = require"gitlinker.actions".open_in_browser})<cr>]],
+    {}
+  )
+  set_map(
+    'n',
+    '<leader>gB',
+    [[<cmd>lua require('gitlinker').get_repo_url({action_callback = require"gitlinker.actions".open_in_browser})<cr>]],
+    { silent = true }
+  )
 end
 
 return M
