@@ -109,6 +109,12 @@ function M.setup()
   lspconfig.taplo.setup(default_lsp_cfg)
 end
 
+function M.lspkind()
+  require('lspkind').init({
+    mode = 'symbol_text',
+  })
+end
+
 function M.go()
   -- :GoInstallBinaries
   require('go').setup({

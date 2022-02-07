@@ -153,7 +153,7 @@ function M.setup()
     sources = cmp.config.sources(sources_1),
     formatting = {
       format = lspkind.cmp_format({
-        with_text = true,
+        mode = 'symbol_text',
         maxwidth = 50,
         menu = {
           nvim_lsp = '[LSP]',

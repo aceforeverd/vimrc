@@ -78,6 +78,13 @@ return packer.startup({
     })
 
     use({
+      'onsails/lspkind-nvim',
+      config = function()
+        require('aceforeverd.lsp').lspkind()
+      end,
+    })
+
+    use({
       'hrsh7th/nvim-cmp',
       requires = {
         'hrsh7th/cmp-nvim-lsp',
@@ -141,13 +148,6 @@ return packer.startup({
     })
 
     use({
-      'onsails/lspkind-nvim',
-      config = function()
-        require('lspkind').init({ with_text = true })
-      end,
-    })
-
-    use({
       'kosayoda/nvim-lightbulb',
       config = function()
         require('aceforeverd.plugins.enhance').light_bulb()
@@ -191,7 +191,7 @@ return packer.startup({
       requires = {
         'neovim/nvim-lspconfig',
         { 'ray-x/guihua.lua', run = 'cd lua/fzy && make' },
-    },
+      },
       ft = { 'go', 'gomod', 'gohtmltmpl', 'gotexttmpl' },
       config = function()
         require('aceforeverd.lsp').go()
@@ -508,9 +508,9 @@ return packer.startup({
     use({
       'nvim-neorg/neorg',
       requires = { 'nvim-treesitter/nvim-treesitter', 'nvim-lua/plenary.nvim' },
-      setup = vim.cmd("autocmd BufRead,BufNewFile *.norg setlocal filetype=norg"),
-      after = {"nvim-treesitter"},  -- you may also specify telescope
-      ft = "norg",
+      setup = vim.cmd('autocmd BufRead,BufNewFile *.norg setlocal filetype=norg'),
+      after = { 'nvim-treesitter' }, -- you may also specify telescope
+      ft = 'norg',
       config = function()
         require('aceforeverd.plugins.orgmode').norg()
       end,
