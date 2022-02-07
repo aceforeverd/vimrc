@@ -242,6 +242,7 @@ return packer.startup({
         'RRethy/nvim-treesitter-textsubjects',
         'p00f/nvim-ts-rainbow',
         { 'nvim-treesitter/nvim-tree-docs', requires = { 'Olical/aniseed' } },
+        'RRethy/nvim-treesitter-endwise'
       },
       run = ':TSUpdate',
       config = function()

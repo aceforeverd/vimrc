@@ -15,6 +15,7 @@
 local M = {}
 
 function M.setup()
+  vim.g.loaded_endwise = 1
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'maintained', -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     ignore_install = {}, -- TSModuleInfo fail on fennel
@@ -191,6 +192,9 @@ function M.setup()
         [';'] = 'textsubjects-container-outer',
       },
     },
+    endwise = {
+      enable = true,
+    }
   })
 
   -- :set foldmethod=expr to enable fold with expr, default is manual
