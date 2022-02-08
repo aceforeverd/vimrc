@@ -256,6 +256,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('mg979/vim-visual-multi')
     call dein#add('tyru/open-browser.vim')
     call dein#add('wincent/ferret')
+    call dein#add('ojroques/vim-oscyank')
 
     call dein#add('alpertuna/vim-header')
     call dein#add('antoyo/vim-licenses')

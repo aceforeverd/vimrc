@@ -17,6 +17,8 @@
 
 local M = {}
 
+local lsp_basic = require('aceforeverd.lsp.common')
+
 function M.setup()
   if vim.g.my_cmp_source ~= 'nvim_lsp' then
     vim.g.loaded_cmp = true
@@ -27,27 +29,10 @@ function M.setup()
   vim.o.pumblend = 20
 
   local lspconfig = require('lspconfig')
-  local lsp_basic = require('aceforeverd.lsp.common')
 
-  local lsp_status = require('lsp-status')
-  local lsp_status_diagnostic_enable = vim.g.my_statusline == 'lightline'
-  lsp_status.config({
-    select_symbol = function(cursor_pos, symbol)
-      if symbol.valueRange then
-        local value_range = {
-          ['start'] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[1]) },
-          ['end'] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[2]) },
-        }
-
-        return require('lsp-status.util').in_range(cursor_pos, value_range)
-      end
-    end,
-    current_function = false,
-    show_filename = false,
-    status_symbol = '🐶',
-    diagnostics = lsp_status_diagnostic_enable,
-  })
-  lsp_status.register_progress()
+  if vim.g.lsp_process_provider == 'lsp_status' then
+    require('lsp-status').register_progress()
+  end
 
   local signs = {}
   local group = 'LspDiagnosticsSign'
@@ -73,6 +58,14 @@ function M.setup()
   -- ]]
 
   local default_lsp_cfg = lsp_basic.general_cfg
+
+  M.clangd()
+
+  -- cargo install --locked taplo-lsp
+  lspconfig.taplo.setup(default_lsp_cfg)
+end
+
+function M.clangd()
   local on_attach = lsp_basic.on_attach
   local capabilities = lsp_basic.capabilities
 
@@ -81,7 +74,7 @@ function M.setup()
     offsetEncoding = { 'utf-16' },
   })
 
-  lspconfig.clangd.setup({
+  local clangd_cfg = {
     on_attach = function(client, bufnr)
       on_attach(client, bufnr)
       vim.api.nvim_buf_set_keymap(
@@ -103,10 +96,36 @@ function M.setup()
       '--all-scopes-completion',
       '--suggest-missing-includes',
     },
-  })
+  }
 
-  -- cargo install --locked taplo-lsp
-  lspconfig.taplo.setup(default_lsp_cfg)
+  require('clangd_extensions').setup({
+    server = clangd_cfg,
+  })
+end
+
+function M.lsp_status()
+  local lsp_status = require('lsp-status')
+  local lsp_status_diagnostic_enable = vim.g.my_statusline == 'lightline'
+  lsp_status.config({
+    select_symbol = function(cursor_pos, symbol)
+      if symbol.valueRange then
+        local value_range = {
+          ['start'] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[1]) },
+          ['end'] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[2]) },
+        }
+
+        return require('lsp-status.util').in_range(cursor_pos, value_range)
+      end
+    end,
+    current_function = false,
+    show_filename = false,
+    status_symbol = '🐶',
+    diagnostics = lsp_status_diagnostic_enable,
+  })
+end
+
+function M.fidget()
+  require('fidget').setup({})
 end
 
 function M.lspkind()

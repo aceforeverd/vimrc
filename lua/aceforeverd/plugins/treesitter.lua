@@ -194,11 +194,18 @@ function M.setup()
     },
     endwise = {
       enable = true,
-    }
+    },
+    context_commentstring = { enable = true, enable_autocmd = false },
   })
 
   -- :set foldmethod=expr to enable fold with expr, default is manual
   vim.cmd([[set foldexpr=nvim_treesitter#foldexpr()]])
+  vim.api.nvim_set_keymap(
+    'n',
+    '<leader>uc',
+    ":lua require('ts_context_commentstring.internal').update_commentstring()<CR>",
+    { silent = true, noremap = true }
+  )
 end
 
 local ctx_max_lines = function()
@@ -229,19 +236,6 @@ function M.iswap()
   require('iswap').setup({
     autoswap = true, -- auto swap if there is only two params
   })
-end
-
-function M.comment_string()
-  require('nvim-treesitter.configs').setup({
-    context_commentstring = { enable = true, enable_autocmd = false },
-  })
-
-  vim.api.nvim_set_keymap(
-    'n',
-    '<leader>uc',
-    ":lua require('ts_context_commentstring.internal').update_commentstring()<CR>",
-    { silent = true, noremap = true }
-  )
 end
 
 return M

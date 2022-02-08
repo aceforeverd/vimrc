@@ -12,6 +12,13 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-- config variables
+
+if vim.g.lsp_process_provider == nil then
+  vim.g.lsp_process_provider = 'fidget'
+end
+
 require('aceforeverd.plugins')
 
 local set_map = vim.api.nvim_set_keymap
@@ -20,4 +27,3 @@ local set_map = vim.api.nvim_set_keymap
 set_map('x', ']"', '"', { noremap = true, silent = true })
 set_map('n', '{{', '{', { noremap = true, silent = true })
 set_map('n', '}}', '}', { noremap = true, silent = true })
-

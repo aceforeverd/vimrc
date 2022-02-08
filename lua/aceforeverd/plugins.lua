@@ -50,14 +50,20 @@ return packer.startup({
     use({ 'wbthomason/packer.nvim' })
 
     use({
+      'nvim-lua/lsp-status.nvim',
+      config = function()
+        require('aceforeverd.lsp').lsp_status()
+      end,
+    })
+
+    use({
       'neovim/nvim-lspconfig',
       requires = {
-        -- neovim builtin lsp status line component
-        'nvim-lua/lsp-status.nvim',
         -- LSP signature hint as you type
         'ray-x/lsp_signature.nvim',
         -- fzf handlers
         'gfanto/fzf-lsp.nvim',
+        'p00f/clangd_extensions.nvim',
       },
       config = function()
         require('aceforeverd.lsp').setup()
@@ -105,6 +111,16 @@ return packer.startup({
       },
       config = function()
         require('aceforeverd.plugins.nvim-cmp').setup()
+      end,
+    })
+
+    use({
+      'j-hui/fidget.nvim',
+      cond = function()
+        return vim.g.lsp_process_provider == 'fidget'
+      end,
+      config = function()
+        require('aceforeverd.lsp').fidget()
       end,
     })
 
@@ -242,7 +258,8 @@ return packer.startup({
         'RRethy/nvim-treesitter-textsubjects',
         'p00f/nvim-ts-rainbow',
         { 'nvim-treesitter/nvim-tree-docs', requires = { 'Olical/aniseed' } },
-        'RRethy/nvim-treesitter-endwise'
+        'RRethy/nvim-treesitter-endwise',
+        'JoosepAlviste/nvim-ts-context-commentstring',
       },
       run = ':TSUpdate',
       config = function()
@@ -467,14 +484,6 @@ return packer.startup({
       end,
       config = function()
         require('aceforeverd.plugins.enhance').hlslens()
-      end,
-    })
-
-    use({
-      'JoosepAlviste/nvim-ts-context-commentstring',
-      requires = { 'nvim-treesitter/nvim-treesitter' },
-      config = function()
-        require('aceforeverd.plugins.treesitter').comment_string()
       end,
     })
 
