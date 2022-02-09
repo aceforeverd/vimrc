@@ -16,13 +16,13 @@
 local M = {}
 
 function M.setup()
-    local metals = require('metals')
-    local metals_config = metals.bare_config()
-    metals_config.init_options.statusBarProvider = "on"
-    metals_config.on_attch = require('aceforeverd.lsp.common').on_attach
-    metals_config.capabilities = require('aceforeverd.lsp.common').capabilities
+  local metals = require('metals')
+  local metals_config = vim.deepcopy(metals.bare_config())
+  metals_config.init_options.statusBarProvider = 'on'
 
-    metals.initialize_or_attach(metals_config)
+  metals_config = vim.tbl_deep_extend('force', metals_config, require('aceforeverd.lsp.common').general_cfg)
+
+  metals.initialize_or_attach(metals_config)
 end
 
 return M

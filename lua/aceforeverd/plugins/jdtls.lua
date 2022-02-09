@@ -48,17 +48,15 @@ function M.setup()
   local data_path = vim.fn.stdpath('data')
 
   local workspace_dir = data_path .. '/jdtls-ws/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-  local config = {
+  local config = vim.tbl_deep_extend('force', {
     cmd = { config_path .. '/bin/java-lsp', dir, dir .. '/' .. cfg_file, workspace_dir },
     flags = {
       allow_incremental_sync = true,
-    };
+    },
     -- TODO: add more mappings from nvim-jdtls
-    on_attach = require('aceforeverd.lsp.common').on_attach,
-    capabilities = require('aceforeverd.lsp.common').capabilities,
 
     root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew', 'pom.xml' }),
-  }
+  }, require('aceforeverd.lsp.common').general_cfg)
 
   require('jdtls').start_or_attach(config)
 end

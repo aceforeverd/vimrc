@@ -63,6 +63,11 @@ function M.on_attach(client, bufnr)
   buf_set_keymap('n', '<space>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', default_map_opts)
   buf_set_keymap('v', '<cr>', ':lua vim.lsp.buf.range_formatting()<cr>', { noremap = true })
 
+  buf_set_keymap('n', '<leader>gr', '<cmd>Telescope lsp_references<cr>', default_map_opts)
+  buf_set_keymap('n', '<leader>gd', '<cmd>Telescope lsp_definitions<cr>', default_map_opts)
+  buf_set_keymap('n', '<leader>gi', '<cmd>Telescope lsp_implementations<cr>', default_map_opts)
+  buf_set_keymap('n', '<leader>cA', '<cmd>Telescope lsp_code_actions<cr>', default_map_opts)
+
   vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
 
   require('illuminate').on_attach(client)

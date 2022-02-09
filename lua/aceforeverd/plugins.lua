@@ -77,6 +77,7 @@ return packer.startup({
         'folke/lua-dev.nvim',
         'b0o/schemastore.nvim',
         'nanotee/sqls.nvim',
+        'simrat39/rust-tools.nvim',
       },
       config = function()
         require('aceforeverd.lsp.installer').setup()
@@ -102,9 +103,7 @@ return packer.startup({
         'uga-rosa/cmp-dictionary',
         'ray-x/cmp-treesitter',
         'andersevenrud/cmp-tmux',
-        'quangnguyen30192/cmp-nvim-ultisnips',
         'petertriho/cmp-git',
-        'hrsh7th/cmp-vsnip',
         'f3fora/cmp-spell',
 
         'onsails/lspkind-nvim',
@@ -137,8 +136,14 @@ return packer.startup({
 
     use({
       'SirVer/ultisnips',
+      requires = {
+        'quangnguyen30192/cmp-nvim-ultisnips',
+        cond = function()
+          return vim.g.with_ultisnips == 1
+        end,
+      },
       cond = function()
-        return vim.g.with_ultisnips == 1 and vim.fn.has('python3')
+        return vim.g.with_ultisnips == 1
       end,
       setup = function()
         require('aceforeverd.plugins.snip').ultisnip_setup_pre()
@@ -150,6 +155,12 @@ return packer.startup({
       requires = {
         {
           'hrsh7th/vim-vsnip-integ',
+          cond = function()
+            return vim.g.with_vsnip == 1
+          end,
+        },
+        {
+          'hrsh7th/cmp-vsnip',
           cond = function()
             return vim.g.with_vsnip == 1
           end,
@@ -174,15 +185,6 @@ return packer.startup({
     })
 
     use({ 'weilbith/nvim-code-action-menu', cmd = { 'CodeActionMenu' } })
-
-    use({
-      'simrat39/rust-tools.nvim',
-      requires = { 'williamboman/nvim-lsp-installer' },
-      event = { 'BufRead Cargo.toml', 'FileType rust' },
-      config = function()
-        require('aceforeverd.plugins.rust-tools').setup()
-      end,
-    })
 
     use({
       'mfussenegger/nvim-jdtls',

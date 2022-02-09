@@ -20,7 +20,22 @@
 
 local M = {}
 
--- TODO: if a lsp server is not available (command not found), install and setup via lsp-installer
+-- TODO: if a lsp server is not available (command not found), prompt install and setup via lsp-installer
+-- like this:
+--[[
+  local lsp_installer_servers = require('nvim-lsp-installer.servers')
+  local available, server = lsp_installer_servers.get_server('jdtls')
+
+  if not available then
+    vim.api.nvim_notify('jdtls not available from lsp-installer, install manually', 3, {})
+    return ''
+  end
+
+  if not server:is_installed() then
+    vim.api.nvim_notify('installing jdtls via lsp-installer', 2, {})
+    server:install()
+  end
+]]
 M.general_lsp_config = require('aceforeverd.lsp.common').general_cfg
 
 function M.setup()
@@ -121,6 +136,7 @@ function M.setup()
       end,
     }),
     remark_ls = setup_generalized,
+    rust_analyzer = M.setup_rust_analyzer,
   }
 
   -- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')
@@ -131,6 +147,18 @@ function M.setup()
       setup_func(server)
     end
   end)
+end
+
+function M.setup_rust_analyzer(server)
+  local rust_analyzer_opts = vim.tbl_deep_extend(
+    'force',
+    server:get_default_options(),
+    require('aceforeverd.lsp.common').general_cfg
+  )
+
+  require('rust-tools').setup({
+    server = rust_analyzer_opts,
+  })
 end
 
 return M
