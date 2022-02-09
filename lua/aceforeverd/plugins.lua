@@ -137,10 +137,12 @@ return packer.startup({
     use({
       'SirVer/ultisnips',
       requires = {
-        'quangnguyen30192/cmp-nvim-ultisnips',
-        cond = function()
-          return vim.g.with_ultisnips == 1
-        end,
+        {
+          'quangnguyen30192/cmp-nvim-ultisnips',
+          cond = function()
+            return vim.g.with_ultisnips == 1
+          end,
+        },
       },
       cond = function()
         return vim.g.with_ultisnips == 1
