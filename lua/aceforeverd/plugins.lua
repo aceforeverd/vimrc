@@ -37,7 +37,7 @@ local packer = require('packer')
 local util = require('packer.util')
 packer.init({
   package_root = util.join_paths(config_path, 'bundle/pack'),
-  compile_path = util.join_paths(config_path, 'plugin', 'packer_compiled.vim'),
+  compile_path = util.join_paths(config_path, 'plugin', 'packer_compiled.lua'),
   plugin_package = 'packer',
   max_jobs = 12,
   git = { clone_timeout = 30 },
