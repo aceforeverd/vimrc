@@ -317,11 +317,8 @@ if dein#load_state(s:dein_repo)
                 \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
                 \ 'build': 'cd app && yarn install' })
 
-    " R
     call dein#add('jalvesaq/Nvim-R')
-    " Rust
     call dein#add('rust-lang/rust.vim')
-    " Perl/Ruby
     call dein#add('vim-ruby/vim-ruby')
     " Tmux
     call dein#add('tmux-plugins/vim-tmux')

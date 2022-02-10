@@ -296,13 +296,6 @@ return packer.startup({
       end,
     })
 
-    use({
-      'sakhnik/nvim-gdb',
-      setup = function()
-        vim.g.nvimgdb_disable_start_keymaps = 1
-      end,
-    })
-
     -- automatically create Lsp diagnostic highlight group is the colorshceme not defined it
     use({
       'folke/lsp-colors.nvim',
@@ -324,6 +317,8 @@ return packer.startup({
       requires = {
         'nvim-lua/popup.nvim',
         'nvim-lua/plenary.nvim',
+        { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+
         'nvim-telescope/telescope-symbols.nvim',
         'nvim-telescope/telescope-packer.nvim',
         'nvim-telescope/telescope-project.nvim',
@@ -332,16 +327,8 @@ return packer.startup({
         'cljoly/telescope-repo.nvim',
         'fhill2/telescope-ultisnips.nvim',
         'jvgrootveld/telescope-zoxide',
-      },
-    })
 
-    use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
-
-    use({
-      'nvim-telescope/telescope-frecency.nvim',
-      requires = {
-        'nvim-telescope/telescope.nvim',
-        -- requires sqlite3 installed
+        'nvim-telescope/telescope-frecency.nvim',
         'tami5/sqlite.lua',
         'kyazdani42/nvim-web-devicons',
       },
@@ -357,9 +344,20 @@ return packer.startup({
       end,
     })
 
-    use({ 'jamestthompson3/nvim-remote-containers' })
-
-    use({ 'chipsenkbeil/distant.nvim', cmd = 'Distant*' })
+    use({
+      'chipsenkbeil/distant.nvim',
+      opt = true,
+      config = function()
+        require('distant').setup({
+          -- Applies Chip's personal settings to every machine you connect to
+          --
+          -- 1. Ensures that distant servers terminate with no connections
+          -- 2. Provides navigation bindings for remote directories
+          -- 3. Provides keybinding to jump into a remote file's parent directory
+          ['*'] = require('distant.settings').chip_default(),
+        })
+      end,
+    })
 
     use({
       'sudormrfbin/cheatsheet.nvim',
