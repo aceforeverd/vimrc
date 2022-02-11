@@ -156,6 +156,9 @@ function! aceforeverd#settings#hl_groups() abort
 
     " tree view
     highlight DirvishSuffix ctermfg=250 ctermbg=235 guifg=#e4e3e1 guibg=#312c2b
+
+    " gitsigns
+    highlight GitSignsCurrentLineBlame ctermfg=246 guifg=#b3b3b3
 endfunction
 
 function! aceforeverd#settings#basic_color() abort

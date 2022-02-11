@@ -52,6 +52,12 @@ function M.gitsigns()
     watch_gitdir = { interval = 1000 },
     attach_to_untracked = false,
     current_line_blame = true,
+    current_line_blame_opts = {
+      virt_text = true,
+      virt_text_pos = 'eol',
+      delay = 1000,
+      ignore_whitespace = false,
+    },
     sign_priority = 5,
     update_debounce = 100,
     status_formatter = nil,

@@ -251,7 +251,17 @@ return packer.startup({
 
     use({ 'nvim-lua/plenary.nvim' })
 
-    use({ 'pwntester/codeql.nvim' })
+    use({
+      'pwntester/codeql.nvim',
+      requires = {
+        'MunifTanjim/nui.nvim',
+        'nvim-lua/telescope.nvim',
+        'kyazdani42/nvim-web-devicons',
+      },
+      config = function()
+        require('codeql').setup({})
+      end,
+    })
 
     use({
       'nvim-treesitter/nvim-treesitter',
@@ -503,7 +513,13 @@ return packer.startup({
       cmd = { 'SnipRun', 'SnipClose', 'SnipInfo', 'SnipReset', 'SnipTerminate', 'SnipReplMemoryClean' },
     })
 
-    use({ 'rcarriga/nvim-notify', opt = true })
+    use({
+      'rcarriga/nvim-notify',
+      opt = true,
+      config = function()
+        require('notify').setup()
+      end,
+    })
 
     use({
       'lewis6991/spellsitter.nvim',

@@ -437,7 +437,6 @@ endif
 function! s:terminal_mapping() abort
     let g:floaterm_width = 0.9
     let g:floaterm_height = 0.9
-    let g:floaterm_keymap_new = '<Leader>fn'
     tnoremap <C-w>j <C-\><C-n><C-w>j
     tnoremap <C-w>k <C-\><C-n><C-w>k
     tnoremap <C-w>l <C-\><C-n><C-w>l

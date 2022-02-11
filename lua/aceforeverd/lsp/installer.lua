@@ -137,6 +137,7 @@ function M.setup()
     }),
     remark_ls = setup_generalized,
     rust_analyzer = M.setup_rust_analyzer,
+    codeqlls = setup_generalized,
   }
 
   -- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')
