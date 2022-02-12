@@ -30,21 +30,16 @@ function! aceforeverd#settings#my_init() abort
 
     let g:with_neosnippet = get(g:, 'with_neosnippet', 0)
     let g:with_ultisnips = get(g:, 'with_ultisnips', 1)
-    let g:with_vsnip = get(g:, 'with_vsnip', 1)
+    let g:with_vsnip = get(g:, 'with_vsnip', 0)
 
     let g:my_statusline = get(g:, 'my_statusline', 'feline')
     let g:my_tabline = get(g:, 'my_tabline', 'bufferline')
 
-    " whether to enable hlslens.nvim
-    let g:with_hlslens = get(g:, 'with_hlslens', 0)
+    let g:with_hlslens = get(g:, 'with_hlslens', 1)
     let g:with_registers = get(g:, 'with_registers', 1)
 
-    if !exists('g:my_name')
-        let g:my_name = 'Ace'
-    endif
-    if !exists('g:my_email')
-        let g:my_email = 'teapot@aceforeverd.com'
-    endif
+    let g:my_name = get(g:, 'my_name', 'Ace')
+    let g:my_email = get(g:, 'my_email', 'teapot@aceforeverd.com')
 endfunction
 
 function! aceforeverd#settings#denite_filter_settings() abort
