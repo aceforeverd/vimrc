@@ -144,10 +144,7 @@ let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
 
 " polyglot
-let g:polyglot_disabled = ['sensible', 'autoindent']
-" if !has('nvim')
-"     call add(g:polyglot_disabled, 'go')
-" endif
+let g:polyglot_disabled = ['sensible', 'autoindent', 'go']
 let g:vim_json_syntax_conceal = 1
 
 if dein#load_state(s:dein_repo)
