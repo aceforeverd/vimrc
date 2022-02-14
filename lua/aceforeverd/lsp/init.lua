@@ -32,6 +32,8 @@ function M.setup()
 
   if vim.g.lsp_process_provider == 'lsp_status' then
     require('lsp-status').register_progress()
+  elseif vim.g.lsp_process_provider == 'fidget' then
+    require('fidget').setup({})
   end
 
   local signs = {}
@@ -57,12 +59,8 @@ function M.setup()
   -- augroup END
   -- ]]
 
-  local default_lsp_cfg = lsp_basic.general_cfg
-
   M.clangd()
 
-  -- cargo install --locked taplo-lsp
-  lspconfig.taplo.setup(default_lsp_cfg)
 end
 
 function M.clangd()
@@ -122,10 +120,6 @@ function M.lsp_status()
     status_symbol = '🐶',
     diagnostics = lsp_status_diagnostic_enable,
   })
-end
-
-function M.fidget()
-  require('fidget').setup({})
 end
 
 function M.lspkind()

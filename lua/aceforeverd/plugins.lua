@@ -115,12 +115,6 @@ return packer.startup({
 
     use({
       'j-hui/fidget.nvim',
-      cond = function()
-        return vim.g.lsp_process_provider == 'fidget'
-      end,
-      config = function()
-        require('aceforeverd.lsp').fidget()
-      end,
     })
 
     use({

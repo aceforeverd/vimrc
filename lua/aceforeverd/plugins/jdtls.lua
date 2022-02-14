@@ -61,5 +61,4 @@ function M.setup()
   require('jdtls').start_or_attach(config)
 end
 
-
 return M
