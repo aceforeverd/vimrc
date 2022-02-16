@@ -60,6 +60,7 @@ local vi_mode_hl = function()
 end
 
 local feline_config = {
+  default_bg = '#282c34',
   components = {
     active = {
       { -- left
@@ -119,11 +120,10 @@ local feline_config = {
           provider = function() return vim.api.nvim_eval('coc#status()') end,
           enabled = function() return vim.g.my_cmp_source == 'coc' end,
         },
-        --[[ {
-          provider = 'lsp_client_names',
+        {
+          provider = 'my_lsp_client_names',
           enabled = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
-          left_sep = { ' ', { str = 'vertical_bar_thin', hl = { fg = 'yellow', bg = 'black' } } }
-        }, ]]
+        },
         {
           provider = function() return require('lsp-status').status() end,
           enabled = function() return vim.g.my_cmp_source == 'nvim_lsp' end,
@@ -164,14 +164,6 @@ local feline_config = {
           end,
           right_sep = { str = 'vertical_bar', hl = { fg = 'magenta' } },
           hl = { fg = 'magenta' },
-        },
-        {
-          provider = function()
-            return require('aceforeverd.utility.statusline').indent()
-          end,
-          hl = { fg = bit_green },
-          left_sep = { ' ' },
-          right_sep = { ' ', { str = 'vertical_bar', hl = { bg = 'NONE' } } }
         },
         {
           provider = 'position',
@@ -220,6 +212,11 @@ local feline_config = {
     },
     buftypes = { '^terminal$' },
     bufnames = {}
+  },
+  custom_providers = {
+    my_lsp_client_names = function()
+      return require('aceforeverd.utility.statusline').lsp_client_names()
+    end
   }
 }
 

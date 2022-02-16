@@ -51,7 +51,7 @@ function M.setup()
 
   local set_map = vim.api.nvim_set_keymap
 
-  set_map('n', '<Leader>fl', '<Cmd>Telescope<CR>', map_opts)
+  set_map('n', '<Leader>F', '<Cmd>Telescope<CR>', map_opts)
   set_map('n', '<Leader>fe', '<Cmd>Telescope grep_string<CR>', map_opts)
 
   set_map('n', '<Leader>fgf', '<Cmd>Telescope git_files<CR>', map_opts)
@@ -126,7 +126,7 @@ function M.setup()
   set_map('n', '<Leader>fG', "<cmd>lua require'telescope'.extensions.gh.gist()<cr>", { noremap = true, silent = true })
 
   set_map('n', '<Leader>fz', '<cmd>lua require"telescope".extensions.zoxide.list{}<cr>', map_opts)
-  set_map('n', '<Leader>ft', [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]], map_opts)
+  set_map('n', '<Leader>fl', [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]], map_opts)
 end
 
 return M

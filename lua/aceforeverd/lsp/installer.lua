@@ -48,33 +48,33 @@ function M.setup()
     return
   end
 
-  local general_lsp_config = M.general_lsp_config
-
   local setup_generalized_with_cfg_override = function(cfg_override)
     if type(cfg_override.on_attach) == 'function' then
       -- extend the function
       local extra_on_attach = cfg_override.on_attach
-      cfg_override.on_attach = function(client, bufnr)
-        general_lsp_config.on_attach(client, bufnr)
-        extra_on_attach(client, bufnr)
+      if type(extra_on_attach) == 'function' then
+        cfg_override.on_attach = function(client, bufnr)
+          M.general_lsp_config.on_attach(client, bufnr)
+          extra_on_attach(client, bufnr)
+        end
       end
     end
 
     return function(server)
-      server:setup(vim.tbl_deep_extend('force', general_lsp_config, cfg_override))
+      server:setup(vim.tbl_deep_extend('force', M.general_lsp_config, cfg_override))
     end
   end
 
   -- for those do not need extra configs in lsp-config setup, use this generalized one
   local setup_generalized = function(server)
-    server:setup(general_lsp_config)
+    server:setup(M.general_lsp_config)
   end
 
   local setup_sumeko_lua = function(server)
     local luadev = require('lua-dev').setup({
       runtime_path = false, -- true -> it will be slow
       -- add any options here, or leave empty to use the default settings
-      lspconfig = general_lsp_config,
+      lspconfig = M.general_lsp_config,
     })
 
     -- vim.api.nvim_notify(require('luaunit').prettystr(luadev), 2, {})
@@ -139,6 +139,7 @@ function M.setup()
     rust_analyzer = M.setup_rust_analyzer,
     codeqlls = setup_generalized,
     taplo = setup_generalized,
+    jsonnet_ls = setup_generalized,
   }
 
   -- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')

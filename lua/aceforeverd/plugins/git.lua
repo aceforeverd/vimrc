@@ -65,7 +65,11 @@ function M.gitsigns()
 end
 
 function M.gitlinker()
-  require('gitlinker').setup({})
+  require('gitlinker').setup({
+    opts = {
+      remote = 'upstream',
+    }
+  })
 
   local set_map = vim.api.nvim_set_keymap
 
