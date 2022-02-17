@@ -49,84 +49,38 @@ function M.setup()
 
   local map_opts = { noremap = true, silent = false }
 
-  local set_map = vim.api.nvim_set_keymap
+  local map_prefix = '<leader>f'
 
-  set_map('n', '<Leader>F', '<Cmd>Telescope<CR>', map_opts)
-  set_map('n', '<Leader>fe', '<Cmd>Telescope grep_string<CR>', map_opts)
+  local tel_map_list = {
+    ['F'] = '<cmd>Telescope<CR>',
+    ['e'] = '<Cmd>Telescope grep_string<CR>',
+    ['gf'] = '<Cmd>Telescope git_files<CR>',
+    ['gs'] = '<cmd>telescope git_status<cr>',
+    ['gb'] = '<cmd>telescope git_branches<cr>',
+    ['s'] = [[<cmd>lua require('telescope.builtin').spell_suggest()<CR>]],
+    ['o'] = [[<cmd>lua require("telescope").extensions.repo.list{}<cr>]],
+    ['r'] = [[<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>]],
+    ['f'] = [[<Cmd>lua require('telescope.builtin').find_files()<CR>]],
+    ['x'] = [[<Cmd>lua require('telescope').extensions.packer.packer()<CR>]],
+    ['p'] = [[<Cmd>lua require'telescope'.extensions.project.project{}<CR>]],
+    ['j'] = [[<Cmd>lua require'telescope'.extensions.projects.projects{}<CR>]],
 
-  set_map('n', '<Leader>fgf', '<Cmd>Telescope git_files<CR>', map_opts)
-  set_map('n', '<Leader>fgs', '<Cmd>Telescope git_status<CR>', map_opts)
-  set_map('n', '<Leader>fgb', '<Cmd>Telescope git_branches<CR>', map_opts)
+    ['b'] = "<cmd>lua require('telescope.builtin').buffers()<cr>",
 
-  set_map('n', '<Leader>fs', [[<cmd>lua require('telescope.builtin').spell_suggest()<CR>]], map_opts)
 
-  set_map(
-    'n',
-    '<leader>fo',
-    '<cmd>lua require("telescope").extensions.repo.list{}<cr>',
-    { noremap = true, silent = true }
-  )
+    ['I'] = "<cmd>lua require'telescope'.extensions.gh.issues()<cr>",
+    ['P'] = "<cmd>lua require'telescope'.extensions.gh.pull_request()<cr>",
+    ['R'] = "<cmd>lua require'telescope'.extensions.gh.run()<cr>",
+    ['G'] = "<cmd>lua require'telescope'.extensions.gh.gist()<cr>",
 
-  set_map(
-    'n',
-    '<leader>fr',
-    "<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>",
-    { noremap = true, silent = true }
-  )
-  set_map(
-    'n',
-    '<leader>ff',
-    "<Cmd>lua require('telescope.builtin').find_files()<CR>",
-    { noremap = true, silent = true }
-  )
+    ['z'] = '<cmd>lua require"telescope".extensions.zoxide.list{}<cr>',
+    ['l'] = [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]],
+    ['E'] = [[<cmd>lua require('telescope').extensions.env.env{}<cr>]],
+  }
 
-  set_map(
-    'n',
-    '<Leader>fx',
-    "<Cmd>lua require('telescope').extensions.packer.packer()<CR>",
-    { noremap = true, silent = true }
-  )
-
-  set_map(
-    'n',
-    '<Leader>fp',
-    "<Cmd>lua require'telescope'.extensions.project.project{}<CR>",
-    { noremap = true, silent = true }
-  )
-
-  set_map(
-    'n',
-    '<Leader>fj',
-    "<Cmd>lua require'telescope'.extensions.projects.projects{}<CR>",
-    { noremap = true, silent = true }
-  )
-
-  set_map('n', '<Leader>fb', "<cmd>lua require('telescope.builtin').buffers()<cr>", { noremap = true, silent = true })
-
-  set_map(
-    'n',
-    '<Leader>fu',
-    "<cmd>lua require'telescope'.extensions.ultisnips.ultisnips{}<cr>",
-    { noremap = true, silent = true }
-  )
-
-  set_map(
-    'n',
-    '<Leader>fI',
-    "<cmd>lua require'telescope'.extensions.gh.issues()<cr>",
-    { noremap = true, silent = true }
-  )
-  set_map(
-    'n',
-    '<Leader>fP',
-    "<cmd>lua require'telescope'.extensions.gh.pull_request()<cr>",
-    { noremap = true, silent = true }
-  )
-  set_map('n', '<Leader>fR', "<cmd>lua require'telescope'.extensions.gh.run()<cr>", { noremap = true, silent = true })
-  set_map('n', '<Leader>fG', "<cmd>lua require'telescope'.extensions.gh.gist()<cr>", { noremap = true, silent = true })
-
-  set_map('n', '<Leader>fz', '<cmd>lua require"telescope".extensions.zoxide.list{}<cr>', map_opts)
-  set_map('n', '<Leader>fl', [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]], map_opts)
+  for key, value in pairs(tel_map_list) do
+    vim.api.nvim_set_keymap('n', map_prefix .. key, value, map_opts)
+  end
 end
 
 return M

@@ -135,7 +135,7 @@ function M.setup()
         require('sqls').on_attach(client, bufnr)
       end,
     }),
-    remark_ls = setup_generalized,
+    -- remark_ls = setup_generalized,
     rust_analyzer = M.setup_rust_analyzer,
     codeqlls = setup_generalized,
     taplo = setup_generalized,

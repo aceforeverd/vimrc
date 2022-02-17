@@ -107,17 +107,13 @@ endif
 
 " Plug 'tpope/vim-projectionist'
 
-if g:with_neosnippet == 1
-   Plug 'Shougo/neosnippet-snippets'
-   Plug 'Shougo/neosnippet.vim'
-   call aceforeverd#completion#neosnippet()
-endif
-
 Plug 'mg979/docgen.vim'
 
 Plug 'google/vim-maktaba'
 Plug 'google/vim-coverage'
 Plug 'google/vim-codefmt'
+
+Plug 'bazelbuild/vim-bazel'
 
 Plug 'google/vim-glaive'
 
@@ -296,7 +292,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('fatih/vim-go', {'on_if': '!has("nvim")',
                 \ 'hook_source': 'call aceforeverd#settings#vim_go()'})
     " c/c++/objc
-    call dein#add('puremourning/vimspector', {'on_if': 'has("python3")'})
+    call dein#add('puremourning/vimspector')
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
 
@@ -309,7 +305,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('tweekmonster/exception.vim')
     call dein#add('tweekmonster/helpful.vim')
     " markdown
-    call dein#add('mzlogin/vim-markdown-toc', {'on_ft': 'markdown'})
+    call dein#add('mzlogin/vim-markdown-toc')
     call dein#add('iamcco/markdown-preview.nvim', {
                 \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
                 \ 'build': 'cd app && yarn install' })

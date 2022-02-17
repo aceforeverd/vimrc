@@ -149,24 +149,12 @@ function! aceforeverd#completion#init_source_deoplete() abort
                 \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
                 \ . '/usr/include/,,'
 
-    call aceforeverd#completion#neosnippet()
-
     " denite
     augroup gp_denite
         autocmd!
         autocmd FileType denite call aceforeverd#settings#denite_settings()
         autocmd FileType denite-filter call aceforeverd#settings#denite_filter_settings()
     augroup END
-endfunction
-
-function! aceforeverd#completion#neosnippet() abort
-    if g:with_ultisnips == 0
-        " ultisnips handle snippets in honza/vim-snippets, neosnippet do not need handle it
-        let g:neosnippet#enable_snipmate_compatibility = 1
-    endif
-    imap <Leader>e <Plug>(neosnippet_expand_or_jump)
-    smap <Leader>e <Plug>(neosnippet_expand_or_jump)
-    xmap <Leader>e <Plug>(neosnippet_expand_target)
 endfunction
 
 
@@ -212,7 +200,6 @@ function! aceforeverd#completion#init_source_lc_neovim() abort
     augroup gp_languageclent
         autocmd!
         autocmd FileType * call aceforeverd#completion#lsc_maps()
-        autocmd FileType c,cpp call aceforeverd#completion#clangd_init()
     augroup END
 endfunction
 
@@ -239,12 +226,6 @@ function! aceforeverd#completion#lsc_maps() abort
     " Rename - ru => rename UPPERCASE
     noremap <leader>ru :call LanguageClient#textDocument_rename(
                 \ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
-endfunction
-
-
-function! aceforeverd#completion#clangd_init() abort
-    let g:neosnippet#enable_complete_done = 1
-    let g:neosnippet#enable_completed_snippet = 1
 endfunction
 
 function! aceforeverd#completion#init_source_coc() abort

@@ -187,9 +187,12 @@ function M.setup()
     },
     textsubjects = {
       enable = true,
+      prev_selection = ',',
       keymaps = {
+        -- omap
         ['.'] = 'textsubjects-smart',
-        [';'] = 'textsubjects-container-outer',
+        ['a;'] = 'textsubjects-container-outer',
+        ['i;'] = 'textsubjects-container-inner',
       },
     },
     endwise = {

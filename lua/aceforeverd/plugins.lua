@@ -27,6 +27,7 @@ vim.cmd([[
   augroup packer_user_config
     autocmd!
     autocmd User PackerComplete lua vim.api.nvim_notify('Packer Done', 2, {})
+    autocmd User PackerCompileDone lua vim.api.nvim_notify('PackerCompile Done', 2, {})
     autocmd FileType packer nnoremap <buffer> <esc> :<cmd>lua require('packer.display').quit()<cr>
   augroup end
 ]])
@@ -333,6 +334,7 @@ return packer.startup({
         'jvgrootveld/telescope-zoxide',
 
         'nvim-telescope/telescope-frecency.nvim',
+        'LinArcX/telescope-env.nvim',
         'tami5/sqlite.lua',
         'kyazdani42/nvim-web-devicons',
       },

@@ -20,7 +20,11 @@ function M.setup()
   lualine.setup(vim.tbl_deep_extend('force', lualine.get_config(), {
     options = { theme = 'powerline_dark' },
     sections = {
-      lualine_b = { 'branch', 'diff', { 'diagnostics', diagnostics_color = { hint = { fg = '#108080' }, warn = { fg = '#e5c463' } } }},
+      lualine_b = {
+        'branch',
+        'diff',
+        { 'diagnostics', diagnostics_color = { hint = { fg = '#108080' }, warn = { fg = '#e5c463' } } },
+      },
       lualine_c = { [[require('lsp-status').status()]] },
       lualine_x = {
         { [[require('aceforeverd.utility.statusline').gps()]], color = { fg = '#fda5b4' } },
