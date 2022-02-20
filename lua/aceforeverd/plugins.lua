@@ -181,8 +181,6 @@ return packer.startup({
       end,
     })
 
-    use({ 'weilbith/nvim-code-action-menu', cmd = { 'CodeActionMenu' } })
-
     use({
       'mfussenegger/nvim-jdtls',
       ft = { 'java' },
@@ -307,11 +305,6 @@ return packer.startup({
       config = function()
         require('lsp-colors').setup({})
       end,
-    })
-
-    use({
-      'creativenull/diagnosticls-configs-nvim',
-      opt = true,
     })
 
     use({
@@ -542,9 +535,6 @@ return packer.startup({
 
     use({
       'lewis6991/gitsigns.nvim',
-      cond = function()
-        return vim.fn.has('nvim-0.5.0') == 1
-      end,
       requires = { 'nvim-lua/plenary.nvim' },
       config = function()
         require('aceforeverd.plugins.git').gitsigns()
@@ -703,9 +693,6 @@ return packer.startup({
 
     use({
       'wfxr/minimap.vim',
-      cond = function()
-        return vim.fn.executable('code-minimap') == 1
-      end,
       cmd = { 'MinimapToggle' },
     })
 
@@ -718,5 +705,7 @@ return packer.startup({
     })
 
     use({ 'gennaro-tedesco/nvim-jqx' })
+
+    use({ 'milisims/nvim-luaref' })
   end,
 })

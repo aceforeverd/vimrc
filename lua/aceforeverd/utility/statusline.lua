@@ -80,7 +80,7 @@ function M.lsp_client_names()
   local clients = {}
 
   for _, client in pairs(vim.lsp.buf_get_clients(0)) do
-    if client ~= 'null-ls' then
+    if client.name ~= 'null-ls' then
       table.insert(clients, client.name)
     end
   end

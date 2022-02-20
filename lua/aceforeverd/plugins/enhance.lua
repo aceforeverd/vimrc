@@ -33,6 +33,8 @@ end
 
 function M.registers_pre()
   -- disable visual mode cause it won't work in quickfix or floaterm
+  vim.g.registers_delay = 200
+  vim.g.paste_in_normal_mode = 2
   vim.g.registers_visual_mode = 0
 end
 

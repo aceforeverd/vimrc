@@ -58,7 +58,6 @@ function M.gitsigns()
       delay = 1000,
       ignore_whitespace = false,
     },
-    sign_priority = 5,
     update_debounce = 100,
     status_formatter = nil,
   })

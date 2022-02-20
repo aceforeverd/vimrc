@@ -18,6 +18,41 @@ local M = {}
 local default_map_opts = { noremap = true, silent = true }
 local lsp_status = require('lsp-status')
 
+M.lsp_default_n_maps = {
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  ['gd'] = '<cmd>lua vim.lsp.buf.definition()<CR>',
+  ['gD'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
+  ['K']  = '<cmd>lua vim.lsp.buf.hover()<CR>',
+  ['<leader>gi'] = '<cmd>lua vim.lsp.buf.implementation()<CR>',
+  ['gr'] = '<cmd>lua vim.lsp.buf.references()<CR>',
+  ['gK'] = '<cmd>lua vim.lsp.buf.signature_help()<CR>',
+  ['<Leader>wa'] = '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',
+  ['<Leader>wr'] = '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',
+  ['<Leader>wl'] = '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
+  ['<Leader>D'] = '<cmd>lua vim.lsp.buf.type_definition()<CR>',
+  ['<Leader>rn'] = '<cmd>lua vim.lsp.buf.rename()<CR>',
+  ['<Leader>ca'] = '<cmd>lua vim.lsp.buf.code_action()<CR>',
+
+  ['<Leader>ci'] = '<cmd>lua vim.lsp.buf.incoming_calls()<CR>',
+  ['<Leader>co'] = '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>',
+
+  ['<c-k>'] = '<cmd>lua vim.diagnostic.goto_prev()<CR>',
+  ['<c-j>'] = '<cmd>lua vim.diagnostic.goto_next()<CR>',
+
+  ['<space>dp'] = '<cmd>lua vim.diagnostic.open_float()<CR>',
+  -- buffer local diagnostic
+  ['<space>q'] = '<cmd>lua vim.diagnostic.setloclist()<CR>',
+  -- all diagnostic
+  ['<space>a'] = '<cmd>lua vim.diagnostic.setqflist()<CR>',
+
+  ['<space>F'] = '<cmd>lua vim.lsp.buf.formatting()<CR>',
+
+  ['<leader>gr'] = '<cmd>Telescope lsp_references<cr>',
+  ['<leader>gd'] = '<cmd>Telescope lsp_definitions<cr>',
+  ['<leader>gI'] = '<cmd>Telescope lsp_implementations<cr>',
+  ['<leader>cA'] = '<cmd>Telescope lsp_code_actions<cr>',
+}
+
 function M.on_attach(client, bufnr)
   local function buf_set_keymap(...)
     vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -29,44 +64,10 @@ function M.on_attach(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', default_map_opts)
-  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', default_map_opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', default_map_opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', default_map_opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', default_map_opts)
-  buf_set_keymap('n', 'gK', '<cmd>lua vim.lsp.buf.signature_help()<CR>', default_map_opts)
-  buf_set_keymap('n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', default_map_opts)
-  buf_set_keymap('n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', default_map_opts)
-  buf_set_keymap(
-    'n',
-    '<Leader>wl',
-    '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
-    default_map_opts
-  )
-  buf_set_keymap('n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', default_map_opts)
-  buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', default_map_opts)
-  buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', default_map_opts)
-
-  buf_set_keymap('n', '<Leader>ci', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', default_map_opts)
-  buf_set_keymap('n', '<Leader>co', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', default_map_opts)
-
-  buf_set_keymap('n', '<c-k>', '<cmd>lua vim.diagnostic.goto_prev()<CR>', default_map_opts)
-  buf_set_keymap('n', '<c-j>', '<cmd>lua vim.diagnostic.goto_next()<CR>', default_map_opts)
-
-  buf_set_keymap('n', '<space>dp', '<cmd>lua vim.diagnostic.open_float()<CR>', default_map_opts)
-  -- buffer local diagnostic
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', default_map_opts)
-  -- all diagnostic
-  buf_set_keymap('n', '<space>a', '<cmd>lua vim.diagnostic.setqflist()<CR>', default_map_opts)
-
-  buf_set_keymap('n', '<space>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', default_map_opts)
-  buf_set_keymap('v', '<cr>', ':lua vim.lsp.buf.range_formatting()<cr>', { noremap = true })
-
-  buf_set_keymap('n', '<leader>gr', '<cmd>Telescope lsp_references<cr>', default_map_opts)
-  buf_set_keymap('n', '<leader>gd', '<cmd>Telescope lsp_definitions<cr>', default_map_opts)
-  buf_set_keymap('n', '<leader>gi', '<cmd>Telescope lsp_implementations<cr>', default_map_opts)
-  buf_set_keymap('n', '<leader>cA', '<cmd>Telescope lsp_code_actions<cr>', default_map_opts)
+  for key, cmd in pairs(M.lsp_default_n_maps) do
+    buf_set_keymap('n', key, cmd, default_map_opts)
+  end
+  buf_set_keymap('x', '<cr>', ':lua vim.lsp.buf.range_formatting()<cr>', default_map_opts)
 
   vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
 
