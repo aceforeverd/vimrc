@@ -23,7 +23,7 @@ M.lsp_default_n_maps = {
   ['gd'] = '<cmd>lua vim.lsp.buf.definition()<CR>',
   ['gD'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
   ['K']  = '<cmd>lua vim.lsp.buf.hover()<CR>',
-  ['<leader>gi'] = '<cmd>lua vim.lsp.buf.implementation()<CR>',
+  ['gi'] = '<cmd>lua vim.lsp.buf.implementation()<CR>',
   ['gr'] = '<cmd>lua vim.lsp.buf.references()<CR>',
   ['gK'] = '<cmd>lua vim.lsp.buf.signature_help()<CR>',
   ['<Leader>wa'] = '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',
@@ -49,6 +49,7 @@ M.lsp_default_n_maps = {
 
   ['<leader>gr'] = '<cmd>Telescope lsp_references<cr>',
   ['<leader>gd'] = '<cmd>Telescope lsp_definitions<cr>',
+  ['<leader>gi'] = 'gi',
   ['<leader>gI'] = '<cmd>Telescope lsp_implementations<cr>',
   ['<leader>cA'] = '<cmd>Telescope lsp_code_actions<cr>',
 }
