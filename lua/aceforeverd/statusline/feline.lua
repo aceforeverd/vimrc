@@ -117,7 +117,7 @@ local feline_config = {
         },
         {
           -- right separator for builtin lsp diagnostics
-          provider = ' ┃ ',
+          provider = ' ┃',
           enabled = function()
             return #vim.diagnostic.get(0) ~= 0
           end,
@@ -128,6 +128,7 @@ local feline_config = {
           provider = function()
             return vim.api.nvim_eval('coc#status()')
           end,
+          left_sep = ' ',
           enabled = function()
             return vim.g.my_cmp_source == 'coc'
           end,
@@ -138,12 +139,13 @@ local feline_config = {
             return vim.g.my_cmp_source == 'nvim_lsp'
           end,
           hl = { fg = 'orange' },
-          right_sep = ' ',
+          left_sep = ' ',
         },
         {
           provider = function()
             return require('lsp-status').status()
           end,
+          left_sep = ' ',
           enabled = function()
             return vim.g.my_cmp_source == 'nvim_lsp'
           end,
