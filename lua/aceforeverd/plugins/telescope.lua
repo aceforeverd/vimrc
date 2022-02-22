@@ -49,38 +49,51 @@ function M.setup()
 
   local map_opts = { noremap = true, silent = false }
 
-  local map_prefix = '<leader>f'
-
   local tel_map_list = {
-    ['F'] = '<cmd>Telescope<CR>',
-    ['e'] = '<Cmd>Telescope grep_string<CR>',
-    ['gf'] = '<Cmd>Telescope git_files<CR>',
-    ['gs'] = '<cmd>Telescope git_status<cr>',
-    ['gb'] = '<cmd>Telescope git_branches<cr>',
-    ['s'] = [[<cmd>lua require('telescope.builtin').spell_suggest()<CR>]],
-    ['o'] = [[<cmd>lua require("telescope").extensions.repo.list{}<cr>]],
-    ['r'] = [[<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>]],
-    ['f'] = [[<Cmd>lua require('telescope.builtin').find_files()<CR>]],
-    ['x'] = [[<Cmd>lua require('telescope').extensions.packer.packer()<CR>]],
-    ['p'] = [[<Cmd>lua require'telescope'.extensions.project.project{}<CR>]],
-    ['j'] = [[<Cmd>lua require'telescope'.extensions.projects.projects{}<CR>]],
+    ['<leader>f'] = {
+      ['F'] = '<cmd>Telescope<CR>',
+      ['f'] = [[<Cmd>lua require('telescope.builtin').find_files()<CR>]],
+      ['b'] = "<cmd>lua require('telescope.builtin').buffers()<cr>",
+      ['c'] = "<cmd>lua require('telescope.builtin').commands()<cr>",
+      ['e'] = '<Cmd>Telescope grep_string<CR>',
+      ['gf'] = '<Cmd>Telescope git_files<CR>',
+      ['gs'] = '<cmd>Telescope git_status<cr>',
+      ['gb'] = '<cmd>Telescope git_branches<cr>',
+      ['s'] = [[<cmd>lua require('telescope.builtin').spell_suggest()<CR>]],
+      ['o'] = [[<cmd>lua require("telescope").extensions.repo.list{}<cr>]],
+      ['r'] = [[<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>]],
+      ['x'] = [[<Cmd>lua require('telescope').extensions.packer.packer()<CR>]],
+      ['p'] = [[<Cmd>lua require'telescope'.extensions.project.project{}<CR>]],
+      ['j'] = [[<Cmd>lua require'telescope'.extensions.projects.projects{}<CR>]],
 
-    ['b'] = "<cmd>lua require('telescope.builtin').buffers()<cr>",
+      ['I'] = "<cmd>lua require'telescope'.extensions.gh.issues()<cr>",
+      ['P'] = "<cmd>lua require'telescope'.extensions.gh.pull_request()<cr>",
+      ['R'] = "<cmd>lua require'telescope'.extensions.gh.run()<cr>",
+      ['G'] = "<cmd>lua require'telescope'.extensions.gh.gist()<cr>",
 
-
-    ['I'] = "<cmd>lua require'telescope'.extensions.gh.issues()<cr>",
-    ['P'] = "<cmd>lua require'telescope'.extensions.gh.pull_request()<cr>",
-    ['R'] = "<cmd>lua require'telescope'.extensions.gh.run()<cr>",
-    ['G'] = "<cmd>lua require'telescope'.extensions.gh.gist()<cr>",
-
-    ['z'] = '<cmd>lua require"telescope".extensions.zoxide.list{}<cr>',
-    ['l'] = [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]],
-    ['E'] = [[<cmd>lua require('telescope').extensions.env.env{}<cr>]],
+      ['z'] = '<cmd>lua require"telescope".extensions.zoxide.list{}<cr>',
+      ['l'] = [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]],
+      ['E'] = [[<cmd>lua require('telescope').extensions.env.env{}<cr>]],
+    },
   }
 
-  for key, value in pairs(tel_map_list) do
-    vim.api.nvim_set_keymap('n', map_prefix .. key, value, map_opts)
+  local function do_map(prefix, map_list)
+    if type(prefix) ~= 'string' then
+      vim.api.nvim_notify('[skip]: prefix is not string', vim.log.levels.WARN, {})
+    end
+
+    if type(map_list) == 'table' then
+      for key, value in pairs(map_list) do
+        do_map(prefix .. key, value)
+      end
+    elseif type(map_list) == 'string' then
+      vim.api.nvim_set_keymap('n', prefix, map_list, map_opts)
+    else
+      vim.api.nvim_notify('[skip]: map_list is not table', vim.log.levels.WARN, {})
+    end
   end
+
+  do_map('', tel_map_list)
 end
 
 return M

@@ -79,6 +79,14 @@ return packer.startup({
         'b0o/schemastore.nvim',
         'nanotee/sqls.nvim',
         'simrat39/rust-tools.nvim',
+        {
+          'pwntester/codeql.nvim',
+          requires = {
+            'MunifTanjim/nui.nvim',
+            'nvim-lua/telescope.nvim',
+            'kyazdani42/nvim-web-devicons',
+          },
+        },
       },
       config = function()
         require('aceforeverd.lsp.installer').setup()
@@ -243,18 +251,6 @@ return packer.startup({
     })
 
     use({ 'nvim-lua/plenary.nvim' })
-
-    use({
-      'pwntester/codeql.nvim',
-      requires = {
-        'MunifTanjim/nui.nvim',
-        'nvim-lua/telescope.nvim',
-        'kyazdani42/nvim-web-devicons',
-      },
-      config = function()
-        require('codeql').setup({})
-      end,
-    })
 
     use({
       'nvim-treesitter/nvim-treesitter',

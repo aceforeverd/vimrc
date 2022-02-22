@@ -48,20 +48,37 @@ function M.setup()
     return
   end
 
-  local setup_generalized_with_cfg_override = function(cfg_override)
-    if type(cfg_override.on_attach) == 'function' then
-      -- extend the function
-      local extra_on_attach = cfg_override.on_attach
-      if type(extra_on_attach) == 'function' then
-        cfg_override.on_attach = function(client, bufnr)
-          M.general_lsp_config.on_attach(client, bufnr)
-          extra_on_attach(client, bufnr)
-        end
-      end
-    end
-
+  -- override default lsp setup function by lsp-installer
+  -- @param cfg_override lsp configuration override, can be
+  --   1. table
+  --   2. function: return the override table, accept server as parameter
+  -- @param post_hook additional action take after lsp setup, only support function type with one parameter that is lsp-installer's server
+  local setup_generalized_with_override = function(cfg_override, post_hook)
     return function(server)
-      server:setup(vim.tbl_deep_extend('force', M.general_lsp_config, cfg_override))
+      local override = {}
+      if type(cfg_override) == 'table' then
+        if type(cfg_override.on_attach) == 'function' then
+          -- extend the function
+          local extra_on_attach = cfg_override.on_attach
+          if type(extra_on_attach) == 'function' then
+            cfg_override.on_attach = function(client, bufnr)
+              M.general_lsp_config.on_attach(client, bufnr)
+              extra_on_attach(client, bufnr)
+            end
+          end
+        end
+        override = vim.tbl_deep_extend('force', M.general_lsp_config, cfg_override)
+      elseif type(cfg_override) == 'function' then
+        override = vim.tbl_deep_extend('force', M.general_lsp_config, cfg_override(server))
+      elseif type(cfg_override) == 'nil' then
+        override = M.general_lsp_config
+      end
+
+      server:setup(override)
+
+      if type(post_hook) == 'function' then
+        post_hook(server)
+      end
     end
   end
 
@@ -94,8 +111,8 @@ function M.setup()
 
   local setup_lsp_configs = {
     sumneko_lua = setup_sumeko_lua,
-    diagnosticls = setup_generalized_with_cfg_override(require('aceforeverd.lsp.diagnosticls').get_config()),
-    yamlls = setup_generalized_with_cfg_override({
+    diagnosticls = setup_generalized_with_override(require('aceforeverd.lsp.diagnosticls').get_config()),
+    yamlls = setup_generalized_with_override({
       settings = {
         yaml = {
           schemas = {
@@ -106,9 +123,9 @@ function M.setup()
         },
       },
     }),
-    html = setup_generalized_with_cfg_override(html_cfg),
-    cssls = setup_generalized_with_cfg_override(html_cfg),
-    jsonls = setup_generalized_with_cfg_override(vim.tbl_deep_extend('force', html_cfg, {
+    html = setup_generalized_with_override(html_cfg),
+    cssls = setup_generalized_with_override(html_cfg),
+    jsonls = setup_generalized_with_override(vim.tbl_deep_extend('force', html_cfg, {
       commands = {
         JsonFormat = {
           function()
@@ -130,14 +147,24 @@ function M.setup()
     dockerls = setup_generalized,
     tailwindcss = setup_generalized,
     tsserver = setup_generalized,
-    sqls = setup_generalized_with_cfg_override({
+    sqls = setup_generalized_with_override({
       on_attach = function(client, bufnr)
         require('sqls').on_attach(client, bufnr)
       end,
     }),
     -- remark_ls = setup_generalized,
     rust_analyzer = M.setup_rust_analyzer,
-    codeqlls = setup_generalized,
+    codeqlls = setup_generalized_with_override(function(server)
+      return {
+        settings = {
+          search_path = server.root_dir,
+        },
+      }
+    end, function(server)
+      require('codeql').setup({
+        search_path = server.root_dir,
+      })
+    end),
     taplo = setup_generalized,
     jsonnet_ls = setup_generalized,
   }
