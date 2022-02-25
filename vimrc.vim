@@ -44,10 +44,11 @@ Plug 'rafi/awesome-vim-colorschemes'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
-Plug 'raimondi/delimitMate'
+Plug 'raimondi/delimitmate'
 
 Plug 'mhinz/vim-startify'
 Plug 'rhysd/committia.vim'
+Plug 'ojroques/vim-oscyank'
 
 Plug 'airblade/vim-gitgutter'
 omap ih <Plug>(GitGutterTextObjectInnerPending)
