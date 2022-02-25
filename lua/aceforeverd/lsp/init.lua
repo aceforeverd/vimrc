@@ -90,9 +90,8 @@ function M.clangd()
       'clangd',
       '--background-index',
       '--clang-tidy',
-      '--cross-file-rename',
       '--all-scopes-completion',
-      '--suggest-missing-includes',
+      -- '--inlay-hints',
     },
   }
 

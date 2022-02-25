@@ -703,5 +703,26 @@ return packer.startup({
     use({ 'gennaro-tedesco/nvim-jqx' })
 
     use({ 'milisims/nvim-luaref' })
+
+    use({
+      'google/vim-codefmt',
+      requires = {
+        'google/vim-maktaba',
+        'google/vim-glaive',
+      },
+      opt = true,
+      config = function()
+        vim.api.nvim_call_function('aceforeverd#settings#glaive', {})
+      end,
+    })
+
+    use {
+      'google/vim-coverage',
+      requires = {
+        'google/vim-maktaba',
+        'google/vim-glaive',
+      },
+      opt = true,
+    }
   end,
 })

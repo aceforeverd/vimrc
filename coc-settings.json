@@ -88,9 +88,8 @@
   "clangd.arguments": [
     "--background-index",
     "--clang-tidy",
-    "--cross-file-rename",
-    "--all-scopes-completion",
-    "--suggest-missing-includes"
+    "--all-scopes-completion"
+    // "--inlay-hints"
   ],
   "diagnostic-languageserver.linters": {
     "vint": {

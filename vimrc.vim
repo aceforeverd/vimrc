@@ -109,14 +109,6 @@ endif
 
 Plug 'mg979/docgen.vim'
 
-Plug 'google/vim-maktaba'
-Plug 'google/vim-coverage'
-Plug 'google/vim-codefmt'
-
-Plug 'bazelbuild/vim-bazel'
-
-Plug 'google/vim-glaive'
-
 call aceforeverd#settings#clap(s:common_path)
 Plug 'liuchengxu/vim-clap', {'do': 'make'}
 
@@ -755,7 +747,7 @@ augroup END
 let g:switch_mapping = '<space>s'
 
 " vim dirvish gtfo
-nnoremap goo go
+nnoremap <expr> goo 'go'
 
 " vim-sandwich
 nnoremap ss s
