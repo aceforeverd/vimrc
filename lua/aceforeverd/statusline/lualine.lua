@@ -25,7 +25,10 @@ function M.setup()
         'diff',
         { 'diagnostics', diagnostics_color = { hint = { fg = '#108080' }, warn = { fg = '#e5c463' } } },
       },
-      lualine_c = { [[require('lsp-status').status()]] },
+      lualine_c = {
+        require('aceforeverd.utility.statusline').lsp_client_names,
+        require('lsp-status').status,
+      },
       lualine_x = {
         { [[require('aceforeverd.utility.statusline').gps()]], color = { fg = '#fda5b4' } },
         'filetype',
