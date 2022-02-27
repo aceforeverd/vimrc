@@ -302,11 +302,17 @@ set updatetime=500
 set guifont=FiraCodeNerdFontComplete-Regular:h13
 
 set background=dark
-if has('nvim')
+
+if !has('termguicolors')
+    echomsg 'termguicolors not available'
+elseif has('nvim')
+    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
     let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
-endif
-if has('termguicolors') && (has('nvim') || empty($TMUX))
     set termguicolors
+else
+    if empty($TMUX) && ($TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color' || has('gui_running'))
+        set termguicolors
+    endif
 endif
 
 augroup gp_vim_lsp_color
