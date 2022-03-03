@@ -122,6 +122,7 @@ if vim.fn.has('nvim-0.6.0') == 1 then
     end,
   }
   pub_diag_config['float'] = { source = 'always' }
+  pub_diag_config['severity_sort'] = true
 end
 
 M.handlers = {

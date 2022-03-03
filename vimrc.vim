@@ -220,7 +220,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('sainnhe/sonokai', {
                 \ 'merged': 0,
                 \ 'hook_post_source': 'colorscheme sonokai'})
-    call dein#add('rafi/awesome-vim-colorschemes', {'merged': 0})
+    call dein#add('rafi/awesome-vim-colorschemes', {'merged': 0, 'on_if': "!has('nvim')"})
     call dein#add('justinmk/vim-gtfo')
     if has('nvim')
       call dein#add('justinmk/vim-dirvish')
@@ -248,11 +248,12 @@ if dein#load_state(s:dein_repo)
     " code format
     call dein#add('sbdchd/neoformat')
     call dein#add('junegunn/vim-easy-align')
-    " debug/test
+    " run/debug/test
     call dein#add('vim-test/vim-test')
     call dein#add('skywind3000/asyncrun.vim')
     call dein#add('skywind3000/asynctasks.vim')
     call dein#add('jpalardy/vim-slime')
+    call dein#add('preservim/vimux')
 
     " VCS
     call dein#add('tpope/vim-fugitive')
@@ -309,7 +310,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('tmux-plugins/vim-tmux')
     call dein#add('christoomey/vim-tmux-navigator')
     call dein#add('wellle/tmux-complete.vim')
-    call dein#add('preservim/vimux')
     " Latex
     " merged = 0 beacue E944: Reverse range in character class
     call dein#add('lervag/vimtex', {'merged': 0})

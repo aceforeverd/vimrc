@@ -56,9 +56,6 @@ function M.setup()
       ['b'] = "<cmd>lua require('telescope.builtin').buffers()<cr>",
       ['c'] = "<cmd>lua require('telescope.builtin').commands()<cr>",
       ['e'] = '<Cmd>Telescope grep_string<CR>',
-      ['gf'] = '<Cmd>Telescope git_files<CR>',
-      ['gs'] = '<cmd>Telescope git_status<cr>',
-      ['gb'] = '<cmd>Telescope git_branches<cr>',
       ['s'] = [[<cmd>lua require('telescope.builtin').spell_suggest()<CR>]],
       ['o'] = [[<cmd>lua require("telescope").extensions.repo.list{}<cr>]],
       ['r'] = [[<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>]],
@@ -75,25 +72,17 @@ function M.setup()
       ['l'] = [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]],
       ['E'] = [[<cmd>lua require('telescope').extensions.env.env{}<cr>]],
     },
+    ['<leader>g'] = {
+      ['f'] = '<Cmd>Telescope git_files<CR>',
+      ['s'] = '<cmd>Telescope git_status<cr>',
+      ['S'] = '<cmd>Telescope git_stash<cr>',
+      ['C'] = '<cmd>Telescope git_commits<cr>',
+      ['c'] = '<cmd>Telescope git_bcommits<cr>',
+      ['x'] = '<cmd>Telescope git_branches<cr>',
+    }
   }
 
-  local function do_map(prefix, map_list)
-    if type(prefix) ~= 'string' then
-      vim.api.nvim_notify('[skip]: prefix is not string', vim.log.levels.WARN, {})
-    end
-
-    if type(map_list) == 'table' then
-      for key, value in pairs(map_list) do
-        do_map(prefix .. key, value)
-      end
-    elseif type(map_list) == 'string' then
-      vim.api.nvim_set_keymap('n', prefix, map_list, map_opts)
-    else
-      vim.api.nvim_notify('[skip]: map_list is not table', vim.log.levels.WARN, {})
-    end
-  end
-
-  do_map('', tel_map_list)
+  require('aceforeverd.utility.map').do_nmap('', tel_map_list, map_opts)
 end
 
 return M

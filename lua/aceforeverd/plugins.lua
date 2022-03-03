@@ -28,7 +28,6 @@ vim.cmd([[
     autocmd!
     autocmd User PackerComplete lua vim.api.nvim_notify('Packer Done', 2, {})
     autocmd User PackerCompileDone lua vim.api.nvim_notify('PackerCompile Done', 2, {})
-    autocmd FileType packer nnoremap <buffer> <esc> :<cmd>lua require('packer.display').quit()<cr>
   augroup end
 ]])
 -- autocmd BufWritePost plugins.lua source <afile> | PackerCompile
@@ -79,14 +78,6 @@ return packer.startup({
         'b0o/schemastore.nvim',
         'nanotee/sqls.nvim',
         'simrat39/rust-tools.nvim',
-        {
-          'pwntester/codeql.nvim',
-          requires = {
-            'MunifTanjim/nui.nvim',
-            'nvim-lua/telescope.nvim',
-            'kyazdani42/nvim-web-devicons',
-          },
-        },
       },
       config = function()
         require('aceforeverd.lsp.installer').setup()
@@ -187,6 +178,10 @@ return packer.startup({
       cond = function()
         return vim.g.my_cmp_source == 'nvim_lsp'
       end,
+    })
+
+    use({
+      'weilbith/nvim-code-action-menu',
     })
 
     use({
@@ -319,7 +314,6 @@ return packer.startup({
         'nvim-telescope/telescope-file-browser.nvim',
         'nvim-telescope/telescope-github.nvim',
         'cljoly/telescope-repo.nvim',
-        'fhill2/telescope-ultisnips.nvim',
         'jvgrootveld/telescope-zoxide',
 
         'nvim-telescope/telescope-frecency.nvim',
@@ -327,6 +321,19 @@ return packer.startup({
         'tami5/sqlite.lua',
         'kyazdani42/nvim-web-devicons',
       },
+    })
+
+    use({
+      'pwntester/codeql.nvim',
+      ft = { 'ql' },
+      requires = {
+        'MunifTanjim/nui.nvim',
+        'nvim-lua/telescope.nvim',
+        'kyazdani42/nvim-web-devicons',
+      },
+      config = function()
+        require('codeql').setup({})
+      end,
     })
 
     use({
@@ -716,13 +723,26 @@ return packer.startup({
       end,
     })
 
-    use {
+    use({
       'google/vim-coverage',
       requires = {
         'google/vim-maktaba',
         'google/vim-glaive',
       },
       opt = true,
-    }
+    })
+
+    -- ui
+    use({
+      'stevearc/dressing.nvim',
+      config = function()
+        require('aceforeverd.plugins.enhance').dressing()
+      end,
+    })
+
+    use({
+      'mrjones2014/legendary.nvim',
+      opt = true,
+    })
   end,
 })

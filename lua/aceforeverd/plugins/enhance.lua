@@ -28,6 +28,10 @@ function M.hop()
 end
 
 function M.which_key()
+  if vim.fn.has('nvim-0.7.0') == 1 then
+    vim.cmd [[PackerLoad legendary.nvim]]
+    require('legendary').setup()
+  end
   require('which-key').setup({ plugins = { registers = false } })
 end
 
@@ -72,6 +76,15 @@ end
 function M.toggle_term()
   require('toggleterm').setup({
     open_mapping = [[<C-\>x]],
+  })
+end
+
+function M.dressing()
+  require('dressing').setup({
+    input = {
+      border = 'rounded',
+      winblend = 10,
+    }
   })
 end
 

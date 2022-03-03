@@ -160,10 +160,6 @@ function M.setup()
           search_path = server.root_dir,
         },
       }
-    end, function(server)
-      require('codeql').setup({
-        search_path = server.root_dir,
-      })
     end),
     taplo = setup_generalized,
     jsonnet_ls = setup_generalized,

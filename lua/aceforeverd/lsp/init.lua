@@ -28,8 +28,6 @@ function M.setup()
   -- basic settings
   vim.o.pumblend = 20
 
-  local lspconfig = require('lspconfig')
-
   if vim.g.lsp_process_provider == 'lsp_status' then
     require('lsp-status').register_progress()
   elseif vim.g.lsp_process_provider == 'fidget' then
