@@ -163,8 +163,8 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> gd <plug>(lsp-definition)
     nmap <buffer> gD <plug>(lsp-declaration)
     nmap <buffer> gpd <plug>(lsp-peek-definition)
-    nmap <buffer> gs <plug>(lsp-document-symbol-search)
-    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> <space>s <plug>(lsp-document-symbol-search)
+    nmap <buffer> <space>S <plug>(lsp-workspace-symbol-search)
     nmap <buffer> gr <plug>(lsp-references)
     nmap <buffer> gi <plug>(lsp-implementation)
     nmap <buffer> gpi <plug>(lsp-peek-implementation)
@@ -175,7 +175,7 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> K <plug>(lsp-hover)
     nmap <buffer> <leader>ca <Plug>(lsp-code-action)
     nmap <buffer> <space>q <Plug>(lsp-document-diagnostics)
-    nmap <buffer> <space>a :LspDocumentDiagnostics --buffers=*
+    nmap <buffer> <space>a :LspDocumentDiagnostics --buffers=*<cr>
     xmap <buffer> <cr> <Plug>(lsp-document-range-format)
     inoremap <buffer> <expr><c-f> lsp#scroll(+4)
     inoremap <buffer> <expr><c-d> lsp#scroll(-4)
@@ -310,7 +310,7 @@ elseif has('nvim')
     let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
     set termguicolors
 else
-    if empty($TMUX) && ($TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color' || has('gui_running'))
+    if empty($TMUX) && ($TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color' || $TERM =~# 'xterm-kitty' || has('gui_running'))
         set termguicolors
     endif
 endif
@@ -320,7 +320,7 @@ augroup gp_vim_lsp_color
     autocmd! ColorScheme * highlight lspReference cterm=bold gui=bold guibg=#5e5e5e
 augroup END
 
-colorscheme one
+colorscheme onedark
 
 if has('gui_macvim')
     autocmd GUIEnter * set vb t_vb=
