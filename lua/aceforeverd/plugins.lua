@@ -61,8 +61,6 @@ return packer.startup({
       requires = {
         -- LSP signature hint as you type
         'ray-x/lsp_signature.nvim',
-        -- fzf handlers
-        'gfanto/fzf-lsp.nvim',
         'p00f/clangd_extensions.nvim',
       },
       config = function()
@@ -133,14 +131,8 @@ return packer.startup({
       requires = {
         {
           'quangnguyen30192/cmp-nvim-ultisnips',
-          cond = function()
-            return vim.g.with_ultisnips == 1
-          end,
         },
       },
-      cond = function()
-        return vim.g.with_ultisnips == 1
-      end,
       setup = function()
         require('aceforeverd.plugins.snip').ultisnip_setup_pre()
       end,

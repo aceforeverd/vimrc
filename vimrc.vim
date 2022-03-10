@@ -115,9 +115,6 @@ Plug 'liuchengxu/vim-clap', {'do': 'make'}
 Plug 'pechorin/any-jump.vim'
 let g:any_jump_disable_default_keybindings = 1
 
-Plug 'kkoomen/vim-doge', {'do': { -> doge#install({ 'headless': 1 }) }}
-let g:doge_enable_mappings = 0
-
 if g:my_cmp_source ==? 'deoplete'
     Plug 'autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
@@ -582,8 +579,7 @@ command! -bar -bang SMaps exe 'call fzf#vim#maps("s", <bang>0)'
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
-nnoremap <Space>b :Buffers<CR>
-nnoremap <Space>c :Commands<CR>
+nnoremap <Space>C :Commands<CR>
 nnoremap <Space>f :Files<CR>
 nnoremap <Space>r :Rg<CR>
 
@@ -744,7 +740,7 @@ augroup gp_vim_helper
 augroup END
 
 " switch.vim
-let g:switch_mapping = '<space>s'
+let g:switch_mapping = '<space>x'
 
 " vim dirvish gtfo
 nnoremap <expr> goo 'go'

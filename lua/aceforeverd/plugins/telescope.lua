@@ -24,8 +24,24 @@ function M.setup()
         i = {
           ['<C-j>'] = require('telescope.actions').move_selection_next,
           ['<C-k>'] = require('telescope.actions').move_selection_previous,
+          ['<C-e>'] = { '<END>', type = 'command' },
+          ['<C-/>'] = require('telescope.actions.generate').which_key,
+          ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
+          ['<c-n>'] = false,
+          ['<C-l>'] = require('telescope.actions.layout').cycle_layout_next,
+          ['<C-h>'] = require('telescope.actions.layout').cycle_layout_prev,
+          ['<C-i>'] = require('telescope.actions.layout').toggle_prompt_position,
+          ['<C-]>'] = require('telescope.actions.layout').toggle_mirror,
         },
       },
+      layout_strategies = 'flex',
+      layout_config = {
+        horizontal = { width = 0.95 },
+      },
+      winblend = 10,
+      prompt_prefix = [[ ]],
+      selection_caret = [[> ]],
+      entry_prefix = [[  ]],
     },
     extensions = {
       frecency = {
@@ -50,12 +66,15 @@ function M.setup()
   local map_opts = { noremap = true, silent = false }
 
   local tel_map_list = {
-    ['<leader>f'] = {
-      ['F'] = '<cmd>Telescope<CR>',
-      ['f'] = [[<Cmd>lua require('telescope.builtin').find_files()<CR>]],
+    ['<space>'] = {
+      ['<space>'] = [[<cmd>Telescope<CR>']],
       ['b'] = "<cmd>lua require('telescope.builtin').buffers()<cr>",
       ['c'] = "<cmd>lua require('telescope.builtin').commands()<cr>",
-      ['e'] = '<Cmd>Telescope grep_string<CR>',
+      ['g'] = [[<cmd>lua require('telescope.builtin').live_grep{}<cr>]],
+    },
+    ['<leader>f'] = {
+      ['f'] = [[<Cmd>lua require('telescope.builtin').find_files()<CR>]],
+      ['e'] = [[<Cmd>lua require('telescope.builtin').grep_string{}<CR>]],
       ['s'] = [[<cmd>lua require('telescope.builtin').spell_suggest()<CR>]],
       ['o'] = [[<cmd>lua require("telescope").extensions.repo.list{}<cr>]],
       ['r'] = [[<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>]],
@@ -79,7 +98,7 @@ function M.setup()
       ['C'] = '<cmd>Telescope git_commits<cr>',
       ['c'] = '<cmd>Telescope git_bcommits<cr>',
       ['x'] = '<cmd>Telescope git_branches<cr>',
-    }
+    },
   }
 
   require('aceforeverd.utility.map').do_nmap('', tel_map_list, map_opts)

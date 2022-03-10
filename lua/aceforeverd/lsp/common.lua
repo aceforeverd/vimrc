@@ -20,11 +20,11 @@ local lsp_status = require('lsp-status')
 
 M.lsp_default_n_maps = {
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  ['gd'] = '<cmd>lua vim.lsp.buf.definition()<CR>',
+  ['gd'] = [[<cmd>lua require('telescope.builtin').lsp_definitions()<CR>]],
   ['gD'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
   ['K']  = '<cmd>lua vim.lsp.buf.hover()<CR>',
-  ['gi'] = '<cmd>lua vim.lsp.buf.implementation()<CR>',
-  ['gr'] = '<cmd>lua vim.lsp.buf.references()<CR>',
+  ['gi'] = [[<cmd>lua require('telescope.builtin').lsp_implementations()<CR>]],
+  ['gr'] = [[<cmd>lua require('telescope.builtin').lsp_references()<CR>]],
   ['gK'] = '<cmd>lua vim.lsp.buf.signature_help()<CR>',
   ['<Leader>wa'] = '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',
   ['<Leader>wr'] = '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',
@@ -46,11 +46,10 @@ M.lsp_default_n_maps = {
   ['<space>a'] = '<cmd>lua vim.diagnostic.setqflist()<CR>',
 
   ['<space>F'] = '<cmd>lua vim.lsp.buf.formatting()<CR>',
+  ["<space>s"] = [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]],
+  ["<space>S"] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
 
-  ['<leader>gr'] = '<cmd>Telescope lsp_references<cr>',
-  ['<leader>gd'] = '<cmd>Telescope lsp_definitions<cr>',
   ['<leader>gi'] = 'gi',
-  ['<leader>gI'] = '<cmd>Telescope lsp_implementations<cr>',
   ['<leader>cA'] = '<cmd>Telescope lsp_code_actions<cr>',
 }
 
@@ -129,9 +128,6 @@ M.handlers = {
   ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, pub_diag_config),
   ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
   ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-  ['textDocument/definition'] = require('fzf_lsp').definition_handler,
-  ['textDocument/implementation'] = require('fzf_lsp').implementation_handler,
-  ['textDocument/references'] = require('fzf_lsp').references_handler,
 }
 
 M.general_cfg = {

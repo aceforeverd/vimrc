@@ -57,7 +57,18 @@ function M.luasnip_setup()
 end
 
 function M.ultisnip_setup_pre()
+  -- ultisnips is in starter plugin list in order to avoid multiple source created in nvim-cmp
+  -- if g:with_ultisnips is on, prevent load ultisnips
+  -- be aware a source 'ultisnips' will still show up in :CmpStatus, but unavailable
+  if vim.g.with_ultisnips == 0 then
+    vim.g.did_plugin_ultisnips = 1
+    return
+  end
+
   vim.g.UltiSnipsRemoveSelectModeMappings = 0
+
+  require("cmp_nvim_ultisnips").setup{}
+
   -- TODO:: condional map
   vim.g.UltiSnipsExpandTrigger = '<M-l>'
   vim.g.UltiSnipsListSnippets = '<c-tab>'
