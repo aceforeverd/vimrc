@@ -389,7 +389,12 @@ return packer.startup({
 
     use({ 'monsonjeremy/onedark.nvim' })
 
-    use({ 'mfussenegger/nvim-dap' })
+    use({
+      'mfussenegger/nvim-dap',
+      requires = {
+        'rcarriga/nvim-dap-ui',
+      },
+    })
 
     use({ 'Pocco81/DAPInstall.nvim' })
 
