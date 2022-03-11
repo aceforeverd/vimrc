@@ -228,9 +228,3 @@ function! aceforeverd#settings#vim_go() abort
     let g:go_doc_keywordprg_enabled = 0
     let g:go_gopls_enabled = 0
 endfunction
-
-function! aceforeverd#settings#clap(root_path) abort
-    nnoremap <leader>cl :Clap<CR>
-    nnoremap <leader>cf :Clap files<CR>
-    nnoremap <leader>cb :Clap buffers<cr>
-endfunction

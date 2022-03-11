@@ -109,9 +109,6 @@ endif
 
 Plug 'mg979/docgen.vim'
 
-call aceforeverd#settings#clap(s:common_path)
-Plug 'liuchengxu/vim-clap', {'do': 'make'}
-
 Plug 'pechorin/any-jump.vim'
 let g:any_jump_disable_default_keybindings = 1
 
