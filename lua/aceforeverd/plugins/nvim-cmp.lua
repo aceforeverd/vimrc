@@ -114,10 +114,6 @@ function M.setup()
   }
 
   local snip_idx = 3
-  if vim.g.with_vsnip == 1 then
-    table.insert(sources_1, snip_idx, { name = 'vsnip' })
-    snip_idx = snip_idx + 1
-  end
   if vim.g.with_ultisnips == 1 then
     table.insert(sources_1, snip_idx, { name = 'ultisnips' })
     snip_idx = snip_idx + 1

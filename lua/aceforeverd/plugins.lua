@@ -139,30 +139,6 @@ return packer.startup({
     })
 
     use({
-      'hrsh7th/vim-vsnip',
-      requires = {
-        {
-          'hrsh7th/vim-vsnip-integ',
-          cond = function()
-            return vim.g.with_vsnip == 1
-          end,
-        },
-        {
-          'hrsh7th/cmp-vsnip',
-          cond = function()
-            return vim.g.with_vsnip == 1
-          end,
-        },
-      },
-      cond = function()
-        return vim.g.with_vsnip == 1
-      end,
-      config = function()
-        require('aceforeverd.plugins.snip').vsnip_setup()
-      end,
-    })
-
-    use({
       'kosayoda/nvim-lightbulb',
       config = function()
         require('aceforeverd.plugins.enhance').light_bulb()
@@ -334,21 +310,6 @@ return packer.startup({
         require('project_nvim').setup({
           manual_mode = false,
           silent_chdir = false,
-        })
-      end,
-    })
-
-    use({
-      'chipsenkbeil/distant.nvim',
-      opt = true,
-      config = function()
-        require('distant').setup({
-          -- Applies Chip's personal settings to every machine you connect to
-          --
-          -- 1. Ensures that distant servers terminate with no connections
-          -- 2. Provides navigation bindings for remote directories
-          -- 3. Provides keybinding to jump into a remote file's parent directory
-          ['*'] = require('distant.settings').chip_default(),
         })
       end,
     })
