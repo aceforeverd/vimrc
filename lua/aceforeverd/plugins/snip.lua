@@ -15,23 +15,6 @@
 
 local M = {}
 
-function M.vsnip_setup()
-  vim.api.nvim_set_keymap(
-    'i',
-    '<M-j>',
-    [[vsnip#available(1)  ? "<Plug>(vsnip-expand-or-jump)" : "\<M-j>"]],
-    { expr = true }
-  )
-  vim.api.nvim_set_keymap(
-    's',
-    '<M-j>',
-    [[vsnip#available(1)  ? "<Plug>(vsnip-expand-or-jump)" : "\<M-j>"]],
-    { expr = true }
-  )
-  vim.api.nvim_set_keymap('i', '<M-k>', [[vsnip#jumpable(-1)  ? "<Plug>(vsnip-jump-prev)" : "\<M-k>"]], { expr = true })
-  vim.api.nvim_set_keymap('s', '<M-k>', [[vsnip#jumpable(-1)  ? "<Plug>(vsnip-jump-prev)" : "\<M-k>"]], { expr = true })
-end
-
 function M.luasnip_setup()
   local luasnip = require('luasnip')
   -- local types = require('luasnip.util.types')

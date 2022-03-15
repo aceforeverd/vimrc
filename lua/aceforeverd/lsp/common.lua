@@ -20,6 +20,7 @@ local lsp_status = require('lsp-status')
 
 M.lsp_default_n_maps = {
   -- See `:help vim.lsp.*` for documentation on any of the below functions
+  -- TODO: custom mapping, if not found via LSP, execute variant meaning of the keymap
   ['gd'] = [[<cmd>lua require('telescope.builtin').lsp_definitions()<CR>]],
   ['gD'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
   ['K']  = '<cmd>lua vim.lsp.buf.hover()<CR>',

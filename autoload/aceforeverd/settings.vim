@@ -29,7 +29,6 @@ function! aceforeverd#settings#my_init() abort
     let g:my_autopair = get(g:, 'my_autopair', 'delimitmate')
 
     let g:with_ultisnips = get(g:, 'with_ultisnips', 1)
-    let g:with_vsnip = get(g:, 'with_vsnip', 0)
 
     let g:my_statusline = get(g:, 'my_statusline', 'feline')
     let g:my_tabline = get(g:, 'my_tabline', 'bufferline')
