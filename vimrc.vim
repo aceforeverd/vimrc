@@ -274,12 +274,12 @@ if dein#load_state(s:dein_repo)
     call dein#add('AndrewRadev/switch.vim')
     call dein#add('chrisbra/NrrwRgn')
     call dein#add('machakann/vim-sandwich')
+    " Debug
+    call dein#add('puremourning/vimspector')
 
     " Go
     call dein#add('fatih/vim-go', {'on_if': '!has("nvim")',
                 \ 'hook_source': 'call aceforeverd#settings#vim_go()'})
-    " c/c++/objc
-    call dein#add('puremourning/vimspector')
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
 

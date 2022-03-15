@@ -702,5 +702,20 @@ return packer.startup({
       'mrjones2014/legendary.nvim',
       opt = true,
     })
+
+    use({
+      'bennypowers/nvim-regexplainer',
+      config = function()
+        require('regexplainer').setup{
+          mappings = {
+            toggle = '<leader>re',
+          }
+        }
+      end,
+      requires = {
+        'nvim-lua/plenary.nvim',
+        'MunifTanjim/nui.nvim',
+      },
+    })
   end,
 })

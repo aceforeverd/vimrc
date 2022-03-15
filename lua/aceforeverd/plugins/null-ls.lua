@@ -26,7 +26,9 @@ function M.setup()
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.formatting.protolint,
 
-    null_ls.builtins.diagnostics.protolint,
+    null_ls.builtins.diagnostics.protolint.with({
+      extra_args = { '--config_path', vim.fn.stdpath('config') .. '/.protolint.yaml' }
+    }),
     -- null_ls.builtins.diagnostics.shellcheck,
     null_ls.builtins.diagnostics.hadolint,
   }
