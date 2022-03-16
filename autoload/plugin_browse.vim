@@ -43,7 +43,11 @@ function! plugin_browse#open(uris) abort
         call plugin_browse#open(a:uris[0])
     else
         " TODO: selct which one to open
-        echomsg a:uris
+        if has('nvim-0.6.0')
+            call v:lua.require'plugin_browse'.select_browse_plugin(a:uris)
+        else
+            echomsg a:uris
+        endif
     endif
 endfunction
 

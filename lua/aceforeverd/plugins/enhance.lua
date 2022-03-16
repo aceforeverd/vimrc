@@ -76,7 +76,12 @@ end
 function M.toggle_term()
   require('toggleterm').setup({
     open_mapping = [[<C-\>x]],
+    float_opts = {
+      border = 'curved',
+      winblend = 5,
+    }
   })
+  vim.api.nvim_set_keymap('n', [[<c-\>f]], [[<cmd>execute v:count . "ToggleTerm direction=float"<cr>]], {})
 end
 
 function M.dressing()
