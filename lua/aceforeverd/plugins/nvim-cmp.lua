@@ -98,6 +98,7 @@ function M.setup()
     {
       name = 'buffer',
       option = {
+        indexing_interval = 1000,
         get_bufnrs = function()
           -- only the visible buffer
           local bufs = {}

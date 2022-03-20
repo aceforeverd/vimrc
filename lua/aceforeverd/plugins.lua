@@ -705,12 +705,13 @@ return packer.startup({
 
     use({
       'bennypowers/nvim-regexplainer',
+      ft = { 'html', 'js', 'ts' },
       config = function()
-        require('regexplainer').setup{
+        require('regexplainer').setup({
           mappings = {
             toggle = '<leader>re',
-          }
-        }
+          },
+        })
       end,
       requires = {
         'nvim-lua/plenary.nvim',
