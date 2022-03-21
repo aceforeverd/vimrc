@@ -75,10 +75,10 @@ end
 
 function M.toggle_term()
   require('toggleterm').setup({
-    open_mapping = [[<C-\>x]],
+    open_mapping = [[<C-\><space>]],
     float_opts = {
       border = 'curved',
-      winblend = 5,
+      winblend = 10,
     }
   })
   vim.api.nvim_set_keymap('n', [[<c-\>f]], [[<cmd>execute v:count . "ToggleTerm direction=float"<cr>]], {})

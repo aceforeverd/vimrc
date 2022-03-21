@@ -460,7 +460,11 @@ try
 catch
 endtry
 
-set laststatus=2
+if has('nvim-0.7.0')
+    set laststatus=3
+else
+    set laststatus=2
+endif
 
 " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
 if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
