@@ -98,10 +98,17 @@ function M.setup()
     {
       name = 'buffer',
       option = {
-        indexing_interval = 1000,
+        indexing_interval = 100,
         get_bufnrs = function()
           -- only the visible buffer
           local bufs = {}
+          local cur_buf = vim.api.nvim_get_current_buf()
+          local byte_size = vim.api.nvim_buf_get_offset(cur_buf, vim.api.nvim_buf_line_count(cur_buf))
+          if byte_size > 256 * 1024 or vim.fn.line('$') > 5000 then
+            -- stop on files larger than 256k or line number > 5000
+            return {}
+          end
+
           for _, win in ipairs(vim.api.nvim_list_wins()) do
             bufs[vim.api.nvim_win_get_buf(win)] = true
           end

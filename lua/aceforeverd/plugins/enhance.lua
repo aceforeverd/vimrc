@@ -93,4 +93,10 @@ function M.dressing()
   })
 end
 
+function M.neogen()
+  require('neogen').setup({
+    snippet_engine = 'luasnip'
+  })
+end
+
 return M

@@ -718,5 +718,16 @@ return packer.startup({
         'MunifTanjim/nui.nvim',
       },
     })
+
+    use({
+      'danymat/neogen',
+      config = function()
+        require('aceforeverd.plugins.enhance').neogen()
+      end,
+      requires = {
+        'nvim-treesitter/nvim-treesitter',
+        'L3MON4D3/LuaSnip',
+      },
+    })
   end,
 })
