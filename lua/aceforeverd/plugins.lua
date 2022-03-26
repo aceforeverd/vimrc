@@ -729,5 +729,12 @@ return packer.startup({
         'L3MON4D3/LuaSnip',
       },
     })
+
+    use({
+      'p00f/godbolt.nvim',
+      config = function()
+        require('godbolt').setup({})
+      end,
+    })
   end,
 })
