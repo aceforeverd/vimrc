@@ -546,9 +546,6 @@ command! SudaRead  exe 'e suda://%'
 
 augroup gp_filetype
     autocmd!
-    autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
-    autocmd BufRead,BufNewFile *.log setlocal filetype=log
-    autocmd BufRead,BufNewFile *.fish setlocal filetype=fish
     autocmd FileType verilog,verilog_systemverilog setlocal nosmartindent
     autocmd FileType javascript setlocal nocindent
 augroup END
