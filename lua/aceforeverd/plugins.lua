@@ -728,6 +728,7 @@ return packer.startup({
         'nvim-treesitter/nvim-treesitter',
         'L3MON4D3/LuaSnip',
       },
+      cmd = 'Neogen',
     })
 
     use({
@@ -735,6 +736,7 @@ return packer.startup({
       config = function()
         require('godbolt').setup({})
       end,
+      cmd = {'GodboltCompiler', 'Godbolt'}
     })
   end,
 })

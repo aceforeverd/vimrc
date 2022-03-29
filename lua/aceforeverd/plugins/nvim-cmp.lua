@@ -118,7 +118,7 @@ function M.setup()
     },
     { name = 'emoji' },
     { name = 'tmux', keyword_length = 3, max_item_count = 10 },
-    { name = 'dictionary', keyword_length = 2 },
+    { name = 'dictionary', keyword_length = 3 },
   }
 
   local snip_idx = 3

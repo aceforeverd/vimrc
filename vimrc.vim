@@ -496,8 +496,9 @@ augroup gp_cursor_location
    autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
 
+" guifont only works on GUIs
 if has('mac') || has('macunix')
-    set guifont=FiraCodeNerdFontComplete-Regular:h13,JetBrainsMonoNerdFontComplete-Regular:h13,SauceCodeProNerdFontComplete-Regular:h13
+    set guifont=FiraCodeNerdFontComplete-Regular:h13,FiraCode\ Nerd\ Font:h13,JetBrainsMonoNerdFontComplete-Regular:h13,JetBrainsMono\ Nerd\ Font:h13,SauceCodeProNerdFontComplete-Regular:h13
 elseif has('win16') || has('win32')
     set guifont=Hack:h14,Source\ Code\ Pro:h12,Bitstream\ Vera\ Sans\ Mono:h11
 elseif has('gui_gtk2')
