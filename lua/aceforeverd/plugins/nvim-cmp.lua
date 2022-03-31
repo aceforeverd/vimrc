@@ -93,7 +93,7 @@ function M.setup()
     { name = 'calc' },
 
     { name = 'cmp_git' },
-    { name = 'treesitter' },
+    { name = 'treesitter', keyword_length = 3 },
     { name = 'spell' },
     {
       name = 'buffer',

@@ -33,4 +33,13 @@ function M.do_nmap(prefix, map_list, map_opts)
   end
 end
 
+function M.set_map(mode, lhs, rhs, opts)
+  if vim.fn.has('nvim-0.7.0') == 1 then
+    vim.keymap.set(mode, lhs, rhs, opts or {})
+  else
+    vim.api.nvim_set_keymap(mode, lhs, rhs, opts or {})
+  end
+
+end
+
 return M

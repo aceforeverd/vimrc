@@ -376,7 +376,13 @@ return packer.startup({
       cmd = 'Neogit',
     })
 
-    use({ 'sindrets/diffview.nvim', requires = { 'kyazdani42/nvim-web-devicons' } })
+    use({
+      'sindrets/diffview.nvim',
+      requires = { 'kyazdani42/nvim-web-devicons' },
+      config = function()
+        require('aceforeverd.plugins.git').diffview()
+      end,
+    })
 
     use({
       'tversteeg/registers.nvim',
@@ -591,7 +597,7 @@ return packer.startup({
       requires = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' },
       cmd = { 'FzfLua' },
       config = function()
-        require('fzf-lua').setup({ winopts = { width = 0.9 } })
+        require('aceforeverd.finder').fzflua()
       end,
     })
 
@@ -736,7 +742,7 @@ return packer.startup({
       config = function()
         require('godbolt').setup({})
       end,
-      cmd = {'GodboltCompiler', 'Godbolt'}
+      cmd = { 'GodboltCompiler', 'Godbolt' },
     })
   end,
 })

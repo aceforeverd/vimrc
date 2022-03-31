@@ -99,4 +99,10 @@ function M.gitlinker()
   )
 end
 
+function M.diffview()
+  require('diffview').setup({
+    enhanced_diff_hl = true,
+  })
+end
+
 return M

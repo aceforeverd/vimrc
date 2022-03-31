@@ -27,3 +27,6 @@ local set_map = vim.api.nvim_set_keymap
 set_map('x', ']"', '"', { noremap = true, silent = true })
 set_map('n', '{{', '{', { noremap = true, silent = true })
 set_map('n', '}}', '}', { noremap = true, silent = true })
+
+-- TODO: find one place and define maps once all
+require('aceforeverd.utility.map').set_map('n', '<space>l', '<cmd>FzfLua<cr>', { noremap = true })
