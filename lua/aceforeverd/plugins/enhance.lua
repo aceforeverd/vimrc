@@ -29,7 +29,7 @@ end
 
 function M.which_key()
   if vim.fn.has('nvim-0.7.0') == 1 then
-    vim.cmd [[PackerLoad legendary.nvim]]
+    vim.cmd([[PackerLoad legendary.nvim]])
     require('legendary').setup()
   end
   require('which-key').setup({ plugins = { registers = false } })
@@ -73,15 +73,36 @@ function M.light_bulb()
   augroup END]])
 end
 
+local Terminal = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({
+  cmd = 'lazygit',
+  hidden = true,
+  direction = 'float',
+  float_opts = {
+    border = 'curved',
+    winblend = 10,
+  },
+})
+
+function M.lazygit()
+  lazygit:toggle()
+end
+
 function M.toggle_term()
   require('toggleterm').setup({
     open_mapping = [[<C-\><space>]],
     float_opts = {
       border = 'curved',
       winblend = 10,
-    }
+    },
   })
   vim.api.nvim_set_keymap('n', [[<c-\>f]], [[<cmd>execute v:count . "ToggleTerm direction=float"<cr>]], {})
+  vim.api.nvim_set_keymap(
+    'n',
+    '<leader>gl',
+    [[<cmd>lua require('aceforeverd.plugins.enhance').lazygit()<CR>]],
+    { noremap = true, silent = true }
+  )
 end
 
 function M.dressing()
@@ -89,13 +110,13 @@ function M.dressing()
     input = {
       border = 'rounded',
       winblend = 10,
-    }
+    },
   })
 end
 
 function M.neogen()
   require('neogen').setup({
-    snippet_engine = 'luasnip'
+    snippet_engine = 'luasnip',
   })
 end
 

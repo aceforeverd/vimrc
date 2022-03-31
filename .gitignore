@@ -2,6 +2,7 @@ dein/
 bundle/
 autoload/plug.vim*
 plugin/packer_compiled.vim
+plugin/packer_compiled.lua
 before.vim
 after.vim
 tags
