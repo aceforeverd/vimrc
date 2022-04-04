@@ -744,5 +744,12 @@ return packer.startup({
       end,
       cmd = { 'GodboltCompiler', 'Godbolt' },
     })
+    use({
+      'mrjones2014/dash.nvim',
+      run = 'make install',
+      cond = function()
+        return vim.fn.has('mac') == 1
+      end,
+    })
   end,
 })
