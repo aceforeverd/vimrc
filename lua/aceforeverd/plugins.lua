@@ -269,7 +269,7 @@ return packer.startup({
     use({
       'nvim-telescope/telescope.nvim',
       config = function()
-        require('aceforeverd.plugins.telescope').setup()
+        require('aceforeverd.finder').telescope()
       end,
       requires = {
         'nvim-lua/popup.nvim',
@@ -750,6 +750,13 @@ return packer.startup({
       cond = function()
         return vim.fn.has('mac') == 1
       end,
+      config = function()
+        require('aceforeverd.finder').dash()
+      end
     })
+
+    use {
+      "rcarriga/vim-ultest"
+    }
   end,
 })
