@@ -105,8 +105,6 @@ elseif g:my_autopair ==? 'lexima'
    Plug 'cohama/lexima.vim'
 endif
 
-" Plug 'tpope/vim-projectionist'
-
 Plug 'mg979/docgen.vim'
 
 Plug 'pechorin/any-jump.vim'
@@ -192,7 +190,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('tpope/vim-obsession')
     call dein#add('tpope/vim-tbone')
     call dein#add('tpope/vim-dadbod')
-    " call dein#add('tpope/vim-projectionist')
+    call dein#add('tpope/vim-projectionist')
     call dein#add('tpope/vim-sleuth')
     call dein#add('tpope/vim-apathy')
     call dein#add('tpope/vim-characterize')
