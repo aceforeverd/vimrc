@@ -17,7 +17,7 @@ local M = {}
 function M.setup()
   vim.g.loaded_endwise = 1
   require('nvim-treesitter.configs').setup({
-    ensure_installed = 'maintained', -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    ensure_installed = 'all',
     ignore_install = {}, -- TSModuleInfo fail on fennel
     highlight = {
       enable = true,
