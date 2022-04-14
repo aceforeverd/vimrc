@@ -62,6 +62,8 @@ function M.gitsigns()
       virt_text_pos = 'eol',
       delay = 1000,
       ignore_whitespace = false,
+      -- the lower take the priority
+      virt_text_priority = 200,
     },
     sign_priority = 6,
     update_debounce = 100,
