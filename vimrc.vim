@@ -251,7 +251,7 @@ if dein#load_state(s:dein_repo)
     call dein#add('tpope/vim-fugitive')
     call dein#add('junegunn/gv.vim')
     call dein#add('rhysd/committia.vim')
-    call dein#add('rhysd/conflict-marker.vim')
+    call dein#add('rhysd/conflict-marker.vim', {'on_if': '!has("nvim")'})
 
     " search
     call dein#add('junegunn/fzf', {

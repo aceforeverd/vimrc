@@ -509,6 +509,13 @@ return packer.startup({
     })
 
     use({
+      'akinsho/git-conflict.nvim',
+      config = function()
+        require('aceforeverd.plugins.git').git_conflict()
+      end,
+    })
+
+    use({
       'ruifm/gitlinker.nvim',
       requires = 'nvim-lua/plenary.nvim',
       config = function()
@@ -752,11 +759,11 @@ return packer.startup({
       end,
       config = function()
         require('aceforeverd.finder').dash()
-      end
+      end,
     })
 
-    use {
-      "rcarriga/vim-ultest"
-    }
+    use({
+      'rcarriga/vim-ultest',
+    })
   end,
 })
