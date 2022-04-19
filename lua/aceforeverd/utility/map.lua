@@ -16,6 +16,8 @@
 
 local M = {}
 
+local map_fn = vim.fn.has('nvim-0.7.0') == 1 and vim.keymap.set or vim.api.nvim_set_keymap
+
 -- reclusively create normal map from a map list
 function M.do_nmap(prefix, map_list, map_opts)
   if type(prefix) ~= 'string' then
@@ -27,13 +29,11 @@ function M.do_nmap(prefix, map_list, map_opts)
       M.do_nmap(prefix .. key, value)
     end
   elseif type(map_list) == 'string' then
-    vim.api.nvim_set_keymap('n', prefix, map_list, map_opts or {})
+    map_fn('n', prefix, map_list, map_opts or {})
   else
     vim.api.nvim_notify('[skip]: map_list is not table', vim.log.levels.WARN, {})
   end
 end
-
-local map_fn = vim.fn.has('nvim-0.7.0') == 1 and vim.keymap.set or vim.api.nvim_set_keymap
 
 function M.set_map(mode, lhs, rhs, opts)
   -- vim.keymap.set support mode to be list and rhs be function, anyway I do not check that

@@ -23,7 +23,7 @@ M.lsp_default_n_maps = {
   -- TODO: custom mapping, if not found via LSP, execute variant meaning of the keymap
   ['gd'] = [[<cmd>lua require('telescope.builtin').lsp_definitions()<CR>]],
   ['gD'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
-  ['K']  = '<cmd>lua vim.lsp.buf.hover()<CR>',
+  ['K'] = '<cmd>lua vim.lsp.buf.hover()<CR>',
   ['gi'] = [[<cmd>lua require('telescope.builtin').lsp_implementations()<CR>]],
   ['gr'] = [[<cmd>lua require('telescope.builtin').lsp_references()<CR>]],
   ['gK'] = '<cmd>lua vim.lsp.buf.signature_help()<CR>',
@@ -47,8 +47,8 @@ M.lsp_default_n_maps = {
   ['<space>a'] = '<cmd>lua vim.diagnostic.setqflist()<CR>',
 
   ['<space>F'] = '<cmd>lua vim.lsp.buf.formatting()<CR>',
-  ["<space>s"] = [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]],
-  ["<space>S"] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
+  ['<space>s'] = [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]],
+  ['<space>S'] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
 
   ['<leader>gi'] = 'gi',
   ['<leader>cA'] = '<cmd>Telescope lsp_code_actions<cr>',
@@ -74,15 +74,23 @@ function M.on_attach(client, bufnr)
 
   require('illuminate').on_attach(client)
 
+  local status, aerial = pcall(require, 'aerial')
+  if status then
+    aerial.on_attach(client, bufnr)
+  end
+
   -- lsp_signature.nvim
-  require('lsp_signature').on_attach({
-    bind = true,
-    handler_opts = {
-      border = 'rounded',
-    },
-    transparency = 25,
-    toggle_key = '<A-x>',
-  }, bufnr)
+  local s, lsp_signature = pcall(require, 'lsp_signature')
+  if s then
+    lsp_signature.on_attach({
+      bind = true,
+      handler_opts = {
+        border = 'rounded',
+      },
+      transparency = 25,
+      toggle_key = '<A-x>',
+    }, bufnr)
+  end
 
   require('lsp-status').on_attach(client)
 end

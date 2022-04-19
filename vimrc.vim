@@ -287,7 +287,6 @@ if dein#load_state(s:dein_repo)
     " vimL
     call dein#add('mhinz/vim-lookup')
 
-    call dein#add('kevinoid/vim-jsonc')
     call dein#add('tweekmonster/exception.vim')
     call dein#add('tweekmonster/helpful.vim')
     " markdown

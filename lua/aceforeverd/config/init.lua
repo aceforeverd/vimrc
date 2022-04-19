@@ -15,7 +15,7 @@
 
 local M = {}
 
-function M.setup()
+function M.gps()
     require("nvim-gps").setup({
         icons = {
             ["class-name"] = ' ', -- Classes and class-like objects

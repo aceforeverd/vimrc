@@ -28,11 +28,11 @@ function M.hop()
 end
 
 function M.which_key()
-  if vim.fn.has('nvim-0.7.0') == 1 then
-    vim.cmd([[PackerLoad legendary.nvim]])
-    require('legendary').setup()
-  end
   require('which-key').setup({ plugins = { registers = false } })
+end
+
+function M.legendary()
+  require('legendary').setup()
 end
 
 function M.registers_pre()

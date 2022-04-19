@@ -83,7 +83,7 @@ return packer.startup({
     })
 
     use({
-      'onsails/lspkind-nvim',
+      'onsails/lspkind.nvim',
       config = function()
         require('aceforeverd.lsp').lspkind()
       end,
@@ -123,18 +123,6 @@ return packer.startup({
       },
       config = function()
         require('aceforeverd.plugins.snip').luasnip_setup()
-      end,
-    })
-
-    use({
-      'SirVer/ultisnips',
-      requires = {
-        {
-          'quangnguyen30192/cmp-nvim-ultisnips',
-        },
-      },
-      setup = function()
-        require('aceforeverd.plugins.snip').ultisnip_setup_pre()
       end,
     })
 
@@ -258,14 +246,6 @@ return packer.startup({
       end,
     })
 
-    -- automatically create Lsp diagnostic highlight group is the colorshceme not defined it
-    use({
-      'folke/lsp-colors.nvim',
-      config = function()
-        require('lsp-colors').setup({})
-      end,
-    })
-
     use({
       'nvim-telescope/telescope.nvim',
       config = function()
@@ -328,13 +308,21 @@ return packer.startup({
     })
 
     use({
-      'kyazdani42/nvim-tree.lua',
-      requires = { 'kyazdani42/nvim-web-devicons' },
-      cmd = { 'NvimTreeToggle', 'NvimTreeClipboard', 'NvimTreeFindFileToggle' },
-      keys = { '<space>e' },
-      config = function()
-        require('aceforeverd.plugins.nvim-tree').setup()
+      'nvim-neo-tree/neo-tree.nvim',
+      branch = 'v2.x',
+      requires = {
+        'nvim-lua/plenary.nvim',
+        'kyazdani42/nvim-web-devicons',
+        'MunifTanjim/nui.nvim',
+      },
+      setup = function()
+        vim.g.neo_tree_remove_legacy_commands = 1
       end,
+      config = function()
+        require('aceforeverd.plugins.tree').neo_tree()
+      end,
+      cmd = { 'Neotree' },
+      keys = { '<space>e' },
     })
 
     use({
@@ -356,8 +344,6 @@ return packer.startup({
         'rcarriga/nvim-dap-ui',
       },
     })
-
-    use({ 'Pocco81/DAPInstall.nvim' })
 
     use({ 'kevinhwang91/nvim-bqf' })
 
@@ -417,13 +403,13 @@ return packer.startup({
     use({
       'SmiteshP/nvim-gps',
       config = function()
-        require('aceforeverd.plugins.gps').setup()
+        require('aceforeverd.config').gps()
       end,
       requires = 'nvim-treesitter/nvim-treesitter',
     })
 
     use({
-      'romgrk/nvim-treesitter-context',
+      'lewis6991/nvim-treesitter-context',
       requires = { 'nvim-treesitter/nvim-treesitter' },
       config = function()
         require('aceforeverd.plugins.treesitter').ts_context()
@@ -466,7 +452,6 @@ return packer.startup({
     use({
       'michaelb/sniprun',
       run = 'bash install.sh',
-      cmd = { 'SnipRun', 'SnipClose', 'SnipInfo', 'SnipReset', 'SnipTerminate', 'SnipReplMemoryClean' },
     })
 
     use({
@@ -554,9 +539,7 @@ return packer.startup({
 
     use({
       'itchyny/lightline.vim',
-      cond = function()
-        return vim.g.my_statusline == 'lightline'
-      end,
+      opt = true,
       setup = function()
         require('aceforeverd.statusline.lightline').setup()
       end,
@@ -592,11 +575,10 @@ return packer.startup({
     })
 
     use({
-      'simrat39/symbols-outline.nvim',
-      setup = function()
-        vim.g.symbols_outline = { highlight_hovered_item = true }
+      'stevearc/aerial.nvim',
+      config = function()
+        require('aerial').setup()
       end,
-      cmd = { 'SymbolsOutline' },
     })
 
     use({
@@ -713,7 +695,9 @@ return packer.startup({
 
     use({
       'mrjones2014/legendary.nvim',
-      opt = true,
+      config = function()
+        require('aceforeverd.plugins.enhance').legendary()
+      end,
     })
 
     use({

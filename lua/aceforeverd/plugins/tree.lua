@@ -1,4 +1,4 @@
--- Copyright (C) 2021  Ace <teapot@aceforeverd.com>
+-- Copyright (C) 2022  Ace <teapot@aceforeverd.com>
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -15,29 +15,19 @@
 
 local M = {}
 
-function M.luasnip_setup()
-  local luasnip = require('luasnip')
-  -- local types = require('luasnip.util.types')
-  luasnip.config.setup({
-    ext_opts = {
-      history = true,
-      -- [types.choiceNode] = {
-      --     active = {
-      --         virt_text = { { '●', 'DiffAdd' } },
-      --     },
-      -- },
-      -- [types.insertNode] = {
-      --     active = {
-      --         virt_text = { { '●', 'DiffDelete' } },
-      --     },
-      -- },
+function M.neo_tree()
+  require('neo-tree').setup({
+    filesystem = {
+      hijack_netrw_behavior = 'disabled',
+      window = {
+        mappings = {
+          ['o'] = 'open',
+        },
+      },
     },
   })
 
-  require('luasnip.loaders.from_vscode').lazy_load()
-  require('luasnip.loaders.from_snipmate').lazy_load()
-
-  -- keymaps defined in nvim-cmp.lua
+  require('aceforeverd.utility.map').set_map('n', '<space>e', '<cmd>Neotree toggle reveal<cr>')
 end
 
 return M
