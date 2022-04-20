@@ -176,7 +176,7 @@ return packer.startup({
         return vim.g.my_cmp_source == 'nvim_lsp'
       end,
       config = function()
-        require('aceforeverd.plugins.illuminate').setup()
+        require('aceforeverd.config.tools').illuminate()
       end,
     })
 
@@ -386,7 +386,7 @@ return packer.startup({
       'pwntester/octo.nvim',
       requires = { 'nvim-telescope/telescope.nvim', 'kyazdani42/nvim-web-devicons' },
       config = function()
-        require('aceforeverd.plugins.octo').setup()
+        require('aceforeverd.plugins.git').octo()
       end,
       cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' },
     })
@@ -481,7 +481,7 @@ return packer.startup({
       after = { 'nvim-treesitter' }, -- you may also specify telescope
       ft = 'norg',
       config = function()
-        require('aceforeverd.plugins.orgmode').norg()
+        require('aceforeverd.config.ft_plugins').norg()
       end,
     })
 

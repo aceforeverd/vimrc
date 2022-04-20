@@ -130,4 +130,11 @@ function M.git_conflict()
   require('git-conflict').setup({})
 end
 
+function M.octo()
+  require('octo').setup({
+    user_icon = '👴',
+    timeline_marker = '📣',
+  })
+end
+
 return M
