@@ -34,4 +34,60 @@ function M.norg()
   })
 end
 
+function M.metals()
+  local metals = require('metals')
+  local metals_config = vim.deepcopy(metals.bare_config())
+  metals_config.init_options.statusBarProvider = 'on'
+
+  metals_config = vim.tbl_deep_extend('force', metals_config, require('aceforeverd.lsp.common').general_cfg)
+
+  metals.initialize_or_attach(metals_config)
+end
+
+function M.jdtls()
+  local lsp_installer_servers = require('nvim-lsp-installer.servers')
+  local available, server = lsp_installer_servers.get_server('jdtls')
+
+  if not available then
+    vim.api.nvim_notify('jdtls not available from lsp-installer, install manually', 3, {})
+    return ''
+  end
+
+  if not server:is_installed() then
+    vim.api.nvim_notify('installing jdtls via lsp-installer', 2, {})
+    server:install()
+  end
+
+  -- dir should be absolute path
+  local dir = server.root_dir
+
+  -- TODO: check java version is jdk 11 or later
+
+  local cfg_file
+  if vim.fn.has('mac') == 1 then
+    cfg_file = "config_mac"
+  elseif vim.fn.has('unix') == 1 then
+    cfg_file = 'config_linux'
+  else
+    vim.api.nvim_notify("Unsupported system", 4, {})
+    return
+  end
+
+  local config_path = vim.fn.stdpath('config')
+  local data_path = vim.fn.stdpath('data')
+
+  local workspace_dir = data_path .. '/jdtls-ws/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+  local config = vim.tbl_deep_extend('force', {
+    cmd = { config_path .. '/bin/java-lsp', dir, dir .. '/' .. cfg_file, workspace_dir },
+    flags = {
+      allow_incremental_sync = true,
+    },
+    -- TODO: add more mappings from nvim-jdtls
+
+    root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew', 'pom.xml' }),
+  }, require('aceforeverd.lsp.common').general_cfg)
+
+  require('jdtls').start_or_attach(config)
+end
+
 return M

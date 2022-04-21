@@ -120,4 +120,35 @@ function M.neogen()
   })
 end
 
+function M.autopairs()
+  local npairs = require('nvim-autopairs')
+  npairs.setup()
+
+  local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+  require('cmp').event:on('confirm_done', cmp_autopairs.on_confirm_done({}))
+
+  cmp_autopairs.lisp[#cmp_autopairs.lisp + 1] = 'racket'
+
+  -- add some endwise rules
+  -- NOTE: vim-endwise will break on neovim with nvim-treesitter highlight feature enabled
+  --   see https://github.com/nvim-treesitter/nvim-treesitter/issues/703
+  -- npairs.add_rules(require('nvim-autopairs.rules.endwise-elixir'))
+  -- npairs.add_rules(require('nvim-autopairs.rules.endwise-lua'))
+  -- npairs.add_rules(require('nvim-autopairs.rules.endwise-ruby'))
+end
+
+function M.indent_blankline()
+  -- set list
+  vim.opt.list = true
+  vim.opt.listchars:append('space:⋅')
+
+  require('indent_blankline').setup({
+    char_list = { '|', '¦', '┆', '┊' },
+    space_char_blankline = ' ',
+    show_trailing_blankline_indent = false,
+    buftype_exclude = { 'terminal' },
+    filetype_exclude = { 'startify', 'coc-explorer', 'NvimTree', 'help', 'git', 'packer', 'lsp-installer' },
+  })
+end
+
 return M

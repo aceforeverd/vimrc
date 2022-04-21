@@ -145,7 +145,7 @@ return packer.startup({
       ft = { 'java' },
       requires = { 'williamboman/nvim-lsp-installer' },
       config = function()
-        require('aceforeverd.plugins.jdtls').setup()
+        require('aceforeverd.config.ft_plugins').jdtls()
       end,
     })
 
@@ -154,7 +154,7 @@ return packer.startup({
       requires = { 'nvim-lua/plenary.nvim', 'williamboman/nvim-lsp-installer' },
       ft = { 'scala', 'sbt' },
       config = function()
-        require('aceforeverd.plugins.metals').setup()
+        require('aceforeverd.config.ft_plugins').metals()
       end,
     })
 
@@ -234,7 +234,7 @@ return packer.startup({
     use({
       'lukas-reineke/indent-blankline.nvim',
       config = function()
-        require('aceforeverd.plugins.indent').setup()
+        require('aceforeverd.plugins.enhance').indent_blankline()
       end,
     })
 
@@ -469,7 +469,6 @@ return packer.startup({
       config = function()
         require('spellsitter').setup({
           -- enable = { 'cpp', 'lua', 'python', 'java', 'c', 'vim', 'sh' },
-          hl = 'SpellBad',
         })
       end,
     })
@@ -604,7 +603,7 @@ return packer.startup({
         return vim.g.my_autopair == 'nvim-autopairs'
       end,
       config = function()
-        require('aceforeverd.plugins.autopairs').setup()
+        require('aceforeverd.plugins.enhance').autopairs()
       end,
     })
 
