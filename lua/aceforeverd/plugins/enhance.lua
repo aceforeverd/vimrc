@@ -13,9 +13,11 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
--- enhance nvim behaviors
+-- enhancement for an nvim variant feature
 
 local M = {}
+
+local map = require('aceforeverd.utility.map').set_map
 
 function M.pretty_fold()
   require('pretty-fold').setup({})
@@ -150,5 +152,7 @@ function M.indent_blankline()
     filetype_exclude = { 'startify', 'coc-explorer', 'NvimTree', 'help', 'git', 'packer', 'lsp-installer' },
   })
 end
+
+
 
 return M

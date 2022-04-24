@@ -214,6 +214,7 @@ return packer.startup({
         { 'nvim-treesitter/nvim-tree-docs', requires = { 'Olical/aniseed' } },
         'RRethy/nvim-treesitter-endwise',
         'JoosepAlviste/nvim-ts-context-commentstring',
+        'windwp/nvim-ts-autotag',
       },
       run = ':TSUpdate',
       config = function()
@@ -747,6 +748,14 @@ return packer.startup({
 
     use({
       'rcarriga/vim-ultest',
+    })
+
+    use({
+      'folke/zen-mode.nvim',
+      config = function()
+        require('zen-mode').setup({})
+      end,
+      cmd = { 'ZenMode' },
     })
   end,
 })

@@ -18,20 +18,35 @@ local M = {}
 
 local map_fn = vim.fn.has('nvim-0.7.0') == 1 and vim.keymap.set or vim.api.nvim_set_keymap
 
--- reclusively create normal map from a map list
-function M.do_nmap(prefix, map_list, map_opts)
+--- create map based on a table
+---@param map_list dict first level key should be vim mode name, e.g 'n', 'v'
+---@param map_opts dict 
+function M.do_map(map_list, map_opts)
+  if type(map_list) ~= "table" then
+    vim.api.nvim_notify('[skip]: map_list not a table: ' .. vim.inspect(map_list), vim.log.levels.WARN, {})
+  end
+
+  for k, v in pairs(map_list) do
+    -- though it do not check if first level key is a vim mode string
+    M.do_mode_map(k, '', v, map_opts)
+  end
+end
+
+function M.do_mode_map(mode, prefix, map_list, map_opts)
   if type(prefix) ~= 'string' then
     vim.api.nvim_notify('[skip]: prefix is not string', vim.log.levels.WARN, {})
   end
 
   if type(map_list) == 'table' then
     for key, value in pairs(map_list) do
-      M.do_nmap(prefix .. key, value)
+      M.do_mode_map(mode, prefix .. key, value)
     end
   elseif type(map_list) == 'string' then
-    map_fn('n', prefix, map_list, map_opts or {})
+    M.set_map(mode, prefix, map_list, map_opts or {})
+  elseif type(map_list) == 'function' then
+    vim.keymap.set(mode, prefix, map_list, map_opts or {})
   else
-    vim.api.nvim_notify('[skip]: map_list is not table', vim.log.levels.WARN, {})
+    vim.api.nvim_notify('[skip]: map_list is not table: ' .. vim.inspect(map_list), vim.log.levels.WARN, {})
   end
 end
 

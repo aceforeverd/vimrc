@@ -16,6 +16,8 @@ local M = {}
 
 function M.setup()
   vim.g.loaded_endwise = 1
+  vim.g.loaded_tagalong = 1
+
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
     ignore_install = {}, -- TSModuleInfo fail on fennel
@@ -206,6 +208,9 @@ function M.setup()
       enable = true,
     },
     context_commentstring = { enable = true, enable_autocmd = false },
+    autotag = {
+      enable = true,
+    }
   })
 
   -- :set foldmethod=expr to enable fold with expr, default is manual
