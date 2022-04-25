@@ -628,7 +628,7 @@ let g:mkdp_auto_close = 0
 augroup gp_markdown
   autocmd!
   autocmd FileType markdown,rmd,pandoc.markdown map <buffer> <leader>mp <Plug>MarkdownPreview
-  autocmd FileType markdown,rmd,pandoc.markdown setlocal spell
+  autocmd FileType markdown,rmd,pandoc.markdown,gitcommit setlocal spell
 augroup END
 
 " easy-align

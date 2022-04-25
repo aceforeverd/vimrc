@@ -66,11 +66,12 @@ function M.get_config()
           },
           requiredFiles = {
             -- diagnostic lsp seems check files in directory same with the edit buffer instead the detected project root
-            -- so this is kind hack for general use (up to three depth)
+            -- so this is kind hack for general use (up to four depth)
             'CPPLINT.cfg',
             '../CPPLINT.cfg',
             '../../CPPLINT.cfg',
             '../../../CPPLINT.cfg',
+            '../../../../CPPLINT.cfg',
           },
         },
         shellcheck = {

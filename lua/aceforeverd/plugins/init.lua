@@ -757,5 +757,9 @@ return packer.startup({
       end,
       cmd = { 'ZenMode' },
     })
+
+    use({
+      'rlane/pounce.nvim'
+    })
   end,
 })
