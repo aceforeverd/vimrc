@@ -139,6 +139,9 @@ if dein#load_state(s:dein_repo)
         call dein#add('gelguy/wilder.nvim', {
                     \ 'hook_post_source': 'call aceforeverd#completion#wider()'
                     \ })
+        call dein#add('wellle/tmux-complete.vim', {
+                    \ 'hook_source': 'let g:tmuxcomplete#trigger = ""'
+                    \ })
     endif
 
     if g:my_cmp_source ==? 'deoplete'
@@ -301,7 +304,6 @@ if dein#load_state(s:dein_repo)
     " Tmux
     call dein#add('tmux-plugins/vim-tmux')
     call dein#add('christoomey/vim-tmux-navigator')
-    call dein#add('wellle/tmux-complete.vim')
     " Latex
     " merged = 0 beacue E944: Reverse range in character class
     call dein#add('lervag/vimtex', {'merged': 0})
@@ -661,9 +663,6 @@ let g:header_field_license_id = 'GPL'
 
 " tmux navigator
 let g:tmux_navigator_no_mappings = 1
-
-" tmux-complete
-let g:tmuxcomplete#trigger = ''
 
 " vim-lookup
 augroup gp_lookup

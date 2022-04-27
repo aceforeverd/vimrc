@@ -153,6 +153,4 @@ function M.indent_blankline()
   })
 end
 
-
-
 return M

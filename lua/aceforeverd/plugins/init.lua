@@ -39,15 +39,17 @@ packer.init({
   package_root = util.join_paths(config_path, 'bundle/pack'),
   compile_path = util.join_paths(config_path, 'plugin', 'packer_compiled.lua'),
   plugin_package = 'packer',
-  max_jobs = 12,
+  max_jobs = 8,
   git = { clone_timeout = 30 },
-  display = { open_fn = require('packer.util').float, keybindings = { quit = 'q' } },
+  -- display = { open_fn = require('packer.util').float, keybindings = { quit = 'q' } },
   profile = { enable = true, threshold = 1 },
 })
 
 return packer.startup({
   function(use)
     use({ 'wbthomason/packer.nvim' })
+
+    use({ 'lewis6991/impatient.nvim' })
 
     use({
       'nvim-lua/lsp-status.nvim',

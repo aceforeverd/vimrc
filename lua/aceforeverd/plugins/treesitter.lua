@@ -29,10 +29,10 @@ function M.setup()
     incremental_selection = {
       enable = true,
       keymaps = {
-        init_selection = 'gnn',
-        node_incremental = 'gni',
-        scope_incremental = 'gnu',
-        node_decremental = 'gnd',
+        init_selection = '<space>n',
+        node_incremental = 'go',
+        node_decremental = 'gi',
+        scope_incremental = 'gu',
       },
     },
     matchup = { enable = true },
@@ -75,8 +75,8 @@ function M.setup()
       navigation = {
         enable = true,
         keymaps = {
-          goto_definition = 'gnd',
-          list_definitions = 'gnD',
+          goto_definition = '<space>gd',
+          list_definitions = '<space>gD',
           list_definitions_toc = 'gO',
           goto_next_usage = '<a-*>',
           goto_previous_usage = '<a-#>',
@@ -215,7 +215,7 @@ function M.setup()
 
   -- :set foldmethod=expr to enable fold with expr, default is manual
   vim.cmd([[set foldexpr=nvim_treesitter#foldexpr()]])
-  vim.api.nvim_set_keymap(
+  require('aceforeverd.utility.map').set_map(
     'n',
     '<leader>uc',
     ":lua require('ts_context_commentstring.internal').update_commentstring()<CR>",

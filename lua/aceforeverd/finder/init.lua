@@ -90,7 +90,7 @@ function M.telescope()
       ['<space>'] = [[<cmd>Telescope<CR>]],
       ['b'] = "<cmd>lua require('telescope.builtin').buffers()<cr>",
       ['c'] = "<cmd>lua require('telescope.builtin').commands()<cr>",
-      ['g'] = [[<cmd>lua require('telescope.builtin').live_grep{}<cr>]],
+      ['R'] = [[<cmd>lua require('telescope.builtin').live_grep{}<cr>]],
     },
     ['<leader>f'] = {
       ['f'] = [[<Cmd>lua require('telescope.builtin').find_files()<CR>]],

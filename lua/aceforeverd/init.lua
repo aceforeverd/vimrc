@@ -15,18 +15,26 @@
 
 -- config variables
 
+pcall(require, 'impatient')
+
 if vim.g.lsp_process_provider == nil then
   vim.g.lsp_process_provider = 'fidget'
 end
 
 require('aceforeverd.plugins')
 
-local set_map = vim.api.nvim_set_keymap
+require('aceforeverd.utility.map').do_map({
+  n = {
+    ['}}'] = '}',
+    ['{{'] = '{',
+    ['<space>'] = {
+      ['l'] = '<cmd>FzfLua<cr>',
+      ['p'] = '<cmd>Pounce<cr>',
+    }
+  }, x = {
+    [']"'] = [["]],
+  }
+}, {nnoremap = true, silent = true})
 
 -- keep vim default maps
-set_map('x', ']"', '"', { noremap = true, silent = true })
-set_map('n', '{{', '{', { noremap = true, silent = true })
-set_map('n', '}}', '}', { noremap = true, silent = true })
-
--- TODO: find one place and define maps once all
-require('aceforeverd.utility.map').set_map('n', '<space>l', '<cmd>FzfLua<cr>', { noremap = true })
+-- set_map('x', ']"', '"', { noremap = true, silent = true })
