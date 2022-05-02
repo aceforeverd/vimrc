@@ -22,7 +22,7 @@ local map = require('aceforeverd.utility.map').set_map
 function M.pretty_fold()
   require('pretty-fold').setup({})
   -- 'h' preview fold, 'l' open fold
-  require('pretty-fold.preview').setup_keybinding()
+  require('pretty-fold.preview').setup()
 end
 
 function M.hop()
@@ -92,19 +92,17 @@ end
 
 function M.toggle_term()
   require('toggleterm').setup({
-    open_mapping = [[<C-\><space>]],
+    open_mapping = [[<C-\><C-\>]],
+    direction = 'float',
     float_opts = {
       border = 'curved',
       winblend = 10,
     },
   })
-  vim.api.nvim_set_keymap('n', [[<c-\>f]], [[<cmd>execute v:count . "ToggleTerm direction=float"<cr>]], {})
-  vim.api.nvim_set_keymap(
-    'n',
-    '<leader>gl',
-    [[<cmd>lua require('aceforeverd.plugins.enhance').lazygit()<CR>]],
-    { noremap = true, silent = true }
-  )
+  require('aceforeverd.utility.map').do_mode_map('n', '', {
+    ['<leader>x'] = [[<cmd>execute v:count . "ToggleTerm direction=horizontal"<cr>]],
+    ['<leader>gl'] = [[<cmd>lua require('aceforeverd.plugins.enhance').lazygit()<CR>]],
+  }, {})
 end
 
 function M.dressing()

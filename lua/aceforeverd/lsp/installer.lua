@@ -48,13 +48,20 @@ function M.setup()
     return
   end
 
+  local lspconfig = require('lspconfig')
+
+  -- for those do not need extra configs in lsp-config setup, use this generalized one
+  local setup_generalized = function(name)
+    lspconfig[name].setup({})
+  end
+
   -- override default lsp setup function by lsp-installer
   -- @param cfg_override lsp configuration override, can be
   --   1. table
-  --   2. function: return the override table, accept server as parameter
+  --   2. function: return the override table
   -- @param post_hook additional action take after lsp setup, only support function type with one parameter that is lsp-installer's server
   local setup_generalized_with_override = function(cfg_override, post_hook)
-    return function(server)
+    return function(server_name)
       local override = {}
       if type(cfg_override) == 'table' then
         if type(cfg_override.on_attach) == 'function' then
@@ -69,34 +76,17 @@ function M.setup()
         end
         override = vim.tbl_deep_extend('force', M.general_lsp_config, cfg_override)
       elseif type(cfg_override) == 'function' then
-        override = vim.tbl_deep_extend('force', M.general_lsp_config, cfg_override(server))
+        override = vim.tbl_deep_extend('force', M.general_lsp_config, cfg_override())
       elseif type(cfg_override) == 'nil' then
         override = M.general_lsp_config
       end
 
-      server:setup(override)
+      lspconfig[server_name].setup(override)
 
       if type(post_hook) == 'function' then
-        post_hook(server)
+        post_hook(server_name)
       end
     end
-  end
-
-  -- for those do not need extra configs in lsp-config setup, use this generalized one
-  local setup_generalized = function(server)
-    server:setup(M.general_lsp_config)
-  end
-
-  local setup_sumeko_lua = function(server)
-    local luadev = require('lua-dev').setup({
-      runtime_path = false, -- true -> it will be slow
-      -- add any options here, or leave empty to use the default settings
-      lspconfig = M.general_lsp_config,
-    })
-
-    -- vim.api.nvim_notify(require('luaunit').prettystr(luadev), 2, {})
-
-    server:setup(luadev)
   end
 
   local html_cfg = {
@@ -110,7 +100,13 @@ function M.setup()
   }
 
   local setup_lsp_configs = {
-    sumneko_lua = setup_sumeko_lua,
+    sumneko_lua = setup_generalized_with_override(function()
+      return require('lua-dev').setup({
+        runtime_path = false, -- true -> it will be slow
+        -- add any options here, or leave empty to use the default settings
+        lspconfig = M.general_lsp_config,
+      })
+    end),
     diagnosticls = setup_generalized_with_override(require('aceforeverd.lsp.diagnosticls').get_config()),
     yamlls = setup_generalized_with_override({
       settings = {
@@ -154,36 +150,36 @@ function M.setup()
     }),
     -- remark_ls = setup_generalized,
     rust_analyzer = M.setup_rust_analyzer,
-    codeqlls = setup_generalized_with_override(function(server)
-      return {
-        settings = {
-          search_path = server.root_dir,
-        },
-      }
+    codeqlls = setup_generalized_with_override(function()
+      local lsp_installer_servers = require('nvim-lsp-installer.servers')
+      local available, server = lsp_installer_servers.get_server('codeqlls')
+      if available then
+        return {
+          settings = {
+            search_path = server.root_dir,
+          },
+        }
+      else
+        return {}
+      end
     end),
     taplo = setup_generalized,
     jsonnet_ls = setup_generalized,
   }
 
   -- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')
-  local lsp_installer = require('nvim-lsp-installer')
-  lsp_installer.on_server_ready(function(server)
-    local setup_func = setup_lsp_configs[server.name]
-    if setup_func ~= nil then
-      setup_func(server)
-    end
-  end)
+  require('nvim-lsp-installer').setup({
+    automatic_installation = false,
+  })
+
+  for name, fn in pairs(setup_lsp_configs) do
+    fn(name)
+  end
 end
 
-function M.setup_rust_analyzer(server)
-  local rust_analyzer_opts = vim.tbl_deep_extend(
-    'force',
-    server:get_default_options(),
-    require('aceforeverd.lsp.common').general_cfg
-  )
-
+function M.setup_rust_analyzer(server_name)
   require('rust-tools').setup({
-    server = rust_analyzer_opts,
+    server = M.general_lsp_config,
   })
 end
 

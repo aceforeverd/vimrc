@@ -14,13 +14,15 @@
 
 local M = {}
 
+local map = require('aceforeverd.utility.map').set_map
+
 function M.setup()
   vim.g.loaded_endwise = 1
   vim.g.loaded_tagalong = 1
 
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
-    ignore_install = {}, -- TSModuleInfo fail on fennel
+    ignore_install = {},
     highlight = {
       enable = true,
       disable = { 'yaml', 'coc-explorer' },
@@ -183,6 +185,11 @@ function M.setup()
           ['if'] = '@function.inner',
           ['ac'] = '@class.outer',
           ['ic'] = '@class.inner',
+          ['ar'] = '@parameter.outer',
+          ['ir'] = '@parameter.inner',
+          ['ak'] = '@block.outer',
+          ['ik'] = '@block.inner',
+          ['a;'] = '@statement.outer',
         },
       },
       lsp_interop = {
@@ -200,8 +207,8 @@ function M.setup()
       keymaps = {
         -- omap
         ['.'] = 'textsubjects-smart',
-        ['a;'] = 'textsubjects-container-outer',
-        ['i;'] = 'textsubjects-container-inner',
+        ['a.'] = 'textsubjects-container-outer',
+        ['i.'] = 'textsubjects-container-inner',
       },
     },
     endwise = {
@@ -243,8 +250,8 @@ function M.ts_context()
 end
 
 function M.tree_hopper()
-  vim.api.nvim_set_keymap('o', 'm', [[:<C-U>lua require('tsht').nodes()<CR>]], { silent = true })
-  vim.api.nvim_set_keymap('v', 'm', [[:lua require('tsht').nodes()<CR>]], { silent = true, noremap = true })
+  map('o', '<space>', [[:<C-U>lua require('tsht').nodes()<CR>]], { silent = true })
+  map('v', '<space>', [[:lua require('tsht').nodes()<CR>]], { silent = true, noremap = true })
 end
 
 function M.iswap()

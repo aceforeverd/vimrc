@@ -512,6 +512,7 @@ return packer.startup({
 
     use({
       'anuvyklack/pretty-fold.nvim',
+      requires = 'anuvyklack/nvim-keymap-amend',
       config = function()
         require('aceforeverd.plugins.enhance').pretty_fold()
       end,
