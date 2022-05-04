@@ -371,6 +371,7 @@ return packer.startup({
       config = function()
         require('aceforeverd.plugins.git').diffview()
       end,
+      cmd = { 'DiffviewOpen', 'DiffviewFileHistory' }
     })
 
     use({
@@ -516,6 +517,7 @@ return packer.startup({
       config = function()
         require('aceforeverd.plugins.enhance').pretty_fold()
       end,
+      opt = true,
     })
 
     use({
@@ -537,14 +539,6 @@ return packer.startup({
       requires = { 'kyazdani42/nvim-web-devicons' },
       config = function()
         require('aceforeverd.statusline.lualine').setup()
-      end,
-    })
-
-    use({
-      'itchyny/lightline.vim',
-      opt = true,
-      setup = function()
-        require('aceforeverd.statusline.lightline').setup()
       end,
     })
 
@@ -644,7 +638,6 @@ return packer.startup({
 
     use({
       'chentau/marks.nvim',
-      opt = true,
       config = function()
         require('marks').setup({})
       end,
@@ -701,6 +694,7 @@ return packer.startup({
       config = function()
         require('aceforeverd.plugins.enhance').legendary()
       end,
+      cmd = { 'Legendary' }
     })
 
     use({
