@@ -92,7 +92,7 @@ function M.setup()
     { name = 'path' },
     { name = 'calc' },
 
-    { name = 'cmp_git' },
+    { name = 'git' },
     { name = 'treesitter', keyword_length = 3 },
     { name = 'spell' },
     {
@@ -175,7 +175,7 @@ function M.setup()
           tmux = '[Tmux]',
           rg = '[Rg]',
           spell = '[Spell]',
-          cmp_git = '[Git]',
+          git = '[Git]',
         },
       }),
     },
@@ -206,7 +206,7 @@ end
 
 function M.cmp_git()
   require('cmp_git').setup({
-    filetypes = { 'gitcommit', 'markdown' },
+    filetypes = { 'gitcommit', 'markdown', 'octo' },
   })
 end
 
