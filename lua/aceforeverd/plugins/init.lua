@@ -16,6 +16,11 @@
 local config_path = vim.fn.expand('<sfile>:p:h')
 vim.cmd(string.format("let &packpath = &packpath . ',' . '%s/bundle'", config_path))
 
+local res,_ = pcall(require, 'impatient')
+if not res then
+  vim.notify("failed to load impatient", vim.log.levels.WARN, {})
+end
+
 local packer_install_path = config_path .. '/bundle/pack/packer/start/packer.nvim'
 
 if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then

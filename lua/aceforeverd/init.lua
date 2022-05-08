@@ -15,8 +15,6 @@
 
 -- config variables
 
-pcall(require, 'impatient')
-
 if vim.g.lsp_process_provider == nil then
   vim.g.lsp_process_provider = 'fidget'
 end
