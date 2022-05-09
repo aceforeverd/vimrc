@@ -330,7 +330,7 @@ return packer.startup({
         require('aceforeverd.plugins.tree').neo_tree()
       end,
       cmd = { 'Neotree' },
-      keys = { '<space>e' },
+      keys = { { 'n', '<space>e' } },
     })
 
     use({
@@ -351,6 +351,11 @@ return packer.startup({
       requires = {
         'rcarriga/nvim-dap-ui',
       },
+    })
+
+    use({
+      'sakhnik/nvim-gdb',
+      opt = true,
     })
 
     use({ 'kevinhwang91/nvim-bqf' })
@@ -700,22 +705,6 @@ return packer.startup({
         require('aceforeverd.plugins.enhance').legendary()
       end,
       cmd = { 'Legendary' }
-    })
-
-    use({
-      'bennypowers/nvim-regexplainer',
-      ft = { 'html', 'js', 'ts' },
-      config = function()
-        require('regexplainer').setup({
-          mappings = {
-            toggle = '<leader>re',
-          },
-        })
-      end,
-      requires = {
-        'nvim-lua/plenary.nvim',
-        'MunifTanjim/nui.nvim',
-      },
     })
 
     use({
