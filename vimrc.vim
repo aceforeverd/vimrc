@@ -476,11 +476,6 @@ if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
     let &t_SR = "\<Esc>[4 q"
 endif
 
-" if exists('$TMUX')
-"     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-"     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-" endif
-
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 		\,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
 		\,sm:block-blinkwait175-blinkoff150-blinkon175
@@ -489,6 +484,11 @@ augroup cursor_shape
     autocmd VimLeave * let &t_te .= "\<Esc>[3 q"
     autocmd VimLeave * set guicursor=a:hor25-blinkon300
 augroup END
+
+" if exists('$TMUX')
+"     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+"     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+" endif
 
 " Make VIM remember position in file after reopen
 augroup gp_cursor_location
@@ -668,7 +668,7 @@ let g:tmux_navigator_no_mappings = 1
 augroup gp_lookup
     autocmd!
     autocmd FileType vim nnoremap <buffer><silent> <LocalLeader><C-]> :call lookup#lookup()<CR>
-    autocmd FileType vim,lua nnoremap <buffer> gs :call plugin_browse#try_open()<CR>
+    autocmd FileType vim,lua,tmux nnoremap <buffer> gs :call plugin_browse#try_open()<CR>
 augroup END
 
 " open-browser
