@@ -33,11 +33,12 @@ function! aceforeverd#settings#my_init() abort
     let g:my_statusline = get(g:, 'my_statusline', 'feline')
     let g:my_tabline = get(g:, 'my_tabline', 'bufferline')
 
-    let g:with_hlslens = get(g:, 'with_hlslens', 1)
     let g:with_registers = get(g:, 'with_registers', 1)
 
     let g:my_name = get(g:, 'my_name', 'Ace')
     let g:my_email = get(g:, 'my_email', 'teapot@aceforeverd.com')
+
+    let g:with_opt_plugins = get(g:, 'with_opt_plugins', 0)
 endfunction
 
 function! aceforeverd#settings#denite_filter_settings() abort

@@ -21,7 +21,7 @@ local fn = vim.fn
 
 local icons = { UNIX = '', MAC = '', WINDOWS = '' }
 
-local palette = vim.api.nvim_call_function('sonokai#get_palette', { vim.g.sonokai_style })
+local palette = vim.api.nvim_call_function('sonokai#get_palette', { vim.g.sonokai_style, { nothing = '' } })
 
 local bit_green = palette.bg_green[1]
 local bit_blue = palette.bg_blue[1]

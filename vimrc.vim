@@ -117,6 +117,10 @@ if g:my_cmp_source ==? 'deoplete'
                 \ }
 endif
 
+if g:with_opt_plugins == 1
+    Plug 'rafi/awesome-vim-colorschemes'
+endif
+
 call plug#end() "}}}
 
 
@@ -215,7 +219,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('sainnhe/sonokai', {
                 \ 'merged': 0,
                 \ 'hook_post_source': 'colorscheme sonokai'})
-    call dein#add('rafi/awesome-vim-colorschemes', {'merged': 0, 'on_if': "!has('nvim')"})
     call dein#add('justinmk/vim-gtfo')
     if has('nvim')
       call dein#add('justinmk/vim-dirvish')

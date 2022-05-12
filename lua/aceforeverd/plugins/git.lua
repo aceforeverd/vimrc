@@ -127,7 +127,9 @@ function M.diffview()
 end
 
 function M.git_conflict()
-  require('git-conflict').setup({})
+  require('git-conflict').setup({
+    default_mappings = false,
+  })
 end
 
 function M.octo()
