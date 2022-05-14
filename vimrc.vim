@@ -257,7 +257,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('tpope/vim-fugitive')
     call dein#add('junegunn/gv.vim')
     call dein#add('rhysd/committia.vim')
-    call dein#add('rhysd/conflict-marker.vim', {'on_if': '!has("nvim")'})
 
     " search
     call dein#add('junegunn/fzf', {
@@ -366,6 +365,11 @@ set showcmd
 set noerrorbells
 set novisualbell
 set t_vb=
+
+" enable italic for vim
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
+
 set timeoutlen=500
 set updatetime=250
 

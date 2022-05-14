@@ -77,6 +77,7 @@ function M.on_attach(client, bufnr)
   local status, aerial = pcall(require, 'aerial')
   if status then
     aerial.on_attach(client, bufnr)
+    buf_set_keymap('n', '<space>t', [[<cmd>AerialToggle!<cr>]], default_map_opts)
   end
 
   -- lsp_signature.nvim

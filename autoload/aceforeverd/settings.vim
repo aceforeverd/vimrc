@@ -116,18 +116,17 @@ endfunction
 
 function! aceforeverd#settings#sonokai_pre() abort
     if has('nvim')
-        let g:sonokai_enable_italic = 1
         if has('nvim-0.8.0')
             let g:sonokai_style = 'espresso'
         else
             let g:sonokai_style = 'shusia'
         endif
     else
-        " italic in vim looks wired
-        let g:sonokai_disable_italic_comment = 1
         let g:sonokai_style = 'andromeda'
     endif
 
+    " NOTE: need a font supports cursive italics installed, and setted t_ZH & t_ZR correctly
+    let g:sonokai_enable_italic = 1
     let g:sonokai_better_performance = 1
     let g:sonokai_diagnostic_text_highlight = 1
     let g:sonokai_diagnostic_virtual_text = 'colored'
