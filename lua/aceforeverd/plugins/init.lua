@@ -423,7 +423,7 @@ return packer.startup({
     })
 
     use({
-      'lewis6991/nvim-treesitter-context',
+      'nvim-treesitter/nvim-treesitter-context',
       requires = { 'nvim-treesitter/nvim-treesitter' },
       config = function()
         require('aceforeverd.plugins.treesitter').ts_context()
@@ -647,7 +647,8 @@ return packer.startup({
     })
 
     use({
-      'chentau/marks.nvim',
+      'chentoast/marks.nvim',
+      opt = true,
       config = function()
         require('marks').setup({})
       end,
