@@ -57,6 +57,10 @@ function M.setup()
   -- augroup END
   -- ]]
 
+  -- setup lsp installer just before other lsp configurations
+  -- so they will inherit lsp-insatller settings, like pickup the correct lsp program
+  require('aceforeverd.lsp.installer').setup()
+
   M.clangd()
 
 end

@@ -100,7 +100,10 @@ function M.toggle_term()
     },
   })
   require('aceforeverd.utility.map').do_mode_map('n', '', {
-    ['<leader>x'] = [[<cmd>execute v:count . "ToggleTerm direction=horizontal"<cr>]],
+    ['<leader>tx'] = [[<cmd>execute v:count . "ToggleTerm direction=horizontal"<cr>]],
+    ['<leader>tv'] = [[<cmd>execute v:count . "ToggleTerm direction=vertical"<cr>]],
+    ['<leader>tf'] = [[<cmd>execute v:count . "ToggleTerm direction=float"<cr>]],
+    ['<leader>tt'] = [[<cmd>execute v:count . "ToggleTerm direction=tab"<cr>]],
     ['<leader>gl'] = [[<cmd>lua require('aceforeverd.plugins.enhance').lazygit()<CR>]],
   }, {})
 end

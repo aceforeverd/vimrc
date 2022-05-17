@@ -69,23 +69,16 @@ return packer.startup({
         -- LSP signature hint as you type
         'ray-x/lsp_signature.nvim',
         'p00f/clangd_extensions.nvim',
-      },
-      config = function()
-        require('aceforeverd.lsp').setup()
-      end,
-    })
-
-    use({
-      'williamboman/nvim-lsp-installer',
-      requires = {
-        'neovim/nvim-lspconfig',
+        -- installer
+        'williamboman/nvim-lsp-installer',
+        -- lsp enhance
         'folke/lua-dev.nvim',
         'b0o/schemastore.nvim',
         'nanotee/sqls.nvim',
         'simrat39/rust-tools.nvim',
       },
       config = function()
-        require('aceforeverd.lsp.installer').setup()
+        require('aceforeverd.lsp').setup()
       end,
     })
 
