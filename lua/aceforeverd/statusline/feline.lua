@@ -57,6 +57,12 @@ local vi_mode_hl = function()
   }
 end
 
+-- define priority for components, lower truncated first
+-- default priority is 0
+local priority_high = 10
+local priority_med = 5
+local priority_low = -10
+
 local feline_config = {
   default_bg = '#282c34',
   components = {
@@ -68,6 +74,7 @@ local feline_config = {
           end,
           hl = vi_mode_hl,
           right_sep = { str = ' ', hl = vi_mode_hl },
+          priority = priority_high,
         },
         {
           provider = 'git_branch',
@@ -92,6 +99,7 @@ local feline_config = {
           enabled = function()
             return lsp.diagnostics_exist('ERROR')
           end,
+          priority = priority_med,
           hl = { fg = 'red' },
         },
         {
@@ -99,6 +107,7 @@ local feline_config = {
           enabled = function()
             return lsp.diagnostics_exist('WARN')
           end,
+          priority = priority_med,
           hl = { fg = 'yellow' },
         },
         {
@@ -106,6 +115,7 @@ local feline_config = {
           enabled = function()
             return lsp.diagnostics_exist('HINT')
           end,
+          priority = priority_med,
           hl = { fg = 'cyan' },
         },
         {
@@ -113,6 +123,7 @@ local feline_config = {
           enabled = function()
             return lsp.diagnostics_exist('INFO')
           end,
+          priority = priority_med,
           hl = { fg = 'skyblue' },
         },
         {
@@ -132,14 +143,16 @@ local feline_config = {
           enabled = function()
             return vim.g.my_cmp_source == 'coc'
           end,
+          priority = priority_low,
         },
         {
           provider = 'my_lsp_client_names',
+          hl = { fg = 'orange' },
+          left_sep = ' ',
           enabled = function()
             return vim.g.my_cmp_source == 'nvim_lsp'
           end,
-          hl = { fg = 'orange' },
-          left_sep = ' ',
+          priority = priority_low,
         },
         {
           provider = function()
@@ -149,6 +162,7 @@ local feline_config = {
           enabled = function()
             return vim.g.my_cmp_source == 'nvim_lsp'
           end,
+          priority = priority_low,
         },
       },
       {}, -- mid
@@ -159,23 +173,27 @@ local feline_config = {
           end,
           hl = { fg = '#fda5b4' },
           right_sep = ' ',
+          priority = priority_low,
         },
         {
           provider = 'file_type',
           hl = { fg = 'cyan', style = 'bold,italic' },
           left_sep = { { str = 'vertical_bar', hl = { fg = '#108080' } }, ' ' },
           right_sep = { ' ' },
+          priority = priority_high
         },
         {
           provider = OsIcon(),
           left_sep = { { str = 'vertical_bar', hl = { fg = '#666666' } }, ' ' },
           hl = { fg = '#cccccc' },
+          priority = priority_low,
         },
         {
           provider = 'file_encoding',
           left_sep = { ' ' },
           right_sep = { ' ', { str = 'vertical_bar', hl = { bg = 'NONE' } } },
           hl = { fg = '#ffff0a' },
+          priority = priority_low,
         },
         {
           provider = function()
@@ -186,6 +204,7 @@ local feline_config = {
           end,
           right_sep = { str = 'vertical_bar', hl = { fg = 'magenta' } },
           hl = { fg = 'magenta' },
+          priority = priority_low,
         },
         {
           provider = 'position',
@@ -208,7 +227,10 @@ local feline_config = {
           left_sep = ' ',
           right_sep = ' ',
         },
-        { provider = 'scroll_bar', hl = { fg = 'skyblue', style = 'bold' } },
+        {
+          provider = 'scroll_bar', hl = { fg = 'skyblue', style = 'bold' },
+          priority = priority_low,
+        },
       },
     },
     inactive = {
