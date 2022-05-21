@@ -291,6 +291,7 @@ return packer.startup({
         require('project_nvim').setup({
           manual_mode = false,
           silent_chdir = false,
+          detection_methods = { "pattern", "lsp" },
         })
       end,
     })
