@@ -17,11 +17,21 @@
 
 local M = {}
 
-function M.gps()
+function M.gps(opts)
+  opts = opts or {}
   if require('nvim-gps').is_available() then
-    return require('nvim-gps').get_location()
+    local gps_opts = {}
+    if opts.short then
+      gps_opts = { disable_icons = true, depth = 1 }
+    end
+    return require('nvim-gps').get_location(gps_opts)
   end
-  local text = require('nvim-treesitter').statusline({ indicator_size = 40 })
+
+  local size = 40
+  if opts.short then
+    size = 10
+  end
+  local text = require('nvim-treesitter').statusline({ indicator_size = size })
   if text then
     return text
   else

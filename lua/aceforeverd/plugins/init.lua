@@ -531,7 +531,7 @@ return packer.startup({
       end,
       requires = { 'kyazdani42/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
       config = function()
-        require('aceforeverd.statusline.feline')
+        require('aceforeverd.statusline.feline').setup()
       end,
     })
 

@@ -168,11 +168,17 @@ local feline_config = {
       {}, -- mid
       { -- right
         {
-          provider = function()
-            return require('aceforeverd.utility.statusline').gps()
-          end,
+          provider = 'gps',
+          short_provider = {
+            name = 'gps',
+            opts = {
+              short = true,
+            }
+          },
           hl = { fg = '#fda5b4' },
           right_sep = ' ',
+          -- FIXME: get_location seems not work
+          truncate_hide = true,
           priority = priority_low,
         },
         {
@@ -186,6 +192,7 @@ local feline_config = {
           provider = OsIcon(),
           left_sep = { { str = 'vertical_bar', hl = { fg = '#666666' } }, ' ' },
           hl = { fg = '#cccccc' },
+          truncate_hide = true,
           priority = priority_low,
         },
         {
@@ -283,7 +290,12 @@ local feline_config = {
   },
   custom_providers = {
     my_lsp_client_names = require('aceforeverd.utility.statusline').lsp_client_names,
+    gps = require("aceforeverd.utility.statusline").gps,
   },
 }
 
-require('feline').setup(feline_config)
+return {
+  setup = function()
+    require('feline').setup(feline_config)
+  end
+}
