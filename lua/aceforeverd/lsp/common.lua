@@ -51,7 +51,6 @@ M.lsp_default_n_maps = {
   ['<space>S'] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
 
   ['<leader>gi'] = 'gi',
-  ['<leader>cA'] = '<cmd>Telescope lsp_code_actions<cr>',
 }
 
 function M.on_attach(client, bufnr)
