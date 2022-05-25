@@ -49,6 +49,7 @@ Plug 'raimondi/delimitmate'
 Plug 'mhinz/vim-startify'
 Plug 'rhysd/committia.vim'
 Plug 'ojroques/vim-oscyank'
+Plug 'jsfaint/gen_tags.vim'
 
 Plug 'airblade/vim-gitgutter'
 omap ih <Plug>(GitGutterTextObjectInnerPending)
@@ -162,12 +163,12 @@ function! s:on_lsp_buffer_enabled() abort
     if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
     nmap <buffer> gd <plug>(lsp-definition)
     nmap <buffer> gD <plug>(lsp-declaration)
-    nmap <buffer> gpd <plug>(lsp-peek-definition)
+    nmap <buffer> <leader>df <plug>(lsp-peek-definition)
     nmap <buffer> <space>s <plug>(lsp-document-symbol-search)
     nmap <buffer> <space>S <plug>(lsp-workspace-symbol-search)
     nmap <buffer> gr <plug>(lsp-references)
     nmap <buffer> gi <plug>(lsp-implementation)
-    nmap <buffer> gpi <plug>(lsp-peek-implementation)
+    nmap <buffer> <leader>di <plug>(lsp-peek-implementation)
     nmap <buffer> gt <plug>(lsp-type-definition)
     nmap <buffer> <leader>rn <plug>(lsp-rename)
     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
@@ -300,6 +301,10 @@ set timeoutlen=500
 set updatetime=500
 
 set guifont=FiraCodeNerdFontComplete-Regular:h13
+
+" enable italic for vim
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
 
 set background=dark
 
@@ -458,10 +463,16 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 nnoremap <space>b :Buffers<CR>
 nnoremap <space>r :Rg<CR>
+nnoremap <Space>f :Files<CR>
 nnoremap <space>c :Commands<CR>
 
+command! -bang -nargs=* GGrep
+            \ call fzf#vim#grep(
+            \   'git grep --line-number -- '.shellescape(<q-args>), 0,
+            \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+
 if executable('rg')
-    set grepprg=rg\ --vimgrep
+    set grepprg=rg\ --vimgrep\ --smart-case
 endif
 
 " neosnippet
@@ -503,6 +514,18 @@ let g:ale_sign_info = 'ℹ'
 nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
 let g:ale_disable_lsp = 1
+
+" gen_tags.vim
+let g:gen_tags#ctags_auto_update = 0
+let g:gen_tags#gtags_auto_update = 0
+let g:gen_tags#ctags_opts = '--links=no'
+let g:gen_tags#gtags_opts = '--skip-symlink'
+if !executable('gtags')
+    let g:loaded_gentags#gtags = 1
+endif
+if !executable('ctags')
+    let g:loaded_gentags#ctags = 1
+endif
 
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh']
