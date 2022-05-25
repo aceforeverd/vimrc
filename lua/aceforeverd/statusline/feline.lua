@@ -297,5 +297,8 @@ local feline_config = {
 return {
   setup = function()
     require('feline').setup(feline_config)
+    if vim.fn.exists('+winbar') then
+      require('feline').winbar.setup({})
+    end
   end
 }
