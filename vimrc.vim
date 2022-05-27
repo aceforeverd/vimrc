@@ -123,6 +123,8 @@ endif
 
 call plug#end() "}}}
 
+call aceforeverd#plugin#minipack()
+
 
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
@@ -300,15 +302,11 @@ if dein#load_state(s:dein_repo)
                 \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
                 \ 'build': 'cd app && yarn install' })
 
-    call dein#add('jalvesaq/Nvim-R')
     call dein#add('rust-lang/rust.vim')
     call dein#add('vim-ruby/vim-ruby')
     " Tmux
     call dein#add('tmux-plugins/vim-tmux')
     call dein#add('christoomey/vim-tmux-navigator')
-    " Latex
-    " merged = 0 beacue E944: Reverse range in character class
-    call dein#add('lervag/vimtex', {'merged': 0})
 
     call dein#add('kovisoft/slimv', {'merged': 0})
     " gentoo
