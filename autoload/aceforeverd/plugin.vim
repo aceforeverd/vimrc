@@ -11,7 +11,7 @@ function! aceforeverd#plugin#minpac()
 
     if empty(glob(s:minpac_path))
         echomsg 'installing minpac into ' . s:minpac_path
-        call system([ 'git', 'clone', 'https://github.com/k-takata/minpac', s:minpac_path ])
+        call system(join([ 'git', 'clone', 'https://github.com/k-takata/minpac', s:minpac_path ]))
         echomsg 'installed minpac'
     endif
 
