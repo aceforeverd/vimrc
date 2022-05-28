@@ -24,4 +24,11 @@ function! aceforeverd#plugin#minpac() abort
     " Latex
     " merged = 0 beacue E944: Reverse range in character class
     call minpac#add('lervag/vimtex', {'type': 'opt'})
+    " Go
+    call minpac#add('fatih/vim-go', {'type': 'opt'})
+
+    if !has('nvim')
+        packadd vim-go
+        call aceforeverd#settings#vim_go()
+    endif
 endfunction

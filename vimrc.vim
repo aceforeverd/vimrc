@@ -107,10 +107,6 @@ endif
 
 Plug 'mg979/docgen.vim'
 
-if g:with_opt_plugins == 1
-    Plug 'rafi/awesome-vim-colorschemes'
-endif
-
 call plug#end() "}}}
 
 call aceforeverd#plugin#minpac()
@@ -250,9 +246,6 @@ if dein#load_state(s:dein_repo)
     " Debug
     call dein#add('puremourning/vimspector')
 
-    " Go
-    call dein#add('fatih/vim-go', {'on_if': '!has("nvim")',
-                \ 'hook_source': 'call aceforeverd#settings#vim_go()'})
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
 
