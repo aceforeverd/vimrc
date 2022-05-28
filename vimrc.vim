@@ -107,9 +107,6 @@ endif
 
 Plug 'mg979/docgen.vim'
 
-Plug 'pechorin/any-jump.vim'
-let g:any_jump_disable_default_keybindings = 1
-
 if g:with_opt_plugins == 1
     Plug 'rafi/awesome-vim-colorschemes'
 endif
