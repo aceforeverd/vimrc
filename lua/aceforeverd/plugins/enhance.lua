@@ -22,7 +22,7 @@ local map = require('aceforeverd.utility.map').set_map
 function M.pretty_fold()
   require('pretty-fold').setup({})
   -- 'h' preview fold, 'l' open fold
-  require('pretty-fold.preview').setup()
+  require('pretty-fold.preview').setup({})
 end
 
 function M.hop()

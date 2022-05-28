@@ -22,32 +22,14 @@ function! aceforeverd#completion#init_cmp_source(src) abort
     let g:echodoc#enable_at_startup = 1
 
     " setup common variables
-    if a:src ==? 'deoplete'
-        " functions
-        let s:my_cmps['complete'] = function('deoplete#manual_complete')
-        let s:my_cmps['document_hover'] = function('LanguageClient#textDocument_hover')
-
-        " mappings
-        inoremap <expr> <Plug>(MyIMappingBS) pumvisible() ? deoplete#smart_close_popup() . "\<C-h>" : delimitMate#BS()
-        imap <expr> <Plug>MyIMappingCR pumvisible() ? deoplete#close_popup() . "\<CR>" : "<Plug>delimitMateCR"
-
-        " variables
-        let g:deoplete#enable_at_startup = 1
-        let g:LanguageClient_autoStart = 1
-        let g:coc_start_at_startup = 0
-
-        call aceforeverd#completion#init_source_deoplete()
-        call aceforeverd#completion#init_source_lc_neovim()
-    elseif a:src ==? 'coc'
+    if a:src ==? 'coc'
         let s:my_cmps['complete'] = function('coc#refresh')
         let s:my_cmps['document_hover'] = function('<SID>coc_hover')
 
         inoremap <expr> <Plug>(MyIMappingBS) pumvisible() ? "\<C-h>" : delimitMate#BS()
         imap <expr> <Plug>MyIMappingCR coc#_selected() ? coc#_select_confirm() : "<Plug>delimitMateCR"
 
-        let g:deoplete#enable_at_startup = 0
         let g:coc_start_at_startup = 1
-        let g:LanguageClient_autoStart = 0
         call aceforeverd#completion#init_source_coc()
     endif
 
@@ -73,160 +55,6 @@ function! aceforeverd#completion#init_source_common() abort
     nnoremap <silent> K :call <SID>show_documentation()<CR>
 endfunction
 
-
-function! aceforeverd#completion#init_source_deoplete() abort
-    " inoremap <expr> <C-h> deoplete#close_popup() . "\<C-h>"
-    inoremap <expr> <C-g> deoplete#undo_completion()
-
-    call deoplete#custom#option({
-                \ 'auto_complete': v:true,
-                \ 'ignore_case': v:true,
-                \ 'smart_case': v:true,
-                \ })
-    if !has('nvim')
-        call deoplete#custom#option('yarp', v:true)
-    endif
-
-    call deoplete#custom#var('omni', 'input_patterns', {
-                \ 'ruby': ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::'],
-                \ 'java': '[^. *\t]\.\w*',
-                \ 'php': '\w+|[^. \t]->\w*|\w+::\w*',
-                \ 'javascript': '[^. *\t]\.\w*',
-                \ 'typescript': '[^. *\t]\.\w*|\h\w*:',
-                \ 'css': '[^. *\t]\.\w*',
-                \ })
-
-    call deoplete#custom#var('omni', 'function',{
-                \ 'typescript': [ 'LanguageClient#complete' ],
-                \ 'c': [ 'LanguageClient#complete'],
-                \ 'cpp': [ 'LanguageClient#complete' ],
-                \ 'rust': [ 'LanguageClient#complete'],
-                \ 'php': [ 'LanguageClient#complete' ],
-                \ })
-    call deoplete#custom#var('terminal', 'require_same_tab', v:false)
-
-    call deoplete#custom#option('ignore_sources', {
-                \ '_': ['ale']
-                \ })
-
-    call deoplete#custom#source('look', {
-                \ 'rank': 40,
-                \ 'max_candidates': 15,
-                \ })
-
-
-    " deoplete-go
-    let g:deoplete#sources#go#pointer = 1
-    let g:deoplete#sources#go#builtin_objects = 1
-    let g:deoplete#sources#go#unimported_packages = 1
-
-    " neoinclude
-    if !exists('g:neoinclude#exts')
-        let g:neoinclude#exts = {}
-    endif
-    let g:neoinclude#exts.c = ['', 'h']
-    let g:neoinclude#exts.cpp = ['', 'h', 'hpp', 'hxx']
-
-    if !exists('g:neoinclude#paths')
-        let g:neoinclude#paths = {}
-    endif
-
-    let g:neoinclude#paths.c = '.,'
-                \ . '/usr/lib/gcc/*/*/include/,'
-                \ . '/usr/local/include/,'
-                \ . '/usr/lib/gcc/*/*/include-fixed/,'
-                \ . '/usr/include/,,'
-
-    let g:neoinclude#paths.cpp = '.,'
-                \ . '/usr/include/c++/*/,'
-                \ . '/usr/include/c++/*/*/,'
-                \ . '/usr/include/c++/*/backward/,'
-                \ . '/usr/local/include/,'
-                \ . '/usr/lib/gcc/*/*/include/,'
-                \ . '/usr/lib/gcc/*/*/include-fixed/,'
-                \ . '/usr/lib/gcc/*/*/include/g++-v*/,'
-                \ . '/usr/lib/gcc/*/*/include/g++-v*/backward,'
-                \ . '/usr/lib/gcc/*/*/include/g++-v*/*/,'
-                \ . '/usr/include/,,'
-
-    " denite
-    augroup gp_denite
-        autocmd!
-        autocmd FileType denite call aceforeverd#settings#denite_settings()
-        autocmd FileType denite-filter call aceforeverd#settings#denite_filter_settings()
-    augroup END
-endfunction
-
-
-function! aceforeverd#completion#init_source_lc_neovim() abort
-    let s:ccls_settings = {
-                \ 'highlight': {'lsRanges': v:true},
-                \ }
-    let s:cquery_settings = {
-                \ 'emitInactiveRegions': v:true,
-                \ 'highlight': { 'enabled' : v:true},
-                \ }
-    let s:ccls_command = ['ccls', '-lint=' . json_encode(s:ccls_settings)]
-    let s:cquery_command = ['cquery', '-lint=' . json_encode(s:cquery_settings)]
-    let s:clangd_command = ['clangd', '-background-index']
-
-    let g:LanguageClient_selectionUI = 'fzf'
-    let g:LanguageClient_loadSettings = 1
-    let g:LanguageClient_serverCommands = {
-                \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-                \ 'typescript': ['javascript-typescript-stdio'],
-                \ 'javascript': ['javascript-typescript-sdtio'],
-                \ 'go': ['gopls'],
-                \ 'yaml': ['yaml-language-server', '--stdio'],
-                \ 'css': ['css-language-server', '--stdio'],
-                \ 'sass': ['css-language-server', '--stdio'],
-                \ 'less': ['css-language-server', '--stdio'],
-                \ 'dockerfile': ['docker-langserver', '--stdio'],
-                \ 'reason': ['ocaml-language-server', '--stdio'],
-                \ 'ocaml': ['ocaml-language-server', '--stdio'],
-                \ 'vue': ['vls'],
-                \ 'lua': ['lua-lsp'],
-                \ 'ruby': ['language_server-ruby'],
-                \ 'c': s:clangd_command,
-                \ 'cpp': s:clangd_command,
-                \ 'vim': ['vim-language-server', '--stdio'],
-                \ 'python': ['pyls'],
-                \ 'dart': ['dart_language_server', '--force_trace_level=off'],
-                \ 'haskell': ['hie', '--lsp'],
-                \ 'sh': [ 'bash-language-server', 'start' ],
-                \ }
-
-
-    augroup gp_languageclent
-        autocmd!
-        autocmd FileType * call aceforeverd#completion#lsc_maps()
-    augroup END
-endfunction
-
-
-function! aceforeverd#completion#lsc_maps() abort
-    nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <buffer> <silent> gy :call LanguageClient#textDocument_typeDefinition()<CR>
-    nnoremap <buffer> <silent> gi :call LanguageClient#textDocument_implementation()<CR>
-    nnoremap <buffer> <silent> gr :call LanguageClient#textDocument_references()<CR>
-    nnoremap <buffer> <silent> gs :call LanguageClient#textDocument_documentSymbol()<CR>
-    nnoremap <buffer> gf :call LanguageClient#textDocument_formatting()<CR>
-
-    " Rename - rn => rename
-    noremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
-
-    " Rename - rc => rename camelCase
-    noremap <leader>rc :call LanguageClient#textDocument_rename(
-                \ {'newName': Abolish.camelcase(expand('<cword>'))})<CR>
-
-    " Rename - rs => rename snake_case
-    noremap <leader>rs :call LanguageClient#textDocument_rename(
-                \ {'newName': Abolish.snakecase(expand('<cword>'))})<CR>
-
-    " Rename - ru => rename UPPERCASE
-    noremap <leader>ru :call LanguageClient#textDocument_rename(
-                \ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
-endfunction
 
 function! aceforeverd#completion#init_source_coc() abort
     let g:coc_global_extensions = ['coc-vimlsp',

@@ -1,4 +1,7 @@
-function! aceforeverd#plugin#minipack()
+""
+" setup minpac plugins and config them
+""
+function! aceforeverd#plugin#minpac()
     if has('nvim')
         let s:pack_path = stdpath('data') . '/site/'
     else

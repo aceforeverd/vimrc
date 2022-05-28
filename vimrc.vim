@@ -39,7 +39,7 @@ let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
 call aceforeverd#settings#my_init()
 
 if empty(glob(s:home. '/autoload/plug.vim'))
-    silent execute '!curl -fLo '.s:home.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    execute '!curl -fLo '.s:home.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     augroup gp_vim_plug_bootstrap
        autocmd!
        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
@@ -110,21 +110,13 @@ Plug 'mg979/docgen.vim'
 Plug 'pechorin/any-jump.vim'
 let g:any_jump_disable_default_keybindings = 1
 
-if g:my_cmp_source ==? 'deoplete'
-    Plug 'autozimu/LanguageClient-neovim', {
-                \ 'branch': 'next',
-                \ 'do': 'bash install.sh',
-                \ }
-endif
-
 if g:with_opt_plugins == 1
     Plug 'rafi/awesome-vim-colorschemes'
 endif
 
 call plug#end() "}}}
 
-call aceforeverd#plugin#minipack()
-
+call aceforeverd#plugin#minpac()
 
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
@@ -148,28 +140,6 @@ if dein#load_state(s:dein_repo)
         call dein#add('wellle/tmux-complete.vim', {
                     \ 'hook_source': 'let g:tmuxcomplete#trigger = ""'
                     \ })
-    endif
-
-    if g:my_cmp_source ==? 'deoplete'
-        call dein#add('Shougo/deoplete.nvim')
-        call dein#add('deoplete-plugins/deoplete-go', {
-                    \ 'build': 'make',
-                    \ 'on_ft': 'go',
-                    \ })
-        call dein#add('Shougo/deoplete-lsp')
-        call dein#add('Shougo/deoplete-terminal')
-        call dein#add('deoplete-plugins/deoplete-zsh')
-        call dein#add('ponko2/deoplete-fish')
-        call dein#add('uplus/deoplete-solargraph', {'on_ft': 'ruby', 'lazy': 1})
-        call dein#add('deoplete-plugins/deoplete-asm', {'build': 'make'})
-        call dein#add('deoplete-plugins/deoplete-jedi')
-        call dein#add('ujihisa/neco-look')
-        call dein#add('c9s/perlomni.vim', {'on_ft': 'perl'})
-        call dein#add('clojure-vim/async-clj-omni')
-        call dein#add('Shougo/neoinclude.vim')
-        call dein#add('Shougo/denite.nvim')
-        call dein#add('Shougo/neoyank.vim')
-        call dein#add('eagletmt/neco-ghc')
     endif
 
     if g:my_cmp_source !=? 'nvim_lsp'
@@ -682,10 +652,6 @@ vmap <Leader>os <Plug>(openbrowser-search)
 
 " ferret
 let g:FerretMap = 0
-
-let g:livepreview_engine = 'xelatex'
-
-let g:tex_flavor = 'latex'
 
 " vim-better-whitespace
 let g:better_whitespace_operator = ''
