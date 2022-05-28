@@ -1,7 +1,7 @@
 ""
 " setup minpac plugins and config them
 ""
-function! aceforeverd#plugin#minpac()
+function! aceforeverd#plugin#minpac() abort
     if has('nvim')
         let s:pack_path = stdpath('data') . '/site/'
     else

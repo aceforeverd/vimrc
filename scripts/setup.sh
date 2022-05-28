@@ -25,7 +25,7 @@ NC='\033[0m'
 cd "$(dirname "$0")"
 
 TYPE=neovim
-INSTALL_PLUGINS=true
+INSTALL_PLUGINS=
 
 __ScriptVersion="1.1.0"
 
@@ -39,7 +39,7 @@ function usage ()
 
     Options:
     -t            vim type, neovim or vim, default to neovim
-    -s            skip plugin install, just setup plugin managers
+    -i            also install plugins
     -h            Display this message
     -v            Display script version"
 
@@ -49,13 +49,13 @@ function usage ()
 #  Handle command line arguments
 #-----------------------------------------------------------------------
 
-while getopts ":hvt:s" opt
+while getopts ":hvt:i" opt
 do
   case $opt in
 
     t)  TYPE=$OPTARG ;;
 
-    s)  INSTALL_PLUGINS= ;;
+    i)  INSTALL_PLUGINS=true ;;
 
     h)  usage; exit 0   ;;
 
@@ -106,9 +106,15 @@ if [ -n "$CI" ]; then
 fi
 
 pushd "$ROOT"
+
+if [[ $TYPE = "neovim" ]]; then
+    ln -s vimrc.vim init.vim
+else
+    ln -s vimrc.vim vimrc
+fi
+
 if [[ -n "$INSTALL_PLUGINS" ]]; then
     if [[ "$TYPE" = "neovim" ]]; then
-        ln -s vimrc.vim init.vim
         echo -e "${GREEN}installing plugins for neovim ... ${NC}"
         nvim $NVIM_ARGS -u init.vim -c "call aceforeverd#util#install()" -c "qa!"
         if [ -z "$CI" ]; then
@@ -117,7 +123,6 @@ if [[ -n "$INSTALL_PLUGINS" ]]; then
         fi
         echo -e "${GREEN}all plugins installed${NC}"
     else
-        ln -s vimrc.vim vimrc
         echo -e "${GREEN}installing plugins for vim ... ${NC}"
         vim -c "set t_ti= t_te= nomore" -u vimrc -i NONE -c "call aceforeverd#util#install()" -c "qa!"
         echo -e "${GREEN}all plugins installed${NC}"
