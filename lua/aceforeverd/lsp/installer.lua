@@ -38,6 +38,8 @@ local M = {}
 ]]
 M.general_lsp_config = require('aceforeverd.lsp.common').general_cfg
 
+--- setup lsp servers managed by lsp-installer
+--- find lsp executable from installer first, and fallback to normal path if not
 function M.setup()
   if vim.g.my_cmp_source ~= 'nvim_lsp' then
     return
@@ -52,7 +54,7 @@ function M.setup()
 
   -- for those do not need extra configs in lsp-config setup, use this generalized one
   local setup_generalized = function(name)
-    lspconfig[name].setup({})
+    lspconfig[name].setup(M.general_lsp_config)
   end
 
   -- override default lsp setup function by lsp-installer
@@ -165,6 +167,7 @@ function M.setup()
     end),
     taplo = setup_generalized,
     jsonnet_ls = setup_generalized,
+    zk = setup_generalized,
   }
 
   -- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')
@@ -177,7 +180,7 @@ function M.setup()
   end
 end
 
-function M.setup_rust_analyzer(server_name)
+function M.setup_rust_analyzer()
   require('rust-tools').setup({
     server = M.general_lsp_config,
   })

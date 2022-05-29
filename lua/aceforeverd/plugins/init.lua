@@ -485,17 +485,6 @@ return packer.startup({
     })
 
     use({
-      'nvim-neorg/neorg',
-      requires = { 'nvim-treesitter/nvim-treesitter', 'nvim-lua/plenary.nvim' },
-      setup = vim.cmd('autocmd BufRead,BufNewFile *.norg setlocal filetype=norg'),
-      after = { 'nvim-treesitter' }, -- you may also specify telescope
-      ft = 'norg',
-      config = function()
-        require('aceforeverd.config.ft_plugins').norg()
-      end,
-    })
-
-    use({
       'lewis6991/gitsigns.nvim',
       requires = { 'nvim-lua/plenary.nvim' },
       config = function()
@@ -669,18 +658,6 @@ return packer.startup({
     use({ 'milisims/nvim-luaref' })
 
     use({
-      'google/vim-codefmt',
-      requires = {
-        'google/vim-maktaba',
-        'google/vim-glaive',
-      },
-      opt = true,
-      config = function()
-        vim.api.nvim_call_function('aceforeverd#settings#glaive', {})
-      end,
-    })
-
-    use({
       'google/vim-coverage',
       requires = {
         'google/vim-maktaba',
@@ -724,6 +701,7 @@ return packer.startup({
       end,
       cmd = { 'GodboltCompiler', 'Godbolt' },
     })
+
     use({
       'mrjones2014/dash.nvim',
       run = 'make install',
