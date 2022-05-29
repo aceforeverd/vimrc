@@ -48,7 +48,7 @@ packer.init({
   compile_path = util.join_paths(config_path, 'plugin', 'packer_compiled.lua'),
   plugin_package = 'packer',
   max_jobs = 8,
-  git = { clone_timeout = 30 },
+  git = { clone_timeout = 60 },
   -- display = { open_fn = require('packer.util').float, keybindings = { quit = 'q' } },
   profile = { enable = true, threshold = 1 },
 })

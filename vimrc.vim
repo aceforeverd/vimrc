@@ -185,11 +185,7 @@ if dein#load_state(s:dein_repo)
                 \ 'merged': 0,
                 \ 'hook_post_source': 'colorscheme sonokai'})
     call dein#add('justinmk/vim-gtfo')
-    if has('nvim')
-      call dein#add('justinmk/vim-dirvish')
-    else
-      call dein#add('tpope/vim-vinegar')
-    endif
+    call dein#add('tpope/vim-vinegar')
 
     " motion
     call dein#add('rhysd/clever-f.vim')
@@ -699,8 +695,18 @@ augroup END
 " switch.vim
 let g:switch_mapping = '<space>x'
 
-" vim dirvish gtfo
+" vim gtfo
 nnoremap <expr> goo 'go'
+
+" vinegar
+augroup netrw_cfg
+    autocmd!
+    autocmd FileType netrw call s:enhance_netrw()
+augroup END
+function! s:enhance_netrw() abort
+    highlight netrwSuffixes ctermfg=250 ctermbg=235 guifg=#e4e3e1 guibg=#312c2b
+    nnoremap <buffer> gq <Cmd>Rexplore<cr>
+endfunction
 
 " vim-sandwich
 nnoremap ss s
