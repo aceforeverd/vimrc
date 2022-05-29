@@ -19,10 +19,9 @@ vim.cmd(string.format("let &packpath = &packpath . ',' . '%s/bundle'", config_pa
 if vim.fn.exists('g:disable_impatient') == 0 then
   local res, _ = pcall(require, 'impatient')
   if not res then
-    vim.notify("failed to load impatient", vim.log.levels.WARN, {})
+    vim.notify('failed to load impatient', vim.log.levels.WARN, {})
   end
 end
-
 
 local packer_install_path = config_path .. '/bundle/pack/packer/start/packer.nvim'
 
@@ -78,7 +77,6 @@ return packer.startup({
         'folke/lua-dev.nvim',
         'b0o/schemastore.nvim',
         'nanotee/sqls.nvim',
-        'simrat39/rust-tools.nvim',
       },
       config = function()
         require('aceforeverd.lsp').setup()
@@ -141,6 +139,20 @@ return packer.startup({
 
     use({
       'weilbith/nvim-code-action-menu',
+    })
+
+    use({
+      'mickael-menu/zk-nvim',
+      config = function()
+        require('aceforeverd.lsp').zk()
+      end,
+    })
+
+    use({
+      'simrat39/rust-tools.nvim',
+      config = function()
+        require('aceforeverd.lsp').rust_analyzer()
+      end
     })
 
     use({
@@ -294,7 +306,7 @@ return packer.startup({
         require('project_nvim').setup({
           manual_mode = false,
           silent_chdir = false,
-          detection_methods = { "pattern", "lsp" },
+          detection_methods = { 'pattern', 'lsp' },
         })
       end,
     })
@@ -378,7 +390,7 @@ return packer.startup({
       config = function()
         require('aceforeverd.plugins.git').diffview()
       end,
-      cmd = { 'DiffviewOpen', 'DiffviewFileHistory' }
+      cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
     })
 
     use({
@@ -679,7 +691,7 @@ return packer.startup({
       config = function()
         require('aceforeverd.plugins.enhance').legendary()
       end,
-      cmd = { 'Legendary' }
+      cmd = { 'Legendary' },
     })
 
     use({
@@ -726,7 +738,7 @@ return packer.startup({
     })
 
     use({
-      'rlane/pounce.nvim'
+      'rlane/pounce.nvim',
     })
   end,
 })

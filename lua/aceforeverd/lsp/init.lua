@@ -139,4 +139,17 @@ function M.go()
   require('lspconfig').gopls.setup(opts)
 end
 
+function M.zk()
+  require('zk').setup({
+    picker = 'telescope',
+    lsp = require('aceforeverd.lsp.common').general_cfg,
+  })
+end
+
+function M.rust_analyzer()
+  require('rust-tools').setup({
+    server = require('aceforeverd.lsp.common').general_cfg,
+  })
+end
+
 return M

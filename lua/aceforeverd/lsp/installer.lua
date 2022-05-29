@@ -52,6 +52,12 @@ function M.setup()
 
   local lspconfig = require('lspconfig')
 
+  -- Two helper functions provided
+  --  1. setup_generalized
+  --  2. setup_generalized_with_override
+  -- to help setup lsp directly with nvim-lspconfig
+  -- If a lsp enhancement plugin exists, e.g rust-tools, use that tool setup lsp instead
+
   -- for those do not need extra configs in lsp-config setup, use this generalized one
   local setup_generalized = function(name)
     lspconfig[name].setup(M.general_lsp_config)
@@ -151,7 +157,6 @@ function M.setup()
       end,
     }),
     -- remark_ls = setup_generalized,
-    rust_analyzer = M.setup_rust_analyzer,
     codeqlls = setup_generalized_with_override(function()
       local lsp_installer_servers = require('nvim-lsp-installer.servers')
       local available, server = lsp_installer_servers.get_server('codeqlls')
@@ -167,7 +172,6 @@ function M.setup()
     end),
     taplo = setup_generalized,
     jsonnet_ls = setup_generalized,
-    zk = setup_generalized,
   }
 
   -- pre-installed lsp server managed by nvim-lsp-installer, installed in stdpath('data')
@@ -178,12 +182,6 @@ function M.setup()
   for name, fn in pairs(setup_lsp_configs) do
     fn(name)
   end
-end
-
-function M.setup_rust_analyzer()
-  require('rust-tools').setup({
-    server = M.general_lsp_config,
-  })
 end
 
 return M
