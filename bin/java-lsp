@@ -16,6 +16,9 @@ pushd "$_ROOT_DIR"
 
 JAR="$_ROOT_DIR/plugins/org.eclipse.equinox.launcher_*.jar"
 
+# refer
+# 1. https://github.com/mfussenegger/nvim-jdtls#configuration
+# 2. https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
 java \
   -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044 \
   -javaagent:"$_ROOT_DIR/lombok.jar" \

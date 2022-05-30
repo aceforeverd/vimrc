@@ -77,6 +77,7 @@ return packer.startup({
         'folke/lua-dev.nvim',
         'b0o/schemastore.nvim',
         'nanotee/sqls.nvim',
+        'mfussenegger/nvim-jdtls',
       },
       config = function()
         require('aceforeverd.lsp').setup()
@@ -154,15 +155,6 @@ return packer.startup({
       after = { 'nvim-lspconfig' },
       config = function()
         require('aceforeverd.lsp').rust_analyzer()
-      end,
-    })
-
-    use({
-      'mfussenegger/nvim-jdtls',
-      ft = { 'java' },
-      after = { 'nvim-lspconfig' },
-      config = function()
-        require('aceforeverd.config.ft_plugins').jdtls()
       end,
     })
 
