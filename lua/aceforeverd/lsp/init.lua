@@ -59,10 +59,10 @@ function M.setup()
 
   -- setup lsp installer just before other lsp configurations
   -- so they will inherit lsp-insatller settings, like pickup the correct lsp program
+  -- TODO: installer setup should be before lspconfig instead being inside it
   require('aceforeverd.lsp.installer').setup()
 
   M.clangd()
-
 end
 
 function M.clangd()
@@ -132,17 +132,16 @@ end
 function M.go()
   -- :GoInstallBinaries
   require('go').setup({
-    lsp_cfg = false,
+    lsp_cfg = require('aceforeverd.lsp.common').general_cfg,
   })
-
-  local opts = vim.tbl_deep_extend('force', require('go.lsp').config(), require('aceforeverd.lsp.common').general_cfg)
-  require('lspconfig').gopls.setup(opts)
 end
 
 function M.zk()
   require('zk').setup({
     picker = 'telescope',
-    lsp = require('aceforeverd.lsp.common').general_cfg,
+    lsp = {
+      config = require('aceforeverd.lsp.common').general_cfg,
+    },
   })
 end
 

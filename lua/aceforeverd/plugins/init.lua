@@ -143,6 +143,7 @@ return packer.startup({
 
     use({
       'mickael-menu/zk-nvim',
+      after = { 'nvim-lspconfig' },
       config = function()
         require('aceforeverd.lsp').zk()
       end,
@@ -150,15 +151,16 @@ return packer.startup({
 
     use({
       'simrat39/rust-tools.nvim',
+      after = { 'nvim-lspconfig' },
       config = function()
         require('aceforeverd.lsp').rust_analyzer()
-      end
+      end,
     })
 
     use({
       'mfussenegger/nvim-jdtls',
       ft = { 'java' },
-      requires = { 'williamboman/nvim-lsp-installer' },
+      after = { 'nvim-lspconfig' },
       config = function()
         require('aceforeverd.config.ft_plugins').jdtls()
       end,
@@ -166,7 +168,8 @@ return packer.startup({
 
     use({
       'scalameta/nvim-metals',
-      requires = { 'nvim-lua/plenary.nvim', 'williamboman/nvim-lsp-installer' },
+      requires = { 'nvim-lua/plenary.nvim' },
+      after = { 'nvim-lspconfig' },
       ft = { 'scala', 'sbt' },
       config = function()
         require('aceforeverd.config.ft_plugins').metals()
@@ -176,10 +179,9 @@ return packer.startup({
     use({
       'ray-x/go.nvim',
       requires = {
-        'neovim/nvim-lspconfig',
         { 'ray-x/guihua.lua', run = 'cd lua/fzy && make' },
       },
-      ft = { 'go', 'gomod', 'gohtmltmpl', 'gotexttmpl' },
+      after = { 'nvim-lspconfig' },
       config = function()
         require('aceforeverd.lsp').go()
       end,
@@ -197,7 +199,7 @@ return packer.startup({
 
     use({
       'jose-elias-alvarez/null-ls.nvim',
-      requires = { 'neovim/nvim-lspconfig' },
+      after = { 'nvim-lspconfig' },
       cond = function()
         return vim.g.my_cmp_source == 'nvim_lsp'
       end,
