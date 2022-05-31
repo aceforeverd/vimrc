@@ -29,6 +29,8 @@ if [[ -r "$_LOMBOK_FILE" ]]; then
   _LOMBOK_OPT="-javaagent:$_LOMBOK_FILE -Xbootclasspath/a:$_LOMBOK_FILE"
 fi
 
+# TODO: build arguments with array
+
 # refer
 # 1. https://github.com/mfussenegger/nvim-jdtls#configuration
 # 2. https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
