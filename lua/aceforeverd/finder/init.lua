@@ -26,6 +26,12 @@ local dash_cfg = {
 
 function M.fzflua()
   require('fzf-lua').setup({ winopts = { width = 0.9 } })
+  require('aceforeverd.utility.map').do_mode_map('n', '', {
+    ['<space>'] = {
+      ['l'] = [[<cmd>FzfLua<cr>]],
+      ['f'] = [[<cmd>FzfLua files<cr>]],
+    },
+  }, { noremap = true })
 end
 
 function M.dash()

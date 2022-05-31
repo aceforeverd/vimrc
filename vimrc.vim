@@ -540,8 +540,11 @@ imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 nnoremap <Space>C :Commands<CR>
-nnoremap <Space>f :Files<CR>
 nnoremap <Space>r :Rg<CR>
+if !has('nvim')
+    nnoremap <Space>f :Files<CR>
+    nnoremap <Space>b :Buffers<CR>
+endif
 
 command! -bang -nargs=* GGrep
             \ call fzf#vim#grep(

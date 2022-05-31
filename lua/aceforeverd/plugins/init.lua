@@ -583,7 +583,7 @@ return packer.startup({
     use({
       'ibhagwan/fzf-lua',
       requires = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' },
-      cmd = { 'FzfLua' },
+      -- cmd = { 'FzfLua' },
       config = function()
         require('aceforeverd.finder').fzflua()
       end,

@@ -26,7 +26,6 @@ require('aceforeverd.utility.map').do_map({
     ['}}'] = '}',
     ['{{'] = '{',
     ['<space>'] = {
-      ['l'] = '<cmd>FzfLua<cr>',
       ['p'] = '<cmd>Pounce<cr>',
     }
   }, x = {
