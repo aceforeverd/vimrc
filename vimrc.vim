@@ -625,11 +625,10 @@ let g:header_field_license_id = 'GPL'
 " tmux navigator
 let g:tmux_navigator_no_mappings = 1
 
-" vim-lookup
 augroup gp_lookup
     autocmd!
-    autocmd FileType vim nnoremap <buffer><silent> <LocalLeader><C-]> :call lookup#lookup()<CR>
     autocmd FileType vim,lua,tmux nnoremap <buffer> gs :call plugin_browse#try_open()<CR>
+    autocmd FileType vim,lua,help nnoremap <buffer> <leader>gh :call aceforeverd#completion#help()<cr>
 augroup END
 
 " open-browser
@@ -687,26 +686,12 @@ let g:vimspector_enable_mappings = 'HUMAN'
 
 nnoremap <silent> <leader>cs :<c-u>call aceforeverd#util#syn_query()<cr>
 nnoremap <silent> <leader>cv :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
-augroup gp_vim_helper
-   autocmd!
-   autocmd FileType vim,lua,help nnoremap <buffer> <leader>gh :call aceforeverd#completion#help()<cr>
-augroup END
 
 " switch.vim
 let g:switch_mapping = '<space>x'
 
 " vim gtfo
 nnoremap <expr> goo 'go'
-
-" vinegar
-augroup netrw_cfg
-    autocmd!
-    autocmd FileType netrw call s:enhance_netrw()
-augroup END
-function! s:enhance_netrw() abort
-    highlight netrwSuffixes ctermfg=250 ctermbg=235 guifg=#e4e3e1 guibg=#312c2b
-    nnoremap <buffer> gq <Cmd>Rexplore<cr>
-endfunction
 
 " vim-sandwich
 nnoremap ss s
