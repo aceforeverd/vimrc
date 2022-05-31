@@ -98,6 +98,8 @@ function M.jdtls()
           },
           useBlocks = true,
         },
+        -- runtimes = {
+        -- },
       },
     },
     flags = {
