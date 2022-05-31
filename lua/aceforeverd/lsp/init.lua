@@ -63,6 +63,8 @@ function M.setup()
   require('aceforeverd.lsp.installer').setup()
 
   M.clangd()
+
+  require('aceforeverd.lsp.jdtls').setup()
 end
 
 function M.clangd()

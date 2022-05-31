@@ -16,11 +16,17 @@ pushd "$_ROOT_DIR"
 
 JAR="$_ROOT_DIR/plugins/org.eclipse.equinox.launcher_*.jar"
 
+_DEBUG_OPTS=
+JAVA_PRG=$(command -v java || echo java)
+if [[ -n "$DEBUG" ]]; then
+  # note jdtls will fail if other precess runs on port 1044
+  _DEBUG_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044
+fi
+
 # refer
 # 1. https://github.com/mfussenegger/nvim-jdtls#configuration
 # 2. https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
-java \
-  -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044 \
+$JAVA_PRG $_DEBUG_OPTS \
   -javaagent:"$_ROOT_DIR/lombok.jar" \
   -Xbootclasspath/a:"$_ROOT_DIR/lombok.jar" \
   -Declipse.application=org.eclipse.jdt.ls.core.id1 \
