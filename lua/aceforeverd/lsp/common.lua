@@ -120,17 +120,42 @@ local severity_emoji_map = {
   [vim.diagnostic.severity.HINT] = '🤔',
 }
 
+local fmt_fn = function(diagnostic)
+  return string.format('%s %s', diagnostic.message, severity_emoji_map[diagnostic.severity])
+end
 local pub_diag_config = { virtual_text = true, signs = true, underline = true, update_in_insert = false }
 if vim.fn.has('nvim-0.6.0') == 1 then
-  pub_diag_config['virtual_text'] = {
-    prefix = '🤡', -- Could be '●', '▎', 'x'
-    source = 'always',
-    format = function(diagnostic)
-      return string.format('%s %s', diagnostic.message, severity_emoji_map[diagnostic.severity])
-    end,
-  }
-  pub_diag_config['float'] = { source = 'always' }
-  pub_diag_config['severity_sort'] = true
+  pub_diag_config = vim.tbl_deep_extend('force', pub_diag_config, {
+    virtual_text = {
+      prefix = '🤡', -- Could be '●', '▎', 'x'
+      source = 'always',
+      format = fmt_fn,
+    },
+    severity_sort = true,
+    float = {
+      source = 'always',
+      severity_sort = true,
+      format = fmt_fn,
+    },
+  })
+end
+
+M.diagnostics_config = function()
+  vim.diagnostic.config(pub_diag_config)
+
+  local signs = {}
+  local group = 'LspDiagnosticsSign'
+  if vim.fn.has('nvim-0.6.0') == 1 then
+    group = 'DiagnosticSign'
+    signs = vim.tbl_extend('force', signs, { Error = ' ', Warn = ' ', Hint = ' ', Info = ' ' })
+  else
+    signs = vim.tbl_extend('force', signs, { Error = ' ', Warning = ' ', Hint = ' ', Information = ' ' })
+  end
+
+  for type, icon in pairs(signs) do
+    local hl = group .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+  end
 end
 
 M.handlers = {

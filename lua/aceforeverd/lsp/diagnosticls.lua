@@ -17,9 +17,10 @@
 
 local M = {}
 
+-- https://github.com/iamcco/diagnostic-languageserver/wiki/Linters
 function M.get_config()
   return {
-    filetypes = { 'cpp', 'yaml', 'sh', 'vim' },
+    filetypes = { 'cpp', 'yaml', 'sh', 'vim', 'python' },
     init_options = {
       linters = {
         vint = {
@@ -29,6 +30,7 @@ function M.get_config()
           offsetLine = 0,
           offsetColumn = 0,
           sourceName = 'vint',
+          rootPatterns = {'.vintrc.yml', '.git'},
           formatLines = 1,
           formatPattern = {
             '[^:]+:(\\d+):(\\d+):\\s*(.*)(\\r|\\n)*$',
@@ -48,6 +50,7 @@ function M.get_config()
           sourceName = 'cpplint',
           offsetLine = 0,
           offsetColumn = 0,
+          rootPatterns = { 'CPPLINT.cfg', '.git' },
           formatPattern = {
             '^[^:]+:(\\d+):(\\d+)?\\s+(.+?)\\s\\[(\\d)\\]$',
             {
@@ -64,15 +67,6 @@ function M.get_config()
             [4] = 'warning',
             [5] = 'error',
           },
-          requiredFiles = {
-            -- diagnostic lsp seems check files in directory same with the edit buffer instead the detected project root
-            -- so this is kind hack for general use (up to four depth)
-            'CPPLINT.cfg',
-            '../CPPLINT.cfg',
-            '../../CPPLINT.cfg',
-            '../../../CPPLINT.cfg',
-            '../../../../CPPLINT.cfg',
-          },
         },
         shellcheck = {
           command = 'shellcheck',
@@ -88,7 +82,7 @@ function M.get_config()
             column = 'column',
             endLine = 'endLine',
             endColumn = 'endColumn',
-            message = '${message} [${code}]',
+            message = '${message} [${code}] (diagnostic/shellcheck)',
             security = 'level',
           },
           securities = {
@@ -101,6 +95,7 @@ function M.get_config()
         actionlint = {
           command = 'actionlint',
           args = { '%file' },
+          debounce = 100,
           sourceName = 'actionlint',
           rootPatterns = { '.github' },
           ignore = { '/*', '!/.github', '/.github/*', '!/.github/workflows' },
@@ -113,12 +108,42 @@ function M.get_config()
             },
           },
         },
+        pylint = {
+          sourceName = 'pylint',
+          command = 'pylint',
+          debounce = 100,
+          rootPatterns = { 'pylintrc', 'pyproject.toml', 'setup.py', '.git' },
+          args = {
+            '-f',
+            'json',
+            '--from-stdin',
+            '%filename',
+          },
+          offsetColumn = 1,
+          parseJson = {
+            line = 'line',
+            column = 'column',
+            endLine = 'endLine',
+            endColumn = 'endColumn',
+            security = 'type',
+            message = '[${message-id} <${symbol}>]: ${message} (diagnostic/pylint)',
+          },
+          securities = {
+            informational = 'hint',
+            refactor = 'info',
+            convention = 'info',
+            warning = 'warning',
+            error = 'error',
+            fatal = 'error',
+          },
+        },
       },
       filetypes = {
         vim = { 'vint' },
         sh = { 'shellcheck' },
         cpp = { 'cpplint' },
         yaml = { 'actionlint' },
+        python = { 'pylint' },
       },
       formatters = {},
       formatFiletypes = {},

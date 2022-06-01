@@ -33,16 +33,17 @@ function M.setup()
     null_ls.builtins.diagnostics.protolint.with({
       extra_args = { '--config_path', vim.fn.stdpath('config') .. '/.protolint.yaml' }
     }),
-    null_ls.builtins.diagnostics.pylint,
-    -- null_ls.builtins.diagnostics.shellcheck,
     null_ls.builtins.diagnostics.hadolint,
     null_ls.builtins.diagnostics.checkmake,
+    -- diagnosticls take those
+    -- null_ls.builtins.diagnostics.shellcheck,
   }
 
   null_ls.setup({
     sources = sources,
     diagnostics_format = '[#{c}] #{m} (#{s}/null-ls)',
     on_attach = require('aceforeverd.lsp.common').on_attach,
+    -- handlers not work
     handlers = require('aceforeverd.lsp.common').handlers,
   })
 end

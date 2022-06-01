@@ -28,34 +28,13 @@ function M.setup()
   -- basic settings
   vim.o.pumblend = 20
 
+  require('aceforeverd.lsp.common').diagnostics_config()
+
   if vim.g.lsp_process_provider == 'lsp_status' then
     require('lsp-status').register_progress()
   elseif vim.g.lsp_process_provider == 'fidget' then
     require('fidget').setup({})
   end
-
-  local signs = {}
-  local group = 'LspDiagnosticsSign'
-  if vim.fn.has('nvim-0.6.0') == 1 then
-    group = 'DiagnosticSign'
-    signs = vim.tbl_extend('force', signs, { Error = ' ', Warn = ' ', Hint = ' ', Info = ' ' })
-  else
-    signs = vim.tbl_extend('force', signs, { Error = ' ', Warning = ' ', Hint = ' ', Information = ' ' })
-  end
-
-  for type, icon in pairs(signs) do
-    local hl = group .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-  end
-
-  -- Show line diagnostics automatically in hover window
-  --  disabled: should only show if cursor is in the `DiagnosticUnderline*` text.
-  -- vim.cmd [[
-  -- augroup gp_nvim_lsp_customize
-  -- autocmd!
-  -- autocmd CursorHold,CursorHoldI * lua vim.lsp.diagnostic.show_line_diagnostics({focusable=false})
-  -- augroup END
-  -- ]]
 
   -- setup lsp installer just before other lsp configurations
   -- so they will inherit lsp-insatller settings, like pickup the correct lsp program
@@ -63,7 +42,6 @@ function M.setup()
   require('aceforeverd.lsp.installer').setup()
 
   M.clangd()
-
   require('aceforeverd.lsp.jdtls').setup()
   require('aceforeverd.lsp.metals').metals()
 end
