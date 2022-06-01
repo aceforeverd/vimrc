@@ -20,11 +20,48 @@ local M = {}
 function M.metals()
   local metals = require('metals')
   local metals_config = vim.deepcopy(metals.bare_config())
+  metals_config.settings = {
+    showImplicitArguments = true,
+  }
   metals_config.init_options.statusBarProvider = 'on'
 
   metals_config = vim.tbl_deep_extend('force', metals_config, require('aceforeverd.lsp.common').general_cfg)
 
-  metals.initialize_or_attach(metals_config)
+  local dap = require('dap')
+
+  dap.configurations.scala = {
+    {
+      type = 'scala',
+      request = 'launch',
+      name = 'RunOrTest',
+      metals = {
+        runType = 'runOrTestFile',
+        --args = { "firstArg", "secondArg", "thirdArg" }, -- here just as an example
+      },
+    },
+    {
+      type = 'scala',
+      request = 'launch',
+      name = 'Test Target',
+      metals = {
+        runType = 'testTarget',
+      },
+    },
+  }
+
+  metals_config.on_attach = function(client, bufnr)
+    require('aceforeverd.lsp.common').on_attach(client, bufnr)
+    require('metals').setup_dap()
+  end
+
+  local nvim_metals_group = vim.api.nvim_create_augroup('nvim-metals', { clear = true })
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'scala', 'sbt' },
+    callback = function()
+      require('metals').initialize_or_attach(metals_config)
+    end,
+    group = nvim_metals_group,
+  })
 end
 
 return M

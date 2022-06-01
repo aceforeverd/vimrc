@@ -78,6 +78,7 @@ return packer.startup({
         'b0o/schemastore.nvim',
         'nanotee/sqls.nvim',
         'mfussenegger/nvim-jdtls',
+        'scalameta/nvim-metals',
       },
       config = function()
         require('aceforeverd.lsp').setup()
@@ -155,16 +156,6 @@ return packer.startup({
       after = { 'nvim-lspconfig' },
       config = function()
         require('aceforeverd.lsp').rust_analyzer()
-      end,
-    })
-
-    use({
-      'scalameta/nvim-metals',
-      requires = { 'nvim-lua/plenary.nvim' },
-      after = { 'nvim-lspconfig' },
-      ft = { 'scala', 'sbt' },
-      config = function()
-        require('aceforeverd.config.ft_plugins').metals()
       end,
     })
 
@@ -583,7 +574,6 @@ return packer.startup({
     use({
       'ibhagwan/fzf-lua',
       requires = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' },
-      -- cmd = { 'FzfLua' },
       config = function()
         require('aceforeverd.finder').fzflua()
       end,

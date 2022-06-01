@@ -52,7 +52,7 @@ function M.telescope()
           ['<C-e>'] = { '<END>', type = 'command' },
           ['<C-/>'] = require('telescope.actions.generate').which_key,
           ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
-          ['<c-n>'] = false,
+          ['<c-n>'] = false, -- resevered key
           ['<C-l>'] = require('telescope.actions.layout').cycle_layout_next,
           ['<C-h>'] = require('telescope.actions.layout').cycle_layout_prev,
           ['<C-i>'] = require('telescope.actions.layout').toggle_prompt_position,

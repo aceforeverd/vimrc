@@ -21,6 +21,8 @@ function! aceforeverd#plugin#minpac() abort
 
     call minpac#add('k-takata/minpac', {'type': 'opt'})
     call minpac#add('jalvesaq/Nvim-R', {'type': 'opt'})
+    call minpac#add('mg979/docgen.vim')
+
     " Latex
     " merged = 0 beacue E944: Reverse range in character class
     call minpac#add('lervag/vimtex', {'type': 'opt'})

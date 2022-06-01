@@ -65,6 +65,7 @@ function M.setup()
   M.clangd()
 
   require('aceforeverd.lsp.jdtls').setup()
+  require('aceforeverd.lsp.metals').metals()
 end
 
 function M.clangd()

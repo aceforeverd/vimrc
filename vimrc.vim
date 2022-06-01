@@ -105,8 +105,6 @@ elseif g:my_autopair ==? 'lexima'
    Plug 'cohama/lexima.vim'
 endif
 
-Plug 'mg979/docgen.vim'
-
 call plug#end() "}}}
 
 call aceforeverd#plugin#minpac()
@@ -605,9 +603,11 @@ nmap <Leader>a <Plug>(EasyAlign)
 set completeopt-=preview
 set completeopt+=menuone
 set completeopt+=noselect
-set shortmess+=c
 set mousemodel=popup_setpos
 
+set shortmess+=c
+" give the file info when editing a file
+set shortmess-=F
 " only apply to vim
 set shortmess-=S
 
