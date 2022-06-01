@@ -116,6 +116,7 @@ function M.get_config()
           args = {
             '-f',
             'json',
+            -- --from-stdin have more accurate reports like correct endColumn information
             '--from-stdin',
             '%filename',
           },

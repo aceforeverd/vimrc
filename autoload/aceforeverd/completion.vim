@@ -165,14 +165,15 @@ function! aceforeverd#completion#init_source_coc() abort
     " Using CocList
     " Show all diagnostics
     nnoremap <silent> <space>a :<C-u>CocList diagnostics<cr>
+    nnoremap <silent> <space>q <Cmd>CocDiagnostics<cr>
     " Manage extensions
-    nnoremap <silent> <space>x :<C-u>CocList extensions<cr>
+    nnoremap <silent> <space>E :<C-u>CocList extensions<cr>
     " Show commands
-    nnoremap <silent> <space>c :<C-u>CocList commands<cr>
+    nnoremap <silent> <space>C :<C-u>CocList commands<cr>
     " Find symbol of current document
-    nnoremap <silent> <space>o :<C-u>CocList outline<cr>
+    nnoremap <silent> <space>s :<C-u>CocList outline<cr>
     " Search workspace symbols
-    nnoremap <silent> <space>s :<C-u>CocList -I symbols<cr>
+    nnoremap <silent> <space>S :<C-u>CocList -I symbols<cr>
     " Do default action for next item.
     nnoremap <silent> <space>j :<C-u>CocNext<CR>
     " Do default action for previous item.
@@ -181,6 +182,7 @@ function! aceforeverd#completion#init_source_coc() abort
     nnoremap <silent> <space>p :<C-u>CocListResume<CR>
 
     nnoremap <space>e :<C-u>CocCommand explorer<CR>
+    nnoremap <space>B :<C-u>CocList buffers<CR>
 
     nnoremap <silent> <space>l :<C-u>CocList -A --normal yank<CR>
     nnoremap <silent> <space>v :<C-u>CocList services<CR>
