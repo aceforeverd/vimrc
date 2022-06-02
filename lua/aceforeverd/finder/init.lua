@@ -21,6 +21,7 @@ local dash_cfg = {
   file_type_keywords = {
     c = { 'c', 'clang', 'llvm', 'gdb' },
     cpp = { 'cpp', 'clang', 'llvm', 'gdb' },
+    python = { 'python3', 'python2' },
   }
 }
 
