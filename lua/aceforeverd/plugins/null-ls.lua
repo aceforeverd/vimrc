@@ -31,10 +31,21 @@ function M.setup()
     null_ls.builtins.formatting.cmake_format,
 
     null_ls.builtins.diagnostics.protolint.with({
-      extra_args = { '--config_path', vim.fn.stdpath('config') .. '/.protolint.yaml' }
+      extra_args = { '--config_path', vim.fn.stdpath('config') .. '/.protolint.yaml' },
     }),
     null_ls.builtins.diagnostics.hadolint,
     null_ls.builtins.diagnostics.checkmake,
+    null_ls.builtins.diagnostics.pylint.with({
+      diagnostics_postprocess = function(diagnostics)
+        diagnostics.message = string.format(
+          '[%s <%s>]: %s (%s/null-ls)]',
+          diagnostics.code,
+          diagnostics.symbol,
+          diagnostics.message,
+          diagnostics.source
+        )
+      end,
+    }),
     -- diagnosticls take those
     -- null_ls.builtins.diagnostics.shellcheck,
   }

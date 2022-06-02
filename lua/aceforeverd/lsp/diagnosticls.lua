@@ -20,7 +20,7 @@ local M = {}
 -- https://github.com/iamcco/diagnostic-languageserver/wiki/Linters
 function M.get_config()
   return {
-    filetypes = { 'cpp', 'yaml', 'sh', 'vim', 'python' },
+    filetypes = { 'cpp', 'yaml', 'sh', 'vim' },
     init_options = {
       linters = {
         vint = {
@@ -120,6 +120,10 @@ function M.get_config()
             '--from-stdin',
             '%filename',
           },
+          -- offset added to the line and column reported by linter
+          -- vim's line and column start from 1
+          -- so if the line & column reported is zero-based, it need `offsetColumn = 1` to be added
+          offsetLine = 0,
           offsetColumn = 1,
           parseJson = {
             line = 'line',
@@ -144,7 +148,7 @@ function M.get_config()
         sh = { 'shellcheck' },
         cpp = { 'cpplint' },
         yaml = { 'actionlint' },
-        python = { 'pylint' },
+        python = { 'pylint' }, -- disabled
       },
       formatters = {},
       formatFiletypes = {},
