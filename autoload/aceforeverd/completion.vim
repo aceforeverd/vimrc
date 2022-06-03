@@ -57,11 +57,11 @@ endfunction
 
 
 function! aceforeverd#completion#init_source_coc() abort
-    let g:coc_global_extensions = ['coc-vimlsp',
-                \ 'coc-tag', 'coc-syntax',
+    let g:coc_global_extensions = [
+                \ 'coc-vimlsp', 'coc-syntax',
                 \ 'coc-snippets', 'coc-prettier',
                 \ 'coc-lists', 'coc-floaterm',
-                \ 'coc-highlight',
+                \ 'coc-highlight', 'coc-git',
                 \ 'coc-explorer', 'coc-eslint',
                 \ 'coc-dictionary', 'coc-yank',
                 \ 'coc-yaml', 'coc-tsserver',
@@ -246,5 +246,15 @@ function! s:coc_hover() abort
 endfunction
 
 function! aceforeverd#completion#wider() abort
-    call wilder#setup({'modes': [':', '/', '?']})
+    call wilder#setup({
+                \ 'modes': [':', '/', '?'],
+                \ 'enable_cmdline_enter': 0,
+                \ })
+    call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_palette_theme({
+                \ 'border': 'round',
+                \ 'max_height': '75%',
+                \ 'min_height': 0,
+                \ 'prompt_position': 'bottom',
+                \ 'reverse': 1,
+                \ })))
 endfunction

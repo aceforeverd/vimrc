@@ -61,7 +61,6 @@ if !has('nvim-0.5.0')
    " nvim 0.5.0 or later use the combination of
    "   feline.nvim, gitsigns and bufferline.nvim
     Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
     let g:airline#extensions#tabline#enabled = 1
     let g:airline_detect_modified=1
     let g:airline_detect_paste=1

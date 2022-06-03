@@ -73,7 +73,7 @@
     "sh": "shellcheck",
     "cpp": ["cpplint"],
     "dockerfile": ["hadolint"],
-    "python": ["mypy", "pylint"],
+    "python": ["pylint"],
     "yaml": ["actionlint"]
   },
   "markdownlint.config": {
@@ -187,5 +187,6 @@
   "Lua.hint.setType": true,
   "Lua.runtime.version": "LuaJIT",
   "sumneko-lua.enableNvimLuaDev": true,
-  "git.enableGutters": false
+  "git.enableGutters": false,
+  "Lua.telemetry.enable": false
 }
