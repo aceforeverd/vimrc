@@ -250,6 +250,7 @@ function! aceforeverd#completion#wider() abort
                 \ 'modes': [':', '/', '?'],
                 \ 'enable_cmdline_enter': 0,
                 \ })
+    " use command pallette style
     call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_palette_theme({
                 \ 'border': 'round',
                 \ 'max_height': '75%',
@@ -257,4 +258,30 @@ function! aceforeverd#completion#wider() abort
                 \ 'prompt_position': 'bottom',
                 \ 'reverse': 1,
                 \ })))
+    " fuzzy find
+    call wilder#set_option('pipeline', [
+                \   wilder#branch(
+                \     wilder#cmdline_pipeline({
+                \       'language': 'python',
+                \       'fuzzy': 1,
+                \     }),
+                \     wilder#python_search_pipeline({
+                \       'pattern': wilder#python_fuzzy_pattern(),
+                \       'sorter': wilder#python_difflib_sorter(),
+                \       'engine': 're',
+                \     }),
+                \   ),
+                \ ])
+    " find file pipeline
+    call wilder#set_option('pipeline', [
+                \   wilder#branch(
+                \     wilder#python_file_finder_pipeline({
+                \       'file_command': ['fd', '-tf'],
+                \       'dir_command': ['fd', '-td'],
+                \       'filters': ['fuzzy_filter', 'difflib_sorter'],
+                \     }),
+                \     wilder#cmdline_pipeline(),
+                \     wilder#python_search_pipeline(),
+                \   ),
+                \ ])
 endfunction
