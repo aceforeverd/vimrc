@@ -111,7 +111,7 @@ function M.get_config()
         pylint = {
           sourceName = 'pylint',
           command = 'pylint',
-          debounce = 100,
+          debounce = 500,
           rootPatterns = { 'pylintrc', 'pyproject.toml', 'setup.py', '.git' },
           args = {
             '-f',
