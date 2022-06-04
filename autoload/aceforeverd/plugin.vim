@@ -30,18 +30,16 @@ function! aceforeverd#plugin#minpac() abort
     call minpac#add('fatih/vim-go', {'type': 'opt'})
 
     call minpac#add('justinmk/vim-dirvish', {'type': 'opt'})
-    augroup dirvish_cfg
-        autocmd!
-        autocmd FileType dirvish call s:dirvish_enhance()
-    augroup END
+    call minpac#add('tpope/vim-vinegar', {'type': 'opt'})
 
     if !has('nvim')
-        packadd vim-go
+        packadd! vim-go
         call aceforeverd#settings#vim_go()
     endif
-endfunction
 
-function! s:dirvish_enhance() abort
-    " Map `gh` to hide dot-prefixed files, 'R' to toggle
-    nnoremap <silent><buffer> gh :silent keeppatterns g@\v/\.[^\/]+/?$@d _<cr>:setl cole=3<cr>
+    if g:my_dir_viewer ==? 'dirvish'
+        packadd! vim-dirvish
+    elseif g:my_dir_viewer ==? 'netrw'
+        packadd! vim-vinegar
+    endif
 endfunction

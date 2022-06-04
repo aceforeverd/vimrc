@@ -6,3 +6,4 @@ plugin/packer_compiled.lua
 before.vim
 after.vim
 tags
+pack/

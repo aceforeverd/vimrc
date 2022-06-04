@@ -182,7 +182,6 @@ if dein#load_state(s:dein_repo)
                 \ 'merged': 0,
                 \ 'hook_post_source': 'colorscheme sonokai'})
     call dein#add('justinmk/vim-gtfo')
-    call dein#add('tpope/vim-vinegar')
 
     " motion
     call dein#add('rhysd/clever-f.vim')
