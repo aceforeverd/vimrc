@@ -33,18 +33,27 @@ if filereadable(s:before_vimrc)
     execute('source ' . s:before_vimrc)
 endif
 
-let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
-let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
-
 call aceforeverd#settings#my_init()
 
+" download vim-plug
 if empty(glob(s:home. '/autoload/plug.vim'))
+    echomsg 'automatically downloading vim-plug ...'
     execute '!curl -fLo '.s:home.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    echomsg 'installed vim-plug into ' . s:home . '/autoload/plug.vim'
     augroup gp_vim_plug_bootstrap
        autocmd!
        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
     augroup END
 endif
+
+" download dein
+let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
+if empty(glob(s:dein_path))
+    echomsg 'automatically downloading dein.vim ...'
+    execute '!git clone https https://github.com/Shougo/dein.vim.git ' . s:dein_path
+    echomsg 'installed dein.vim into ' . s:dein_path
+endif
+let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
 
 " global leader
 let g:mapleader = ','
