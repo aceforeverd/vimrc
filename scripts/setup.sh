@@ -124,7 +124,7 @@ if [[ -n "$INSTALL_PLUGINS" ]]; then
         echo -e "${GREEN}all plugins installed${NC}"
     else
         echo -e "${GREEN}installing plugins for vim ... ${NC}"
-        vim -c "set t_ti= t_te= nomore" -u vimrc -i NONE -c "call aceforeverd#util#install()" -c "qa!"
+        vim -c "set t_ti= t_te= nomore" -u vimrc -c "call aceforeverd#util#install()" -c "qa!"
         echo -e "${GREEN}all plugins installed${NC}"
     fi
 fi

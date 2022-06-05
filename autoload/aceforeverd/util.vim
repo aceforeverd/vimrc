@@ -19,7 +19,9 @@ function! aceforeverd#util#install() abort
     try
         call dein#install()
     catch /.*/
+        echomsg 'catched ' .. v:exception
     endtry
+
     echomsg "Dein plugins installed\n"
     execute 'PlugInstall --sync'
     echomsg "Vim-Plug plugins installed\n"
@@ -38,7 +40,9 @@ function! aceforeverd#util#update() abort
     try
         call dein#update()
     catch /.*/
+        echomsg 'catched ' .. v:exception
     endtry
+
     execute 'PlugUpdate'
     execute 'call minpac#update()'
     echomsg 'minpac plugins installed\n'
