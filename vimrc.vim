@@ -33,7 +33,7 @@ if filereadable(s:before_vimrc)
     execute('source ' . s:before_vimrc)
 endif
 
-set runtimepath+=s:home
+let &runtimepath+= &runtimepath . ',' . s:home
 call aceforeverd#settings#my_init()
 
 " download vim-plug
