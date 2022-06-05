@@ -32,14 +32,20 @@ function! aceforeverd#plugin#minpac() abort
     call minpac#add('justinmk/vim-dirvish', {'type': 'opt'})
     call minpac#add('tpope/vim-vinegar', {'type': 'opt'})
 
-    if !has('nvim')
-        packadd! vim-go
-        call aceforeverd#settings#vim_go()
-    endif
+    " load opt plugins
+    " ignore errors because plugins may not installed from first time
+    try
+        if !has('nvim')
+            packadd! vim-go
+            call aceforeverd#settings#vim_go()
+        endif
 
-    if g:my_dir_viewer ==? 'dirvish'
-        packadd! vim-dirvish
-    elseif g:my_dir_viewer ==? 'netrw'
-        packadd! vim-vinegar
-    endif
+        if g:my_dir_viewer ==? 'dirvish'
+            packadd! vim-dirvish
+        elseif g:my_dir_viewer ==? 'netrw'
+            packadd! vim-vinegar
+        endif
+    catch /.*/
+        echo 'caught ' .. v:exception
+    endtry
 endfunction
