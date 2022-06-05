@@ -33,6 +33,7 @@ if filereadable(s:before_vimrc)
     execute('source ' . s:before_vimrc)
 endif
 
+set runtimepath+=s:home
 call aceforeverd#settings#my_init()
 
 " download vim-plug
@@ -53,7 +54,7 @@ if empty(glob(s:dein_path))
     execute '!git clone https https://github.com/Shougo/dein.vim.git ' . s:dein_path
     echomsg 'installed dein.vim into ' . s:dein_path
 endif
-let &runtimepath = &runtimepath . ',' . s:dein_path . ',' . s:home
+let &runtimepath = &runtimepath . ',' . s:dein_path
 
 " global leader
 let g:mapleader = ','
