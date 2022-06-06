@@ -18,40 +18,14 @@
 function! aceforeverd#util#install() abort
     try
         call dein#install()
+
+        execute 'PlugInstall --sync'
+        echomsg 'Vim-Plug plugins installed'
+
+        execute 'call minpac#update()'
     catch /.*/
         echomsg 'catched ' .. v:exception
     endtry
-
-    echomsg "Dein plugins installed\n"
-    execute 'PlugInstall --sync'
-    echomsg "Vim-Plug plugins installed\n"
-    execute 'call minpac#update()'
-    echomsg 'minpac plugins installed\n'
-    if g:my_cmp_source ==? 'coc'
-        " reload plugins so vim can find newly installed plugin like coc.nvim
-        execute 'runtime! plugin/**/*.vim'
-        execute 'CocUpdateSync'
-        echomsg "Coc Plugins installed\n"
-    endif
-endfunction
-
-" update all plugins managed by different plug manager
-function! aceforeverd#util#update() abort
-    try
-        call dein#update()
-    catch /.*/
-        echomsg 'catched ' .. v:exception
-    endtry
-
-    execute 'PlugUpdate'
-    execute 'call minpac#update()'
-    echomsg 'minpac plugins installed\n'
-    if g:my_cmp_source ==? 'coc'
-        execute 'CocUpdate'
-    endif
-    if has('nvim-0.5')
-        execute 'PackerSync'
-    endif
 endfunction
 
 function! aceforeverd#util#has_float() abort
