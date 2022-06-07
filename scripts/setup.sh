@@ -122,10 +122,10 @@ if [[ -n "$INSTALL_PLUGINS" ]]; then
             nvim $NVIM_ARGS -u init.vim -c "let &packpath = '$ROOT/bundle,' . &packpath" -c 'autocmd User PackerComplete qa!' -c 'PackerSync'
         fi
         echo -e "${GREEN}all plugins installed${NC}"
-    else
-        echo -e "${GREEN}installing plugins for vim ... ${NC}"
-        vim -c "set t_ti= t_te= nomore" -u vimrc -c "call aceforeverd#util#install()" -c "qa!"
-        echo -e "${GREEN}all plugins installed${NC}"
+    # else
+        # echo -e "${GREEN}installing plugins for vim ... ${NC}"
+        # vim -c "set t_ti= t_te= nomore" -u vimrc -c "call aceforeverd#util#install()" -c "qa!"
+        # echo -e "${GREEN}all plugins installed${NC}"
     fi
 fi
 popd
