@@ -1,6 +1,22 @@
 ""
 " setup minpac plugins and config them
 ""
+
+" tiny wrapper for :packadd
+" good thing is use :PackAdd! to ignore any errors and do not terminate,
+" this may helpful when first install and plugins not installed yet
+command! -bang -nargs=1 PackAdd call s:pack_add(<bang>0, <f-args>)
+
+function! s:pack_add(bang, name) abort
+    " looks like it's ok to just 'packadd! plugin' in neovim
+    " silent! applied just in case exception in vim, when plugin not found in fs
+    if a:bang
+        silent! execute 'packadd! ' .. a:name
+    else
+        execute 'packadd! ' .. a:name
+    endif
+endfunction
+
 function! aceforeverd#plugin#minpac() abort
     if has('nvim')
         let s:pack_path = stdpath('data') . '/site/'
@@ -34,18 +50,14 @@ function! aceforeverd#plugin#minpac() abort
 
     " load opt plugins
     " ignore errors because plugins may not installed from first time
-    try
-        if !has('nvim')
-            packadd! vim-go
-            call aceforeverd#settings#vim_go()
-        endif
+    if !has('nvim')
+        PackAdd! vim-go
+        call aceforeverd#settings#vim_go()
+    endif
 
-        if g:my_dir_viewer ==? 'dirvish'
-            packadd! vim-dirvish
-        elseif g:my_dir_viewer ==? 'netrw'
-            packadd! vim-vinegar
-        endif
-    catch /.*/
-        echo 'caught ' .. v:exception
-    endtry
+    if g:my_dir_viewer ==? 'dirvish'
+        PackAdd! vim-dirvish
+    elseif g:my_dir_viewer ==? 'netrw'
+        PackAdd! vim-vinegar
+    endif
 endfunction
