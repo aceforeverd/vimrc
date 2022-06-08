@@ -26,9 +26,7 @@ function! aceforeverd#plugin#minpac() abort
     let s:minpac_path = s:pack_path . '/pack/minpac/opt/minpac'
 
     if empty(glob(s:minpac_path))
-        echomsg 'installing minpac into ' . s:minpac_path
         call system(join([ 'git', 'clone', 'https://github.com/k-takata/minpac', s:minpac_path ]))
-        echomsg 'installed minpac'
     endif
 
     packadd minpac
