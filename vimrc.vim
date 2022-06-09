@@ -66,29 +66,6 @@ let g:maplocalleader = '\'
 
 call plug#begin(s:common_pkg) "{{{
 
-if !has('nvim-0.5.0')
-   " vim or nvim <= 0.4.0 use airline & gitgutter
-   " nvim 0.5.0 or later use the combination of
-   "   feline.nvim, gitsigns and bufferline.nvim
-    Plug 'vim-airline/vim-airline'
-    let g:airline#extensions#tabline#enabled = 1
-    let g:airline_detect_modified=1
-    let g:airline_detect_paste=1
-    let g:airline_theme='sonokai'
-    let g:airline_powerline_fonts = 1
-
-    Plug 'airblade/vim-gitgutter'
-    omap ih <Plug>(GitGutterTextObjectInnerPending)
-    omap ah <Plug>(GitGutterTextObjectOuterPending)
-    xmap ih <Plug>(GitGutterTextObjectInnerVisual)
-    xmap ah <Plug>(GitGutterTextObjectOuterVisual)
-    let g:gitgutter_sign_added = '+'
-    let g:gitgutter_sign_modified = '~'
-    if has('nvim-0.4.0')
-        let g:gitgutter_highlight_linenrs = 1
-    endif
-endif
-
 if g:my_cmp_source ==? 'coc'
    " nvim 0.6.0 or later use built-in lsp
    Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
@@ -97,21 +74,6 @@ if g:my_cmp_source ==? 'coc'
 
    " coc-fzf
    let g:coc_fzf_preview = 'up:80%'
-endif
-
-if g:my_autopair ==? 'delimitmate'
-   Plug 'raimondi/delimitmate'
-   "" see help delimitMateExpansion
-   let g:delimitMate_expand_cr = 2
-   let g:delimitMate_expand_space = 1
-   let g:delimitMate_balance_matchpairs = 1
-   augroup delimitMateCustom
-      autocmd!
-      autocmd FileType html,xhtml,xml let b:delimitMate_matchpairs = "(:),[:],{:}"
-      autocmd FileType rust let b:delimitMate_quotes = "\" `"
-   augroup END
-elseif g:my_autopair ==? 'lexima'
-   Plug 'cohama/lexima.vim'
 endif
 
 call plug#end() "}}}
@@ -203,7 +165,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('dstein64/vim-startuptime')
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('AndrewRadev/bufferize.vim')
-    call dein#add('mg979/vim-visual-multi')
     call dein#add('tyru/open-browser.vim')
     call dein#add('wincent/ferret')
     call dein#add('ojroques/vim-oscyank')

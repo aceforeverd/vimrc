@@ -58,12 +58,11 @@ function M.clangd()
   local clangd_cfg = {
     on_attach = function(client, bufnr)
       on_attach(client, bufnr)
-      vim.api.nvim_buf_set_keymap(
-        bufnr,
+      vim.keymap.set(
         'n',
         '<Leader>af',
         '<cmd>ClangdSwitchSourceHeader<cr>',
-        { noremap = true, silent = true }
+        { noremap = true, silent = true, buffer = bufnr }
       )
     end,
     capabilities = clangd_caps,
@@ -108,6 +107,11 @@ function M.lspkind()
   require('lspkind').init({
     mode = 'symbol_text',
   })
+end
+
+function M.inc_rename()
+  require("inc_rename").setup()
+  vim.keymap.set('n', '<leader>ri', ':<C-u>IncRename ', {})
 end
 
 function M.go()

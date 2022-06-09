@@ -84,7 +84,7 @@ local lazygit = Terminal:new({
   },
 })
 
-function M.lazygit()
+function Lazygit()
   lazygit:toggle()
 end
 
@@ -102,7 +102,7 @@ function M.toggle_term()
     ['<leader>tv'] = [[<cmd>execute v:count . "ToggleTerm direction=vertical"<cr>]],
     ['<leader>tf'] = [[<cmd>execute v:count . "ToggleTerm direction=float"<cr>]],
     ['<leader>tt'] = [[<cmd>execute v:count . "ToggleTerm direction=tab"<cr>]],
-    ['<leader>gl'] = [[<cmd>lua require('aceforeverd.plugins.enhance').lazygit()<CR>]],
+    ['<leader>gl'] = [[<cmd>lua Lazygit()<CR>]],
   }, {})
 end
 
