@@ -18,6 +18,20 @@ local M = {}
 local default_map_opts = { noremap = true, silent = true }
 local lsp_status = require('lsp-status')
 
+-- https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips#range-formatting-with-a-motion
+M.range_format_operator = function()
+  local old_func = vim.go.operatorfunc
+  _G.op_func_formatting = function()
+    local start = vim.api.nvim_buf_get_mark(0, '[')
+    local finish = vim.api.nvim_buf_get_mark(0, ']')
+    vim.lsp.buf.range_formatting({}, start, finish)
+    vim.go.operatorfunc = old_func
+    _G.op_func_formatting = nil
+  end
+  vim.go.operatorfunc = 'v:lua.op_func_formatting'
+  vim.api.nvim_feedkeys('g@', 'n', false)
+end
+
 M.lsp_default_n_maps = {
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   -- TODO: custom mapping, if not found via LSP, execute variant meaning of the keymap
@@ -47,6 +61,7 @@ M.lsp_default_n_maps = {
   ['<space>a'] = '<cmd>lua vim.diagnostic.setqflist()<CR>',
 
   ['<space>F'] = '<cmd>lua vim.lsp.buf.formatting()<CR>',
+  ['g<cr>'] = [[<cmd>lua require('aceforeverd.lsp.common').range_format_operator()<cr>]],
   ['<space>s'] = [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]],
   ['<space>S'] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
 

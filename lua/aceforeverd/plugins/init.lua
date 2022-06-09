@@ -86,6 +86,16 @@ return packer.startup({
     })
 
     use({
+      'smjonas/inc-rename.nvim',
+      cond = function()
+        return vim.fn.has('nvim-0.8.0') == 1
+      end,
+      config = function()
+        require('aceforeverd.lsp').inc_rename()
+      end,
+    })
+
+    use({
       'onsails/lspkind.nvim',
       config = function()
         require('aceforeverd.lsp').lspkind()
@@ -490,6 +500,7 @@ return packer.startup({
     })
 
     use({
+      -- better conflict resolving, unimpaired provides a basic one
       'akinsho/git-conflict.nvim',
       config = function()
         require('aceforeverd.plugins.git').git_conflict()
@@ -502,15 +513,6 @@ return packer.startup({
       config = function()
         require('aceforeverd.plugins.git').gitlinker()
       end,
-    })
-
-    use({
-      'anuvyklack/pretty-fold.nvim',
-      requires = 'anuvyklack/nvim-keymap-amend',
-      config = function()
-        require('aceforeverd.plugins.enhance').pretty_fold()
-      end,
-      opt = true,
     })
 
     use({
@@ -707,10 +709,6 @@ return packer.startup({
       config = function()
         require('aceforeverd.finder').dash()
       end,
-    })
-
-    use({
-      'rcarriga/vim-ultest',
     })
 
     use({

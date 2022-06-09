@@ -33,14 +33,12 @@ if filereadable(s:before_vimrc)
     execute('source ' . s:before_vimrc)
 endif
 
-set runtimepath+=s:home
+let &runtimepath = &runtimepath . ',' . s:home
 call aceforeverd#settings#my_init()
 
 " download vim-plug
 if empty(glob(s:home. '/autoload/plug.vim'))
-    echomsg 'automatically downloading vim-plug ...'
     execute '!curl -fLo '.s:home.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    echomsg 'installed vim-plug into ' . s:home . '/autoload/plug.vim'
     augroup gp_vim_plug_bootstrap
        autocmd!
        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
@@ -50,9 +48,7 @@ endif
 " download dein
 let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
 if empty(glob(s:dein_path))
-    echomsg 'automatically downloading dein.vim ...'
     execute '!git clone https https://github.com/Shougo/dein.vim.git ' . s:dein_path
-    echomsg 'installed dein.vim into ' . s:dein_path
 endif
 let &runtimepath = &runtimepath . ',' . s:dein_path
 
@@ -66,29 +62,6 @@ let g:maplocalleader = '\'
 
 call plug#begin(s:common_pkg) "{{{
 
-if !has('nvim-0.5.0')
-   " vim or nvim <= 0.4.0 use airline & gitgutter
-   " nvim 0.5.0 or later use the combination of
-   "   feline.nvim, gitsigns and bufferline.nvim
-    Plug 'vim-airline/vim-airline'
-    let g:airline#extensions#tabline#enabled = 1
-    let g:airline_detect_modified=1
-    let g:airline_detect_paste=1
-    let g:airline_theme='sonokai'
-    let g:airline_powerline_fonts = 1
-
-    Plug 'airblade/vim-gitgutter'
-    omap ih <Plug>(GitGutterTextObjectInnerPending)
-    omap ah <Plug>(GitGutterTextObjectOuterPending)
-    xmap ih <Plug>(GitGutterTextObjectInnerVisual)
-    xmap ah <Plug>(GitGutterTextObjectOuterVisual)
-    let g:gitgutter_sign_added = '+'
-    let g:gitgutter_sign_modified = '~'
-    if has('nvim-0.4.0')
-        let g:gitgutter_highlight_linenrs = 1
-    endif
-endif
-
 if g:my_cmp_source ==? 'coc'
    " nvim 0.6.0 or later use built-in lsp
    Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
@@ -97,21 +70,6 @@ if g:my_cmp_source ==? 'coc'
 
    " coc-fzf
    let g:coc_fzf_preview = 'up:80%'
-endif
-
-if g:my_autopair ==? 'delimitmate'
-   Plug 'raimondi/delimitmate'
-   "" see help delimitMateExpansion
-   let g:delimitMate_expand_cr = 2
-   let g:delimitMate_expand_space = 1
-   let g:delimitMate_balance_matchpairs = 1
-   augroup delimitMateCustom
-      autocmd!
-      autocmd FileType html,xhtml,xml let b:delimitMate_matchpairs = "(:),[:],{:}"
-      autocmd FileType rust let b:delimitMate_quotes = "\" `"
-   augroup END
-elseif g:my_autopair ==? 'lexima'
-   Plug 'cohama/lexima.vim'
 endif
 
 call plug#end() "}}}
@@ -203,7 +161,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('dstein64/vim-startuptime')
     call dein#add('jsfaint/gen_tags.vim')
     call dein#add('AndrewRadev/bufferize.vim')
-    call dein#add('mg979/vim-visual-multi')
     call dein#add('tyru/open-browser.vim')
     call dein#add('wincent/ferret')
     call dein#add('ojroques/vim-oscyank')

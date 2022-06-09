@@ -13,41 +13,24 @@
 " You should have received a copy of the GNU General Public License
 " along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-" setup all vim plugins and everything other needed
-" should only called during installing
-function! aceforeverd#util#install() abort
+""
+" the plugin install wrapper used by first time installation
+"
+" @param post_hook: a string to be executed after finish as Ex command
+""
+function! aceforeverd#util#install(post_hook) abort
     try
         call dein#install()
-    catch /.*/
-    endtry
-    echomsg "Dein plugins installed\n"
-    execute 'PlugInstall --sync'
-    echomsg "Vim-Plug plugins installed\n"
-    execute 'call minpac#update()'
-    echomsg 'minpac plugins installed\n'
-    if g:my_cmp_source ==? 'coc'
-        " reload plugins so vim can find newly installed plugin like coc.nvim
-        execute 'runtime! plugin/**/*.vim'
-        execute 'CocUpdateSync'
-        echomsg "Coc Plugins installed\n"
-    endif
-endfunction
 
-" update all plugins managed by different plug manager
-function! aceforeverd#util#update() abort
-    try
-        call dein#update()
+        execute 'PlugInstall --sync'
+        echomsg 'Vim-Plug plugins installed'
+
+        execute "call minpac#update('', {'do': '" .. a:post_hook .. "'})"
+
+        " NOTE: u may run :PackerSync or :CocUpdate manually
     catch /.*/
+        echomsg 'catched ' .. v:exception
     endtry
-    execute 'PlugUpdate'
-    execute 'call minpac#update()'
-    echomsg 'minpac plugins installed\n'
-    if g:my_cmp_source ==? 'coc'
-        execute 'CocUpdate'
-    endif
-    if has('nvim-0.5')
-        execute 'PackerSync'
-    endif
 endfunction
 
 function! aceforeverd#util#has_float() abort
