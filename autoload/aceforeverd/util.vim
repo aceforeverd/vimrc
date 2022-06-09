@@ -13,18 +13,21 @@
 " You should have received a copy of the GNU General Public License
 " along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-" deprecated
-function! aceforeverd#util#install() abort
+""
+" the plugin install wrapper used by first time installation
+"
+" @param post_hook: a string to be executed after finish as Ex command
+""
+function! aceforeverd#util#install(post_hook) abort
     try
         call dein#install()
 
         execute 'PlugInstall --sync'
         echomsg 'Vim-Plug plugins installed'
 
-        execute 'call minpac#update()'
-        if has('nvim-0.5.0')
-            execute 'PackerSync'
-        endif
+        execute "call minpac#update('', {'do': '" .. a:post_hook .. "'})"
+
+        " NOTE: u may run :PackerSync or :CocUpdate manually
     catch /.*/
         echomsg 'catched ' .. v:exception
     endtry
