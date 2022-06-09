@@ -22,6 +22,9 @@ function! aceforeverd#util#install() abort
         echomsg 'Vim-Plug plugins installed'
 
         execute 'call minpac#update()'
+        if has('nvim-0.5.0')
+            execute 'PackerSync'
+        endif
     catch /.*/
         echomsg 'catched ' .. v:exception
     endtry
