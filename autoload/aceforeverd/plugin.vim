@@ -1,6 +1,22 @@
 ""
 " setup minpac plugins and config them
 ""
+
+" tiny wrapper for :packadd
+" good thing is use :PackAdd! to ignore any errors and do not terminate,
+" this may helpful when first install and plugins not installed yet
+command! -bang -nargs=1 PackAdd call s:pack_add(<bang>0, <f-args>)
+
+function! s:pack_add(bang, name) abort
+    " looks like it's ok to just 'packadd! plugin' in neovim
+    " silent! applied just in case exception in vim, when plugin not found in fs
+    if a:bang
+        silent! execute 'packadd! ' .. a:name
+    else
+        execute 'packadd! ' .. a:name
+    endif
+endfunction
+
 function! aceforeverd#plugin#minpac() abort
     if has('nvim')
         let s:pack_path = stdpath('data') . '/site/'
@@ -10,9 +26,7 @@ function! aceforeverd#plugin#minpac() abort
     let s:minpac_path = s:pack_path . '/pack/minpac/opt/minpac'
 
     if empty(glob(s:minpac_path))
-        echomsg 'installing minpac into ' . s:minpac_path
         call system(join([ 'git', 'clone', 'https://github.com/k-takata/minpac', s:minpac_path ]))
-        echomsg 'installed minpac'
     endif
 
     packadd minpac
@@ -36,23 +50,26 @@ function! aceforeverd#plugin#minpac() abort
     call minpac#add('justinmk/vim-dirvish', {'type': 'opt'})
     call minpac#add('tpope/vim-vinegar', {'type': 'opt'})
 
+    " load opt plugins
+    " ignore errors because plugins may not installed from first time
+
     " auto pair
     call minpac#add('raimondi/delimitmate', {'type': 'opt'})
     call minpac#add('cohama/lexima.vim', {'type': 'opt'})
 
     if !has('nvim')
-        packadd! vim-go
+        PackAdd! vim-go
         call aceforeverd#settings#vim_go()
     endif
 
     if g:my_dir_viewer ==? 'dirvish'
-        packadd! vim-dirvish
+        PackAdd! vim-dirvish
     elseif g:my_dir_viewer ==? 'netrw'
-        packadd! vim-vinegar
+        PackAdd! vim-vinegar
     endif
 
     if !has('nvim-0.5.0')
-        packadd! vim-airline
+        PackAdd! vim-airline
 
         let g:airline#extensions#tabline#enabled = 1
         let g:airline_detect_modified=1
@@ -60,7 +77,7 @@ function! aceforeverd#plugin#minpac() abort
         let g:airline_theme='sonokai'
         let g:airline_powerline_fonts = 1
 
-        packadd! vim-gitgutter
+        PackAdd! vim-gitgutter
         omap ih <Plug>(GitGutterTextObjectInnerPending)
         omap ah <Plug>(GitGutterTextObjectOuterPending)
         xmap ih <Plug>(GitGutterTextObjectInnerVisual)
@@ -77,7 +94,7 @@ endfunction
 
 function! s:auto_pair() abort
     if g:my_autopair ==? 'delimitmate'
-        packadd! delimitmate
+        PackAdd! delimitmate
         "" see help delimitMateExpansion
         let g:delimitMate_expand_cr = 2
         let g:delimitMate_expand_space = 1
@@ -88,6 +105,6 @@ function! s:auto_pair() abort
             autocmd FileType rust let b:delimitMate_quotes = "\" `"
         augroup END
     elseif g:my_autopair ==? 'lexima'
-        packadd! lexima.vim
+        PackAdd! lexima.vim
     endif
 endfunction

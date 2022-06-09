@@ -116,15 +116,11 @@ fi
 if [[ -n "$INSTALL_PLUGINS" ]]; then
     if [[ "$TYPE" = "neovim" ]]; then
         echo -e "${GREEN}installing plugins for neovim ... ${NC}"
-        nvim $NVIM_ARGS -u init.vim -c "call aceforeverd#util#install()" -c "qa!"
-        if [ -z "$CI" ]; then
-            # FIXME: not run on cicd
-            nvim $NVIM_ARGS -u init.vim -c "let &packpath = '$ROOT/bundle,' . &packpath" -c 'autocmd User PackerComplete qa!' -c 'PackerSync'
-        fi
+        nvim $NVIM_ARGS -u init.vim -c "call aceforeverd#util#install('qa!')"
         echo -e "${GREEN}all plugins installed${NC}"
     else
         echo -e "${GREEN}installing plugins for vim ... ${NC}"
-        vim -c "set t_ti= t_te= nomore" -u vimrc -i NONE -c "call aceforeverd#util#install()" -c "qa!"
+        vim -c "set t_ti= t_te= nomore" -u vimrc -c "call aceforeverd#util#install('qa!')"
         echo -e "${GREEN}all plugins installed${NC}"
     fi
 fi
