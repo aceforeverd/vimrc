@@ -17,12 +17,6 @@
 
 local M = {}
 
-function M.pretty_fold()
-  require('pretty-fold').setup({})
-  -- 'h' preview fold, 'l' open fold
-  require('pretty-fold.preview').setup({})
-end
-
 function M.hop()
   require('hop').setup()
 end
@@ -51,20 +45,6 @@ function M.spectre()
   ]])
 end
 
-function M.hlslens()
-  vim.api.nvim_set_keymap('n', '*', "*<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
-  vim.api.nvim_set_keymap('n', '#', "#<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
-  vim.api.nvim_set_keymap('n', 'g*', "g*<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
-  vim.api.nvim_set_keymap('n', 'g#', "g#<Cmd>lua require('hlslens').start()<CR>", { silent = true, noremap = true })
-
-  if vim.fn.has('nvim-0.6.0') == 0 then
-    -- nvim 0.6.0's <c-l> set nohlsearch by default
-    vim.api.nvim_set_keymap('n', '<leader>l', '<Cmd>noh<CR>', { silent = true, noremap = true })
-  end
-
-  require('hlslens').setup({ calm_down = false })
-end
-
 function M.light_bulb()
   vim.cmd([[
   augroup gp_light_bulb
@@ -73,22 +53,22 @@ function M.light_bulb()
   augroup END]])
 end
 
-local Terminal = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new({
-  cmd = 'lazygit',
-  hidden = true,
-  direction = 'float',
-  float_opts = {
-    border = 'curved',
-    winblend = 10,
-  },
-})
-
-function Lazygit()
-  lazygit:toggle()
-end
-
 function M.toggle_term()
+  local Terminal = require('toggleterm.terminal').Terminal
+  local lazygit = Terminal:new({
+    cmd = 'lazygit',
+    hidden = true,
+    direction = 'float',
+    float_opts = {
+      border = 'curved',
+      winblend = 10,
+    },
+  })
+
+  function Lazygit()
+    lazygit:toggle()
+  end
+
   require('toggleterm').setup({
     open_mapping = [[<C-\><C-\>]],
     direction = 'float',

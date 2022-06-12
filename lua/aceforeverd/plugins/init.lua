@@ -14,21 +14,34 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -- plugins will only load if has('nvim-0.5')
 local config_path = vim.fn.expand('<sfile>:p:h')
-vim.cmd(string.format("let &packpath = &packpath . ',' . '%s/bundle'", config_path))
+local pack_root = config_path .. '/bundle'
+vim.cmd(string.format([[let &packpath = &packpath . ',' . '%s']], pack_root))
 
-if vim.fn.exists('g:disable_impatient') == 0 then
+if vim.fn.exists('g:with_impatient') ~= 0 then
+  _G.__luacache_config = {
+    chunks = {
+      enable = true,
+      path = vim.fn.stdpath('cache') .. '/luacache_chunks',
+    },
+    modpaths = {
+      enable = true,
+      path = vim.fn.stdpath('cache') .. '/luacache_modpaths',
+    },
+  }
   local res, _ = pcall(require, 'impatient')
   if not res then
     vim.notify('failed to load impatient', vim.log.levels.WARN, {})
   end
 end
 
-local packer_install_path = config_path .. '/bundle/pack/packer/start/packer.nvim'
+local packer_install_path = pack_root .. '/pack/packer/opt/packer.nvim'
 
 if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
   vim.fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', packer_install_path })
   vim.api.nvim_notify('automatically installed packer.nvim into ' .. packer_install_path, 2, {})
 end
+
+vim.cmd [[ packadd packer.nvim ]]
 
 vim.cmd([[
   augroup packer_user_config
@@ -43,7 +56,7 @@ local packer = require('packer')
 
 local util = require('packer.util')
 packer.init({
-  package_root = util.join_paths(config_path, 'bundle/pack'),
+  package_root = util.join_paths(pack_root, '/pack'),
   compile_path = util.join_paths(config_path, 'plugin', 'packer_compiled.lua'),
   plugin_package = 'packer',
   max_jobs = 8,
@@ -54,7 +67,7 @@ packer.init({
 
 return packer.startup({
   function(use)
-    use({ 'wbthomason/packer.nvim' })
+    use({ 'wbthomason/packer.nvim', opt = true })
 
     use({ 'lewis6991/impatient.nvim' })
 
@@ -79,6 +92,7 @@ return packer.startup({
         'nanotee/sqls.nvim',
         'mfussenegger/nvim-jdtls',
         'scalameta/nvim-metals',
+        'j-hui/fidget.nvim',
       },
       config = function()
         require('aceforeverd.lsp').setup()
@@ -122,10 +136,6 @@ return packer.startup({
       config = function()
         require('aceforeverd.plugins.nvim-cmp').setup()
       end,
-    })
-
-    use({
-      'j-hui/fidget.nvim',
     })
 
     use({
@@ -446,16 +456,6 @@ return packer.startup({
       'folke/which-key.nvim',
       config = function()
         require('aceforeverd.plugins.enhance').which_key()
-      end,
-    })
-
-    use({
-      'kevinhwang91/nvim-hlslens',
-      cond = function()
-        return vim.g.with_hlslens == 1
-      end,
-      config = function()
-        require('aceforeverd.plugins.enhance').hlslens()
       end,
     })
 

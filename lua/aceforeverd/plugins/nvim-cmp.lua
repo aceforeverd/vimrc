@@ -86,7 +86,6 @@ function M.setup()
   local sources_1 = {
     { name = 'nvim_lsp' },
     { name = 'luasnip', option = { use_show_condition = false } },
-    -- ultisnips inject here
 
     { name = 'nvim_lua' },
     { name = 'path' },
@@ -120,12 +119,6 @@ function M.setup()
     { name = 'tmux', keyword_length = 3, max_item_count = 10 },
     { name = 'dictionary', keyword_length = 3 },
   }
-
-  local snip_idx = 3
-  if vim.g.with_ultisnips == 1 then
-    table.insert(sources_1, snip_idx, { name = 'ultisnips' })
-    snip_idx = snip_idx + 1
-  end
 
   cmp.setup({
     snippet = {
