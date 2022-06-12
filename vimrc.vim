@@ -62,16 +62,6 @@ let g:maplocalleader = '\'
 
 call plug#begin(s:common_pkg) "{{{
 
-if g:my_cmp_source ==? 'coc'
-   " nvim 0.6.0 or later use built-in lsp
-   Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
-   Plug 'antoinemadec/coc-fzf'
-   Plug 'neoclide/coc-neco'
-
-   " coc-fzf
-   let g:coc_fzf_preview = 'up:80%'
-endif
-
 call plug#end() "}}}
 
 call aceforeverd#plugin#minpac()

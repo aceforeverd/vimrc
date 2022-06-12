@@ -50,6 +50,12 @@ function! aceforeverd#plugin#minpac() abort
     call minpac#add('justinmk/vim-dirvish', {'type': 'opt'})
     call minpac#add('tpope/vim-vinegar', {'type': 'opt'})
 
+    call minpac#add('neoclide/coc.nvim', {'type': 'opt',
+                \ 'rev': 'master',
+                \ 'do': '!yarn install --frozen-lockfile'})
+    call minpac#add('antoinemadec/coc-fzf', {'type': 'opt'})
+    call minpac#add('neoclide/coc-neco', {'type': 'opt'})
+
     " load opt plugins
     " ignore errors because plugins may not installed from first time
 
@@ -90,6 +96,9 @@ function! aceforeverd#plugin#minpac() abort
     endif
 
     call s:auto_pair()
+    if g:my_cmp_source ==? 'coc'
+        call s:coc()
+    endif
 endfunction
 
 function! s:auto_pair() abort
@@ -107,4 +116,12 @@ function! s:auto_pair() abort
     elseif g:my_autopair ==? 'lexima'
         PackAdd! lexima.vim
     endif
+endfunction
+
+function! s:coc() abort
+    PackAdd! coc.nvim
+    PackAdd! coc-fzf
+    PackAdd! coc-neco
+
+   let g:coc_fzf_preview = 'up:80%'
 endfunction
