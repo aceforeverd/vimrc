@@ -63,6 +63,7 @@ let g:gitgutter_close_preview_on_escape = 1
 if has('nvim-0.4.0') || has('popupwin')
     let g:gitgutter_preview_win_floating = 1
 endif
+let g:gitgutter_max_signs = 1000
 
 Plug 'itchyny/lightline.vim'
 
@@ -391,8 +392,13 @@ set laststatus=2
 " netrw
 augroup gp_netrw_cs
     autocmd!
-    autocmd FileType netrw highlight netrwSuffixes ctermfg=250 ctermbg=235 guifg=#e4e3e1 guibg=#312c2b
+    autocmd FileType netrw call s:netrw_custom()
 augroup END
+function! s:netrw_custom() abort
+    highlight netrwSuffixes ctermfg=250 ctermbg=235 guifg=#e4e3e1 guibg=#312c2b
+    setlocal bufhidden=wipe
+    nnoremap <buffer> gq <Cmd>Rexplore<cr>
+endfunction
 
 " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
 if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
@@ -499,9 +505,6 @@ let g:startify_session_persistence = 1
 let g:startify_fortune_use_unicode = 1
 let g:startify_session_sort = 1
 let g:startify_relative_path = 1
-
-" vim-gitgutter
-let g:gitgutter_max_signs = 1000
 
 " Ale
 " let g:ale_linters = {}
