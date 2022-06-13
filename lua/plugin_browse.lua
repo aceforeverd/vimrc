@@ -23,8 +23,7 @@ function M.select_browse_plugin(plugin_list)
     end,
   }, function(choice)
     if choice ~= nil then
-      local cmd = '!open https://github.com/' .. choice
-      vim.cmd(cmd)
+      vim.api.nvim_call_function('plugin_browse#open', { choice })
     end
   end)
 end

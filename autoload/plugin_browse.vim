@@ -38,11 +38,10 @@ function! plugin_browse#open(uris) abort
     endif
 
     if type(a:uris) == v:t_string
-        execute '!open https://github.com/' . a:uris
+        call plugin_browse#open_uri('https://github.com/' .. a:uris)
     elseif len(a:uris) == 1
         call plugin_browse#open(a:uris[0])
     else
-        " TODO: selct which one to open
         if has('nvim-0.6.0')
             call v:lua.require'plugin_browse'.select_browse_plugin(a:uris)
         else
@@ -52,3 +51,23 @@ function! plugin_browse#open(uris) abort
 endfunction
 
 
+""
+" open the uri
+" if open-browser.vim intalled, use openbrowser#open
+" otherwise, !open
+""
+function! plugin_browse#open_uri(uri) abort
+    if g:loaded_openbrowser == 1
+        call openbrowser#open(a:uri)
+        return
+    endif
+
+    let l:open = ''
+    if has('mac')
+        let l:open = 'open'
+    elseif has('unix')
+        let l:open = 'xdg-open'
+    endif
+
+    execute '!' .. l:open .. ' ' .. a:uri
+endfunction
