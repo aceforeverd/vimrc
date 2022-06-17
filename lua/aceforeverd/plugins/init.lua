@@ -93,6 +93,7 @@ return packer.startup({
         'mfussenegger/nvim-jdtls',
         'scalameta/nvim-metals',
         'j-hui/fidget.nvim',
+        'SmiteshP/nvim-navic',
       },
       config = function()
         require('aceforeverd.lsp').setup()
@@ -434,14 +435,6 @@ return packer.startup({
         require('aceforeverd.config').gps()
       end,
       requires = 'nvim-treesitter/nvim-treesitter',
-    })
-
-    use({
-      'nvim-treesitter/nvim-treesitter-context',
-      requires = { 'nvim-treesitter/nvim-treesitter' },
-      config = function()
-        require('aceforeverd.plugins.treesitter').ts_context()
-      end,
     })
 
     use({

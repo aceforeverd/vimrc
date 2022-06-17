@@ -22,6 +22,12 @@ function M.neo_tree()
       window = {
         mappings = {
           ['o'] = 'open',
+          ['g/'] = 'filter_as_you_type',
+          ['gf'] = 'filter_on_submit',
+          ['g?'] = 'show_help',
+          ['/'] = 'none',
+          ['?'] = 'none',
+          ['f'] = 'none',
         },
       },
     },

@@ -63,6 +63,9 @@ function! aceforeverd#plugin#minpac() abort
     call minpac#add('raimondi/delimitmate', {'type': 'opt'})
     call minpac#add('cohama/lexima.vim', {'type': 'opt'})
 
+    " load plugins
+    PackAdd! cfilter
+
     if !has('nvim')
         PackAdd! vim-go
         call aceforeverd#settings#vim_go()
@@ -70,6 +73,9 @@ function! aceforeverd#plugin#minpac() abort
 
     if g:my_dir_viewer ==? 'dirvish'
         PackAdd! vim-dirvish
+        " sort folders at top
+        let g:dirvish_mode = ':sort ,^.*[\/],'
+
     elseif g:my_dir_viewer ==? 'netrw'
         PackAdd! vim-vinegar
     endif

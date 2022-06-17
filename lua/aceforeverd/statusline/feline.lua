@@ -173,7 +173,7 @@ local feline_config = {
             name = 'gps',
             opts = {
               short = true,
-            }
+            },
           },
           hl = { fg = '#fda5b4' },
           right_sep = ' ',
@@ -186,7 +186,7 @@ local feline_config = {
           hl = { fg = 'cyan', style = 'bold,italic' },
           left_sep = { { str = 'vertical_bar', hl = { fg = '#108080' } }, ' ' },
           right_sep = { ' ' },
-          priority = priority_high
+          priority = priority_high,
         },
         {
           provider = OsIcon(),
@@ -235,7 +235,8 @@ local feline_config = {
           right_sep = ' ',
         },
         {
-          provider = 'scroll_bar', hl = { fg = 'skyblue', style = 'bold' },
+          provider = 'scroll_bar',
+          hl = { fg = 'skyblue', style = 'bold' },
           priority = priority_low,
         },
       },
@@ -290,15 +291,38 @@ local feline_config = {
   },
   custom_providers = {
     my_lsp_client_names = require('aceforeverd.utility.statusline').lsp_client_names,
-    gps = require("aceforeverd.utility.statusline").gps,
+    gps = require('aceforeverd.utility.statusline').gps,
   },
 }
+
+local function gen_winbar_components()
+  return {
+    active = {
+      -- left
+      {
+        {
+          provider = { name = 'file_info', opts = { type = 'relative' } },
+          hl = { fg = bit_green },
+        },
+        {
+          provider = function()
+            return require('aceforeverd.utility.statusline').ctx_location()
+          end,
+          left_sep = { { str = ' :: ', hl = { fg = bit_yellow } } },
+          hl = { fg = 'orange' },
+        },
+      },
+    },
+  }
+end
 
 return {
   setup = function()
     require('feline').setup(feline_config)
     if vim.fn.exists('+winbar') ~= 0 then
-      require('feline').winbar.setup({})
+      require('feline').winbar.setup({
+        components = gen_winbar_components(),
+      })
     end
-  end
+  end,
 }

@@ -39,7 +39,7 @@ M.lsp_default_n_maps = {
   ['gD'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
   ['K'] = '<cmd>lua vim.lsp.buf.hover()<CR>',
   ['gi'] = [[<cmd>lua require('telescope.builtin').lsp_implementations()<CR>]],
-  ['gr'] = [[<cmd>lua require('telescope.builtin').lsp_references()<CR>]],
+  ['gr'] = [[<cmd>FzfLua lsp_references<CR>]],
   ['gK'] = '<cmd>lua vim.lsp.buf.signature_help()<CR>',
   ['<Leader>wa'] = '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',
   ['<Leader>wr'] = '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',
@@ -88,15 +88,15 @@ function M.on_attach(client, bufnr)
 
   require('illuminate').on_attach(client)
 
-  local status, aerial = pcall(require, 'aerial')
-  if status then
+  local s1, aerial = pcall(require, 'aerial')
+  if s1 then
     aerial.on_attach(client, bufnr)
     buf_set_keymap('n', '<space>t', [[<cmd>AerialToggle!<cr>]], default_map_opts)
   end
 
   -- lsp_signature.nvim
-  local s, lsp_signature = pcall(require, 'lsp_signature')
-  if s then
+  local s2, lsp_signature = pcall(require, 'lsp_signature')
+  if s2 then
     lsp_signature.on_attach({
       bind = true,
       handler_opts = {
@@ -105,6 +105,13 @@ function M.on_attach(client, bufnr)
       transparency = 25,
       toggle_key = '<A-x>',
     }, bufnr)
+  end
+
+  if client.server_capabilities.documentSymbolProvider then
+    local s3, navic = pcall(require, 'nvim-navic')
+    if s3 then
+      navic.attach(client, bufnr)
+    end
   end
 
   require('lsp-status').on_attach(client)

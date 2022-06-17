@@ -89,13 +89,39 @@ end
 function M.lsp_client_names()
   local clients = {}
 
-  for _, client in pairs(vim.lsp.buf_get_clients(0)) do
+  for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
     if client.name ~= 'null-ls' then
       table.insert(clients, client.name)
     end
   end
 
   return table.concat(clients, ','), ' '
+end
+
+
+local fmt_status = function(symbols, separator)
+  local parts = {}
+
+  for _, symbol in ipairs(symbols) do
+    table.insert(parts, string.format('%s  %s', symbol.icon, symbol.name))
+  end
+
+  return table.concat(parts, separator)
+end
+
+-- use navic and aerial to get context location
+function M.ctx_location()
+  local s0, navic = pcall(require, 'nvim-navic')
+  if s0 and navic.is_available() then
+    return navic.get_location()
+  end
+
+  local s1, aerial = pcall(require, 'aerial')
+  if s1 then
+    return fmt_status(aerial.get_location(), ' > ')
+  end
+
+  return ''
 end
 
 return M

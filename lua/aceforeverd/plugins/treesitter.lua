@@ -230,25 +230,6 @@ function M.setup()
   )
 end
 
-local ctx_max_lines = function()
-  if vim.fn.has('nvim-0.7.0') == 0 then
-    -- vim.o.scrolloff print big number in nvim 0.6.1
-    return 2
-  end
-
-  if vim.o.scrolloff >= 2 then
-    return vim.o.scrolloff - 1
-  end
-
-  return 1
-end
-
-function M.ts_context()
-  require('treesitter-context').setup({
-    max_lines = ctx_max_lines(),
-  })
-end
-
 function M.tree_hopper()
   map('o', '<space>', [[:<C-U>lua require('tsht').nodes()<CR>]], { silent = true })
   map('v', '<space>', [[:lua require('tsht').nodes()<CR>]], { silent = true, noremap = true })
