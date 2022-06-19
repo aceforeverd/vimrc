@@ -1,5 +1,5 @@
 {
-  "coc.preferences.extensionUpdateCheck": "weekly",
+  "coc.preferences.extensionUpdateCheck": "never",
   "coc.preferences.currentFunctionSymbolAutoUpdate": false,
   "codeLens.enable": true,
   "suggest.echodocSupport": true,
