@@ -342,7 +342,7 @@ function! s:terminal_mapping() abort
     tnoremap <c-w>n <c-\><c-n>
     nnoremap <C-w>m :FloatermToggle<CR>
     " paste register content in terminal mode
-    tnoremap <expr> <C-e> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+    tnoremap <expr> <C-q> '<C-\><C-N>"'.nr2char(getchar()).'pi'
 endfunction
 if has('nvim') || has('terminal')
     call s:terminal_mapping()

@@ -74,7 +74,7 @@ function! aceforeverd#plugin#minpac() abort
     if g:my_dir_viewer ==? 'dirvish'
         PackAdd! vim-dirvish
         " sort folders at top
-        let g:dirvish_mode = ':sort ,^.*[\/],'
+        let g:dirvish_mode = ':sort /^.*[\/]/'
 
     elseif g:my_dir_viewer ==? 'netrw'
         PackAdd! vim-vinegar
