@@ -17,6 +17,13 @@
 
 local M = {}
 
+local _get_active_client = function() return vim.lsp.buf_get_clients(0) end
+if vim.fn.has('nvim-0.8.0') == 1 then
+  _get_active_client = function ()
+    return vim.lsp.get_active_clients({ bufnr = 0 })
+  end
+end
+
 function M.gps(opts)
   opts = opts or {}
   if require('nvim-gps').is_available() then
@@ -89,7 +96,7 @@ end
 function M.lsp_client_names()
   local clients = {}
 
-  for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+  for _, client in pairs(_get_active_client()) do
     if client.name ~= 'null-ls' then
       table.insert(clients, client.name)
     end

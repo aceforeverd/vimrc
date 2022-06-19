@@ -471,10 +471,6 @@ return packer.startup({
 
     use({
       'rcarriga/nvim-notify',
-      opt = true,
-      config = function()
-        require('notify').setup()
-      end,
     })
 
     use({
