@@ -71,7 +71,7 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-css', 'coc-clangd',
                 \ 'coc-java', 'coc-diagnostic',
                 \ 'coc-xml', 'coc-toml',
-                \ 'coc-metals', 'coc-emoji',
+                \ 'coc-emoji',
                 \ 'coc-esbonio', 'coc-sql',
                 \ ]
 

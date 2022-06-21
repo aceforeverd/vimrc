@@ -48,7 +48,7 @@ endif
 " download dein
 let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
 if empty(glob(s:dein_path))
-    execute '!git clone https https://github.com/Shougo/dein.vim.git ' . s:dein_path
+    execute '!git clone https://github.com/Shougo/dein.vim.git ' . s:dein_path
 endif
 let &runtimepath = &runtimepath . ',' . s:dein_path
 
@@ -418,7 +418,7 @@ elseif has('win16') || has('win32')
 elseif has('gui_gtk2')
     set guifont=Hack\ 14,Source\ Code\ Pro\ 12,Bitstream\ Vera\ Sans\ Mono\ 11
 elseif has('linux')
-    set guifont=Hack\ 14,Source\ Code\ Pro\ 12,Bitstream\ Vera\ Sans\ Mono\ 11
+    set guifont=FiraCode\ Nerd\ Font\ 12,JetBrainsMono\ Nerd\ Font\ 12,Fira\ Code\ 12,JetBrains\ Mono\ 12
 elseif has('unix')
     set guifont=Source\ Code\ Pro\ Medium\ 11
 endif
