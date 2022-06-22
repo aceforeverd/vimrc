@@ -118,6 +118,8 @@ function M.go()
   -- :GoInstallBinaries
   require('go').setup({
     lsp_cfg = require('aceforeverd.lsp.common').general_cfg,
+    textobjects = false,
+    lsp_keymaps = false,
   })
 end
 
