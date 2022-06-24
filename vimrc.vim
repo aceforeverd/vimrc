@@ -424,6 +424,7 @@ elseif has('unix')
 endif
 
 try
+    " the undo dir may need create manually
     if has('nvim-0.5')
         let &undodir= s:common_path . '/undodir-0.5/'
     else

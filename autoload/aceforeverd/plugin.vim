@@ -44,7 +44,7 @@ function! aceforeverd#plugin#minpac() abort
     " vim only
     " Go
     call minpac#add('fatih/vim-go', {'type': 'opt'})
-    call minpac#add('vim-airline/vim-airline', {'type': 'opt'})
+    call minpac#add('itchyny/lightline.vim', {'type': 'opt'})
     call minpac#add('airblade/vim-gitgutter', {'type': 'opt'})
 
     call minpac#add('justinmk/vim-dirvish', {'type': 'opt'})
@@ -81,13 +81,9 @@ function! aceforeverd#plugin#minpac() abort
     endif
 
     if !has('nvim-0.5.0')
-        PackAdd! vim-airline
+        PackAdd! lightline.vim
 
-        let g:airline#extensions#tabline#enabled = 1
-        let g:airline_detect_modified=1
-        let g:airline_detect_paste=1
-        let g:airline_theme='sonokai'
-        let g:airline_powerline_fonts = 1
+        call aceforeverd#statusline#lightline()
 
         PackAdd! vim-gitgutter
         omap ih <Plug>(GitGutterTextObjectInnerPending)
