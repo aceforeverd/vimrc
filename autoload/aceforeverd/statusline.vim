@@ -75,7 +75,7 @@ endfunction
 
 function! aceforeverd#statusline#lightline() abort
     let g:lightline = {
-      \ 'colorscheme': 'darcula',
+      \ 'colorscheme': 'deus',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste', 'git_branch' ],
       \             [ 'readonly', 'modified', 'git_diff', 'diagnostic_count' ],

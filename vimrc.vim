@@ -79,12 +79,6 @@ if dein#load_state(s:dein_repo)
     call dein#add(s:dein_path)
 
     if !has('nvim')
-        " optional plugins for vim
-        call dein#add('roxma/nvim-yarp')
-        call dein#add('roxma/vim-hug-neovim-rpc')
-        call dein#add('gelguy/wilder.nvim', {
-                    \ 'hook_post_source': 'call aceforeverd#completion#wider()'
-                    \ })
         call dein#add('wellle/tmux-complete.vim', {
                     \ 'hook_source': 'let g:tmuxcomplete#trigger = ""'
                     \ })
