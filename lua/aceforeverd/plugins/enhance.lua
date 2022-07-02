@@ -108,8 +108,6 @@ function M.autopairs()
   local cmp_autopairs = require('nvim-autopairs.completion.cmp')
   require('cmp').event:on('confirm_done', cmp_autopairs.on_confirm_done({}))
 
-  cmp_autopairs.lisp[#cmp_autopairs.lisp + 1] = 'racket'
-
   -- add some endwise rules
   -- NOTE: vim-endwise will break on neovim with nvim-treesitter highlight feature enabled
   --   see https://github.com/nvim-treesitter/nvim-treesitter/issues/703

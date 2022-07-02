@@ -42,13 +42,12 @@ function! aceforeverd#settings#my_init() abort
 
 endfunction
 
+let s:sonokai_styles = ['atlantis', 'andromeda', 'shusia', 'maia', 'espresso']
+
 function! aceforeverd#settings#sonokai_pre() abort
     if has('nvim')
-        if has('nvim-0.8.0')
-            let g:sonokai_style = 'espresso'
-        else
-            let g:sonokai_style = 'shusia'
-        endif
+        let random_idx = v:lua.require('aceforeverd.utility.random').random(0, len(s:sonokai_styles) - 1)
+        let g:sonokai_style = s:sonokai_styles[random_idx]
     else
         let g:sonokai_style = 'andromeda'
     endif
