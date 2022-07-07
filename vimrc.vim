@@ -347,9 +347,12 @@ nnoremap <leader>tn :tabnew<cr>
 nnoremap <leader>to :tabonly<cr>
 nnoremap <leader>tc :tabclose<cr>
 nnoremap <leader>tm :tabmove<cr>
+nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+" open current window in new tab, same as maximize current window
+" <c-w>c to close the tab
+nnoremap <leader>to :tab split<cr>
 nnoremap ]v :tabnext<cr>
 nnoremap [v :tabprevious<cr>
-nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " swith to last active tab
 let g:lasttab = 1

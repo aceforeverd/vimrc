@@ -2,11 +2,6 @@
 " setup minpac plugins and config them
 ""
 
-" tiny wrapper for :packadd
-" good thing is use :PackAdd! to ignore any errors and do not terminate,
-" this may helpful when first install and plugins not installed yet
-command! -bang -nargs=1 PackAdd call s:pack_add(<bang>0, <f-args>)
-
 function! s:pack_add(bang, name) abort
     " looks like it's ok to just 'packadd! plugin' in neovim
     " silent! applied just in case exception in vim, when plugin not found in fs
@@ -17,7 +12,20 @@ function! s:pack_add(bang, name) abort
     endif
 endfunction
 
+function! s:init_cmds() abort
+    " tiny wrapper for :packadd
+    " good thing is use :PackAdd! to ignore any errors and do not terminate,
+    " this may helpful when first install and plugins not installed yet
+    command! -bang -nargs=1 PackAdd call s:pack_add(<bang>0, <f-args>)
+
+    command! MinUpdate call minpac#update()
+    command! MinStatus call minpac#status()
+    command! MinClean call minpac#clean()
+endfunction
+
 function! aceforeverd#plugin#minpac() abort
+    call s:init_cmds()
+
     if has('nvim')
         let s:pack_path = stdpath('data') . '/site/'
     else
@@ -62,6 +70,8 @@ function! aceforeverd#plugin#minpac() abort
     " auto pair
     call minpac#add('raimondi/delimitmate', {'type': 'opt'})
     call minpac#add('cohama/lexima.vim', {'type': 'opt'})
+
+    call minpac#add('kristijanhusak/vim-dadbod-ui')
 
     " load plugins
     PackAdd! cfilter

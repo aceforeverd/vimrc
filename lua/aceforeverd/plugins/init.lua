@@ -41,7 +41,7 @@ if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
   vim.api.nvim_notify('automatically installed packer.nvim into ' .. packer_install_path, 2, {})
 end
 
-vim.cmd [[ packadd packer.nvim ]]
+vim.cmd([[ packadd packer.nvim ]])
 
 vim.cmd([[
   augroup packer_user_config
