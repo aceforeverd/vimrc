@@ -20,6 +20,7 @@ local map_fn = vim.fn.has('nvim-0.7.0') == 1 and vim.keymap.set or vim.api.nvim_
 
 --- create map based on a table
 ---@param map_list dict first level key should be vim mode name, e.g 'n', 'v'
+--                      TODO: for nvim >= 0.7, first level key can be a list e.g { 'n', 'x' }
 ---@param map_opts dict
 function M.do_map(map_list, map_opts)
   if type(map_list) ~= "table" then

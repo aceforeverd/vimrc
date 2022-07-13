@@ -409,6 +409,13 @@ return packer.startup({
       end,
     })
 
+    use ({
+      'gbprod/yanky.nvim',
+      config = function ()
+        require('aceforeverd.plugins.enhance').yanky()
+      end,
+    })
+
     use({ 'npxbr/glow.nvim', ft = { 'markdown' } })
 
     use({

@@ -36,6 +36,34 @@ function M.registers_pre()
   vim.g.registers_visual_mode = 0
 end
 
+local function map_c_n()
+  if require('yanky').ring.state then
+    require('yanky').cycle(1)
+  else
+    vim.cmd[[execute "normal! \<c-n>"]]
+  end
+end
+
+function M.yanky()
+  require('yanky').setup({})
+  require('aceforeverd.utility.map').do_map({
+    n = {
+      p = [[<Plug>(YankyPutAfter)]],
+      P = [[<Plug>(YankyPutBefore)]],
+      gp = [[<Plug>(YankyGPutAfter)]],
+      gP = [[<Plug>(YankyGPutBefore)]],
+      ['<c-n>'] = map_c_n,
+    },
+    x = {
+      p = [[<Plug>(YankyPutAfter)]],
+      P = [[<Plug>(YankyPutBefore)]],
+      gp = [[<Plug>(YankyGPutAfter)]],
+      gP = [[<Plug>(YankyGPutBefore)]],
+    }
+  }, {})
+end
+
+
 function M.spectre()
   require('spectre').setup()
 
