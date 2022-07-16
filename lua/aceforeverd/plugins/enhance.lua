@@ -37,15 +37,27 @@ function M.registers_pre()
 end
 
 local function map_c_n()
-  if require('yanky').ring.state then
+  if require('yanky').can_cycle() then
     require('yanky').cycle(1)
   else
     vim.cmd[[execute "normal! \<c-n>"]]
   end
 end
 
+local function map_c_p()
+  if require('yanky').can_cycle() then
+    require('yanky').cycle(-1)
+  else
+    vim.cmd[[FZF --info=inline]]
+  end
+end
+
 function M.yanky()
-  require('yanky').setup({})
+  require('yanky').setup({
+    ring = {
+      cancel_event = 'move',
+    }
+  })
   require('aceforeverd.utility.map').do_map({
     n = {
       p = [[<Plug>(YankyPutAfter)]],
@@ -53,6 +65,7 @@ function M.yanky()
       gp = [[<Plug>(YankyGPutAfter)]],
       gP = [[<Plug>(YankyGPutBefore)]],
       ['<c-n>'] = map_c_n,
+      ['<c-p>'] = map_c_p,
     },
     x = {
       p = [[<Plug>(YankyPutAfter)]],
