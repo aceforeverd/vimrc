@@ -566,8 +566,8 @@ set shortmess-=S
 
 " vim-sneak
 let g:sneak#label = 1
-map <Leader>s <Plug>Sneak_s
-map <Leader>S <Plug>Sneak_S
+map sk <Plug>Sneak_s
+map sK <Plug>Sneak_S
 
 " vim-header
 let g:header_auto_add_header = 0

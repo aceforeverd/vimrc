@@ -409,12 +409,21 @@ return packer.startup({
       end,
     })
 
-    use ({
+    use({
       'gbprod/yanky.nvim',
-      config = function ()
+      config = function()
         require('aceforeverd.plugins.enhance').yanky()
       end,
     })
+
+    use({
+      'gbprod/substitute.nvim',
+      config = function()
+        require('aceforeverd.plugins.enhance').substitute()
+      end,
+    })
+
+    use 'anuvyklack/hydra.nvim'
 
     use({ 'npxbr/glow.nvim', ft = { 'markdown' } })
 
@@ -662,15 +671,6 @@ return packer.startup({
     use({ 'gennaro-tedesco/nvim-jqx' })
 
     use({ 'milisims/nvim-luaref' })
-
-    use({
-      'google/vim-coverage',
-      requires = {
-        'google/vim-maktaba',
-        'google/vim-glaive',
-      },
-      opt = true,
-    })
 
     -- ui
     use({

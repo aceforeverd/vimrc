@@ -76,6 +76,25 @@ function M.yanky()
   }, {})
 end
 
+function M.substitute()
+  require('substitute').setup({
+    on_substitute = function(event)
+      -- NOTE: problem repeating substitute with yanky { cancel_event = 'move' }
+      require("yanky").init_ring("p", event.register, event.count, event.vmode:match("[vV�]"))
+    end,
+    yank_substituted_text = true,
+  })
+  require('aceforeverd.utility.map').do_map({
+    n = {
+      sx = [[<cmd>lua require('substitute').operator()<cr>]],
+      sl = [[<cmd>lua require('substitute').line()<cr>]],
+      se = [[<cmd>lua require('substitute').eol()<cr>]],
+    },
+    x = {
+      sx = [[<cmd>lua require('substitute').visual()<cr>]]
+    }
+  }, {nnoremap = true})
+end
 
 function M.spectre()
   require('spectre').setup()
