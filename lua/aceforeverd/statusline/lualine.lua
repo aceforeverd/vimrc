@@ -26,10 +26,7 @@ local function gen_winbar_cfg()
         },
       },
       lualine_b = {
-        {
-          require('aceforeverd.utility.statusline').ctx_location,
-          cond = function() end,
-        },
+        require('aceforeverd.utility.statusline').ctx_location,
       },
     }
   end
