@@ -125,7 +125,6 @@ return packer.startup({
         'hrsh7th/cmp-path',
         'hrsh7th/cmp-nvim-lua',
         'hrsh7th/cmp-emoji',
-        'hrsh7th/cmp-calc',
         'uga-rosa/cmp-dictionary',
         'ray-x/cmp-treesitter',
         'andersevenrud/cmp-tmux',
@@ -423,7 +422,7 @@ return packer.startup({
       end,
     })
 
-    use 'anuvyklack/hydra.nvim'
+    use('anuvyklack/hydra.nvim')
 
     use({ 'npxbr/glow.nvim', ft = { 'markdown' } })
 
@@ -678,14 +677,6 @@ return packer.startup({
       config = function()
         require('aceforeverd.plugins.enhance').dressing()
       end,
-    })
-
-    use({
-      'mrjones2014/legendary.nvim',
-      config = function()
-        require('aceforeverd.plugins.enhance').legendary()
-      end,
-      cmd = { 'Legendary' },
     })
 
     use({

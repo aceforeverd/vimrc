@@ -89,7 +89,6 @@ function M.setup()
 
     { name = 'nvim_lua' },
     { name = 'path' },
-    { name = 'calc' },
 
     { name = 'git' },
     { name = 'treesitter', keyword_length = 3 },
@@ -163,7 +162,6 @@ function M.setup()
           look = '[Look]',
           emoji = '[Emoji]',
           treesitter = '[TreeSitter]',
-          calc = '[Calc]',
           dictionary = '[Dictionary]',
           tmux = '[Tmux]',
           rg = '[Rg]',

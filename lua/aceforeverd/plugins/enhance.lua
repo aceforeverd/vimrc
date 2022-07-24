@@ -25,10 +25,6 @@ function M.which_key()
   require('which-key').setup({ plugins = { registers = false } })
 end
 
-function M.legendary()
-  require('legendary').setup()
-end
-
 function M.registers_pre()
   -- disable visual mode cause it won't work in quickfix or floaterm
   vim.g.registers_delay = 200

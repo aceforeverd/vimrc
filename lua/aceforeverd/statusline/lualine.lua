@@ -16,9 +16,30 @@ local lualine = require('lualine')
 
 local M = {}
 
+local function gen_winbar_cfg()
+  if vim.fn.exists('+winbar') ~= 0 then
+    return {
+      lualine_a = {
+        {
+          'filename',
+          path = 1, --[[ relative path ]]
+        },
+      },
+      lualine_b = {
+        {
+          require('aceforeverd.utility.statusline').ctx_location,
+          cond = function() end,
+        },
+      },
+    }
+  end
+
+  return {}
+end
+
 function M.setup()
   lualine.setup(vim.tbl_deep_extend('force', lualine.get_config(), {
-    options = { theme = 'powerline_dark' },
+    options = { theme = 'powerline_dark', global_status = true },
     sections = {
       lualine_b = {
         'branch',
@@ -44,6 +65,7 @@ function M.setup()
       lualine_y = { 'fileformat', 'location' },
       lualine_z = { 'progress', 'filesize' },
     },
+    winbar = gen_winbar_cfg(),
     extensions = { 'quickfix', 'fugitive' },
   }))
 end
