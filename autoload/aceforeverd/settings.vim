@@ -42,7 +42,7 @@ function! aceforeverd#settings#my_init() abort
 
 endfunction
 
-let s:sonokai_styles = ['atlantis', 'andromeda', 'shusia', 'maia', 'espresso']
+let s:sonokai_styles = ['atlantis', 'andromeda', 'shusia', 'espresso']
 
 function! aceforeverd#settings#sonokai_pre() abort
     if has('nvim')
