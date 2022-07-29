@@ -399,16 +399,6 @@ return packer.startup({
     })
 
     use({
-      'tversteeg/registers.nvim',
-      cond = function()
-        return vim.g.with_registers == 1
-      end,
-      setup = function()
-        require('aceforeverd.plugins.enhance').registers_pre()
-      end,
-    })
-
-    use({
       'gbprod/yanky.nvim',
       config = function()
         require('aceforeverd.plugins.enhance').yanky()
@@ -521,6 +511,7 @@ return packer.startup({
       config = function()
         require('aceforeverd.plugins.git').git_conflict()
       end,
+      opt = true,
     })
 
     use({
@@ -643,14 +634,6 @@ return packer.startup({
       requires = { { 'nvim-lua/plenary.nvim' } },
       config = function()
         require('crates').setup()
-      end,
-    })
-
-    use({
-      'chentoast/marks.nvim',
-      opt = true,
-      config = function()
-        require('marks').setup({})
       end,
     })
 
