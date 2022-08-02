@@ -694,11 +694,11 @@ return packer.startup({
     })
 
     use({
-      'folke/zen-mode.nvim',
+      "Pocco81/true-zen.nvim",
       config = function()
-        require('zen-mode').setup({})
+        require('true-zen').setup({})
       end,
-      cmd = { 'ZenMode' },
+      cmd = { 'TZNarrow', 'TZFocus', 'TZMinimalist', 'TZAtaraxis'}
     })
 
     use({
