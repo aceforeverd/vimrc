@@ -31,6 +31,8 @@ function M.fzflua()
     ['<space>'] = {
       ['l'] = [[<cmd>FzfLua<cr>]],
       ['f'] = [[<cmd>FzfLua files<cr>]],
+      -- override :Rg
+      ['r'] = [[<cmd>FzfLua grep_project<cr>]],
     },
   }, { noremap = true })
 end

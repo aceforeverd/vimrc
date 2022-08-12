@@ -85,7 +85,10 @@ return packer.startup({
         'ray-x/lsp_signature.nvim',
         'p00f/clangd_extensions.nvim',
         -- installer
-        'williamboman/nvim-lsp-installer',
+        {
+          'williamboman/mason.nvim',
+          requires = { 'williamboman/mason-lspconfig.nvim' },
+        },
         -- lsp enhance
         'folke/lua-dev.nvim',
         'b0o/schemastore.nvim',
@@ -212,7 +215,7 @@ return packer.startup({
     })
 
     use({
-      'norcalli/nvim-colorizer.lua',
+      'NvChad/nvim-colorizer.lua',
       cond = function()
         return vim.g.my_cmp_source == 'nvim_lsp'
       end,
@@ -290,19 +293,6 @@ return packer.startup({
         'tami5/sqlite.lua',
         'kyazdani42/nvim-web-devicons',
       },
-    })
-
-    use({
-      'pwntester/codeql.nvim',
-      ft = { 'ql' },
-      requires = {
-        'MunifTanjim/nui.nvim',
-        'nvim-lua/telescope.nvim',
-        'kyazdani42/nvim-web-devicons',
-      },
-      config = function()
-        require('codeql').setup({})
-      end,
     })
 
     use({
@@ -694,15 +684,24 @@ return packer.startup({
     })
 
     use({
-      "Pocco81/true-zen.nvim",
+      'Pocco81/true-zen.nvim',
       config = function()
         require('true-zen').setup({})
       end,
-      cmd = { 'TZNarrow', 'TZFocus', 'TZMinimalist', 'TZAtaraxis'}
+      cmd = { 'TZNarrow', 'TZFocus', 'TZMinimalist', 'TZAtaraxis' },
     })
 
     use({
       'rlane/pounce.nvim',
+    })
+
+    use({
+      'andythigpen/nvim-coverage',
+      requires = 'nvim-lua/plenary.nvim',
+      config = function()
+        require('coverage').setup()
+      end,
+      opt = true,
     })
   end,
 })

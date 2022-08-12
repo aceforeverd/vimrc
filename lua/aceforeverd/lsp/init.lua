@@ -21,7 +21,11 @@ local lsp_basic = require('aceforeverd.lsp.common')
 
 function M.setup()
   if vim.g.my_cmp_source ~= 'nvim_lsp' then
-    vim.g.loaded_cmp = true
+    return
+  end
+
+  if vim.fn.has('mac') ~= 1 and vim.fn.has('unix') ~= 1 then
+    vim.api.nvim_notify('Unsupported system', 3, {})
     return
   end
 
@@ -37,13 +41,17 @@ function M.setup()
   end
 
   -- setup lsp installer just before other lsp configurations
-  -- so they will inherit lsp-insatller settings, like pickup the correct lsp program
-  -- TODO: installer setup should be before lspconfig instead being inside it
+  -- so they will inherit lsp-insatller settings, picking up the correct lsp program
   require('aceforeverd.lsp.installer').setup()
 
+  local cfgs = require('aceforeverd.lsp.servers')
+  for name, fn in pairs(cfgs) do
+    fn(name)
+  end
+
   M.clangd()
-  require('aceforeverd.lsp.jdtls').setup()
-  require('aceforeverd.lsp.metals').metals()
+  -- require('aceforeverd.lsp.jdtls').setup()
+  -- require('aceforeverd.lsp.metals').metals()
 end
 
 function M.clangd()
