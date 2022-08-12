@@ -16,13 +16,8 @@
 local M = {}
 
 function M.jdtls()
-  local lsp_installer_servers = require('nvim-lsp-installer.servers')
-  local available, server = lsp_installer_servers.get_server('jdtls')
-
-  if not available then
-    vim.api.nvim_notify('jdtls not available from lsp-installer, install manually', 3, {})
-    return ''
-  end
+  local mason_registery = require('mason-registry')
+  local server = mason_registery.get_package('jdtls')
 
   if not server:is_installed() then
     vim.api.nvim_notify('installing jdtls via lsp-installer', 2, {})
@@ -30,7 +25,7 @@ function M.jdtls()
   end
 
   -- dir should be absolute path
-  local dir = server.root_dir
+  local dir = server:get_install_path()
 
   local jdtls = require('jdtls')
   local root_marks = { 'mvnw', 'gradlew', 'pom.xml', '.git' }

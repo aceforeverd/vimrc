@@ -50,8 +50,8 @@ function M.setup()
   end
 
   M.clangd()
-  -- require('aceforeverd.lsp.jdtls').setup()
-  -- require('aceforeverd.lsp.metals').metals()
+  require('aceforeverd.lsp.jdtls').setup()
+  require('aceforeverd.lsp.metals').metals()
 end
 
 function M.clangd()
