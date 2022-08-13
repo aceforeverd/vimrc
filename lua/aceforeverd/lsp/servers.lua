@@ -19,7 +19,7 @@ local lspconfig = require('lspconfig')
 local general_lsp_config = require('aceforeverd.lsp.common').general_cfg
 
 -- for those do not need extra configs in lsp-config setup, use this generalized one
-local setup_generalized = function(name)
+local function setup_generalized(name)
   lspconfig[name].setup(general_lsp_config)
 end
 
@@ -27,7 +27,7 @@ end
 --   1. table
 --   2. function: return the override table
 -- @param post_hook additional action take after lsp setup, only support function type with one parameter that is lsp server name
-local setup_generalized_with_override = function(cfg_override, post_hook)
+local function setup_generalized_with_override(cfg_override, post_hook)
   return function(server_name)
     local override = {}
     if type(cfg_override) == 'table' then

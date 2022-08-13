@@ -241,7 +241,7 @@ return packer.startup({
       },
       run = ':TSUpdate',
       config = function()
-        require('aceforeverd.plugins.treesitter').setup()
+        require('aceforeverd.config.treesitter').setup()
       end,
     })
 
@@ -249,7 +249,7 @@ return packer.startup({
       'mizlan/iswap.nvim',
       requires = { 'nvim-treesitter/nvim-treesitter' },
       config = function()
-        require('aceforeverd.plugins.treesitter').iswap()
+        require('aceforeverd.config.treesitter').iswap()
       end,
     })
 
@@ -436,7 +436,7 @@ return packer.startup({
       'mfussenegger/nvim-treehopper',
       requires = { 'nvim-treesitter/nvim-treesitter' },
       config = function()
-        require('aceforeverd.plugins.treesitter').tree_hopper()
+        require('aceforeverd.config.treesitter').tree_hopper()
       end,
     })
 
@@ -582,7 +582,7 @@ return packer.startup({
       'numToStr/Comment.nvim',
       requires = { 'JoosepAlviste/nvim-ts-context-commentstring' },
       config = function()
-        require('aceforeverd.plugins.comment').setup()
+        require('aceforeverd.config.comment').setup()
       end,
     })
 
