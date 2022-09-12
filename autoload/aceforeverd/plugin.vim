@@ -59,8 +59,7 @@ function! aceforeverd#plugin#minpac() abort
     call minpac#add('tpope/vim-vinegar', {'type': 'opt'})
 
     call minpac#add('neoclide/coc.nvim', {'type': 'opt',
-                \ 'rev': 'master',
-                \ 'do': '!yarn install --frozen-lockfile'})
+                \ 'rev': 'release' })
     call minpac#add('antoinemadec/coc-fzf', {'type': 'opt'})
     call minpac#add('neoclide/coc-neco', {'type': 'opt'})
 

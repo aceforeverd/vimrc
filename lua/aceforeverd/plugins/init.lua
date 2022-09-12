@@ -402,7 +402,12 @@ return packer.startup({
       end,
     })
 
-    use('anuvyklack/hydra.nvim')
+    use({
+      'anuvyklack/hydra.nvim',
+      config = function()
+        require('aceforeverd.config.which-key').hydra()
+      end,
+    })
 
     use({ 'npxbr/glow.nvim', ft = { 'markdown' } })
 
@@ -451,14 +456,6 @@ return packer.startup({
       'folke/todo-comments.nvim',
       requires = 'nvim-lua/plenary.nvim',
       config = function()
-        -- HACK: Invalid in command-line window
-        -- https://github.com/folke/todo-comments.nvim/issues/97
-        local hl = require('todo-comments.highlight')
-        local highlight_win = hl.highlight_win
-        hl.highlight_win = function(win, force)
-          pcall(highlight_win, win, force)
-        end
-
         require('todo-comments').setup({
           highlight = {
             exclude = { 'qf', 'packer' },
@@ -524,17 +521,6 @@ return packer.startup({
     })
 
     use({
-      'nvim-lualine/lualine.nvim',
-      cond = function()
-        return vim.g.my_statusline == 'lualine'
-      end,
-      requires = { 'kyazdani42/nvim-web-devicons' },
-      config = function()
-        require('aceforeverd.statusline.lualine').setup()
-      end,
-    })
-
-    use({
       'noib3/cokeline.nvim',
       cond = function()
         return vim.g.my_tabline == 'cokeline'
@@ -566,7 +552,9 @@ return packer.startup({
     use({
       'stevearc/aerial.nvim',
       config = function()
-        require('aerial').setup()
+        require('aerial').setup({
+            backends = { "lsp", "treesitter" , "markdown" },
+        })
       end,
     })
 
@@ -701,6 +689,11 @@ return packer.startup({
       config = function()
         require('coverage').setup()
       end,
+      opt = true,
+    })
+
+    use({
+      'nvim-neotest/neotest',
       opt = true,
     })
   end,
