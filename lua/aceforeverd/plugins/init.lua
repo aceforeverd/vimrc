@@ -348,8 +348,6 @@ return packer.startup({
 
     use({ 'projekt0n/github-nvim-theme' })
 
-    use({ 'monsonjeremy/onedark.nvim' })
-
     use({
       'mfussenegger/nvim-dap',
       requires = {
