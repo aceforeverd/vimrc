@@ -428,14 +428,6 @@ return packer.startup({
     })
 
     use({
-      'SmiteshP/nvim-gps',
-      config = function()
-        require('aceforeverd.config').gps()
-      end,
-      requires = 'nvim-treesitter/nvim-treesitter',
-    })
-
-    use({
       'mfussenegger/nvim-treehopper',
       requires = { 'nvim-treesitter/nvim-treesitter' },
       config = function()

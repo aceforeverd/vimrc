@@ -175,6 +175,10 @@ local feline_config = {
               short = true,
             },
           },
+          enabled = function ()
+            -- otherwise it will appear in winbar
+            return vim.fn.exists('+winbar') == 0
+          end,
           hl = { fg = '#fda5b4' },
           right_sep = ' ',
           -- FIXME: get_location seems not work
@@ -291,7 +295,7 @@ local feline_config = {
   },
   custom_providers = {
     my_lsp_client_names = require('aceforeverd.utility.statusline').lsp_client_names,
-    gps = require('aceforeverd.utility.statusline').gps,
+    gps = require('aceforeverd.utility.statusline').ctx_location,
   },
 }
 

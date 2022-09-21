@@ -24,28 +24,6 @@ if vim.fn.has('nvim-0.8.0') == 1 then
   end
 end
 
-function M.gps(opts)
-  opts = opts or {}
-  if require('nvim-gps').is_available() then
-    local gps_opts = {}
-    if opts.short then
-      gps_opts = { disable_icons = true, depth = 1 }
-    end
-    return require('nvim-gps').get_location(gps_opts)
-  end
-
-  local size = 40
-  if opts.short then
-    size = 10
-  end
-  local text = require('nvim-treesitter').statusline({ indicator_size = size })
-  if text then
-    return text
-  else
-    return ''
-  end
-end
-
 function M.indent()
   return 'IN:' .. tostring(vim.fn.indent(vim.fn.line('.'))) .. '/' .. tostring(vim.o.shiftwidth)
 end
@@ -117,7 +95,9 @@ local fmt_status = function(symbols, separator)
 end
 
 -- use navic and aerial to get context location
-function M.ctx_location()
+function M.ctx_location(opts)
+  opts = opts or {}
+
   local s0, navic = pcall(require, 'nvim-navic')
   if s0 and navic.is_available() then
     return navic.get_location()
@@ -128,7 +108,16 @@ function M.ctx_location()
     return fmt_status(aerial.get_location(), ' > ')
   end
 
-  return ''
+  local size = 40
+  if opts.short then
+    size = 10
+  end
+  local text = require('nvim-treesitter').statusline({ indicator_size = size })
+  if text then
+    return text
+  else
+    return ''
+  end
 end
 
 return M
