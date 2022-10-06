@@ -16,6 +16,7 @@
 
 local M = {}
 
+-- some mapping may not work for nvim < 0.7.0 due to can't map function-rhs
 local map_fn = vim.fn.has('nvim-0.7.0') == 1 and vim.keymap.set or vim.api.nvim_set_keymap
 
 --- create map based on a table
@@ -42,18 +43,25 @@ function M.do_mode_map(mode, prefix, map_list, map_opts)
     for key, value in pairs(map_list) do
       M.do_mode_map(mode, prefix .. key, value)
     end
-  elseif type(map_list) == 'string' then
-    M.set_map(mode, prefix, map_list, map_opts or {})
-  elseif type(map_list) == 'function' then
-    vim.keymap.set(mode, prefix, map_list, map_opts or {})
   else
-    vim.api.nvim_notify('[skip]: map_list is not table: ' .. vim.inspect(map_list), vim.log.levels.WARN, {})
+    M.set_map(mode, prefix, map_list, map_opts or {})
   end
 end
 
 function M.set_map(mode, lhs, rhs, opts)
-  -- vim.keymap.set support mode to be list and rhs be function, anyway I do not check that
-  map_fn(mode, lhs, rhs, opts or {})
+  if type(rhs) == 'string' then
+    map_fn(mode, lhs, rhs, opts or {})
+  elseif type(rhs) == 'function' then
+    if vim.fn.has('nvim-0.7.0') == 1 then
+      map_fn(mode, lhs, rhs, opts or {})
+    else
+      vim.api.nvim_notify('[skip]: map function-rhs for neovim < 0.7.0: ' .. vim.inspect(rhs), vim.log.levels.WARN, {})
+    end
+  else
+
+    vim.api.nvim_notify('[skip]: map rhs is not string/function: ' ..
+      vim.inspect(rhs), vim.log.levels.WARN, {})
+  end
 end
 
 return M

@@ -29,7 +29,7 @@ local function map_c_n()
   if require('yanky').can_cycle() then
     require('yanky').cycle(1)
   else
-    vim.cmd[[execute "normal! \<c-n>"]]
+    vim.cmd([[execute "normal! \<c-n>"]])
   end
 end
 
@@ -37,7 +37,7 @@ local function map_c_p()
   if require('yanky').can_cycle() then
     require('yanky').cycle(-1)
   else
-    vim.cmd[[FZF --info=inline]]
+    vim.cmd([[FZF --info=inline]])
   end
 end
 
@@ -45,7 +45,7 @@ function M.yanky()
   require('yanky').setup({
     ring = {
       cancel_event = 'move',
-    }
+    },
   })
   require('aceforeverd.utility.map').do_map({
     n = {
@@ -61,7 +61,7 @@ function M.yanky()
       P = [[<Plug>(YankyPutBefore)]],
       gp = [[<Plug>(YankyGPutAfter)]],
       gP = [[<Plug>(YankyGPutBefore)]],
-    }
+    },
   }, {})
 end
 
@@ -69,7 +69,7 @@ function M.substitute()
   require('substitute').setup({
     on_substitute = function(event)
       -- NOTE: problem repeating substitute with yanky { cancel_event = 'move' }
-      require("yanky").init_ring("p", event.register, event.count, event.vmode:match("[vV�]"))
+      require('yanky').init_ring('p', event.register, event.count, event.vmode:match('[vV�]'))
     end,
     yank_substituted_text = true,
   })
@@ -80,9 +80,9 @@ function M.substitute()
       se = [[<cmd>lua require('substitute').eol()<cr>]],
     },
     x = {
-      sx = [[<cmd>lua require('substitute').visual()<cr>]]
-    }
-  }, {nnoremap = true})
+      sx = [[<cmd>lua require('substitute').visual()<cr>]],
+    },
+  }, { nnoremap = true })
 end
 
 function M.spectre()
@@ -175,7 +175,16 @@ function M.indent_blankline()
     space_char_blankline = ' ',
     show_trailing_blankline_indent = false,
     buftype_exclude = { 'terminal' },
-    filetype_exclude = { 'startify', 'coc-explorer', 'NvimTree', 'help', 'git', 'packer', 'lsp-installer', 'mason.nvim' },
+    filetype_exclude = {
+      'startify',
+      'coc-explorer',
+      'NvimTree',
+      'help',
+      'git',
+      'packer',
+      'lsp-installer',
+      'mason.nvim',
+    },
   })
 end
 

@@ -524,7 +524,7 @@ return packer.startup({
     use({
       'famiu/bufdelete.nvim',
       config = function()
-        vim.api.nvim_set_keymap('n', '<leader>bd', '<cmd>Bdelete<cr>', { noremap = true, silent = true })
+        require('aceforeverd.utility.map').set_map('n', '<leader>bd', '<cmd>Bdelete<cr>', { noremap = true, silent = true })
       end,
     })
 

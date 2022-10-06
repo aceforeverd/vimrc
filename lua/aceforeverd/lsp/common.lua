@@ -18,60 +18,105 @@ local M = {}
 local default_map_opts = { noremap = true, silent = true }
 local lsp_status = require('lsp-status')
 
+local function range_fmt(start, finish)
+  if vim.fn.has('nvim-0.8.0') == 1 then
+    vim.lsp.buf.format({ bufnr = 0, range = {
+      ['start'] = start,
+      ['end'] = finish,
+    } })
+  else
+    vim.lsp.buf.range_formatting({}, start, finish)
+  end
+end
+
+FORMAT_OP = function(range)
+  if range == 1 or range == 2 then
+    local start = vim.api.nvim_buf_get_mark(0, '<')
+    local finish = vim.api.nvim_buf_get_mark(0, '>')
+    range_fmt(start, finish)
+  else
+    -- auto format based on mode and visual selection
+    local mode = vim.api.nvim_get_mode()
+    if mode.mode == 'n' then
+      if vim.fn.has('nvim-0.8.0') == 1 then
+        vim.lsp.buf.format()
+      else
+        vim.lsp.buf.formatting()
+      end
+    elseif mode.mode == 'v' or mode.mode == 'V' then
+      local start = vim.api.nvim_buf_get_mark(0, '<')
+      local finish = vim.api.nvim_buf_get_mark(0, '>')
+      range_fmt(start, finish)
+      vim.cmd([[exe "normal! \<esc>"]])
+    end
+  end
+end
+
 -- https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips#range-formatting-with-a-motion
 M.range_format_operator = function()
   local old_func = vim.go.operatorfunc
   _G.op_func_formatting = function()
     local start = vim.api.nvim_buf_get_mark(0, '[')
     local finish = vim.api.nvim_buf_get_mark(0, ']')
-    vim.lsp.buf.range_formatting({}, start, finish)
+    if vim.fn.has('nvim-0.8.0') == 1 then
+      vim.lsp.buf.format({
+        bufnr = 0,
+        range = {
+          ['start'] = start,
+          ['end'] = finish,
+        },
+      })
+    else
+      vim.lsp.buf.range_formatting({}, start, finish)
+    end
     vim.go.operatorfunc = old_func
     _G.op_func_formatting = nil
   end
   vim.go.operatorfunc = 'v:lua.op_func_formatting'
+
   vim.api.nvim_feedkeys('g@', 'n', false)
 end
 
-M.lsp_default_n_maps = {
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  -- TODO: custom mapping, if not found via LSP, execute variant meaning of the keymap
-  ['gd'] = [[<cmd>lua require('telescope.builtin').lsp_definitions()<CR>]],
-  ['gD'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
-  ['K'] = '<cmd>lua vim.lsp.buf.hover()<CR>',
-  ['gi'] = [[<cmd>lua require('telescope.builtin').lsp_implementations()<CR>]],
-  ['gr'] = [[<cmd>FzfLua lsp_references<CR>]],
-  ['gK'] = '<cmd>lua vim.lsp.buf.signature_help()<CR>',
-  ['<Leader>wa'] = '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',
-  ['<Leader>wr'] = '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',
-  ['<Leader>wl'] = '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
-  ['<Leader>D'] = '<cmd>lua vim.lsp.buf.type_definition()<CR>',
-  ['<Leader>rn'] = '<cmd>lua vim.lsp.buf.rename()<CR>',
-  ['<Leader>ca'] = '<cmd>lua vim.lsp.buf.code_action()<CR>',
+local lsp_default_maps = {
+  n = {
+    ['gd'] = [[<cmd>lua require('telescope.builtin').lsp_definitions()<CR>]],
+    ['gD'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
+    ['K'] = '<cmd>lua vim.lsp.buf.hover()<CR>',
+    ['gi'] = [[<cmd>lua require('telescope.builtin').lsp_implementations()<CR>]],
+    ['gr'] = [[<cmd>FzfLua lsp_references<CR>]],
+    ['gK'] = '<cmd>lua vim.lsp.buf.signature_help()<CR>',
+    ['<Leader>wa'] = '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',
+    ['<Leader>wr'] = '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',
+    ['<Leader>wl'] = '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
+    ['<Leader>D'] = '<cmd>lua vim.lsp.buf.type_definition()<CR>',
+    ['<Leader>rn'] = '<cmd>lua vim.lsp.buf.rename()<CR>',
+    ['<Leader>ca'] = '<cmd>lua vim.lsp.buf.code_action()<CR>',
 
-  ['<Leader>ci'] = '<cmd>lua vim.lsp.buf.incoming_calls()<CR>',
-  ['<Leader>co'] = '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>',
+    ['<Leader>ci'] = '<cmd>lua vim.lsp.buf.incoming_calls()<CR>',
+    ['<Leader>co'] = '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>',
 
-  ['<c-k>'] = '<cmd>lua vim.diagnostic.goto_prev()<CR>',
-  ['<c-j>'] = '<cmd>lua vim.diagnostic.goto_next()<CR>',
+    ['<c-k>'] = '<cmd>lua vim.diagnostic.goto_prev()<CR>',
+    ['<c-j>'] = '<cmd>lua vim.diagnostic.goto_next()<CR>',
 
-  ['<space>dp'] = '<cmd>lua vim.diagnostic.open_float()<CR>',
-  -- buffer local diagnostic
-  ['<space>q'] = '<cmd>lua vim.diagnostic.setloclist()<CR>',
-  -- all diagnostic
-  ['<space>a'] = '<cmd>lua vim.diagnostic.setqflist()<CR>',
+    ['<space>dp'] = '<cmd>lua vim.diagnostic.open_float()<CR>',
+    -- buffer local diagnostic
+    ['<space>q'] = '<cmd>lua vim.diagnostic.setloclist()<CR>',
+    -- all diagnostic
+    ['<space>a'] = '<cmd>lua vim.diagnostic.setqflist()<CR>',
 
-  ['<space>F'] = '<cmd>lua vim.lsp.buf.formatting()<CR>',
-  ['g<cr>'] = [[<cmd>lua require('aceforeverd.lsp.common').range_format_operator()<cr>]],
-  ['<space>s'] = [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]],
-  ['<space>S'] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
+    ['<space>F'] = FORMAT_OP,
+    ['g<cr>'] = [[<cmd>lua require('aceforeverd.lsp.common').range_format_operator()<cr>]],
+    ['<space>s'] = [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]],
+    ['<space>S'] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
 
-  ['<leader>gi'] = 'gi',
+    ['<leader>gi'] = 'gi',
+  },
+  x = {
+    ['<cr>'] = FORMAT_OP,
+  },
 }
 
 function M.on_attach(client, bufnr)
-  local function buf_set_keymap(...)
-    vim.api.nvim_buf_set_keymap(bufnr, ...)
-  end
   local function buf_set_option(...)
     vim.api.nvim_buf_set_option(bufnr, ...)
   end
@@ -79,19 +124,16 @@ function M.on_attach(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  for key, cmd in pairs(M.lsp_default_n_maps) do
-    buf_set_keymap('n', key, cmd, default_map_opts)
-  end
-  buf_set_keymap('x', '<cr>', ':lua vim.lsp.buf.range_formatting()<cr>', default_map_opts)
+  require('aceforeverd.utility.map').do_map(lsp_default_maps, default_map_opts)
 
-  vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
+  vim.cmd([[command! -range=% Format :lua FORMAT_OP(<range>)]])
 
   require('illuminate').on_attach(client)
 
   local s1, aerial = pcall(require, 'aerial')
   if s1 then
     aerial.on_attach(client, bufnr)
-    buf_set_keymap('n', '<space>t', [[<cmd>AerialToggle!<cr>]], default_map_opts)
+    require('aceforeverd.utility.map').set_map('n', '<space>t', [[<cmd>AerialToggle!<cr>]], default_map_opts)
   end
 
   -- lsp_signature.nvim

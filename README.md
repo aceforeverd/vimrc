@@ -8,7 +8,7 @@
 
 ## Requirements
 
-+ Vim 8.0+ or Neovim 0.4.0+
++ Vim 8.0+ or Neovim 0.7.0+
 + git
 
 ## Optional Dependencies
