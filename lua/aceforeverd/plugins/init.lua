@@ -511,17 +511,6 @@ return packer.startup({
     })
 
     use({
-      'noib3/cokeline.nvim',
-      cond = function()
-        return vim.g.my_tabline == 'cokeline'
-      end,
-      requires = { 'kyazdani42/nvim-web-devicons' },
-      config = function()
-        require('aceforeverd.tabline').cokeline()
-      end,
-    })
-
-    use({
       'akinsho/nvim-bufferline.lua',
       requires = 'kyazdani42/nvim-web-devicons',
       cond = function()
@@ -543,7 +532,7 @@ return packer.startup({
       'stevearc/aerial.nvim',
       config = function()
         require('aerial').setup({
-            backends = { "lsp", "treesitter" , "markdown" },
+          backends = { "lsp", "treesitter", "markdown" },
         })
       end,
     })
@@ -555,6 +544,11 @@ return packer.startup({
         require('aceforeverd.finder').fzflua()
       end,
     })
+
+    use {
+      'AckslD/nvim-FeMaco.lua',
+      config = 'require("femaco").setup()',
+    }
 
     use({
       'numToStr/Comment.nvim',

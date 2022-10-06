@@ -35,11 +35,8 @@ function! aceforeverd#settings#my_init() abort
     " or u can set 'netrw' to use netrw with vim-vinegar enhancements
     let g:my_dir_viewer = get(g:, 'my_dir_viewer', 'dirvish')
 
-    let g:with_registers = get(g:, 'with_registers', 1)
-
     let g:my_name = get(g:, 'my_name', 'Ace')
     let g:my_email = get(g:, 'my_email', 'teapot@aceforeverd.com')
-
 endfunction
 
 let s:sonokai_styles = ['atlantis', 'andromeda', 'shusia', 'espresso']
