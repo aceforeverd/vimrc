@@ -18,37 +18,87 @@ local M = {}
 local default_map_opts = { noremap = true, silent = true }
 local lsp_status = require('lsp-status')
 
-local function range_fmt(start, finish)
+--- request lsp range format
+---@param start table
+---@param finish table
+---@param opts table|nil same table pass to `vim.lsp.buf.format`
+local function range_fmt(start, finish, opts)
   if vim.fn.has('nvim-0.8.0') == 1 then
-    vim.lsp.buf.format({ bufnr = 0, range = {
-      ['start'] = start,
-      ['end'] = finish,
-    } })
+    opts = opts or {}
+    vim.lsp.buf.format(vim.tbl_deep_extend(
+      'force',
+      -- opts may contains range info, but the `start`, `finish` parameters are preferred
+      opts,
+      { range = {
+        ['start'] = start,
+        ['end'] = finish,
+      } }
+    ))
   else
     vim.lsp.buf.range_formatting({}, start, finish)
   end
 end
 
-FORMAT_OP = function(range)
+--- request format from lsp server
+--
+---@param range number|nil Range value passed from command.
+--              Ref :help <range>
+---@param opts (table|nil)
+--               Options passed to vim.lsp.buf.format.
+--               For neovim < 0.8.0, this parameter do not take effect
+function M.lsp_fmt(range, opts)
+  opts = opts or {}
+
   if range == 1 or range == 2 then
+    -- assume visual mode, get previous visual selection
+    -- used by 'Format' command
     local start = vim.api.nvim_buf_get_mark(0, '<')
     local finish = vim.api.nvim_buf_get_mark(0, '>')
-    range_fmt(start, finish)
+    range_fmt(start, finish, opts)
   else
     -- auto format based on mode and visual selection
     local mode = vim.api.nvim_get_mode()
     if mode.mode == 'n' then
       if vim.fn.has('nvim-0.8.0') == 1 then
-        vim.lsp.buf.format()
+        vim.lsp.buf.format(opts)
       else
         vim.lsp.buf.formatting()
       end
     elseif mode.mode == 'v' or mode.mode == 'V' then
+      vim.cmd([[exe "normal! \<esc>"]])
       local start = vim.api.nvim_buf_get_mark(0, '<')
       local finish = vim.api.nvim_buf_get_mark(0, '>')
-      range_fmt(start, finish)
-      vim.cmd([[exe "normal! \<esc>"]])
+      range_fmt(start, finish, opts)
+    else
+      vim.api.nvim_notify('unhandled mode: ' .. vim.inspect(mode), vim.log.levels.WARN, {})
     end
+  end
+end
+
+-- selective lsp format, same behavior to `vim.lsp.buf.formatting`
+-- for neovim >= 0.8.0 only
+function M.selective_fmt(opts)
+  if vim.fn.has('nvim-0.8.0') == 1 then
+    local available_clients = vim.tbl_filter(function(elem)
+      return elem.server_capabilities.documentFormattingProvider == true
+    end, vim.lsp.get_active_clients({ bufnr = 0 }))
+
+    vim.ui.select(available_clients, {
+      prompt = 'select a server:',
+      format_item = function(client)
+        return string.format('(%d) %s', client.id, client.name)
+      end,
+    }, function(choice, _)
+      if choice ~= nil then
+        vim.lsp.buf.format(vim.tbl_deep_extend('force', opts or {}, {
+          filter = function(client)
+            return client.id == choice.id
+          end,
+        }))
+      end
+    end)
+  else
+    vim.notify("no effect", vim.log.levels.WARN, {})
   end
 end
 
@@ -104,7 +154,7 @@ local lsp_default_maps = {
     -- all diagnostic
     ['<space>a'] = '<cmd>lua vim.diagnostic.setqflist()<CR>',
 
-    ['<space>F'] = FORMAT_OP,
+    ['<space>F'] = M.lsp_fmt,
     ['g<cr>'] = [[<cmd>lua require('aceforeverd.lsp.common').range_format_operator()<cr>]],
     ['<space>s'] = [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]],
     ['<space>S'] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
@@ -112,7 +162,17 @@ local lsp_default_maps = {
     ['<leader>gi'] = 'gi',
   },
   x = {
-    ['<cr>'] = FORMAT_OP,
+    ['<cr>'] = M.lsp_fmt,
+    ['g<cr>'] = function()
+      -- execute <esc> first so mark < and > are updated
+      vim.cmd([[exe "normal! \<esc>"]])
+      M.selective_fmt({
+        range = {
+          ['start'] = vim.api.nvim_buf_get_mark(0, '<'),
+          ['end'] = vim.api.nvim_buf_get_mark(0, '>'),
+        },
+      })
+    end,
   },
 }
 
@@ -126,7 +186,7 @@ function M.on_attach(client, bufnr)
 
   require('aceforeverd.utility.map').do_map(lsp_default_maps, default_map_opts)
 
-  vim.cmd([[command! -range=% Format :lua FORMAT_OP(<range>)]])
+  vim.cmd([[command! -range=% Format :lua require('aceforeverd.lsp.common').lsp_fmt(<range>)]])
 
   require('illuminate').on_attach(client)
 
