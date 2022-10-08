@@ -167,14 +167,6 @@ return packer.startup({
     })
 
     use({
-      'mickael-menu/zk-nvim',
-      after = { 'nvim-lspconfig' },
-      config = function()
-        require('aceforeverd.lsp').zk()
-      end,
-    })
-
-    use({
       'simrat39/rust-tools.nvim',
       after = { 'nvim-lspconfig' },
       config = function()
