@@ -18,59 +18,21 @@ local M = {}
 local default_map_opts = { noremap = true, silent = true }
 local lsp_status = require('lsp-status')
 
---- request lsp range format
----@param start table
----@param finish table
----@param opts table|nil same table pass to `vim.lsp.buf.format`
-local function range_fmt(start, finish, opts)
-  if vim.fn.has('nvim-0.8.0') == 1 then
-    opts = opts or {}
-    vim.lsp.buf.format(vim.tbl_deep_extend(
-      'force',
-      -- opts may contains range info, but the `start`, `finish` parameters are preferred
-      opts,
-      { range = {
-        ['start'] = start,
-        ['end'] = finish,
-      } }
-    ))
-  else
-    vim.lsp.buf.range_formatting({}, start, finish)
-  end
-end
-
 --- request format from lsp server
 --
----@param range number|nil Range value passed from command.
---              Ref :help <range>
 ---@param opts (table|nil)
 --               Options passed to vim.lsp.buf.format.
 --               For neovim < 0.8.0, this parameter do not take effect
-function M.lsp_fmt(range, opts)
+function M.lsp_fmt(opts)
   opts = opts or {}
 
-  if range == 1 or range == 2 then
-    -- assume visual mode, get previous visual selection
-    -- used by 'Format' command
-    local start = vim.api.nvim_buf_get_mark(0, '<')
-    local finish = vim.api.nvim_buf_get_mark(0, '>')
-    range_fmt(start, finish, opts)
+  if vim.fn.has('nvim-0.8.0') == 1 then
+    vim.lsp.buf.format(opts)
   else
-    -- auto format based on mode and visual selection
-    local mode = vim.api.nvim_get_mode()
-    if mode.mode == 'n' then
-      if vim.fn.has('nvim-0.8.0') == 1 then
-        vim.lsp.buf.format(opts)
-      else
-        vim.lsp.buf.formatting()
-      end
-    elseif mode.mode == 'v' or mode.mode == 'V' then
-      vim.cmd([[exe "normal! \<esc>"]])
-      local start = vim.api.nvim_buf_get_mark(0, '<')
-      local finish = vim.api.nvim_buf_get_mark(0, '>')
-      range_fmt(start, finish, opts)
+    if opts.range ~= nil and opts.range['start'] ~= nil and opts.range['end'] ~= nil then
+      vim.lsp.buf.range_formatting({}, opts.range['start'], opts.range['end'])
     else
-      vim.api.nvim_notify('unhandled mode: ' .. vim.inspect(mode), vim.log.levels.WARN, {})
+      vim.lsp.buf.formatting()
     end
   end
 end
@@ -98,12 +60,50 @@ function M.selective_fmt(opts)
       end
     end)
   else
-    vim.notify("no effect", vim.log.levels.WARN, {})
+    if opts.range ~= nil and opts.range['start'] ~= nil and opts.range['end'] ~= nil then
+      vim.lsp.buf.range_formatting({}, opts.range['start'], opts.range['end'])
+    else
+      vim.lsp.buf.formatting()
+    end
   end
 end
 
+-- command functions for vim commands
+--
+---@param range number|nil Range value passed from command.
+--              Ref :help <range>
+-- @param fmt_fn function Function to format the selection or whole buffer
+function M.fmt_cmd(range, fmt_fn)
+  local opts = {}
+  if range == 1 or range == 2 then
+    vim.cmd([[exe "normal! \<esc>"]])
+    opts = {
+      range = {
+        ['start'] = vim.api.nvim_buf_get_mark(0, '<'),
+        ['end'] = vim.api.nvim_buf_get_mark(0, '>'),
+      },
+    }
+  end
+
+  fmt_fn(opts)
+end
+
+local function visual_range_fmt(fmt_fn)
+  local mode = vim.api.nvim_get_mode().mode
+  if mode == 'v' or mode == 'V' then
+    -- execute <esc> first so mark < and > are updated
+    vim.cmd([[exe "normal! \<esc>"]])
+  end
+  fmt_fn({
+    range = {
+      ['start'] = vim.api.nvim_buf_get_mark(0, '<'),
+      ['end'] = vim.api.nvim_buf_get_mark(0, '>'),
+    },
+  })
+end
+
 -- https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips#range-formatting-with-a-motion
-M.range_format_operator = function()
+function M.range_format_operator()
   local old_func = vim.go.operatorfunc
   _G.op_func_formatting = function()
     local start = vim.api.nvim_buf_get_mark(0, '[')
@@ -162,16 +162,11 @@ local lsp_default_maps = {
     ['<leader>gi'] = 'gi',
   },
   x = {
-    ['<cr>'] = M.lsp_fmt,
+    ['<cr>'] = function()
+      visual_range_fmt(M.lsp_fmt)
+    end,
     ['g<cr>'] = function()
-      -- execute <esc> first so mark < and > are updated
-      vim.cmd([[exe "normal! \<esc>"]])
-      M.selective_fmt({
-        range = {
-          ['start'] = vim.api.nvim_buf_get_mark(0, '<'),
-          ['end'] = vim.api.nvim_buf_get_mark(0, '>'),
-        },
-      })
+      visual_range_fmt(M.selective_fmt)
     end,
   },
 }
@@ -186,7 +181,10 @@ function M.on_attach(client, bufnr)
 
   require('aceforeverd.utility.map').do_map(lsp_default_maps, default_map_opts)
 
-  vim.cmd([[command! -range=% Format :lua require('aceforeverd.lsp.common').lsp_fmt(<range>)]])
+  vim.cmd([[
+    command! -range=% Format  :lua require('aceforeverd.lsp.common').fmt_cmd(<range>, require('aceforeverd.lsp.common').lsp_fmt)
+    command! -range=% FormatS :lua require('aceforeverd.lsp.common').fmt_cmd(<range>, require('aceforeverd.lsp.common').selective_fmt)
+    ]])
 
   require('illuminate').on_attach(client)
 
