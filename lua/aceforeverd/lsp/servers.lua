@@ -68,13 +68,10 @@ local html_cfg = {
 
 
 return {
-  sumneko_lua = setup_generalized_with_override(function()
-    return require('lua-dev').setup({
-      runtime_path = false, -- true -> it will be slow
-      -- add any options here, or leave empty to use the default settings
-      lspconfig = general_lsp_config,
-    })
-  end),
+  sumneko_lua = function(name)
+    require('neodev').setup({})
+    setup_generalized(name)
+  end,
   diagnosticls = setup_generalized_with_override(require('aceforeverd.lsp.diagnosticls').get_config()),
   yamlls = setup_generalized_with_override({
     settings = {

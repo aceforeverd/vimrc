@@ -90,7 +90,7 @@ return packer.startup({
           requires = { 'williamboman/mason-lspconfig.nvim' },
         },
         -- lsp enhance
-        'folke/lua-dev.nvim',
+        'folke/neolua.nvim',
         'b0o/schemastore.nvim',
         'nanotee/sqls.nvim',
         'mfussenegger/nvim-jdtls',
@@ -472,15 +472,6 @@ return packer.startup({
       config = function()
         require('aceforeverd.plugins.git').gitsigns()
       end,
-    })
-
-    use({
-      -- better conflict resolving, unimpaired provides a basic one
-      'akinsho/git-conflict.nvim',
-      config = function()
-        require('aceforeverd.plugins.git').git_conflict()
-      end,
-      opt = true,
     })
 
     use({
