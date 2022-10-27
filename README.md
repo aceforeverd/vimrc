@@ -26,7 +26,6 @@
   - [code-minimap](https://github.com/wfxr/code-minimap)
   - [bat](https://github.com/sharkdp/bat)
   - [delta](https://github.com/dandavison/delta)
-  - [nnn](https://github.com/jarun/nnn)
   - [vifm](https://vifm.info/)
 + [nerd font](https://github.com/ryanoasis/nerd-fonts)
 + C family tools: [clangd](https://clangd.llvm.org/), cpplint, clang-format, etc

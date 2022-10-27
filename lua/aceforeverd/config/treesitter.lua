@@ -62,14 +62,6 @@ function M.setup()
       },
     },
     rainbow = { enable = true, extended_mode = true, max_file_lines = 5000 },
-    tree_docs = {
-      enable = true,
-      keymaps = {
-        doc_node_at_cursor = '<leader>dc',
-        doc_all_in_range = '<leader>dc',
-        edit_doc_at_cursor = '<leader>de',
-      },
-    },
     refactor = {
       highlight_definitions = { enable = false },
       highlight_current_scope = { enable = false },

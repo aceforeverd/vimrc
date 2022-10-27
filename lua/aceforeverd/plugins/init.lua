@@ -90,7 +90,7 @@ return packer.startup({
           requires = { 'williamboman/mason-lspconfig.nvim' },
         },
         -- lsp enhance
-        'folke/neolua.nvim',
+        'folke/neodev.nvim',
         'b0o/schemastore.nvim',
         'nanotee/sqls.nvim',
         'mfussenegger/nvim-jdtls',
@@ -226,7 +226,6 @@ return packer.startup({
         'nvim-treesitter/nvim-treesitter-refactor',
         'RRethy/nvim-treesitter-textsubjects',
         'p00f/nvim-ts-rainbow',
-        { 'nvim-treesitter/nvim-tree-docs', requires = { 'Olical/aniseed' } },
         'RRethy/nvim-treesitter-endwise',
         'JoosepAlviste/nvim-ts-context-commentstring',
         'windwp/nvim-ts-autotag',
@@ -292,7 +291,7 @@ return packer.startup({
       config = function()
         require('project_nvim').setup({
           manual_mode = false,
-          silent_chdir = false,
+          silent_chdir = true,
           detection_methods = { 'pattern', 'lsp' },
         })
       end,
@@ -548,14 +547,6 @@ return packer.startup({
       end,
       config = function()
         require('aceforeverd.plugins.enhance').autopairs()
-      end,
-    })
-
-    use({
-      'luukvbaal/nnn.nvim',
-      cmd = { 'NnnExplorer', 'NnnPicker' },
-      config = function()
-        require('nnn').setup()
       end,
     })
 
