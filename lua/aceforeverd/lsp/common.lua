@@ -188,12 +188,6 @@ function M.on_attach(client, bufnr)
 
   require('illuminate').on_attach(client)
 
-  local s1, aerial = pcall(require, 'aerial')
-  if s1 then
-    aerial.on_attach(client, bufnr)
-    require('aceforeverd.utility.map').set_map('n', '<space>t', [[<cmd>AerialToggle!<cr>]], default_map_opts)
-  end
-
   -- lsp_signature.nvim
   local s2, lsp_signature = pcall(require, 'lsp_signature')
   if s2 then

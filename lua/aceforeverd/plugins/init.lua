@@ -515,6 +515,9 @@ return packer.startup({
       config = function()
         require('aerial').setup({
           backends = { "lsp", "treesitter", "markdown" },
+          on_attach = function(bufnr)
+            require('aceforeverd.utility.map').set_map('n', '<space>t', [[<cmd>AerialToggle!<cr>]], { buffer = bufnr })
+          end
         })
       end,
     })
