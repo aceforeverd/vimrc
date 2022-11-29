@@ -455,17 +455,6 @@ return packer.startup({
     })
 
     use({
-      'lewis6991/spellsitter.nvim',
-      requires = { 'nvim-treesitter/nvim-treesitter' },
-      opt = true,
-      config = function()
-        require('spellsitter').setup({
-          -- enable = { 'cpp', 'lua', 'python', 'java', 'c', 'vim', 'sh' },
-        })
-      end,
-    })
-
-    use({
       'lewis6991/gitsigns.nvim',
       requires = { 'nvim-lua/plenary.nvim' },
       config = function()
