@@ -139,7 +139,9 @@ function M.dressing()
   require('dressing').setup({
     input = {
       border = 'rounded',
-      winblend = 10,
+      win_options = {
+        winblend = 10,
+      }
     },
   })
 end
