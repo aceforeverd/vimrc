@@ -156,7 +156,7 @@ local lsp_default_maps = {
 
     ['<space>F'] = M.lsp_fmt,
     ['g<cr>'] = [[<cmd>lua require('aceforeverd.lsp.common').range_format_operator()<cr>]],
-    ['<space>s'] = [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]],
+    ['<space>s'] = [[<cmd>FzfLua lsp_document_symbols<cr>]],
     ['<space>S'] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
 
     ['<leader>gi'] = 'gi',

@@ -56,7 +56,8 @@ function M.telescope()
           ['<C-/>'] = require('telescope.actions.generate').which_key,
           ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
           ['<c-n>'] = false, -- resevered key
-          ['<C-l>'] = require('telescope.actions.layout').cycle_layout_next,
+          -- disabled for conflicts with builtin mapping in some commands
+          -- ['<C-l>'] = require('telescope.actions.layout').cycle_layout_next,
           ['<C-h>'] = require('telescope.actions.layout').cycle_layout_prev,
           ['<C-i>'] = require('telescope.actions.layout').toggle_prompt_position,
           ['<C-]>'] = require('telescope.actions.layout').toggle_mirror,
@@ -102,6 +103,7 @@ function M.telescope()
       ['R'] = [[<cmd>lua require('telescope.builtin').live_grep{}<cr>]],
     },
     ['<leader>f'] = {
+      -- general case
       ['f'] = [[<Cmd>lua require('telescope.builtin').find_files()<CR>]],
       ['e'] = [[<Cmd>lua require('telescope.builtin').grep_string{}<CR>]],
       ['s'] = [[<cmd>lua require('telescope.builtin').spell_suggest()<CR>]],
@@ -120,7 +122,13 @@ function M.telescope()
       ['l'] = [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]],
       ['E'] = [[<cmd>lua require('telescope').extensions.env.env{}<cr>]],
     },
+    ['<leader>l'] = {
+      -- lsp
+      ['s'] = [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]],
+      ['S'] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
+    },
     ['<leader>g'] = {
+      -- git ops
       ['f'] = '<Cmd>Telescope git_files<CR>',
       ['s'] = '<cmd>Telescope git_status<cr>',
       ['S'] = '<cmd>Telescope git_stash<cr>',

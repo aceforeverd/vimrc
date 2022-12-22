@@ -185,14 +185,6 @@ function M.setup()
       },
     },
   })
-
-  -- disable nvim-cmp on some buffer
-  vim.cmd([[
-  augroup gp_nvim_cmp
-  autocmd!
-  autocmd FileType clap_input lua require('cmp').setup.buffer { enabled = false }
-  augroup END
-]])
 end
 
 function M.cmp_git()
