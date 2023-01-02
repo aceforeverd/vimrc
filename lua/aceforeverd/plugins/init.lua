@@ -97,6 +97,7 @@ return packer.startup({
         'scalameta/nvim-metals',
         'j-hui/fidget.nvim',
         'SmiteshP/nvim-navic',
+        'MrcJkb/haskell-tools.nvim'
       },
       config = function()
         require('aceforeverd.lsp').setup()

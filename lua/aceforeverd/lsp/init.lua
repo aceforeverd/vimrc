@@ -52,6 +52,7 @@ function M.setup()
   M.clangd()
   require('aceforeverd.lsp.jdtls').setup()
   require('aceforeverd.lsp.metals').metals()
+  M.hls()
 end
 
 function M.clangd()
@@ -134,6 +135,12 @@ end
 function M.rust_analyzer()
   require('rust-tools').setup({
     server = require('aceforeverd.lsp.common').general_cfg,
+  })
+end
+
+function M.hls()
+  require('haskell-tools').setup({
+    hls = lsp_basic.general_cfg
   })
 end
 
