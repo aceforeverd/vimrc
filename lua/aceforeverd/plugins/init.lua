@@ -567,11 +567,6 @@ return packer.startup({
     })
 
     use({
-      'wfxr/minimap.vim',
-      cmd = { 'MinimapToggle' },
-    })
-
-    use({
       'nvim-pack/nvim-spectre',
       config = function()
         require('aceforeverd.plugins.enhance').spectre()
