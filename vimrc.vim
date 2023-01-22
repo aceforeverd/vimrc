@@ -150,7 +150,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('ojroques/vim-oscyank')
 
     call dein#add('alpertuna/vim-header')
-    call dein#add('antoyo/vim-licenses')
     " code format
     call dein#add('sbdchd/neoformat')
     call dein#add('junegunn/vim-easy-align')
@@ -600,9 +599,6 @@ let g:current_line_whitespace_disabled_soft = 1
 
 " neoformat
 let g:neoformat_enabled_lua = ['luaformat', 'stylua']
-
-" vim-license
-let g:licenses_copyright_holders_name = g:my_name . ' <' . g:my_email . '>'
 
 if aceforeverd#util#has_float()
     " matchup
