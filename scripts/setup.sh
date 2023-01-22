@@ -93,7 +93,7 @@ echo ""
 
 if [[ $TYPE = "neovim" ]]; then
     echo -e "${GREEN}Installing packer.nvim ...${NC}"
-    git clone "$PACKER_NVIM" "$ROOT/bundle/pack/packer/start/packer.nvim" && \
+    git clone "$PACKER_NVIM" "$ROOT/bundle/pack/packer/opt/packer.nvim" && \
         echo -e "${GREEN}packer.nvim installed at $ROOT/bundle/pack/packer/start/packer.nvim${NC}"
 fi
 
