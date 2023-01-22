@@ -607,17 +607,6 @@ return packer.startup({
     })
 
     use({
-      'mrjones2014/dash.nvim',
-      run = 'make install',
-      cond = function()
-        return vim.fn.has('mac') == 1
-      end,
-      config = function()
-        require('aceforeverd.finder').dash()
-      end,
-    })
-
-    use({
       'Pocco81/true-zen.nvim',
       config = function()
         require('true-zen').setup({})

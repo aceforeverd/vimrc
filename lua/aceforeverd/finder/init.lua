@@ -16,15 +16,6 @@
 
 local M = {}
 
-local dash_cfg = {
-  -- https://github.com/mrjones2014/dash.nvim#configuration-table-structure
-  file_type_keywords = {
-    c = { 'c', 'clang', 'llvm', 'gdb' },
-    cpp = { 'cpp', 'clang', 'llvm', 'gdb' },
-    python = { 'python3', 'python2' },
-  }
-}
-
 function M.fzflua()
   require('fzf-lua').setup({ winopts = { width = 0.9 } })
   require('aceforeverd.utility.map').do_mode_map('n', '', {
@@ -35,12 +26,6 @@ function M.fzflua()
       ['r'] = [[<cmd>FzfLua grep_project<cr>]],
     },
   }, { noremap = true })
-end
-
-function M.dash()
-  require('dash').setup(dash_cfg)
-
-  require('aceforeverd.utility.map').set_map('n', '<space>D', '<cmd>Dash<cr>', {})
 end
 
 function M.telescope()
