@@ -28,9 +28,6 @@ function! aceforeverd#settings#my_init() abort
 
     let g:my_autopair = get(g:, 'my_autopair', 'delimitmate')
 
-    let g:my_statusline = get(g:, 'my_statusline', 'feline')
-    let g:my_tabline = get(g:, 'my_tabline', 'bufferline')
-
     " default to vim-dirvish by 'dirvish'
     " or u can set 'netrw' to use netrw with vim-vinegar enhancements
     let g:my_dir_viewer = get(g:, 'my_dir_viewer', 'dirvish')

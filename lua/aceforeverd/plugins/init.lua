@@ -473,9 +473,6 @@ return packer.startup({
 
     use({
       'feline-nvim/feline.nvim',
-      cond = function()
-        return vim.g.my_statusline == 'feline'
-      end,
       requires = { 'kyazdani42/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
       config = function()
         require('aceforeverd.statusline.feline').setup()
@@ -485,9 +482,6 @@ return packer.startup({
     use({
       'akinsho/nvim-bufferline.lua',
       requires = 'kyazdani42/nvim-web-devicons',
-      cond = function()
-        return vim.g.my_tabline == 'bufferline'
-      end,
       config = function()
         require('aceforeverd.tabline').bufferline()
       end,
