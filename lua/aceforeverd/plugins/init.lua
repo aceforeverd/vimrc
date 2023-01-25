@@ -453,6 +453,7 @@ return packer.startup({
 
     use({
       'rcarriga/nvim-notify',
+      opt = true,
     })
 
     use({
@@ -514,11 +515,6 @@ return packer.startup({
       end,
     })
 
-    use {
-      'AckslD/nvim-FeMaco.lua',
-      config = 'require("femaco").setup()',
-    }
-
     use({
       'numToStr/Comment.nvim',
       requires = { 'JoosepAlviste/nvim-ts-context-commentstring' },
@@ -560,14 +556,6 @@ return packer.startup({
       end,
     })
 
-    use({
-      'nvim-pack/nvim-spectre',
-      config = function()
-        require('aceforeverd.plugins.enhance').spectre()
-      end,
-      cmd = { 'Spectre', 'SpectreCFile' },
-    })
-
     use({ 'gennaro-tedesco/nvim-jqx' })
 
     use({ 'milisims/nvim-luaref' })
@@ -598,14 +586,6 @@ return packer.startup({
         require('godbolt').setup({})
       end,
       cmd = { 'GodboltCompiler', 'Godbolt' },
-    })
-
-    use({
-      'Pocco81/true-zen.nvim',
-      config = function()
-        require('true-zen').setup({})
-      end,
-      cmd = { 'TZNarrow', 'TZFocus', 'TZMinimalist', 'TZAtaraxis' },
     })
 
     use({

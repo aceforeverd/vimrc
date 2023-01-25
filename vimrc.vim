@@ -191,8 +191,6 @@ if dein#load_state(s:dein_repo)
     " Typescript
     call dein#add('HerringtonDarkholme/yats.vim')
 
-    " Haskell
-    call dein#add('neovimhaskell/haskell-vim')
     " vimL
     call dein#add('mhinz/vim-lookup')
 
@@ -205,7 +203,6 @@ if dein#load_state(s:dein_repo)
                 \ 'build': 'cd app && yarn install' })
 
     call dein#add('rust-lang/rust.vim')
-    call dein#add('vim-ruby/vim-ruby')
     " Tmux
     call dein#add('tmux-plugins/vim-tmux')
     call dein#add('christoomey/vim-tmux-navigator')
