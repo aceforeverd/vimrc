@@ -399,7 +399,13 @@ return packer.startup({
       end,
     })
 
-    use({ 'npxbr/glow.nvim', ft = { 'markdown' } })
+    use({
+      'npxbr/glow.nvim',
+      ft = { 'markdown' },
+      config = function()
+        require('glow').setup({})
+      end
+    })
 
     use({
       'pwntester/octo.nvim',
