@@ -68,7 +68,7 @@ local html_cfg = {
 
 
 return {
-  sumneko_lua = function(name)
+  lua_ls = function(name)
     require('neodev').setup({})
     setup_generalized(name)
   end,
