@@ -299,19 +299,6 @@ return packer.startup({
     })
 
     use({
-      'sudormrfbin/cheatsheet.nvim',
-      cmd = { 'Cheatsheet', 'CheatsheetEdit' },
-      config = function()
-        require('cheatsheet').setup({
-          bundled_cheatsheets = true,
-          bundled_plugin_cheatsheets = true,
-          include_only_installed_plugins = true,
-        })
-      end,
-      requires = { 'nvim-telescope/telescope.nvim', 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' },
-    })
-
-    use({
       'nvim-neo-tree/neo-tree.nvim',
       branch = 'v2.x',
       requires = {
@@ -450,16 +437,6 @@ return packer.startup({
           },
         })
       end,
-    })
-
-    use({
-      'michaelb/sniprun',
-      run = 'bash install.sh',
-    })
-
-    use({
-      'rcarriga/nvim-notify',
-      opt = true,
     })
 
     use({
