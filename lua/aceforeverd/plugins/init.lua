@@ -213,7 +213,7 @@ return packer.startup({
         return vim.g.my_cmp_source == 'nvim_lsp'
       end,
       config = function()
-        require('colorizer').setup()
+        require('colorizer').setup({})
       end,
     })
 
@@ -226,7 +226,7 @@ return packer.startup({
         'nvim-treesitter/nvim-treesitter-textobjects',
         'nvim-treesitter/nvim-treesitter-refactor',
         'RRethy/nvim-treesitter-textsubjects',
-        'p00f/nvim-ts-rainbow',
+        'mrjones2014/nvim-ts-rainbow',
         'RRethy/nvim-treesitter-endwise',
         'JoosepAlviste/nvim-ts-context-commentstring',
         'windwp/nvim-ts-autotag',
