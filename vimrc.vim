@@ -78,12 +78,6 @@ if dein#load_state(s:dein_repo)
 
     call dein#add(s:dein_path)
 
-    if !has('nvim')
-        call dein#add('wellle/tmux-complete.vim', {
-                    \ 'hook_source': 'let g:tmuxcomplete#trigger = ""'
-                    \ })
-    endif
-
     if g:my_cmp_source !=? 'nvim_lsp'
         call dein#add('Shougo/context_filetype.vim')
         call dein#add('Shougo/neco-syntax')
@@ -661,8 +655,6 @@ if g:my_cmp_source !=? 'nvim_lsp'
    call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
 endif
 
-" there is autocmd for ColorScheme in lua & init_cmp_source hook for sonokai
-call dein#call_hook('source')
 call dein#call_hook('post_source')
 
 let s:after_vimrc = s:home . '/after.vim'
