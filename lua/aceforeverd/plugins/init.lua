@@ -133,7 +133,6 @@ return packer.startup({
         'ray-x/cmp-treesitter',
         'andersevenrud/cmp-tmux',
         'petertriho/cmp-git',
-        'f3fora/cmp-spell',
 
         'onsails/lspkind-nvim',
       },

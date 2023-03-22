@@ -92,7 +92,6 @@ function M.setup()
 
     { name = 'git' },
     { name = 'treesitter', keyword_length = 3 },
-    { name = 'spell' },
     {
       name = 'buffer',
       option = {
@@ -154,8 +153,6 @@ function M.setup()
         menu = {
           nvim_lsp = '[LSP]',
           luasnip = '[LuaSnip]',
-          ultisnips = '[UltiSnips]',
-          vsnip = '[Vsnip]',
           buffer = '[Buffer]',
           path = '[Path]',
           nvim_lua = '[Lua]',
@@ -164,8 +161,6 @@ function M.setup()
           treesitter = '[TreeSitter]',
           dictionary = '[Dictionary]',
           tmux = '[Tmux]',
-          rg = '[Rg]',
-          spell = '[Spell]',
           git = '[Git]',
         },
       }),
