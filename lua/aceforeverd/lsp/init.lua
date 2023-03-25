@@ -32,6 +32,8 @@ function M.setup()
   -- basic settings
   vim.o.pumblend = 20
 
+  M.lsp_status()
+
   require('aceforeverd.lsp.common').diagnostics_config()
 
   if vim.g.lsp_process_provider == 'lsp_status' then

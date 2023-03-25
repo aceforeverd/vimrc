@@ -72,6 +72,8 @@ function! aceforeverd#plugin#minpac() abort
 
     call minpac#add('kristijanhusak/vim-dadbod-ui')
 
+    call minpac#add('sainnhe/sonokai')
+
     " load plugins
     PackAdd! cfilter
 

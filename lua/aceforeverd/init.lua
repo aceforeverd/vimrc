@@ -13,25 +13,36 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
--- config variables
+local M = {}
 
-if vim.g.lsp_process_provider == nil then
-  vim.g.lsp_process_provider = 'fidget'
+function M.setup()
+  if vim.g.lsp_process_provider == nil then
+    vim.g.lsp_process_provider = 'fidget'
+  end
+
+  require('aceforeverd.utility.map').do_map({
+    n = {
+      ['}}'] = '}',
+      ['{{'] = '{',
+      ['<space>'] = {
+        ['p'] = '<cmd>Pounce<cr>',
+      },
+    },
+    x = {
+      [']"'] = [["]],
+    },
+  }, { nnoremap = true, silent = true })
+
+  vim.o.foldcolumn = '1' -- '0' is not bad
+  vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+  vim.o.foldlevelstart = 99
+  vim.o.foldenable = true
+  vim.o.fillchars = [[foldopen:▼,foldclose:⏵]]
+
+  require('aceforeverd.plugins').setup()
+
+  -- keep vim default maps
+  -- set_map('x', ']"', '"', { noremap = true, silent = true })
 end
 
-require('aceforeverd.plugins')
-
-require('aceforeverd.utility.map').do_map({
-  n = {
-    ['}}'] = '}',
-    ['{{'] = '{',
-    ['<space>'] = {
-      ['p'] = '<cmd>Pounce<cr>',
-    }
-  }, x = {
-    [']"'] = [["]],
-  }
-}, {nnoremap = true, silent = true})
-
--- keep vim default maps
--- set_map('x', ']"', '"', { noremap = true, silent = true })
+return M

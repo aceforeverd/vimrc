@@ -36,7 +36,7 @@ function! aceforeverd#settings#my_init() abort
     let g:my_email = get(g:, 'my_email', 'teapot@aceforeverd.com')
 endfunction
 
-let s:sonokai_styles = ['atlantis', 'andromeda', 'shusia', 'espresso']
+const s:sonokai_styles = ['atlantis', 'andromeda', 'shusia', 'espresso']
 
 function! aceforeverd#settings#sonokai_pre() abort
     if has('nvim')
@@ -55,6 +55,11 @@ endfunction
 
 " common highlight customization
 function! aceforeverd#settings#hl_groups() abort
+    " highlights for line numbers
+    highlight LineNr ctermfg=176 guifg=#9fa0cc
+    highlight CursorLineNr ctermfg=180 guifg=#9734ff
+    highlight CursorLineFold ctermfg=180 guifg=#f69c51
+
     " sonokai link 'LspReferenceText', 'LspReferenceRead', 'LspReferenceWrite' default to 'CurrentWord'
     " for lsp enabled buffer, 'Lspreference*' groups are used
     highlight LspReferenceText cterm=bold gui=bold guibg=#5e5e5f

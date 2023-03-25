@@ -32,8 +32,6 @@ function M.neo_tree()
       },
     },
   })
-
-  require('aceforeverd.utility.map').set_map('n', '<space>e', '<cmd>Neotree toggle reveal<cr>')
 end
 
 return M

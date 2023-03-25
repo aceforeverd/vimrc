@@ -36,15 +36,6 @@ endif
 let &runtimepath = &runtimepath . ',' . s:home
 call aceforeverd#settings#my_init()
 
-" download vim-plug
-if empty(glob(s:home. '/autoload/plug.vim'))
-    execute '!curl -fLo '.s:home.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    augroup gp_vim_plug_bootstrap
-       autocmd!
-       autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-    augroup END
-endif
-
 " download dein
 let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
 if empty(glob(s:dein_path))
@@ -57,12 +48,14 @@ let g:mapleader = ','
 " local leader
 let g:maplocalleader = '\'
 
-" vim plug
-" ============================================================================================
 
-call plug#begin(s:common_pkg) "{{{
-
-call plug#end() "}}}
+" =============================================================== "
+" Plugin Manager, in order
+" 1. minpac
+" 2. dein (merged plugins)
+" 3. lazy.nvim
+" 4. dein (unmerged plugins)
+" =============================================================== "
 
 call aceforeverd#plugin#minpac()
 
@@ -124,9 +117,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('liuchengxu/vista.vim')
     call dein#add('wincent/terminus')
     call dein#add('vifm/vifm.vim')
-    call dein#add('sainnhe/sonokai', {
-                \ 'merged': 0,
-                \ 'hook_post_source': 'colorscheme sonokai'})
     call dein#add('justinmk/vim-gtfo')
 
     " motion
@@ -647,15 +637,15 @@ augroup gp_colorscheme
     autocmd ColorScheme * call aceforeverd#settings#hl_groups()
 augroup END
 
+colorscheme sonokai
+
 if has('nvim-0.5')
-    lua require('aceforeverd')
+    lua require('aceforeverd').setup()
 endif
 
 if g:my_cmp_source !=? 'nvim_lsp'
    call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
 endif
-
-call dein#call_hook('post_source')
 
 let s:after_vimrc = s:home . '/after.vim'
 if filereadable(s:after_vimrc)
