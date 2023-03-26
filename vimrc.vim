@@ -62,10 +62,6 @@ call aceforeverd#plugin#minpac()
 let g:dein#install_process_timeout = 180
 let g:dein#install_process_type = 'tabline'
 
-" polyglot
-let g:polyglot_disabled = ['sensible', 'autoindent', 'go']
-let g:vim_json_syntax_conceal = 1
-
 if dein#load_state(s:dein_repo)
     call dein#begin(s:dein_repo)
 
@@ -109,8 +105,6 @@ if dein#load_state(s:dein_repo)
     call dein#add('honza/vim-snippets')
 
     " interface
-    call dein#add('sheerun/vim-polyglot', {'merged': 0})
-    call dein#add('chrisbra/unicode.vim', {'merged': 0})
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('mhinz/vim-startify')
     call dein#add('ntpeters/vim-better-whitespace')
@@ -191,15 +185,12 @@ if dein#load_state(s:dein_repo)
     call dein#add('tmux-plugins/vim-tmux')
     call dein#add('christoomey/vim-tmux-navigator')
 
-    call dein#add('kovisoft/slimv', {'merged': 0})
     " gentoo
     call dein#add('gentoo/gentoo-syntax')
 
     call dein#add('chrisbra/csv.vim')
 
     call dein#add('cdelledonne/vim-cmake')
-
-    call dein#add('aceforeverd/vim-translator', {'rev': 'dev', 'merged': 0})
 
     call dein#end()
     call dein#save_state()

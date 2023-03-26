@@ -40,6 +40,7 @@ function M.lazy()
     install = {
       missing = false,
     },
+    concurrency = 8,
     performance = {
       -- no reset, or other plugin manager won't work
       reset_packpath = false,
@@ -51,6 +52,8 @@ function M.lazy()
 end
 
 M.plugin_list = {
+  { 'folke/lazy.nvim' },
+
   { 'nvim-lua/plenary.nvim' },
 
   -- installer
@@ -285,9 +288,9 @@ M.plugin_list = {
     end,
   },
 
-  { 'marko-cerovac/material.nvim' , lazy = true },
+  { 'marko-cerovac/material.nvim' },
 
-  { 'projekt0n/github-nvim-theme', lazy = true },
+  { 'projekt0n/github-nvim-theme' },
 
   {
     'mfussenegger/nvim-dap',
@@ -557,13 +560,16 @@ M.plugin_list = {
   },
 
   -- color picker
-  { 'uga-rosa/ccc.nvim', config = function()
-    require('ccc').setup ({
-      highlighter = {
-        auto_enable = false
-      }
-    })
-  end}
+  {
+    'uga-rosa/ccc.nvim',
+    config = function()
+      require('ccc').setup({
+        highlighter = {
+          auto_enable = false,
+        },
+      })
+    end,
+  },
 }
 
 return M
