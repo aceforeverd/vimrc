@@ -170,10 +170,6 @@
       "name": "JavaSE-11",
       "path": "/Users/danielace/.sdkman/candidates/java/11.0.11.hs-adpt",
       "default": true
-    },
-    {
-      "name": "JavaSE-14",
-      "path": "/Users/danielace/.sdkman/candidates/java/16.0.1.hs-adpt"
     }
   ],
   "java.home": "/Users/danielace/.sdkman/candidates/java/11.0.11.hs-adpt",
