@@ -75,14 +75,14 @@ function! aceforeverd#plugin#minpac() abort
     call minpac#add('sainnhe/sonokai')
     call minpac#add('chrisbra/unicode.vim')
 
-    let g:polyglot_disabled = ['sensible', 'autoindent', 'go']
-    let g:vim_json_syntax_conceal = 1
     call minpac#add('sheerun/vim-polyglot')
 
     call minpac#add('kovisoft/slimv')
 
-    call minpac#add('aceforeverd/vim-translator', {'branch': 'dev'})
+    call minpac#add('aceforeverd/vim-translator', {'rev': 'dev'})
 
+    let g:polyglot_disabled = ['sensible', 'autoindent', 'go']
+    let g:vim_json_syntax_conceal = 1
     " load plugins
     PackAdd! cfilter
 
