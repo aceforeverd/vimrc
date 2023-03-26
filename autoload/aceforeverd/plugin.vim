@@ -72,7 +72,7 @@ function! aceforeverd#plugin#minpac() abort
 
     call minpac#add('kristijanhusak/vim-dadbod-ui')
 
-    call minpac#add('sainnhe/sonokai')
+    call minpac#add('sainnhe/sonokai', {'type': 'opt'})
     call minpac#add('chrisbra/unicode.vim')
 
     let g:polyglot_disabled = ['sensible', 'autoindent', 'go']
@@ -85,6 +85,8 @@ function! aceforeverd#plugin#minpac() abort
 
     " load plugins
     PackAdd! cfilter
+    " early load colorschem, ref https://github.com/sainnhe/gruvbox-material/issues/60
+    PackAdd! sonokai
 
     if !has('nvim')
         PackAdd! vim-go
