@@ -18,6 +18,8 @@ local M = {}
 
 function M.setup()
   M.lazy()
+  -- lazy.nvim disables loadplugins by default
+  vim.go.loadplugins = true
 end
 
 function M.lazy()
@@ -275,7 +277,7 @@ M.plugin_list = {
       vim.g.neo_tree_remove_legacy_commands = 1
     end,
     config = function()
-      require('aceforeverd.plugins.tree').neo_tree()
+      require('aceforeverd.apperance.tree').neo_tree()
     end,
     cmd = { 'Neotree' },
     keys = { { '<space>e', '<cmd>Neotree toggle reveal<cr>' } },
@@ -335,7 +337,7 @@ M.plugin_list = {
     'sindrets/diffview.nvim',
     dependencies = { 'kyazdani42/nvim-web-devicons' },
     config = function()
-      require('aceforeverd.plugins.git').diffview()
+      require('aceforeverd.integration.git').diffview()
     end,
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
   },
@@ -373,7 +375,7 @@ M.plugin_list = {
     'pwntester/octo.nvim',
     dependencies = { 'kyazdani42/nvim-web-devicons' },
     config = function()
-      require('aceforeverd.plugins.git').octo()
+      require('aceforeverd.integration.git').octo()
     end,
     cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' },
   },
@@ -415,14 +417,14 @@ M.plugin_list = {
   {
     'lewis6991/gitsigns.nvim',
     config = function()
-      require('aceforeverd.plugins.git').gitsigns()
+      require('aceforeverd.integration.git').gitsigns()
     end,
   },
 
   {
     'ruifm/gitlinker.nvim',
     config = function()
-      require('aceforeverd.plugins.git').gitlinker()
+      require('aceforeverd.integration.git').gitlinker()
     end,
   },
 
@@ -430,7 +432,7 @@ M.plugin_list = {
     'feline-nvim/feline.nvim',
     dependencies = { 'kyazdani42/nvim-web-devicons' },
     config = function()
-      require('aceforeverd.statusline.feline').setup()
+      require('aceforeverd.apperance.feline').setup()
     end,
   },
 
@@ -438,7 +440,7 @@ M.plugin_list = {
     'akinsho/nvim-bufferline.lua',
     dependencies = 'kyazdani42/nvim-web-devicons',
     config = function()
-      require('aceforeverd.tabline').bufferline()
+      require('aceforeverd.apperance').bufferline()
     end,
   },
 

@@ -41,9 +41,6 @@ function M.setup()
 
   require('aceforeverd.plugins').setup()
 
-  -- lazy.nvim disables loadplugins by default
-  vim.go.loadplugins = true
-
   -- keep vim default maps
   -- set_map('x', ']"', '"', { noremap = true, silent = true })
 end
