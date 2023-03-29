@@ -87,13 +87,6 @@ M.plugin_list = {
   },
 
   {
-    'smjonas/inc-rename.nvim',
-    config = function()
-      require('aceforeverd.lsp').inc_rename()
-    end,
-  },
-
-  {
     'onsails/lspkind.nvim',
     config = function()
       require('aceforeverd.lsp').lspkind()
@@ -130,6 +123,7 @@ M.plugin_list = {
     config = function()
       require('aceforeverd.plugins.snip').luasnip_setup()
     end,
+    build = "make install_jsregexp",
   },
 
   {
@@ -571,6 +565,13 @@ M.plugin_list = {
         },
       })
     end,
+  },
+  {
+    'mrjones2014/legendary.nvim',
+    config = function()
+      require('legendary').setup({})
+    end,
+    cmd = { 'Legendary' }
   },
 }
 

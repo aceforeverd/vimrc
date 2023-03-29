@@ -120,13 +120,6 @@ function M.lspkind()
   })
 end
 
-function M.inc_rename()
-  require("inc_rename").setup({
-    input_buffer_type = "dressing",
-  })
-  vim.keymap.set('n', '<leader>ri', ':<C-u>IncRename ', {})
-end
-
 function M.go()
   -- :GoInstallBinaries
   require('go').setup({
