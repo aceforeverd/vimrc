@@ -80,6 +80,8 @@ M.plugin_list = {
       'j-hui/fidget.nvim',
       'SmiteshP/nvim-navic',
       'MrcJkb/haskell-tools.nvim',
+      'SmiteshP/nvim-navbuddy',
+      'MunifTanjim/nui.nvim',
     },
     config = function()
       require('aceforeverd.lsp').setup()

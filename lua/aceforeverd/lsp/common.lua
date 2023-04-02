@@ -206,6 +206,11 @@ function M.on_attach(client, bufnr)
     if s3 then
       navic.attach(client, bufnr)
     end
+
+    local s4, navbuddy = pcall(require, 'nvim-navbuddy')
+    if s4 then
+      navbuddy.attach(client, bufnr)
+    end
   end
 
   require('lsp-status').on_attach(client)
