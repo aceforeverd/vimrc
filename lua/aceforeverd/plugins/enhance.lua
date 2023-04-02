@@ -85,23 +85,6 @@ function M.substitute()
   }, { nnoremap = true })
 end
 
-function M.spectre()
-  require('spectre').setup()
-
-  vim.cmd([[
-    command! Spectre lua require('spectre').open()
-    command! SpectreCFile lua require('spectre').open_file_search()
-  ]])
-end
-
-function M.light_bulb()
-  vim.cmd([[
-  augroup gp_light_bulb
-    autocmd!
-    autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
-  augroup END]])
-end
-
 function M.toggle_term()
   local Terminal = require('toggleterm.terminal').Terminal
   local lazygit = Terminal:new({

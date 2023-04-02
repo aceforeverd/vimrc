@@ -115,6 +115,25 @@ M.plugin_list = {
   },
 
   {
+    "glepnir/lspsaga.nvim",
+    event = "LspAttach",
+    config = function()
+      require("lspsaga").setup({
+        lightbulb = {
+          virtual_text = false,
+        },
+        symbol_in_winbar = {
+          enable = false,
+        }
+      })
+    end,
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons" },
+      { "nvim-treesitter/nvim-treesitter" }
+    }
+  },
+
+  {
     'L3MON4D3/LuaSnip',
     dependencies = {
       'rafamadriz/friendly-snippets',
@@ -124,17 +143,6 @@ M.plugin_list = {
       require('aceforeverd.plugins.snip').luasnip_setup()
     end,
     build = "make install_jsregexp",
-  },
-
-  {
-    'kosayoda/nvim-lightbulb',
-    config = function()
-      require('aceforeverd.plugins.enhance').light_bulb()
-    end,
-  },
-
-  {
-    'weilbith/nvim-code-action-menu',
   },
 
   {
@@ -245,7 +253,7 @@ M.plugin_list = {
       'nvim-telescope/telescope-frecency.nvim',
       'LinArcX/telescope-env.nvim',
       'tami5/sqlite.lua',
-      'kyazdani42/nvim-web-devicons',
+      'nvim-tree/nvim-web-devicons',
     },
   },
 
@@ -264,7 +272,7 @@ M.plugin_list = {
     'nvim-neo-tree/neo-tree.nvim',
     branch = 'v2.x',
     dependencies = {
-      'kyazdani42/nvim-web-devicons',
+      'nvim-tree/nvim-web-devicons',
       'MunifTanjim/nui.nvim',
     },
     init = function()
@@ -329,7 +337,7 @@ M.plugin_list = {
 
   {
     'sindrets/diffview.nvim',
-    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('aceforeverd.integration.git').diffview()
     end,
@@ -367,7 +375,7 @@ M.plugin_list = {
 
   {
     'pwntester/octo.nvim',
-    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('aceforeverd.integration.git').octo()
     end,
@@ -424,7 +432,7 @@ M.plugin_list = {
 
   {
     'feline-nvim/feline.nvim',
-    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('aceforeverd.apperance.feline').setup()
     end,
@@ -432,7 +440,7 @@ M.plugin_list = {
 
   {
     'akinsho/nvim-bufferline.lua',
-    dependencies = 'kyazdani42/nvim-web-devicons',
+    dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
       require('aceforeverd.apperance').bufferline()
     end,
@@ -464,7 +472,7 @@ M.plugin_list = {
 
   {
     'ibhagwan/fzf-lua',
-    dependencies = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'vijaymarupudi/nvim-fzf', 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('aceforeverd.finder').fzflua()
     end,
