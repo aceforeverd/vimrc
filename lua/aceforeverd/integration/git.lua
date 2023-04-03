@@ -82,7 +82,10 @@ function M.gitsigns()
       delay = 1000,
       ignore_whitespace = false,
       -- the lower take the priority
-      virt_text_priority = 200,
+      -- blames goes at last
+      -- nvim diagnostic virt texts come default as 0x1000, take arbitrarily larger
+      -- ref https://github.com/lewis6991/gitsigns.nvim/issues/605
+      virt_text_priority = 5000,
     },
     sign_priority = 6,
     update_debounce = 100,
