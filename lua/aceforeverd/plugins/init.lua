@@ -62,11 +62,13 @@ M.plugin_list = {
   {
     'williamboman/mason.nvim',
     dependencies = { 'williamboman/mason-lspconfig.nvim' },
+    lazy = true,
   },
 
   {
     'neovim/nvim-lspconfig',
     dependencies = {
+      'williamboman/mason.nvim',
       -- LSP signature hint as you type
       'ray-x/lsp_signature.nvim',
       'nvim-lua/lsp-status.nvim',
