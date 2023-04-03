@@ -21,10 +21,6 @@
 function! aceforeverd#util#install(post_hook) abort
     try
         call dein#install()
-
-        execute 'PlugInstall --sync'
-        echomsg 'Vim-Plug plugins installed'
-
         execute "call minpac#update('', {'do': '" .. a:post_hook .. "'})"
 
         " NOTE: u may run :PackerSync or :CocUpdate manually

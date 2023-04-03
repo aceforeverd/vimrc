@@ -11,28 +11,21 @@
 + Vim 8.0+ or Neovim 0.7.0+
 + git
 
-## Optional Dependencies
+## Optional Dependencies (Debian for example)
 
-+ nodejs env
-+ rust env
-+ python3.8+ env with [pynvim](https://github.com/neovim/pynvim) installed
-+ sqlite3
-+ searchers:
++ [nerd font](https://github.com/ryanoasis/nerd-fonts)
++ utilities:
   - [the_silver_searcher](https://github.com/ggreer/the_silver_searcher)
   - [ripgrep](https://github.com/BurntSushi/ripgrep)
-+ taging: [ctags](https://github.com/universal-ctags/ctags), [gtags](https://www.gnu.org/software/global/)
-+ utilities:
   - [fd](https://github.com/sharkdp/fd)
-  - [code-minimap](https://github.com/wfxr/code-minimap)
   - [bat](https://github.com/sharkdp/bat)
   - [delta](https://github.com/dandavison/delta)
   - [vifm](https://vifm.info/)
-+ [nerd font](https://github.com/ryanoasis/nerd-fonts)
-+ C family tools: [clangd](https://clangd.llvm.org/), cpplint, clang-format, etc
-+ lint/format tools:
-  - [shellcheck](https://github.com/koalaman/shellcheck)
-  - [shfmt](https://github.com/mvdan/sh)
-  - [vim-vint](https://github.com/Vimjas/vint)
+  - sqlite3 & libsqlite3-dev
+  - [ctags](https://github.com/universal-ctags/ctags), [gtags](https://www.gnu.org/software/global/)
++ nodejs env
++ rust env
++ python3.8+ env with [pynvim](https://github.com/neovim/pynvim)
 
 ---
 
@@ -48,12 +41,4 @@ where `$CLONE_PATH` is `$HOME/.vim` for vim and `$HOME/.config/nvim` for neovim
 
 ### 2. setup
 
-run `setup.sh` inside clone path
-
-```bash
-cd "$CLONE_PATH"
-# for neovim
-./scripts/setup.sh
-# or for vim
-./scripts/setup.sh -t vim
-```
+`make install`

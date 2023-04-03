@@ -70,32 +70,18 @@ shift $((OPTIND-1))
 
 ROOT=$(git rev-parse --show-toplevel)
 DEIN_PATH=$ROOT/dein/repos/github.com/Shougo/dein.vim
-VIMPLUG_PATH=$ROOT/autoload
 DEIN_URL="https://github.com/Shougo/dein.vim.git"
-VIMPLUG="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-PACKER_NVIM="https://github.com/wbthomason/packer.nvim"
 
 if [ ! -d "$DEIN_PATH" ] ; then
     mkdir -p "$DEIN_PATH"
 fi
 
-echo -e "${GREEN}Start setting up plugin managers (vim plug & dein.vim)${NC}"
-
-echo -e "${GREEN}Installing vim plug ...${NC}"
-curl -fLo "$VIMPLUG_PATH/plug.vim" --create-dirs "$VIMPLUG" && \
-    echo -e "${GREEN}vim plug installed as $VIMPLUG_PATH/plug.vim${NC}"
-echo ""
+echo -e "${GREEN}Start setting up plugin managers (dein.vim)${NC}"
 
 echo -e "${GREEN}Installing dein.vim ...${NC}"
 git clone "$DEIN_URL" "$DEIN_PATH" && \
     echo -e "${GREEN}dein.vim installed at $DEIN_PATH${NC}"
 echo ""
-
-if [[ $TYPE = "neovim" ]]; then
-    echo -e "${GREEN}Installing packer.nvim ...${NC}"
-    git clone "$PACKER_NVIM" "$ROOT/bundle/pack/packer/opt/packer.nvim" && \
-        echo -e "${GREEN}packer.nvim installed at $ROOT/bundle/pack/packer/start/packer.nvim${NC}"
-fi
 
 echo -e "${GREEN}Plugin managers all setted${NC}"
 
