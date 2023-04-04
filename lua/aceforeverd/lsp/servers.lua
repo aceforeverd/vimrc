@@ -70,7 +70,16 @@ local html_cfg = {
 return {
   lua_ls = function(name)
     require('neodev').setup({})
-    setup_generalized(name)
+    setup_generalized_with_override({ settings = {
+      Lua = {
+        workspace = {
+          checkThirdParty = false
+        },
+        telemetry = {
+          enable = false,
+        },
+      }
+    } })(name)
   end,
   diagnosticls = setup_generalized_with_override(require('aceforeverd.lsp.diagnosticls').get_config()),
   yamlls = setup_generalized_with_override({
