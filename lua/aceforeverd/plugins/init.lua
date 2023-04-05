@@ -76,7 +76,6 @@ M.plugin_list = {
       -- lsp enhance
       'folke/neodev.nvim',
       'b0o/schemastore.nvim',
-      'nanotee/sqls.nvim',
       'mfussenegger/nvim-jdtls',
       'scalameta/nvim-metals',
       'j-hui/fidget.nvim',

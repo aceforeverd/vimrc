@@ -70,16 +70,18 @@ local html_cfg = {
 return {
   lua_ls = function(name)
     require('neodev').setup({})
-    setup_generalized_with_override({ settings = {
-      Lua = {
-        workspace = {
-          checkThirdParty = false
-        },
-        telemetry = {
-          enable = false,
-        },
+    setup_generalized_with_override({
+      settings = {
+        Lua = {
+          workspace = {
+            checkThirdParty = false
+          },
+          telemetry = {
+            enable = false,
+          },
+        }
       }
-    } })(name)
+    })(name)
   end,
   diagnosticls = setup_generalized_with_override(require('aceforeverd.lsp.diagnosticls').get_config()),
   yamlls = setup_generalized_with_override({
@@ -117,11 +119,6 @@ return {
   dockerls = setup_generalized,
   tailwindcss = setup_generalized,
   tsserver = setup_generalized,
-  sqls = setup_generalized_with_override({
-    on_attach = function(client, bufnr)
-      require('sqls').on_attach(client, bufnr)
-    end,
-  }),
   -- remark_ls = setup_generalized,
   taplo = setup_generalized,
   jsonnet_ls = setup_generalized,
