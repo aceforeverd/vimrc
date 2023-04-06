@@ -161,10 +161,14 @@ M.plugin_list = {
     'ray-x/go.nvim',
     dependencies = {
       'ray-x/guihua.lua',
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
     },
     config = function()
       require('aceforeverd.lsp').go()
     end,
+    event = { "CmdlineEnter" },
+    ft = { "go", 'gomod' },
   },
 
   {
