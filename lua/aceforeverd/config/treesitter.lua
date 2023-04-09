@@ -61,7 +61,7 @@ function M.setup()
         show_help = '?',
       },
     },
-    rainbow = { enable = true, extended_mode = true, max_file_lines = 5000 },
+    rainbow = { enable = true },
     refactor = {
       highlight_definitions = { enable = false },
       highlight_current_scope = { enable = false },

@@ -202,7 +202,7 @@ M.plugin_list = {
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/nvim-treesitter-refactor',
       'RRethy/nvim-treesitter-textsubjects',
-      'mrjones2014/nvim-ts-rainbow',
+      'HiPhish/nvim-ts-rainbow2',
       'RRethy/nvim-treesitter-endwise',
       'JoosepAlviste/nvim-ts-context-commentstring',
       'windwp/nvim-ts-autotag',
@@ -580,13 +580,6 @@ M.plugin_list = {
         },
       })
     end,
-  },
-  {
-    'mrjones2014/legendary.nvim',
-    config = function()
-      require('legendary').setup({})
-    end,
-    cmd = { 'Legendary' }
   },
 }
 
