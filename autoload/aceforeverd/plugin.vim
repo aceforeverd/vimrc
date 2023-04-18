@@ -4,8 +4,8 @@
 
 function! aceforeverd#plugin#setup()
     call s:init_cmds()
-
     call s:minpac()
+    call s:config_plugins()
 endfunction
 
 " 'packadd!' variant that (!) is silent
@@ -199,25 +199,21 @@ function! s:minpac() abort
     call minpac#add('sainnhe/sonokai', {'type': 'opt'})
     call minpac#add('chrisbra/unicode.vim')
 
-    let g:polyglot_disabled = ['sensible', 'autoindent', 'go']
-    let g:vim_json_syntax_conceal = 1
     call minpac#add('sheerun/vim-polyglot')
 
     call minpac#add('kovisoft/slimv')
 
     call minpac#add('aceforeverd/vim-translator', {'rev': 'dev'})
+endfunction
 
+function! s:config_plugins()
     " load plugins
     PackAdd! cfilter
     " early load colorschem, ref https://github.com/sainnhe/gruvbox-material/issues/60
     PackAdd! sonokai
 
-    if g:my_cmp_source !=? 'coc'
-        PackAdd! context_filetype.vim
-        PackAdd! neco-syntax
-        PackAdd! neco-vim
-        PackAdd! echodoc.vim
-    endif
+    let g:polyglot_disabled = ['sensible', 'autoindent', 'go']
+    let g:vim_json_syntax_conceal = 1
 
     if !has('nvim')
         PackAdd! vim-go
@@ -267,6 +263,7 @@ function! s:minpac() abort
     endif
 
     call s:auto_pair()
+
     if g:my_cmp_source ==? 'coc'
         call s:coc()
     endif
@@ -290,6 +287,10 @@ function! s:auto_pair() abort
 endfunction
 
 function! s:coc() abort
+    PackAdd! context_filetype.vim
+    PackAdd! neco-syntax
+    PackAdd! neco-vim
+    PackAdd! echodoc.vim
     PackAdd! coc.nvim
     PackAdd! coc-fzf
     PackAdd! coc-neco
