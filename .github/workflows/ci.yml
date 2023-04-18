@@ -87,15 +87,11 @@ jobs:
         if: ${{ matrix.neovim == false }}
         run: |
             git clean -dfx
-            rm -rf bundle dein
-            ./scripts/setup.sh -t vim -i
 
       - name: test neovim
         timeout-minutes: 30
         if: ${{ matrix.neovim == true }}
         run: |
             git clean -dfx
-            rm -rf bundle dein
-            ./scripts/setup.sh -i
             nvim --headless -u init.vim -c 'checkhealth' -c 'set buftype=' -c 'saveas! checkhealth.info' -c 'qa!'
             cat checkhealth.info

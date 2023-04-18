@@ -25,8 +25,6 @@ else
     let g:vimrc = s:home . '/init.vim'
 endif
 
-let s:dein_repo = s:home . '/dein'
-
 let s:before_vimrc = s:home . '/before.vim'
 
 if filereadable(s:before_vimrc)
@@ -35,13 +33,6 @@ endif
 
 let &runtimepath = &runtimepath . ',' . s:home
 call aceforeverd#settings#my_init()
-
-" download dein
-let s:dein_path = s:dein_repo . '/repos/github.com/Shougo/dein.vim'
-if empty(glob(s:dein_path))
-    execute '!git clone https://github.com/Shougo/dein.vim.git ' . s:dein_path
-endif
-let &runtimepath = &runtimepath . ',' . s:dein_path
 
 " global leader
 let g:mapleader = ','
@@ -52,149 +43,10 @@ let g:maplocalleader = '\'
 " =============================================================== "
 " Plugin Manager, in order
 " 1. minpac
-" 2. dein (merged plugins)
-" 3. lazy.nvim
-" 4. dein (unmerged plugins)
+" 2. lazy.nvim
 " =============================================================== "
 
-call aceforeverd#plugin#minpac()
-
-let g:dein#install_process_timeout = 180
-let g:dein#install_process_type = 'tabline'
-
-if dein#load_state(s:dein_repo)
-    call dein#begin(s:dein_repo)
-
-    call dein#add(s:dein_path)
-
-    if g:my_cmp_source !=? 'nvim_lsp'
-        call dein#add('Shougo/context_filetype.vim')
-        call dein#add('Shougo/neco-syntax')
-        call dein#add('Shougo/neco-vim')
-        call dein#add('Shougo/echodoc.vim')
-    endif
-
-    call dein#add('voldikss/vim-floaterm')
-
-    call dein#add('tpope/vim-endwise')
-    call dein#add('tpope/vim-surround')
-    call dein#add('tpope/vim-ragtag')
-    call dein#add('tpope/vim-dispatch')
-    call dein#add('tpope/vim-rhubarb')
-    call dein#add('tpope/vim-abolish')
-    call dein#add('tpope/vim-repeat')
-    call dein#add('tpope/vim-bundler')
-    call dein#add('tpope/vim-rails')
-    call dein#add('tpope/vim-fireplace')
-    call dein#add('tpope/vim-scriptease')
-    call dein#add('tpope/vim-unimpaired')
-    call dein#add('tpope/vim-salve')
-    call dein#add('tpope/vim-eunuch')
-    call dein#add('tpope/vim-speeddating')
-    call dein#add('tpope/vim-obsession')
-    call dein#add('tpope/vim-tbone')
-    call dein#add('tpope/vim-dadbod')
-    call dein#add('tpope/vim-projectionist')
-    call dein#add('tpope/vim-sleuth')
-    call dein#add('tpope/vim-apathy')
-    call dein#add('tpope/vim-characterize')
-
-    call dein#add('lambdalisue/suda.vim')
-
-    " snippets
-    call dein#add('honza/vim-snippets')
-
-    " interface
-    call dein#add('ryanoasis/vim-devicons')
-    call dein#add('mhinz/vim-startify')
-    call dein#add('ntpeters/vim-better-whitespace')
-    call dein#add('liuchengxu/vista.vim')
-    call dein#add('wincent/terminus')
-    call dein#add('vifm/vifm.vim')
-    call dein#add('justinmk/vim-gtfo')
-
-    " motion
-    call dein#add('rhysd/clever-f.vim')
-    call dein#add('justinmk/vim-sneak')
-    call dein#add('andymass/vim-matchup')
-    " Tools
-    call dein#add('editorconfig/editorconfig-vim')
-    call dein#add('will133/vim-dirdiff')
-    call dein#add('dstein64/vim-startuptime')
-    call dein#add('aceforeverd/gen_tags.vim')
-    call dein#add('AndrewRadev/bufferize.vim')
-    call dein#add('tyru/open-browser.vim')
-    call dein#add('wincent/ferret')
-    call dein#add('ojroques/vim-oscyank')
-
-    call dein#add('alpertuna/vim-header')
-    " code format
-    call dein#add('sbdchd/neoformat')
-    call dein#add('junegunn/vim-easy-align')
-    " run/debug/test
-    call dein#add('vim-test/vim-test')
-    call dein#add('skywind3000/asyncrun.vim')
-    call dein#add('skywind3000/asynctasks.vim')
-    call dein#add('jpalardy/vim-slime')
-    call dein#add('preservim/vimux')
-
-    " VCS
-    call dein#add('tpope/vim-fugitive')
-    call dein#add('junegunn/gv.vim')
-    call dein#add('rhysd/committia.vim')
-
-    " search
-    call dein#add('junegunn/fzf', {
-                \ 'path': $HOME . '/.fzf',
-                \ 'build': './install --all',
-                \ 'merged': 0
-                \ })
-    call dein#add('junegunn/fzf.vim')
-
-    call dein#add('mbbill/undotree')
-    call dein#add('jamessan/vim-gnupg')
-
-    call dein#add('tomtom/tcomment_vim')
-    call dein#add('chrisbra/recover.vim')
-    " text object manipulate
-    call dein#add('AndrewRadev/splitjoin.vim')
-    call dein#add('AndrewRadev/sideways.vim')
-    call dein#add('AndrewRadev/tagalong.vim')
-    call dein#add('AndrewRadev/switch.vim')
-    call dein#add('chrisbra/NrrwRgn')
-    call dein#add('machakann/vim-sandwich')
-    " Debug
-    call dein#add('puremourning/vimspector')
-
-    " Typescript
-    call dein#add('HerringtonDarkholme/yats.vim')
-
-    " vimL
-    call dein#add('mhinz/vim-lookup')
-
-    call dein#add('tweekmonster/exception.vim')
-    call dein#add('tweekmonster/helpful.vim')
-    " markdown
-    call dein#add('mzlogin/vim-markdown-toc')
-    call dein#add('iamcco/markdown-preview.nvim', {
-                \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
-                \ 'build': 'cd app && yarn install' })
-
-    call dein#add('rust-lang/rust.vim')
-    " Tmux
-    call dein#add('tmux-plugins/vim-tmux')
-    call dein#add('christoomey/vim-tmux-navigator')
-
-    " gentoo
-    call dein#add('gentoo/gentoo-syntax')
-
-    call dein#add('chrisbra/csv.vim')
-
-    call dein#add('cdelledonne/vim-cmake')
-
-    call dein#end()
-    call dein#save_state()
-endif
+call aceforeverd#plugin#setup()
 
 " =================== extra conf ============================= "
 
@@ -411,18 +263,6 @@ nnoremap <M-k> <C-y>k
 " =       start plugin configs
 " ====================================================
 
-" dein.vim
-function! s:delete_path(key, value) abort
-    call delete(a:value, 'rf')
-    echomsg 'DeinClean: deleted ' . a:value
-    return a:value
-endfunction
-command! DeinInstall exe 'call dein#install()'
-command! DeinUpdate exe 'call dein#update()'
-command! DeinClean exe 'echo map(dein#check_clean(), function("<SID>delete_path"))'
-command! DeinRecache exe 'call dein#recache_runtimepath() | echo "Done"'
-command! DeinLog exe 'echo dein#get_log()'
-
 " suda.vim
 command! SudaWrite exe 'w suda://%'
 command! SudaRead  exe 'e suda://%'
@@ -582,18 +422,6 @@ if aceforeverd#util#has_float()
     endif
 endif
 let g:matchup_matchparen_deferred = 1
-
-" gen_tags.vim
-let g:gen_tags#ctags_auto_update = 0
-let g:gen_tags#gtags_auto_update = 0
-let g:gen_tags#ctags_opts = '--links=no'
-let g:gen_tags#gtags_opts = '--skip-symlink'
-if !executable('gtags')
-    let g:loaded_gentags#gtags = 1
-endif
-if !executable('ctags')
-    let g:loaded_gentags#ctags = 1
-endif
 
 " vim-translator
 let g:translator_default_engines = ['google']
