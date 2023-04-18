@@ -259,110 +259,6 @@ endtry
 nnoremap <M-j> <C-e>j
 nnoremap <M-k> <C-y>k
 
-" ====================================================
-" =       start plugin configs
-" ====================================================
-
-" suda.vim
-command! SudaWrite exe 'w suda://%'
-command! SudaRead  exe 'e suda://%'
-
-augroup gp_filetype
-    autocmd!
-    autocmd FileType verilog,verilog_systemverilog setlocal nosmartindent
-    autocmd FileType javascript setlocal nocindent
-augroup END
-
-" fzf
-nnoremap <c-p> :FZF --info=inline<CR>
-function! s:build_quickfix_list(lines)
-    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-    copen
-    cc
-endfunction
-let g:fzf_action = {
-      \ 'ctrl-l': function('s:build_quickfix_list'),
-      \ 'ctrl-a': 'tab split',
-      \ 'ctrl-x': 'split',
-      \ 'ctrl-v': 'vsplit' }
-let g:fzf_layout = {
-      \ 'window': { 'width': 0.9, 'height': 0.8 }}
-let g:fzf_history_dir = '~/.local/share/fzf-history'
-
-" fzf-vim
-" Mapping selecting mappings
-command! -bar -bang IMaps exe 'call fzf#vim#maps("i", <bang>0)'
-command! -bar -bang VMaps exe 'call fzf#vim#maps("v", <bang>0)'
-command! -bar -bang XMaps exe 'call fzf#vim#maps("x", <bang>0)'
-command! -bar -bang OMaps exe 'call fzf#vim#maps("o", <bang>0)'
-command! -bar -bang TMaps exe 'call fzf#vim#maps("t", <bang>0)'
-command! -bar -bang SMaps exe 'call fzf#vim#maps("s", <bang>0)'
-" Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-l> <plug>(fzf-complete-line)
-nnoremap <Space>r :Rg<CR>
-if !has('nvim')
-    nnoremap <Space>c :Commands<CR>
-    nnoremap <Space>f :Files<CR>
-    nnoremap <Space>b :Buffers<CR>
-endif
-
-command! -bang -nargs=* GGrep
-            \ call fzf#vim#grep(
-            \   'git grep --line-number -- '.shellescape(<q-args>), 0,
-            \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
-
-" from vim-rsi
-" <c-a> & <c-e> -> <HOME> & <END>, <c-b> & <c-f> -> forward & backward
-inoremap        <C-A> <C-O>^
-inoremap   <C-X><C-A> <C-A>
-inoremap <expr> <C-E> col('.')>strlen(getline('.'))<bar><bar>pumvisible()?"\<Lt>C-E>":"\<Lt>End>"
-inoremap <C-\><C-E> <C-E>
-
-cnoremap        <C-A> <Home>
-cnoremap        <C-B> <Left>
-cnoremap   <C-X><C-A> <C-A>
-cnoremap <expr> <C-F> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"
-
-if executable('rg')
-    set grepprg=rg\ --vimgrep\ --smart-case
-endif
-
-" editorconfig
-let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
-
-
-" startify
-let g:startify_session_dir = '~/.vim/sessions/'
-let g:startify_update_oldfiles = 1
-let g:startify_session_autoload = 1
-let g:startify_session_persistence = 1
-let g:startify_skiplist = [
-      \ '/tmp',
-      \ '/usr/share/vim/vimfiles/doc',
-      \ '/usr/local/share/vim/vimfiles/doc',
-      \ ]
-let g:startify_fortune_use_unicode = 1
-let g:startify_session_sort = 1
-let g:startify_relative_path = 1
-
-" vim-markdown
-let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh', 'vim', 'help']
-" markdown-preview
-let g:mkdp_auto_close = 0
-
-" markdown local settings
-augroup gp_markdown
-  autocmd!
-  autocmd FileType markdown,rmd,pandoc.markdown map <buffer> <leader>mp <Plug>MarkdownPreview
-  autocmd FileType markdown,rmd,pandoc.markdown,gitcommit setlocal spell
-augroup END
-
-" easy-align
-vmap <Leader>a <Plug>(EasyAlign)
-nmap <Leader>a <Plug>(EasyAlign)
-
 " basic completion settings
 set completeopt-=preview
 set completeopt+=menuone
@@ -374,79 +270,6 @@ set shortmess+=c
 set shortmess-=F
 " only apply to vim
 set shortmess-=S
-
-" vim-sneak
-let g:sneak#label = 1
-map sk <Plug>Sneak_s
-map sK <Plug>Sneak_S
-
-" vim-header
-let g:header_auto_add_header = 0
-let g:header_field_timestamp = 0
-let g:header_field_modified_timestamp = 0
-let g:header_field_author = g:my_name
-let g:header_field_author_email = g:my_email
-let g:header_field_modified_by = 0
-let g:header_field_license_id = 'GPL'
-
-" tmux navigator
-let g:tmux_navigator_no_mappings = 1
-
-augroup gp_lookup
-    autocmd!
-    autocmd FileType vim,lua,tmux nnoremap <buffer> gs :call plugin_browse#try_open()<CR>
-    autocmd FileType vim,lua,help nnoremap <buffer> <leader>gh :call aceforeverd#completion#help()<cr>
-augroup END
-
-" open-browser
-command! OpenB execute 'normal <Plug>(openbrowser-open)'
-vmap <Leader>os <Plug>(openbrowser-search)
-
-" ferret
-let g:FerretMap = 0
-
-" vim-better-whitespace
-let g:better_whitespace_operator = ''
-let g:current_line_whitespace_disabled_soft = 1
-
-" neoformat
-let g:neoformat_enabled_lua = ['luaformat', 'stylua']
-
-if aceforeverd#util#has_float()
-    " matchup
-    if has('nvim-0.5.0')
-        " disable due to conflicts with ts-context.nvim
-        let g:matchup_matchparen_offscreen = {}
-    else
-        let g:matchup_matchparen_offscreen = {'method': 'popup', 'scrolloff': 1}
-    endif
-endif
-let g:matchup_matchparen_deferred = 1
-
-" vim-translator
-let g:translator_default_engines = ['google']
-let g:translator_history_enable = 1
-nmap <silent> <Leader>tr <Plug>TranslateW
-vmap <silent> <Leader>tr <Plug>TranslateWV
-
-" vim-cmake
-let g:cmake_generate_options = [ '-G Ninja' ]
-let g:cmake_link_compile_commands = 1
-
-" vimspector
-let g:vimspector_enable_mappings = 'HUMAN'
-
-nnoremap <silent> <leader>cs :<c-u>call aceforeverd#util#syn_query()<cr>
-nnoremap <silent> <leader>cv :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
-
-" switch.vim
-let g:switch_mapping = '<space>x'
-
-" vim gtfo
-nnoremap <expr> goo 'go'
-
-" vim-sandwich
-nnoremap ss s
 
 call aceforeverd#settings#basic_color()
 " setup sonokai
@@ -460,10 +283,6 @@ colorscheme sonokai
 
 if has('nvim-0.5')
     lua require('aceforeverd').setup()
-endif
-
-if g:my_cmp_source !=? 'nvim_lsp'
-   call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
 endif
 
 let s:after_vimrc = s:home . '/after.vim'
