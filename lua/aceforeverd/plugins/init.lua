@@ -581,6 +581,18 @@ M.plugin_list = {
       })
     end,
   },
+
+  {
+    'dhananjaylatkar/cscope_maps.nvim',
+    dependencies = {
+      'folke/which-key.nvim',
+    },
+    config = function()
+      require('cscope_maps').setup({
+        disable_maps = false,
+      })
+    end
+  },
 }
 
 return M
