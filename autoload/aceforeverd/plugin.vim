@@ -24,9 +24,9 @@ function! s:init_cmds() abort
     " this may helpful when first install and plugins not installed yet
     command! -bang -nargs=1 PackAdd call s:pack_add(<bang>0, <f-args>)
 
-    command! MinUpdate call minpac#update()
-    command! MinStatus call minpac#status()
-    command! MinClean call minpac#clean()
+    command! PackUpdate call minpac#update()
+    command! PackStatus call minpac#status()
+    command! PackClean call minpac#clean()
 endfunction
 
 function! s:minpac() abort
@@ -150,8 +150,10 @@ function! s:minpac() abort
     call minpac#add('tweekmonster/helpful.vim')
     " markdown
     call minpac#add('mzlogin/vim-markdown-toc')
+
     call minpac#add('iamcco/markdown-preview.nvim', {
-                \ 'do': { -> mkdp#util#install() }
+                \ 'type': 'opt',
+                \ 'do': '!cd app && ./install.sh'
                 \ })
 
     call minpac#add('rust-lang/rust.vim')
@@ -358,9 +360,13 @@ function! s:config_plugins()
     let g:mkdp_auto_close = 0
 
     " markdown local settings
+    function s:mk_hook()
+        packadd markdown-preview.nvim
+        map <buffer> <leader>mp <Plug>MarkdownPreview
+    endfunction
     augroup gp_markdown
         autocmd!
-        autocmd FileType markdown,rmd,pandoc.markdown map <buffer> <leader>mp <Plug>MarkdownPreview
+        autocmd FileType markdown,rmd,pandoc.markdown :call s:mk_hook()
         autocmd FileType markdown,rmd,pandoc.markdown,gitcommit setlocal spell
     augroup END
 
