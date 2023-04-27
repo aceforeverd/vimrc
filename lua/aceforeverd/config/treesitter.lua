@@ -22,7 +22,10 @@ function M.setup()
 
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
-    ignore_install = {},
+    ignore_install = {
+      -- https://github.com/alemuller/tree-sitter-make not active ?
+      'make'
+    },
     highlight = {
       enable = true,
       disable = { 'yaml', 'coc-explorer' },

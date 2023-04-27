@@ -121,7 +121,7 @@ function! s:minpac() abort
 
     " search
     call minpac#add('junegunn/fzf', {
-                \ 'do': { -> fzf#install() }
+                \ 'do': '!./install --all'
                 \ })
     call minpac#add('junegunn/fzf.vim')
 
