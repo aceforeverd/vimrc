@@ -213,6 +213,9 @@ function! s:minpac() abort
 endfunction
 
 function! s:config_plugins()
+    " no matchit
+    let loaded_matchit = 1
+
     " load plugins
     PackAdd! cfilter
     " early load colorschem, ref https://github.com/sainnhe/gruvbox-material/issues/60

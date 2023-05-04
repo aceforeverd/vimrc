@@ -17,10 +17,6 @@
 
 local M = {}
 
-function M.hop()
-  require('hop').setup()
-end
-
 function M.which_key()
   require('which-key').setup({ plugins = { registers = false } })
 end

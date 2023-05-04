@@ -36,6 +36,10 @@ function M.setup()
     null_ls.builtins.diagnostics.hadolint,
     null_ls.builtins.diagnostics.checkmake,
     null_ls.builtins.diagnostics.pylint.with({
+      condition = function(utils)
+        -- too many reports by pylint, enable only required
+        return utils.root_has_file({ "pylintrc", ".pylintrc" })
+      end,
       diagnostics_postprocess = function(diagnostics)
         diagnostics.message = string.format(
           '[%s <%s>]: %s (%s/null-ls)]',

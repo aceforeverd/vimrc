@@ -167,7 +167,6 @@ M.plugin_list = {
     config = function()
       require('aceforeverd.lsp').go()
     end,
-    event = { "CmdlineEnter" },
     ft = { "go", 'gomod' },
   },
 
@@ -193,6 +192,7 @@ M.plugin_list = {
     config = function()
       require('colorizer').setup({})
     end,
+    lazy = true
   },
 
   {
@@ -293,10 +293,8 @@ M.plugin_list = {
   },
 
   {
-    'phaazon/hop.nvim',
-    config = function()
-      require('aceforeverd.plugins.enhance').hop()
-    end,
+    'ggandor/leap.nvim',
+    lazy = true
   },
 
   { 'marko-cerovac/material.nvim' },
