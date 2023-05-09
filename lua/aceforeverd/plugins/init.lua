@@ -112,29 +112,29 @@ M.plugin_list = {
       'saadparwaiz1/cmp_luasnip',
       'onsails/lspkind-nvim',
     },
-    event = "InsertEnter",
+    event = 'InsertEnter',
     config = function()
       require('aceforeverd.plugins.nvim-cmp').setup()
     end,
   },
 
   {
-    "glepnir/lspsaga.nvim",
-    event = "LspAttach",
+    'glepnir/lspsaga.nvim',
+    event = 'LspAttach',
     config = function()
-      require("lspsaga").setup({
+      require('lspsaga').setup({
         lightbulb = {
           virtual_text = false,
         },
         symbol_in_winbar = {
           enable = false,
-        }
+        },
       })
     end,
     dependencies = {
-      { "nvim-tree/nvim-web-devicons" },
-      { "nvim-treesitter/nvim-treesitter" }
-    }
+      { 'nvim-tree/nvim-web-devicons' },
+      { 'nvim-treesitter/nvim-treesitter' },
+    },
   },
 
   {
@@ -145,7 +145,7 @@ M.plugin_list = {
     config = function()
       require('aceforeverd.plugins.snip').luasnip_setup()
     end,
-    build = "make install_jsregexp",
+    build = 'make install_jsregexp',
   },
 
   {
@@ -161,13 +161,13 @@ M.plugin_list = {
     'ray-x/go.nvim',
     dependencies = {
       'ray-x/guihua.lua',
-      "neovim/nvim-lspconfig",
-      "nvim-treesitter/nvim-treesitter",
+      'neovim/nvim-lspconfig',
+      'nvim-treesitter/nvim-treesitter',
     },
     config = function()
       require('aceforeverd.lsp').go()
     end,
-    ft = { "go", 'gomod' },
+    ft = { 'go', 'gomod' },
   },
 
   {
@@ -192,7 +192,7 @@ M.plugin_list = {
     config = function()
       require('colorizer').setup({})
     end,
-    lazy = true
+    lazy = true,
   },
 
   {
@@ -227,6 +227,7 @@ M.plugin_list = {
 
   {
     'lukas-reineke/indent-blankline.nvim',
+    event = { 'BufReadPost', 'BufNewFile' },
     config = function()
       require('aceforeverd.plugins.enhance').indent_blankline()
     end,
@@ -294,7 +295,7 @@ M.plugin_list = {
 
   {
     'ggandor/leap.nvim',
-    lazy = true
+    lazy = true,
   },
 
   { 'marko-cerovac/material.nvim' },
@@ -313,7 +314,7 @@ M.plugin_list = {
     lazy = true,
   },
 
-  { 'kevinhwang91/nvim-bqf', ft = {'qf'} },
+  { 'kevinhwang91/nvim-bqf', ft = { 'qf' } },
 
   {
     'kevinhwang91/nvim-ufo',
@@ -405,6 +406,7 @@ M.plugin_list = {
 
   {
     'folke/which-key.nvim',
+    event = 'VeryLazy',
     config = function()
       require('aceforeverd.plugins.enhance').which_key()
     end,
@@ -432,22 +434,6 @@ M.plugin_list = {
     'ruifm/gitlinker.nvim',
     config = function()
       require('aceforeverd.integration.git').gitlinker()
-    end,
-  },
-
-  {
-    'feline-nvim/feline.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      require('aceforeverd.apperance.feline').setup()
-    end,
-  },
-
-  {
-    'akinsho/nvim-bufferline.lua',
-    dependencies = 'nvim-tree/nvim-web-devicons',
-    config = function()
-      require('aceforeverd.apperance').bufferline()
     end,
   },
 
@@ -496,7 +482,7 @@ M.plugin_list = {
     cond = function()
       return vim.g.my_autopair == 'nvim-autopairs'
     end,
-    event = "InsertEnter",
+    event = 'InsertEnter',
     dependencies = { 'hrsh7th/nvim-cmp' },
     config = function()
       require('aceforeverd.plugins.enhance').autopairs()
@@ -525,17 +511,34 @@ M.plugin_list = {
     end,
   },
 
-  { 'gennaro-tedesco/nvim-jqx' },
+  {
+    'gennaro-tedesco/nvim-jqx',
+    ft = { 'json', 'yaml' }
+  },
 
   { 'milisims/nvim-luaref' },
 
-  -- ui
+  -- UI
+  {
+    'feline-nvim/feline.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      require('aceforeverd.apperance.feline').setup()
+    end,
+  },
+  {
+    'akinsho/nvim-bufferline.lua',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function()
+      require('aceforeverd.apperance').bufferline()
+    end,
+  },
   {
     'stevearc/dressing.nvim',
     config = function()
       require('aceforeverd.plugins.enhance').dressing()
     end,
-    event = "VeryLazy",
+    event = 'VeryLazy',
   },
 
   {
@@ -581,10 +584,12 @@ M.plugin_list = {
         },
       })
     end,
+    cmd = { 'CccPick', 'CccConvert', 'CccHighlighterToggle' },
   },
 
   {
     'dhananjaylatkar/cscope_maps.nvim',
+    event = 'VeryLazy',
     dependencies = {
       'folke/which-key.nvim',
     },
@@ -592,7 +597,7 @@ M.plugin_list = {
       require('cscope_maps').setup({
         disable_maps = false,
       })
-    end
+    end,
   },
 }
 

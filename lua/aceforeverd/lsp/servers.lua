@@ -66,7 +66,6 @@ local html_cfg = {
   },
 }
 
-
 return {
   lua_ls = function(name)
     require('neodev').setup({})
@@ -74,13 +73,13 @@ return {
       settings = {
         Lua = {
           workspace = {
-            checkThirdParty = false
+            checkThirdParty = false,
           },
           telemetry = {
             enable = false,
           },
-        }
-      }
+        },
+      },
     })(name)
   end,
   diagnosticls = setup_generalized_with_override(require('aceforeverd.lsp.diagnosticls').get_config()),
@@ -122,4 +121,8 @@ return {
   -- remark_ls = setup_generalized,
   taplo = setup_generalized,
   jsonnet_ls = setup_generalized,
+  docker_compose_language_service = setup_generalized_with_override({
+    filetypes = { 'yaml.docker-compose', 'yaml' },
+    root_dir = require('lspconfig.util').root_pattern('docker-compose*.yml', 'docker-compose*.yaml'),
+  }),
 }
