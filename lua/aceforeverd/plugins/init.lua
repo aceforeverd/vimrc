@@ -109,9 +109,10 @@ M.plugin_list = {
       'ray-x/cmp-treesitter',
       'andersevenrud/cmp-tmux',
       'petertriho/cmp-git',
-
+      'saadparwaiz1/cmp_luasnip',
       'onsails/lspkind-nvim',
     },
+    event = "InsertEnter",
     config = function()
       require('aceforeverd.plugins.nvim-cmp').setup()
     end,
@@ -140,7 +141,6 @@ M.plugin_list = {
     'L3MON4D3/LuaSnip',
     dependencies = {
       'rafamadriz/friendly-snippets',
-      'saadparwaiz1/cmp_luasnip',
     },
     config = function()
       require('aceforeverd.plugins.snip').luasnip_setup()
@@ -313,7 +313,7 @@ M.plugin_list = {
     lazy = true,
   },
 
-  { 'kevinhwang91/nvim-bqf' },
+  { 'kevinhwang91/nvim-bqf', ft = {'qf'} },
 
   {
     'kevinhwang91/nvim-ufo',
@@ -496,6 +496,8 @@ M.plugin_list = {
     cond = function()
       return vim.g.my_autopair == 'nvim-autopairs'
     end,
+    event = "InsertEnter",
+    dependencies = { 'hrsh7th/nvim-cmp' },
     config = function()
       require('aceforeverd.plugins.enhance').autopairs()
     end,
@@ -533,6 +535,7 @@ M.plugin_list = {
     config = function()
       require('aceforeverd.plugins.enhance').dressing()
     end,
+    event = "VeryLazy",
   },
 
   {

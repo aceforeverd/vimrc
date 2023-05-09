@@ -173,7 +173,6 @@ function! s:minpac() abort
     call s:plugin_add('cdelledonne/vim-cmake')
 
     call s:plugin_add('k-takata/minpac', {'type': 'opt'})
-    call s:plugin_add('jalvesaq/Nvim-R', {'type': 'opt'})
     call s:plugin_add('mg979/docgen.vim')
 
     " Latex
@@ -206,8 +205,6 @@ function! s:minpac() abort
     call s:plugin_add('chrisbra/unicode.vim')
 
     call s:plugin_add('sheerun/vim-polyglot')
-
-    call s:plugin_add('kovisoft/slimv')
 
     call s:plugin_add('aceforeverd/vim-translator', {'rev': 'dev'})
 endfunction
