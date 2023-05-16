@@ -192,7 +192,6 @@ M.plugin_list = {
     config = function()
       require('colorizer').setup({})
     end,
-    lazy = true,
   },
 
   {
@@ -593,6 +592,9 @@ M.plugin_list = {
     dependencies = {
       'folke/which-key.nvim',
     },
+    cond = function ()
+      return vim.fn.has('nvim-0.9') == 1
+    end,
     config = function()
       require('cscope_maps').setup({
         disable_maps = false,
