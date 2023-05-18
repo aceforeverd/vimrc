@@ -116,6 +116,7 @@ function M.setup()
     { name = 'emoji' },
     { name = 'tmux', keyword_length = 3, max_item_count = 10 },
     { name = 'dictionary', keyword_length = 3 },
+    { name = "crates" },
   }
 
   cmp.setup({
@@ -162,6 +163,7 @@ function M.setup()
           dictionary = '[Dictionary]',
           tmux = '[Tmux]',
           git = '[Git]',
+          crates = '[Crates]',
         },
       }),
     },
