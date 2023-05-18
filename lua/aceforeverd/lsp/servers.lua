@@ -82,7 +82,6 @@ return {
       },
     })(name)
   end,
-  diagnosticls = setup_generalized_with_override(require('aceforeverd.lsp.diagnosticls').get_config()),
   yamlls = setup_generalized_with_override({
     settings = {
       yaml = {

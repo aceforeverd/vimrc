@@ -226,7 +226,6 @@ M.plugin_list = {
 
   {
     'lukas-reineke/indent-blankline.nvim',
-    event = { 'BufReadPost', 'BufNewFile' },
     config = function()
       require('aceforeverd.plugins.enhance').indent_blankline()
     end,

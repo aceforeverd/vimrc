@@ -38,7 +38,7 @@ function M.setup()
     null_ls.builtins.diagnostics.pylint.with({
       condition = function(utils)
         -- too many reports by pylint, enable only required
-        return utils.root_has_file({ "pylintrc", ".pylintrc" })
+        return utils.root_has_file({ 'pylintrc', '.pylintrc' })
       end,
       diagnostics_postprocess = function(diagnostics)
         diagnostics.message = string.format(
@@ -50,8 +50,14 @@ function M.setup()
         )
       end,
     }),
-    -- diagnosticls take those
-    -- null_ls.builtins.diagnostics.shellcheck,
+    null_ls.builtins.diagnostics.shellcheck,
+    null_ls.builtins.diagnostics.cpplint.with({
+      condition = function(utils)
+        return utils.root_has_file({ 'CPPLINT.cfg' })
+      end,
+    }),
+    null_ls.builtins.diagnostics.vint,
+    null_ls.builtins.diagnostics.actionlint,
   }
 
   null_ls.setup({

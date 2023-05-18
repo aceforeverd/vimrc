@@ -75,9 +75,7 @@ function M.lsp_client_names()
   local clients = {}
 
   for _, client in pairs(_get_active_client()) do
-    if client.name ~= 'null-ls' then
       table.insert(clients, client.name)
-    end
   end
 
   return table.concat(clients, ','), ' '
