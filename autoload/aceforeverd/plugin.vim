@@ -150,7 +150,6 @@ function! s:minpac() abort
     " vimL
     call s:plugin_add('mhinz/vim-lookup')
 
-    call s:plugin_add('tweekmonster/exception.vim')
     call s:plugin_add('tweekmonster/helpful.vim')
     " markdown
     call s:plugin_add('mzlogin/vim-markdown-toc')
@@ -191,9 +190,6 @@ function! s:minpac() abort
                 \ 'rev': 'release' })
     call s:plugin_add('antoinemadec/coc-fzf', {'type': 'opt'})
     call s:plugin_add('neoclide/coc-neco', {'type': 'opt'})
-
-    " load opt plugins
-    " ignore errors because plugins may not installed from first time
 
     " auto pair
     call s:plugin_add('raimondi/delimitmate', {'type': 'opt'})

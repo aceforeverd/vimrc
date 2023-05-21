@@ -512,14 +512,14 @@ M.plugin_list = {
 
   {
     'gennaro-tedesco/nvim-jqx',
-    ft = { 'json', 'yaml' }
+    ft = { 'json', 'yaml' },
   },
 
   { 'milisims/nvim-luaref' },
 
   -- UI
   {
-    'feline-nvim/feline.nvim',
+    'freddiehaddad/feline.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('aceforeverd.apperance.feline').setup()
@@ -546,14 +546,6 @@ M.plugin_list = {
       require('aceforeverd.plugins.enhance').neogen()
     end,
     cmd = 'Neogen',
-  },
-
-  {
-    'p00f/godbolt.nvim',
-    config = function()
-      require('godbolt').setup({})
-    end,
-    cmd = { 'GodboltCompiler', 'Godbolt' },
   },
 
   {
@@ -592,7 +584,7 @@ M.plugin_list = {
     dependencies = {
       'folke/which-key.nvim',
     },
-    cond = function ()
+    cond = function()
       return vim.fn.has('nvim-0.9') == 1
     end,
     config = function()
@@ -601,6 +593,8 @@ M.plugin_list = {
       })
     end,
   },
+
+  { 'echasnovski/mini.nvim', lazy = true },
 }
 
 return M
