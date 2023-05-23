@@ -24,13 +24,7 @@ function M.setup()
     n = {
       ['}}'] = '}',
       ['{{'] = '{',
-      ['<space>'] = {
-        ['p'] = '<cmd>Pounce<cr>',
-      },
-    },
-    x = {
-      [']"'] = [["]],
-    },
+    }
   }, { nnoremap = true, silent = true })
 
   vim.o.foldcolumn = '1' -- '0' is not bad
@@ -40,9 +34,6 @@ function M.setup()
   vim.o.fillchars = [[foldopen:▼,foldclose:⏵]]
 
   require('aceforeverd.plugins').setup()
-
-  -- keep vim default maps
-  -- set_map('x', ']"', '"', { noremap = true, silent = true })
 end
 
 return M
