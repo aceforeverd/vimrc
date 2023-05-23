@@ -57,7 +57,7 @@ endfunction
 " otherwise, !open
 ""
 function! plugin_browse#open_uri(uri) abort
-    if g:loaded_openbrowser == 1
+    if get(g:, 'loaded_openbrowser', 0) == 1
         call openbrowser#open(a:uri)
         return
     endif
