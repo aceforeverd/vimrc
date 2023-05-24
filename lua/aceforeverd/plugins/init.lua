@@ -35,7 +35,7 @@ function M.lazy()
       lazypath,
     })
   end
-  vim.opt.rtp:append(lazypath)
+  vim.opt.rtp:prepend(lazypath)
 
   -- setup
   require('lazy').setup(M.plugin_list, {
