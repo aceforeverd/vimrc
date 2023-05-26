@@ -177,14 +177,14 @@ M.plugin_list = {
     config = function()
       require('illuminate').configure({
         providers = {
-            'lsp',
-            'treesitter',
-            'regex',
+          'lsp',
+          'treesitter',
+          'regex',
         },
         delay = vim.o.updatetime,
       })
     end,
-    event = 'VeryLazy'
+    event = 'VeryLazy',
   },
 
   {
@@ -270,7 +270,7 @@ M.plugin_list = {
     lazy = true,
   },
 
-  { 'Olical/conjure',   ft = { 'clojure', 'fennel', 'janet', 'racket', 'scheme' } },
+  { 'Olical/conjure', ft = { 'clojure', 'fennel', 'janet', 'racket', 'scheme' } },
 
   {
     'lukas-reineke/indent-blankline.nvim',
@@ -333,7 +333,22 @@ M.plugin_list = {
       vim.g.neo_tree_remove_legacy_commands = 1
     end,
     config = function()
-      require('aceforeverd.apperance.tree').neo_tree()
+      require('neo-tree').setup({
+        filesystem = {
+          hijack_netrw_behavior = 'disabled',
+          window = {
+            mappings = {
+              ['o'] = 'open',
+              ['g/'] = 'filter_as_you_type',
+              ['gf'] = 'filter_on_submit',
+              ['g?'] = 'show_help',
+              ['/'] = 'none',
+              ['?'] = 'none',
+              ['f'] = 'none',
+            },
+          },
+        },
+      })
     end,
     cmd = { 'Neotree' },
     keys = { { '<space>e', '<cmd>Neotree toggle reveal<cr>' } },
@@ -422,7 +437,19 @@ M.plugin_list = {
   {
     'anuvyklack/hydra.nvim',
     config = function()
-      require('aceforeverd.config.which-key').hydra()
+      local Hydra = require('hydra')
+
+      Hydra({
+        name = 'Side scroll',
+        mode = 'n',
+        body = 'z',
+        heads = {
+          { 'h', '5zh' },
+          { 'l', '5zl', { desc = '←/→' } },
+          { 'H', 'zH' },
+          { 'L', 'zL', { desc = 'half screen ←/→' } },
+        },
+      })
     end,
   },
 
@@ -463,7 +490,7 @@ M.plugin_list = {
     'folke/which-key.nvim',
     event = 'VeryLazy',
     config = function()
-      require('aceforeverd.plugins.enhance').which_key()
+      require('which-key').setup({ plugins = { registers = false } })
     end,
   },
 
@@ -528,7 +555,16 @@ M.plugin_list = {
     'numToStr/Comment.nvim',
     dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
     config = function()
-      require('aceforeverd.config.comment').setup()
+      vim.g.tcomment_maps = 0
+
+      require('Comment').setup({
+        mappings = {
+          basic = true,
+          extra = true,
+          -- extended maps ? https://github.com/numToStr/Comment.nvim/wiki/Extended-Keybindings
+        },
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      })
     end,
   },
 
@@ -596,7 +632,9 @@ M.plugin_list = {
   {
     'danymat/neogen',
     config = function()
-      require('aceforeverd.plugins.enhance').neogen()
+      require('neogen').setup({
+        snippet_engine = 'luasnip',
+      })
     end,
     cmd = 'Neogen',
   },

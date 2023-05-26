@@ -17,10 +17,6 @@
 
 local M = {}
 
-function M.which_key()
-  require('which-key').setup({ plugins = { registers = false } })
-end
-
 local function map_c_n()
   if require('yanky').can_cycle() then
     require('yanky').cycle(1)
@@ -122,12 +118,6 @@ function M.dressing()
         winblend = 10,
       }
     },
-  })
-end
-
-function M.neogen()
-  require('neogen').setup({
-    snippet_engine = 'luasnip',
   })
 end
 
