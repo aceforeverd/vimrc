@@ -431,6 +431,7 @@ function! s:config_plugins()
     " vimspector
     let g:vimspector_enable_mappings = 'HUMAN'
 
+    " for neovim only work when ts highlight disable. :TSDisable highlight
     nnoremap <silent> <leader>cs :<c-u>call aceforeverd#util#syn_query()<cr>
     nnoremap <silent> <leader>cv :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
 
@@ -446,6 +447,11 @@ function! s:config_plugins()
 endfunction
 
 function! s:auto_pair() abort
+    if has('nvim')
+        " use nvim-autopairs for nvim
+        return
+    endif
+
     if g:my_autopair ==? 'delimitmate'
         PackAdd! delimitmate
         "" see help delimitMateExpansion

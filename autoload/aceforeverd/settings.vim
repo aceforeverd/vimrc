@@ -65,8 +65,14 @@ function! aceforeverd#settings#hl_groups() abort
     highlight LspReferenceText cterm=bold gui=bold guibg=#5e5e5f
     highlight LspReferenceRead cterm=underline gui=undercurl guibg=#5e5e5f
     highlight LspReferenceWrite cterm=bold,underline gui=bold,undercurl guibg=#5e5e9f
+
+    " old two vim groups
     highlight illuminatedWord guibg=#5e5e5e
     highlight illuminatedCurWord guibg=#5e5e8f
+    " new three neovim groups
+    highlight IlluminatedWordText cterm=bold gui=bold guibg=#5e5e5e
+    highlight IlluminatedWordRead cterm=underline gui=undercurl guibg=#5e5e5f
+    highlight IlluminatedWordWrite cterm=bold,underline gui=bold,undercurl guibg=#5e5e9f
 
     " coc highlight groups
     highlight CocHighlightText cterm=bold gui=bold guibg=#5e5e5e

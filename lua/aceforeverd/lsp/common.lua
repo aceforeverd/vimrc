@@ -187,8 +187,6 @@ function M.on_attach(client, bufnr)
     command! -range=% FormatS :lua require('aceforeverd.lsp.common').fmt_cmd(<range>, require('aceforeverd.lsp.common').selective_fmt)
     ]])
 
-  require('illuminate').on_attach(client)
-
   -- lsp_signature.nvim
   local s2, lsp_signature = pcall(require, 'lsp_signature')
   if s2 then

@@ -173,9 +173,18 @@ M.plugin_list = {
 
   {
     'RRethy/vim-illuminate',
+    dependencies = { 'nvim-lspconfig' },
     config = function()
-      require('aceforeverd.config.tools').illuminate()
+      require('illuminate').configure({
+        providers = {
+            'lsp',
+            'treesitter',
+            'regex',
+        },
+        delay = vim.o.updatetime,
+      })
     end,
+    event = 'VeryLazy'
   },
 
   {
@@ -223,7 +232,45 @@ M.plugin_list = {
     end,
   },
 
-  { 'Olical/conjure', ft = { 'clojure', 'fennel', 'janet', 'racket', 'scheme' } },
+  {
+    'Wansmer/treesj',
+    dependencies = { 'nvim-treesitter' },
+    keys = { 'gS', 'gJ' },
+    config = function()
+      require('treesj').setup({
+        use_default_keymaps = false,
+      })
+
+      vim.g.splitjoin_split_mapping = ''
+      vim.g.splitjoin_join_mapping = ''
+      -- thanks https://github.com/Wansmer/treesj/discussions/19
+      local langs = require('treesj.langs')['presets']
+
+      vim.api.nvim_create_autocmd({ 'FileType' }, {
+        pattern = '*',
+        callback = function()
+          local opts = { buffer = true }
+          if langs[vim.bo.filetype] then
+            vim.keymap.set('n', 'gS', '<Cmd>TSJSplit<CR>', opts)
+            vim.keymap.set('n', 'gJ', '<Cmd>TSJJoin<CR>', opts)
+          else
+            vim.keymap.set('n', 'gS', '<Cmd>SplitjoinSplit<CR>', opts)
+            vim.keymap.set('n', 'gJ', '<Cmd>SplitjoinJoin<CR>', opts)
+          end
+        end,
+      })
+    end,
+  },
+
+  {
+    -- generic ts node actions: config later
+    'ckolkey/ts-node-action',
+    dependencies = { 'nvim-treesitter' },
+    opts = {},
+    lazy = true,
+  },
+
+  { 'Olical/conjure',   ft = { 'clojure', 'fennel', 'janet', 'racket', 'scheme' } },
 
   {
     'lukas-reineke/indent-blankline.nvim',
@@ -293,11 +340,20 @@ M.plugin_list = {
   },
 
   {
+    'stevearc/oil.nvim',
+    opts = {
+      default_file_explorer = false,
+    },
+    -- Optional dependencies
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    cmd = { 'Oil' },
+    keys = { { '<space>o', '<cmd>Oil<cr>' } },
+  },
+
+  {
     'ggandor/leap.nvim',
     lazy = true,
   },
-
-  { 'marko-cerovac/material.nvim' },
 
   { 'projekt0n/github-nvim-theme' },
 
@@ -478,9 +534,6 @@ M.plugin_list = {
 
   {
     'windwp/nvim-autopairs',
-    cond = function()
-      return vim.g.my_autopair == 'nvim-autopairs'
-    end,
     event = 'InsertEnter',
     dependencies = { 'hrsh7th/nvim-cmp' },
     config = function()
@@ -550,6 +603,7 @@ M.plugin_list = {
 
   {
     'rlane/pounce.nvim',
+    cmd = { 'Pounce', 'PounceRepeat', 'PounceReg', 'PounceExpand' },
   },
 
   {
@@ -589,7 +643,7 @@ M.plugin_list = {
     end,
     config = function()
       require('cscope_maps').setup({
-        disable_maps = false,
+        disable_maps = true,
       })
     end,
   },

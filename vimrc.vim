@@ -17,7 +17,6 @@ set nocompatible
 
 let s:home = expand('<sfile>:p:h')
 let s:common_path = s:home . '/bundle'
-let s:common_pkg = s:common_path . '/pkgs'
 
 if !has('nvim')
     let g:vimrc = s:home . '/vimrc'
