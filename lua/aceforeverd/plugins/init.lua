@@ -183,6 +183,10 @@ M.plugin_list = {
         },
         delay = vim.o.updatetime,
       })
+
+      vim.keymap.set('n', '<a-i>', function()
+        require('illuminate').toggle_pause()
+      end, { noremap = true })
     end,
     event = 'VeryLazy',
   },
@@ -490,7 +494,7 @@ M.plugin_list = {
     'folke/which-key.nvim',
     event = 'VeryLazy',
     config = function()
-      require('which-key').setup({ plugins = { registers = false } })
+      require('which-key').setup({ plugins = { registers = true } })
     end,
   },
 
