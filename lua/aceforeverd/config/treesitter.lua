@@ -225,15 +225,4 @@ function M.setup()
   )
 end
 
-function M.tree_hopper()
-  map('o', '<space>', [[:<C-U>lua require('tsht').nodes()<CR>]], { silent = true })
-  map('v', '<space>', [[:lua require('tsht').nodes()<CR>]], { silent = true, noremap = true })
-end
-
-function M.iswap()
-  require('iswap').setup({
-    autoswap = true, -- auto swap if there is only two params
-  })
-end
-
 return M

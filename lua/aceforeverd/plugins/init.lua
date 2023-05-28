@@ -232,8 +232,11 @@ M.plugin_list = {
       'nvim-treesitter/nvim-treesitter',
     },
     config = function()
-      require('aceforeverd.config.treesitter').iswap()
+      require('iswap').setup({
+        autoswap = true, -- auto swap if there is only two params
+      })
     end,
+    cmd = { 'ISwap', 'ISwapWith', 'ISwapNode', 'ISwapNodeWith' },
   },
 
   {
@@ -486,7 +489,10 @@ M.plugin_list = {
   {
     'mfussenegger/nvim-treehopper',
     config = function()
-      require('aceforeverd.config.treesitter').tree_hopper()
+      require('aceforeverd.utility.map').do_map({
+        ['o'] = { ['<space>'] = [[:<C-U>lua require('tsht').nodes()<CR>]] },
+        ['x'] = { ['<space>'] = [[:lua require('tsht').nodes()<CR>]] },
+      }, { silent = true, noremap = true })
     end,
   },
 
@@ -519,20 +525,51 @@ M.plugin_list = {
   {
     'ruifm/gitlinker.nvim',
     config = function()
-      require('aceforeverd.integration.git').gitlinker()
+      require('gitlinker').setup({
+        opts = {
+          remote = 'upstream',
+        },
+      })
     end,
+    keys = {
+      { '<leader>gy', mode = { 'n', 'v' } },
+      { '<leader>gY', function() require('gitlinker').get_repo_url() end, { silent = true } },
+      {
+        '<leader>gb',
+        function()
+          require('gitlinker').get_buf_range_url(
+            'n',
+            { action_callback = require('gitlinker.actions').open_in_browser }
+          )
+        end,
+        mode = 'n',
+      },
+      {
+        '<leader>gb',
+        function()
+          require('gitlinker').get_buf_range_url(
+            'v',
+            { action_callback = require('gitlinker.actions').open_in_browser }
+          )
+        end,
+        mode = 'v',
+      },
+      {
+        '<leader>gB',
+        function()
+          require('gitlinker').get_repo_url({ action_callback = require('gitlinker.actions').open_in_browser })
+        end,
+        { silent = true },
+      },
+    },
   },
 
   {
     'famiu/bufdelete.nvim',
-    config = function()
-      require('aceforeverd.utility.map').set_map(
-        'n',
-        '<leader>bd',
-        '<cmd>Bdelete<cr>',
-        { noremap = true, silent = true }
-      )
-    end,
+    cmd = { 'Bdelete' },
+    keys = {
+      { '<leader>bd', '<cmd>Bdelete<cr>', { noremap = true, silent = true } },
+    },
   },
 
   {

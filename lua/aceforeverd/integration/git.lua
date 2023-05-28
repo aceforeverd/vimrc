@@ -93,36 +93,6 @@ function M.gitsigns()
   })
 end
 
-function M.gitlinker()
-  require('gitlinker').setup({
-    opts = {
-      remote = 'upstream',
-    },
-  })
-
-  local set_map = vim.api.nvim_set_keymap
-
-  set_map('n', '<leader>gY', [[<cmd>lua require('gitlinker').get_repo_url()<cr>]], { silent = true })
-  set_map(
-    'n',
-    '<leader>gb',
-    [[<cmd>lua require('gitlinker').get_buf_range_url("n", {action_callback = require"gitlinker.actions".open_in_browser})<cr>]],
-    { silent = true }
-  )
-  set_map(
-    'v',
-    '<leader>gb',
-    [[<cmd>lua require('gitlinker').get_buf_range_url("v", {action_callback = require"gitlinker.actions".open_in_browser})<cr>]],
-    {}
-  )
-  set_map(
-    'n',
-    '<leader>gB',
-    [[<cmd>lua require('gitlinker').get_repo_url({action_callback = require"gitlinker.actions".open_in_browser})<cr>]],
-    { silent = true }
-  )
-end
-
 function M.diffview()
   require('diffview').setup({
     enhanced_diff_hl = true,
