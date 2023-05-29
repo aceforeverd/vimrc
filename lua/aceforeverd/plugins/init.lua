@@ -488,12 +488,15 @@ M.plugin_list = {
 
   {
     'mfussenegger/nvim-treehopper',
-    config = function()
-      require('aceforeverd.utility.map').do_map({
-        ['o'] = { ['<space>'] = [[:<C-U>lua require('tsht').nodes()<CR>]] },
-        ['x'] = { ['<space>'] = [[:lua require('tsht').nodes()<CR>]] },
-      }, { silent = true, noremap = true })
-    end,
+    keys = {
+      { '<space>', [[:<C-U>lua require('tsht').nodes()<CR>]], mode = 'o', { silent = true } },
+      {
+        '<space>',
+        [[:lua require('tsht').nodes()<cr>]],
+        mode = 'x',
+        { silent = true, noremap = true },
+      },
+    },
   },
 
   {
@@ -533,7 +536,13 @@ M.plugin_list = {
     end,
     keys = {
       { '<leader>gy', mode = { 'n', 'v' } },
-      { '<leader>gY', function() require('gitlinker').get_repo_url() end, { silent = true } },
+      {
+        '<leader>gY',
+        function()
+          require('gitlinker').get_repo_url()
+        end,
+        { silent = true },
+      },
       {
         '<leader>gb',
         function()
@@ -607,6 +616,7 @@ M.plugin_list = {
         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
       })
     end,
+    event = 'VeryLazy',
   },
 
   {
