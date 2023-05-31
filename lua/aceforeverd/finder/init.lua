@@ -69,7 +69,6 @@ function M.telescope()
         case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
         -- the default case_mode is "smart_case"
       },
-      dash = dash_cfg,
     },
   })
 

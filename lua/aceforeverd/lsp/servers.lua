@@ -121,7 +121,7 @@ return {
   taplo = setup_generalized,
   jsonnet_ls = setup_generalized,
   docker_compose_language_service = setup_generalized_with_override({
-    filetypes = { 'yaml.docker-compose', 'yaml' },
+    filetypes = { 'yaml.docker-compose' },
     root_dir = require('lspconfig.util').root_pattern('docker-compose*.yml', 'docker-compose*.yaml'),
   }),
 }

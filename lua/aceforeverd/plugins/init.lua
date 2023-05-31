@@ -66,6 +66,33 @@ M.plugin_list = {
   },
 
   {
+    'SmiteshP/nvim-navic',
+    config = function()
+      require('nvim-navic').setup({
+        click = true,
+        lsp = { auto_attach = true },
+      })
+
+      vim.api.nvim_create_autocmd('BufEnter', {
+        callback = function()
+          if vim.api.nvim_buf_line_count(0) > 10000 then
+            vim.b.navic_lazy_update_context = true
+          end
+        end,
+      })
+    end,
+  },
+
+  {
+    'SmiteshP/nvim-navbuddy',
+    dependencies = {
+      'SmiteshP/nvim-navic',
+      'MunifTanjim/nui.nvim',
+    },
+    opts = { lsp = { auto_attach = true } },
+  },
+
+  {
     'neovim/nvim-lspconfig',
     dependencies = {
       'williamboman/mason.nvim',
@@ -80,7 +107,6 @@ M.plugin_list = {
       'scalameta/nvim-metals',
       'j-hui/fidget.nvim',
       'SmiteshP/nvim-navic',
-      'MrcJkb/haskell-tools.nvim',
       'SmiteshP/nvim-navbuddy',
       'MunifTanjim/nui.nvim',
     },
@@ -90,9 +116,22 @@ M.plugin_list = {
   },
 
   {
+    'mrcjkb/haskell-tools.nvim',
+    config = function()
+      require('aceforeverd.lsp').hls()
+    end,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    ft = { 'haskell', 'cabal' },
+  },
+
+  {
     'onsails/lspkind.nvim',
     config = function()
-      require('aceforeverd.lsp').lspkind()
+      require('lspkind').init({
+        mode = 'symbol_text',
+      })
     end,
     lazy = true,
   },
@@ -438,25 +477,6 @@ M.plugin_list = {
     'gbprod/substitute.nvim',
     config = function()
       require('aceforeverd.plugins.enhance').substitute()
-    end,
-  },
-
-  {
-    'anuvyklack/hydra.nvim',
-    config = function()
-      local Hydra = require('hydra')
-
-      Hydra({
-        name = 'Side scroll',
-        mode = 'n',
-        body = 'z',
-        heads = {
-          { 'h', '5zh' },
-          { 'l', '5zl', { desc = '←/→' } },
-          { 'H', 'zH' },
-          { 'L', 'zL', { desc = 'half screen ←/→' } },
-        },
-      })
     end,
   },
 

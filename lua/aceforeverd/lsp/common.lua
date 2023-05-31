@@ -200,18 +200,6 @@ function M.on_attach(client, bufnr)
     }, bufnr)
   end
 
-  if client.server_capabilities.documentSymbolProvider then
-    local s3, navic = pcall(require, 'nvim-navic')
-    if s3 then
-      navic.attach(client, bufnr)
-    end
-
-    local s4, navbuddy = pcall(require, 'nvim-navbuddy')
-    if s4 then
-      navbuddy.attach(client, bufnr)
-    end
-  end
-
   require('lsp-status').on_attach(client)
 end
 

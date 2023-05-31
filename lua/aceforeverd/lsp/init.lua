@@ -54,7 +54,6 @@ function M.setup()
   M.clangd()
   require('aceforeverd.lsp.jdtls').setup()
   require('aceforeverd.lsp.metals').metals()
-  M.hls()
 end
 
 function M.clangd()
@@ -111,12 +110,6 @@ function M.lsp_status()
     show_filename = false,
     status_symbol = '🐶',
     diagnostics = lsp_status_diagnostic_enable,
-  })
-end
-
-function M.lspkind()
-  require('lspkind').init({
-    mode = 'symbol_text',
   })
 end
 

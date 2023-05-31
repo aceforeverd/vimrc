@@ -138,7 +138,7 @@ function! s:minpac() abort
     call s:plugin_add('chrisbra/NrrwRgn')
     call s:plugin_add('machakann/vim-sandwich')
     " Debug
-    call s:plugin_add('puremourning/vimspector')
+    call s:plugin_add('puremourning/vimspector', {'type': 'opt'})
 
     " Typescript
     call s:plugin_add('HerringtonDarkholme/yats.vim')
@@ -202,8 +202,9 @@ function! s:minpac() abort
 endfunction
 
 function! s:config_plugins()
-    " no matchit
-    let loaded_matchit = 1
+    " no matchit & matchparen
+    let g:loaded_matchit = 1
+    let g:loaded_matchparen = 1
 
     " load plugins
     PackAdd! cfilter
