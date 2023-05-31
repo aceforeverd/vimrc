@@ -98,12 +98,18 @@ function M.ctx_location(opts)
 
   local s0, navic = pcall(require, 'nvim-navic')
   if s0 and navic.is_available() then
-    return navic.get_location()
+    local r = navic.get_location()
+    if r ~= '' then
+      return r
+    end
   end
 
   local s1, aerial = pcall(require, 'aerial')
   if s1 then
-    return fmt_status(aerial.get_location(), ' > ')
+    local r = aerial.get_location() or {}
+    if r ~= {} then
+      return fmt_status(r, ' > ')
+    end
   end
 
   local size = 40

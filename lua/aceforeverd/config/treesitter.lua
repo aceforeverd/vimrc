@@ -14,8 +14,6 @@
 
 local M = {}
 
-local map = require('aceforeverd.utility.map').set_map
-
 function M.setup()
   vim.g.loaded_endwise = 1
   vim.g.loaded_tagalong = 1

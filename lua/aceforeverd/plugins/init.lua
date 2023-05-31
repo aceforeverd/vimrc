@@ -248,9 +248,13 @@ M.plugin_list = {
   },
 
   {
+    'nvim-treesitter/playground',
+    cmd = 'TSPlaygroundToggle',
+  },
+
+  {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
-      'nvim-treesitter/playground',
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/nvim-treesitter-refactor',
       'RRethy/nvim-treesitter-textsubjects',
@@ -497,8 +501,6 @@ M.plugin_list = {
     cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' },
   },
 
-  { 'Pocco81/HighStr.nvim' },
-
   {
     'akinsho/nvim-toggleterm.lua',
     config = function()
@@ -605,12 +607,12 @@ M.plugin_list = {
     'stevearc/aerial.nvim',
     config = function()
       require('aerial').setup({
-        backends = { 'lsp', 'treesitter', 'markdown' },
-        on_attach = function(bufnr)
-          require('aceforeverd.utility.map').set_map('n', '<space>t', [[<cmd>AerialToggle!<cr>]], { buffer = bufnr })
-        end,
+        backends = { 'lsp', 'treesitter', 'markdown', 'man' },
       })
     end,
+    keys = {
+      { '<space>t', '<cmd>AerialToggle!<cr>', { desc = 'Toggle the aerial window.' } },
+    },
   },
 
   {
