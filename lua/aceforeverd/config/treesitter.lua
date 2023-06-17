@@ -18,6 +18,7 @@ function M.setup()
   vim.g.loaded_endwise = 1
   vim.g.loaded_tagalong = 1
 
+  local hi_disable_fts = { 'yaml', 'coc-explorer' }
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
     ignore_install = {
@@ -26,7 +27,17 @@ function M.setup()
     },
     highlight = {
       enable = true,
-      disable = { 'yaml', 'coc-explorer' },
+      disable = function(lang, buf)
+        if vim.tbl_contains(hi_disable_fts, lang) then
+          return true
+        end
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+            return true
+        end
+        return false
+    end,
     },
     indent = { enable = true, disable = { 'yaml' } },
     incremental_selection = {

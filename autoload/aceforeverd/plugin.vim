@@ -445,6 +445,9 @@ function! s:config_plugins()
     " vim-sandwich
     nnoremap ss s
 
+    " csv.vim
+    let g:csv_no_conceal = 1
+
 endfunction
 
 function! s:auto_pair() abort

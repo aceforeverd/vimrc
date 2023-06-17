@@ -245,6 +245,7 @@ M.plugin_list = {
     config = function()
       require('colorizer').setup({})
     end,
+    ft = {'css', 'html'},
   },
 
   {
@@ -331,9 +332,27 @@ M.plugin_list = {
 
   {
     'hkupty/iron.nvim',
-    init = function()
-      vim.g.iron_map_defaults = 0
-      vim.g.iron_map_extended = 0
+    config = function()
+      require('iron.core').setup({
+        config = {
+          -- Whether a repl should be discarded or not
+          scratch_repl = true,
+          -- Your repl definitions come here
+          repl_definition = {},
+          -- How the repl window will be displayed
+          -- See below for more information
+          repl_open_cmd = require('iron.view').bottom(40),
+        },
+        -- Iron doesn't set keymaps by default anymore.
+        -- You can set them here or manually add keymaps to the functions in iron.core
+        keymaps = {},
+        -- If the highlight is on, you can change how it looks
+        -- For the available options, check nvim_set_hl
+        highlight = {
+          italic = true,
+        },
+        ignore_blank_lines = true,
+      })
     end,
   },
 
@@ -417,7 +436,6 @@ M.plugin_list = {
 
   {
     'ggandor/leap.nvim',
-    lazy = true,
   },
 
   { 'projekt0n/github-nvim-theme' },
@@ -611,7 +629,7 @@ M.plugin_list = {
       })
     end,
     keys = {
-      { '<space>t', '<cmd>AerialToggle!<cr>', { desc = 'Toggle the aerial window.' } },
+      { '<space>t', '<cmd>AerialToggle!<cr>', desc = 'Toggle the aerial window' },
     },
   },
 
@@ -683,8 +701,21 @@ M.plugin_list = {
   {
     'freddiehaddad/feline.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    cond = function()
+      return vim.g.my_statusline == 'feline'
+    end,
     config = function()
-      require('aceforeverd.apperance.feline').setup()
+      require('aceforeverd.apperance').feline()
+    end,
+  },
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    cond = function()
+      return vim.g.my_statusline == 'lualine'
+    end,
+    config = function()
+      require('aceforeverd.apperance').lualine()
     end,
   },
   {

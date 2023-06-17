@@ -21,12 +21,11 @@ local fn = vim.fn
 
 local icons = { UNIX = '', MAC = '', WINDOWS = '' }
 
-local palette = vim.api.nvim_call_function('sonokai#get_palette', { vim.g.sonokai_style, { nothing = '' } })
-
-local bit_green = palette.bg_green[1]
-local bit_blue = palette.bg_blue[1]
-local bit_yellow = '#e5c463'
-local bit_red = palette.bg_red[1]
+local palette = require('aceforeverd.apperance.helper')
+local bit_green = palette.bit_green
+local bit_blue = palette.bit_blue
+local bit_yellow = palette.bit_yellow
+local bit_red = palette.bit_red
 
 -- TODO: add some short_provider & icon
 
@@ -175,7 +174,7 @@ local feline_config = {
               short = true,
             },
           },
-          enabled = function ()
+          enabled = function()
             -- otherwise it will appear in winbar
             return vim.fn.exists('+winbar') == 0
           end,

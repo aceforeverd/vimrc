@@ -72,4 +72,7 @@ function M.bufferline()
   set_map('n', '<M-9>', '<Cmd>BufferLineGoToBuffer 9<CR>', map_opt)
 end
 
+M.feline = function() require('aceforeverd.apperance.feline').setup() end
+M.lualine = require('aceforeverd.apperance.lualine').setup
+
 return M

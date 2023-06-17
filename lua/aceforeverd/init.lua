@@ -34,6 +34,10 @@ function M.setup()
   vim.o.fillchars = [[foldopen:▼,foldclose:⏵]]
 
   require('aceforeverd.plugins').setup()
+
+  -- keymap guideline
+  -- <space>xxx   -> view-only operators
+  -- <leader>xxx  -> possibly write operators
 end
 
 return M

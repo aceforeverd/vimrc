@@ -32,6 +32,8 @@ function! aceforeverd#settings#my_init() abort
     " or u can set 'netrw' to use netrw with vim-vinegar enhancements
     let g:my_dir_viewer = get(g:, 'my_dir_viewer', 'dirvish')
 
+    let g:my_statusline = get(g:, 'my_statusline', 'feline')
+
     let g:my_name = get(g:, 'my_name', 'Ace')
     let g:my_email = get(g:, 'my_email', 'teapot@aceforeverd.com')
 endfunction
