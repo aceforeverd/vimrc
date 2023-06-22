@@ -37,7 +37,7 @@ local function gen_winbar_cfg()
           on_click = function(num_click, mounse, modifiers)
             require('nvim-navbuddy').open()
           end,
-          color = { fg = orange }
+          color = { fg = orange },
         },
       },
       lualine_z = { 'datetime' },
@@ -62,9 +62,19 @@ function M.setup()
     sections = {
       lualine_a = { 'mode' },
       lualine_b = {
-         'branch' ,
-         'diff' ,
-         'diagnostics' ,
+        'branch',
+        {
+          'diff',
+          source = function()
+            local s = vim.b.gitsigns_status_dict
+            if s == nil then
+              return nil
+            end
+
+            return { added = s.added, modified = s.changed, removed = s.removed }
+          end,
+        },
+        'diagnostics',
       },
       lualine_c = {
         { require('aceforeverd.utility.statusline').lsp_client_names, icon = { ' ' }, color = { fg = '#FF9000' } },

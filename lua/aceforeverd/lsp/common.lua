@@ -229,18 +229,23 @@ local severity_emoji_map = {
 }
 
 local fmt_fn = function(diagnostic)
-  return string.format('%s %s', diagnostic.message, severity_emoji_map[diagnostic.severity])
+  return diagnostic.message
+end
+local suffix_fn = function(diagnostic)
+  return severity_emoji_map[diagnostic.severity]
 end
 local pub_diag_config = { virtual_text = true, signs = true, underline = true, update_in_insert = false }
 if vim.fn.has('nvim-0.6.0') == 1 then
   pub_diag_config = vim.tbl_deep_extend('force', pub_diag_config, {
     virtual_text = {
       prefix = '🤡', -- Could be '●', '▎', 'x'
+      suffix = suffix_fn,
       source = 'always',
       format = fmt_fn,
     },
     severity_sort = true,
     float = {
+      suffix = suffix_fn,
       source = 'always',
       severity_sort = true,
       format = fmt_fn,

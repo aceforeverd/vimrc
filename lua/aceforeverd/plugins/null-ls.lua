@@ -51,11 +51,11 @@ function M.setup()
       end,
     }),
     null_ls.builtins.diagnostics.shellcheck,
-    null_ls.builtins.diagnostics.cpplint.with({
-      condition = function(utils)
-        return utils.root_has_file({ 'CPPLINT.cfg' })
-      end,
-    }),
+    -- null_ls.builtins.diagnostics.cpplint.with({
+    --   condition = function(utils)
+    --     return utils.root_has_file({ 'CPPLINT.cfg' })
+    --   end,
+    -- }),
     null_ls.builtins.diagnostics.vint,
     null_ls.builtins.diagnostics.actionlint,
   }

@@ -124,4 +124,5 @@ return {
     filetypes = { 'yaml.docker-compose' },
     root_dir = require('lspconfig.util').root_pattern('docker-compose*.yml', 'docker-compose*.yaml'),
   }),
+  diagnosticls = setup_generalized_with_override(require('aceforeverd.lsp.diagnosticls').get_config()),
 }

@@ -20,7 +20,7 @@ local M = {}
 -- https://github.com/iamcco/diagnostic-languageserver/wiki/Linters
 function M.get_config()
   return {
-    filetypes = { 'cpp', 'yaml', 'sh', 'vim' },
+    filetypes = { 'cpp' },
     init_options = {
       linters = {
         vint = {
@@ -67,6 +67,7 @@ function M.get_config()
             [4] = 'warning',
             [5] = 'error',
           },
+          requiredFiles = {'CPPLINT.cfg'}
         },
         shellcheck = {
           command = 'shellcheck',

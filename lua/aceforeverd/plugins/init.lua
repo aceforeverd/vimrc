@@ -575,13 +575,14 @@ M.plugin_list = {
       })
     end,
     keys = {
-      { '<leader>gy', mode = { 'n', 'v' } },
+      { '<leader>gy', mode = { 'n', 'v' }, desc = 'permalink to given range' },
       {
         '<leader>gY',
         function()
           require('gitlinker').get_repo_url()
         end,
         { silent = true },
+        desc = 'Repo url'
       },
       {
         '<leader>gb',
@@ -592,6 +593,7 @@ M.plugin_list = {
           )
         end,
         mode = 'n',
+        desc = 'Browse permalink of current line'
       },
       {
         '<leader>gb',
@@ -602,6 +604,7 @@ M.plugin_list = {
           )
         end,
         mode = 'v',
+        desc = 'Browse permalink of range'
       },
       {
         '<leader>gB',
@@ -609,6 +612,7 @@ M.plugin_list = {
           require('gitlinker').get_repo_url({ action_callback = require('gitlinker.actions').open_in_browser })
         end,
         { silent = true },
+        desc = 'Browse repo'
       },
     },
   },
