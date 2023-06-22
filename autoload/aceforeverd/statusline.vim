@@ -67,7 +67,7 @@ function! aceforeverd#statusline#lsp_diagnostic() abort
             call add(msgs, '  ' .. info['information'])
         endif
         if get(info, 'hint', 0)
-            call add(msgs, ' ' .. info['hint'])
+            call add(msgs, ' 󰌵' .. info['hint'])
         endif
         return join(msgs, ' ')
     endif
