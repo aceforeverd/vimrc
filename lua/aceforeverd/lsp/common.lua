@@ -260,9 +260,9 @@ M.diagnostics_config = function()
   local group = 'LspDiagnosticsSign'
   if vim.fn.has('nvim-0.6.0') == 1 then
     group = 'DiagnosticSign'
-    signs = vim.tbl_extend('force', signs, { Error = '󰅚 ', Warn = '', Hint = '󰛩 ', Info = ' ' })
+    signs = vim.tbl_extend('force', signs, { Error = '󰅚 ', Warn = '', Hint = '󰛩 ', Info = '' })
   else
-    signs = vim.tbl_extend('force', signs, { Error = '󰅚 ', Warning = '', Hint = '󰛩 ', Information = ' ' })
+    signs = vim.tbl_extend('force', signs, { Error = '󰅚 ', Warning = '', Hint = '󰛩 ', Information = '' })
   end
 
   for type, icon in pairs(signs) do
