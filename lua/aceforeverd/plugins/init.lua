@@ -220,7 +220,7 @@ M.plugin_list = {
           'treesitter',
           'regex',
         },
-        delay = vim.o.updatetime,
+        delay = vim.go.updatetime,
       })
 
       vim.keymap.set('n', '<a-i>', function()
@@ -245,7 +245,7 @@ M.plugin_list = {
     config = function()
       require('colorizer').setup({})
     end,
-    ft = {'css', 'html'},
+    ft = { 'css', 'html' },
   },
 
   {
@@ -420,7 +420,7 @@ M.plugin_list = {
       })
     end,
     cmd = { 'Neotree' },
-    keys = { { '<space>e', '<cmd>Neotree toggle reveal<cr>' } },
+    keys = { { '<space>e', '<cmd>Neotree toggle reveal<cr>', desc = 'Neotree' } },
   },
 
   {
@@ -431,7 +431,7 @@ M.plugin_list = {
     -- Optional dependencies
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     cmd = { 'Oil' },
-    keys = { { '<space>o', '<cmd>Oil<cr>' } },
+    keys = { { '<space>o', '<cmd>Oil<cr>', desc = 'Oil' } },
   },
 
   {
@@ -582,7 +582,7 @@ M.plugin_list = {
           require('gitlinker').get_repo_url()
         end,
         { silent = true },
-        desc = 'Repo url'
+        desc = 'Repo url',
       },
       {
         '<leader>gb',
@@ -593,7 +593,7 @@ M.plugin_list = {
           )
         end,
         mode = 'n',
-        desc = 'Browse permalink of current line'
+        desc = 'Browse permalink of current line',
       },
       {
         '<leader>gb',
@@ -604,7 +604,7 @@ M.plugin_list = {
           )
         end,
         mode = 'v',
-        desc = 'Browse permalink of range'
+        desc = 'Browse permalink of range',
       },
       {
         '<leader>gB',
@@ -612,7 +612,7 @@ M.plugin_list = {
           require('gitlinker').get_repo_url({ action_callback = require('gitlinker.actions').open_in_browser })
         end,
         { silent = true },
-        desc = 'Browse repo'
+        desc = 'Browse repo',
       },
     },
   },
@@ -621,7 +621,7 @@ M.plugin_list = {
     'famiu/bufdelete.nvim',
     cmd = { 'Bdelete' },
     keys = {
-      { '<leader>bd', '<cmd>Bdelete<cr>', { noremap = true, silent = true } },
+      { '<leader>bd', '<cmd>Bdelete<cr>', { noremap = true, silent = true }, desc = 'delete buffer' },
     },
   },
 
