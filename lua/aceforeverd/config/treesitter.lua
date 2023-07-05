@@ -16,7 +16,9 @@ local M = {}
 
 function M.setup()
   vim.g.loaded_endwise = 1
-  vim.g.loaded_tagalong = 1
+  -- treesitter removes xml, fallback to tagalong
+  -- TODO: udpate the list where nvim-ts-autotag not support
+  vim.g.tagalong_filetypes = { 'xml' }
 
   local hi_disable_fts = { 'yaml', 'coc-explorer' }
   require('nvim-treesitter.configs').setup({
