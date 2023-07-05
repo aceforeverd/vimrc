@@ -198,7 +198,7 @@ function! s:minpac() abort
 
     call s:plugin_add('sheerun/vim-polyglot')
 
-    call s:plugin_add('aceforeverd/vim-translator', {'rev': 'dev'})
+    call s:plugin_add('voldikss/vim-translator')
 endfunction
 
 function! s:config_plugins()
