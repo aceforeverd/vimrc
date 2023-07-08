@@ -98,17 +98,19 @@ M.plugin_list = {
       'williamboman/mason.nvim',
       -- LSP signature hint as you type
       'ray-x/lsp_signature.nvim',
-      'nvim-lua/lsp-status.nvim',
       'p00f/clangd_extensions.nvim',
       -- lsp enhance
       'folke/neodev.nvim',
       'b0o/schemastore.nvim',
       'mfussenegger/nvim-jdtls',
       'scalameta/nvim-metals',
-      'j-hui/fidget.nvim',
       'SmiteshP/nvim-navic',
       'SmiteshP/nvim-navbuddy',
       'MunifTanjim/nui.nvim',
+      -- statusline
+      'nvim-lua/lsp-status.nvim',
+      'j-hui/fidget.nvim',
+      'linrongbin16/lsp-progress.nvim',
     },
     config = function()
       require('aceforeverd.lsp').setup()
@@ -331,7 +333,14 @@ M.plugin_list = {
   },
 
   {
-    'hkupty/iron.nvim',
+    'michaelb/sniprun',
+    build = 'sh install.sh',
+    cmd = { 'SnipRun', 'SnipInfo' },
+  },
+
+  {
+    'Vigemus/iron.nvim',
+    cmd = { 'IronRepl', 'IronReplHere' },
     config = function()
       require('iron.core').setup({
         config = {

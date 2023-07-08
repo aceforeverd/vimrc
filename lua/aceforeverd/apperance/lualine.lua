@@ -47,8 +47,15 @@ local function gen_winbar_cfg()
   return {}
 end
 
-local function lsp_status()
-  return require('lsp-status').status()
+local lsp_status
+if vim.g.lsp_process_provider == 'lsp_progress' then
+  lsp_status = function()
+    return require('lsp-progress').progress()
+  end
+elseif vim.g.lsp_process_provider == 'lsp_status' then
+  lsp_status = function()
+    return require('lsp-status').status()
+  end
 end
 
 function M.setup()
@@ -78,7 +85,10 @@ function M.setup()
       },
       lualine_c = {
         { require('aceforeverd.utility.statusline').lsp_client_names, icon = { ' ' }, color = { fg = '#FF9000' } },
-        { lsp_status, color = { fg = '#E1E120' } },
+        {
+          lsp_status,
+          color = { fg = '#E1E120' },
+        },
       },
       lualine_x = {
         {

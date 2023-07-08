@@ -40,6 +40,8 @@ function M.setup()
     require('lsp-status').register_progress()
   elseif vim.g.lsp_process_provider == 'fidget' then
     require('fidget').setup({})
+  elseif vim.g.lsp_process_provider == 'lsp_progress' then
+    require('lsp-progress').setup()
   end
 
   -- setup lsp installer just before other lsp configurations

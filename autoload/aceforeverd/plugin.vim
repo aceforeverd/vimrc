@@ -214,6 +214,8 @@ function! s:config_plugins()
     let g:polyglot_disabled = ['sensible', 'autoindent', 'go']
     let g:vim_json_syntax_conceal = 1
 
+    let g:sleuth_go_heuristics = 0
+
     if !has('nvim')
         PackAdd! vim-go
         call aceforeverd#settings#vim_go()
