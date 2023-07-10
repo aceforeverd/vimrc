@@ -333,12 +333,6 @@ M.plugin_list = {
   },
 
   {
-    'michaelb/sniprun',
-    build = 'sh install.sh',
-    cmd = { 'SnipRun', 'SnipInfo' },
-  },
-
-  {
     'Vigemus/iron.nvim',
     cmd = { 'IronRepl', 'IronReplHere' },
     config = function()
