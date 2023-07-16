@@ -78,7 +78,7 @@ function M.clangd()
       )
     end,
     capabilities = clangd_caps,
-    handlers = vim.tbl_deep_extend('error', lsp_basic.handlers, require('lsp-status').extensions.clangd.setup()),
+    handlers = lsp_basic.handlers,
     init_options = { clangdFileStatus = true },
     cmd = {
       'clangd',

@@ -154,9 +154,7 @@ local feline_config = {
           priority = priority_low,
         },
         {
-          provider = function()
-            return require('lsp-status').status()
-          end,
+          provider = 'lsp_status',
           left_sep = ' ',
           enabled = function()
             return vim.g.my_cmp_source == 'nvim_lsp'

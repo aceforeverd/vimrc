@@ -93,6 +93,7 @@ function! s:minpac() abort
     call s:plugin_add('rhysd/clever-f.vim')
     call s:plugin_add('justinmk/vim-sneak')
     call s:plugin_add('andymass/vim-matchup')
+    call s:plugin_add('chaoren/vim-wordmotion')
     " Tools
     call s:plugin_add('editorconfig/editorconfig-vim')
     call s:plugin_add('will133/vim-dirdiff')
@@ -450,6 +451,23 @@ function! s:config_plugins()
     " csv.vim
     let g:csv_no_conceal = 1
 
+    " vim-wordmotion: vanilla word motion
+    nnoremap <localleader>b b
+    nnoremap <localleader>e e
+    nnoremap <localleader>w w
+    nnoremap g<localleader>e ge
+    onoremap <localleader>b b
+    onoremap <localleader>e e
+    onoremap <localleader>w w
+    onoremap i<localleader>w iw
+    onoremap a<localleader>w aw
+    onoremap g<localleader>e ge
+    xnoremap <localleader>b b
+    xnoremap <localleader>e e
+    xnoremap <localleader>w w
+    xnoremap i<localleader>w iw
+    xnoremap a<localleader>w aw
+    xnoremap g<localleader>e ge
 endfunction
 
 function! s:auto_pair() abort
