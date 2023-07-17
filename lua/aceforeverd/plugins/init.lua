@@ -93,6 +93,41 @@ M.plugin_list = {
   },
 
   {
+    'nvim-lua/lsp-status.nvim',
+    config = function()
+      local lsp_status = require('lsp-status')
+      local lsp_status_diagnostic_enable = vim.g.my_statusline == 'lightline'
+      lsp_status.config({
+        select_symbol = function(cursor_pos, symbol)
+          if symbol.valueRange then
+            local value_range = {
+              ['start'] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[1]) },
+              ['end'] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[2]) },
+            }
+
+            return require('lsp-status.util').in_range(cursor_pos, value_range)
+          end
+        end,
+        current_function = true,
+        show_filename = false,
+        status_symbol = '🐶',
+        diagnostics = true,
+      })
+
+      lsp_status.register_progress()
+    end,
+    lazy = true,
+  },
+
+  {
+    'linrongbin16/lsp-progress.nvim',
+    config = function()
+      require('lsp-progress').setup()
+    end,
+    lazy = true,
+  },
+
+  {
     'neovim/nvim-lspconfig',
     dependencies = {
       'williamboman/mason.nvim',
@@ -109,7 +144,6 @@ M.plugin_list = {
       'MunifTanjim/nui.nvim',
       -- statusline
       'nvim-lua/lsp-status.nvim',
-      'j-hui/fidget.nvim',
       'linrongbin16/lsp-progress.nvim',
     },
     config = function()
@@ -435,10 +469,6 @@ M.plugin_list = {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     cmd = { 'Oil' },
     keys = { { '<space>o', '<cmd>Oil<cr>', desc = 'Oil' } },
-  },
-
-  {
-    'ggandor/leap.nvim',
   },
 
   { 'projekt0n/github-nvim-theme' },

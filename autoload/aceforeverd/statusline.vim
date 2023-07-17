@@ -17,7 +17,7 @@ endfunction
 
 function! aceforeverd#statusline#lsp_status() abort
     if g:my_cmp_source ==? 'nvim_lsp'
-        return v:lua.require('lsp-status').status()
+        return v:lua.require('aceforeverd.utility.statusline').lsp_status()
     elseif g:my_cmp_source ==? 'coc'
         return get(g:, 'coc_status', '')
     elseif g:my_cmp_source ==? 'vim_lsp'

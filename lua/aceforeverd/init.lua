@@ -17,7 +17,7 @@ local M = {}
 
 function M.setup()
   if vim.g.lsp_process_provider == nil then
-    vim.g.lsp_process_provider = 'fidget'
+    vim.g.lsp_process_provider = 'lsp_status'
   end
 
   require('aceforeverd.utility.map').do_map({

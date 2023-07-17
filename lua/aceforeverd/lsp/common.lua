@@ -16,7 +16,6 @@
 local M = {}
 
 local default_map_opts = { noremap = true, silent = true }
-local lsp_status = require('lsp-status')
 
 --- request format from lsp server
 --
@@ -200,13 +199,17 @@ function M.on_attach(client, bufnr)
     }, bufnr)
   end
 
-  require('lsp-status').on_attach(client)
+  -- lsp-status
+  local s3, lsp_status = pcall(require, 'lsp-status')
+  if s3 then
+    lsp_status.on_attach(client)
+  end
 end
 
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
+capabilities = vim.tbl_extend('keep', capabilities, require('lsp-status').capabilities)
 M.capabilities = capabilities
 
 -- basic border, check :help nvim_open_win()

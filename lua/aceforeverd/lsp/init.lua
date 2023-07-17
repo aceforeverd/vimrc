@@ -32,17 +32,7 @@ function M.setup()
   -- basic settings
   vim.o.pumblend = 20
 
-  M.lsp_status()
-
   require('aceforeverd.lsp.common').diagnostics_config()
-
-  if vim.g.lsp_process_provider == 'lsp_status' then
-    require('lsp-status').register_progress()
-  elseif vim.g.lsp_process_provider == 'fidget' then
-    require('fidget').setup({})
-  elseif vim.g.lsp_process_provider == 'lsp_progress' then
-    require('lsp-progress').setup()
-  end
 
   -- setup lsp installer just before other lsp configurations
   -- so they will inherit lsp-insatller settings, picking up the correct lsp program
@@ -62,6 +52,8 @@ function M.clangd()
   local on_attach = lsp_basic.on_attach
   local capabilities = lsp_basic.capabilities
 
+  local lsp_status = require('lsp-status')
+
   local clangd_caps = vim.tbl_deep_extend('force', capabilities, {
     -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428#issuecomment-997226723
     offsetEncoding = { 'utf-16' },
@@ -78,7 +70,7 @@ function M.clangd()
       )
     end,
     capabilities = clangd_caps,
-    handlers = lsp_basic.handlers,
+    handlers = vim.tbl_deep_extend('error', lsp_basic.handlers, lsp_status.extensions.clangd.setup()),
     init_options = { clangdFileStatus = true },
     cmd = {
       'clangd',
@@ -91,27 +83,6 @@ function M.clangd()
 
   require('clangd_extensions').setup({
     server = clangd_cfg,
-  })
-end
-
-function M.lsp_status()
-  local lsp_status = require('lsp-status')
-  local lsp_status_diagnostic_enable = vim.g.my_statusline == 'lightline'
-  lsp_status.config({
-    select_symbol = function(cursor_pos, symbol)
-      if symbol.valueRange then
-        local value_range = {
-          ['start'] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[1]) },
-          ['end'] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[2]) },
-        }
-
-        return require('lsp-status.util').in_range(cursor_pos, value_range)
-      end
-    end,
-    current_function = false,
-    show_filename = false,
-    status_symbol = '🐶',
-    diagnostics = lsp_status_diagnostic_enable,
   })
 end
 
@@ -132,7 +103,7 @@ end
 
 function M.hls()
   require('haskell-tools').setup({
-    hls = lsp_basic.general_cfg
+    hls = lsp_basic.general_cfg,
   })
 end
 

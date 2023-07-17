@@ -291,6 +291,7 @@ local feline_config = {
     bufnames = {},
   },
   custom_providers = {
+    lsp_status = require('aceforeverd.utility.statusline').lsp_status,
     my_lsp_client_names = require('aceforeverd.utility.statusline').lsp_client_names,
     gps = require('aceforeverd.utility.statusline').ctx_location,
   },
