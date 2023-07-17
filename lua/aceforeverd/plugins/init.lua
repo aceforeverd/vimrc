@@ -430,7 +430,7 @@ M.plugin_list = {
 
   {
     'nvim-neo-tree/neo-tree.nvim',
-    branch = 'v2.x',
+    branch = 'v3.x',
     dependencies = {
       'nvim-tree/nvim-web-devicons',
       'MunifTanjim/nui.nvim',
@@ -505,7 +505,7 @@ M.plugin_list = {
   },
 
   {
-    'TimUntersberger/neogit',
+    'NeogitOrg/neogit',
     config = function()
       require('neogit').setup({})
     end,
