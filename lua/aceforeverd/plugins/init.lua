@@ -260,8 +260,8 @@ M.plugin_list = {
       })
 
       vim.keymap.set('n', '<a-i>', function()
-        require('illuminate').toggle_pause()
-      end, { noremap = true })
+        require('illuminate').toggle_freeze_buf()
+      end, { noremap = true, desc = 'Toggle freezing' })
     end,
     event = 'VeryLazy',
   },
