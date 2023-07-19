@@ -74,6 +74,7 @@ function! s:minpac() abort
     call s:plugin_add('tpope/vim-sleuth')
     call s:plugin_add('tpope/vim-apathy')
     call s:plugin_add('tpope/vim-characterize')
+    call s:plugin_add('tpope/vim-rsi')
 
     call s:plugin_add('lambdalisue/suda.vim')
 
@@ -320,24 +321,25 @@ function! s:config_plugins()
                 \   'git grep --line-number -- '.shellescape(<q-args>), 0,
                 \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
 
-    " from vim-rsi
+    " more for vim-rsi
+    let g:rsi_no_meta = 1
     " <c-a> & <c-e> -> <HOME> & <END>, <c-b> & <c-f> -> forward & backward
-    inoremap        <C-A> <C-O>^
-    inoremap   <C-X><C-A> <C-A>
-    cnoremap        <C-A> <Home>
-    cnoremap   <C-X><C-A> <C-A>
+    " inoremap        <C-A> <C-O>^
+    " inoremap   <C-X><C-A> <C-A>
+    " cnoremap        <C-A> <Home>
+    " cnoremap   <C-X><C-A> <C-A>
 
     " i_CRTL-E insert the char below cursor
-    inoremap <expr> <C-E> col('.')>strlen(getline('.'))<bar><bar>pumvisible()?"\<Lt>C-E>":"\<Lt>End>"
+    " inoremap <expr> <C-E> col('.')>strlen(getline('.'))<bar><bar>pumvisible()?"\<Lt>C-E>":"\<Lt>End>"
     inoremap <C-\><C-E> <C-E>
 
     " no i_CTRL-B
-    inoremap <expr> <C-B> getline('.')=~'^\s*$'&&col('.')>strlen(getline('.'))?"0\<Lt>C-D>\<Lt>Esc>kJs":"\<Lt>Left>"
+    " inoremap <expr> <C-B> getline('.')=~'^\s*$'&&col('.')>strlen(getline('.'))?"0\<Lt>C-D>\<Lt>Esc>kJs":"\<Lt>Left>"
     " go back one char, use remapped <C-A> for c_CTRL-B
-    cnoremap        <C-B> <Left>
+    " cnoremap        <C-B> <Left>
 
-    inoremap <expr> <C-F> col('.')>strlen(getline('.'))?"\<Lt>C-F>":"\<Lt>Right>"
-    cnoremap <expr> <C-F> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"
+    " inoremap <expr> <C-F> col('.')>strlen(getline('.'))?"\<Lt>C-F>":"\<Lt>Right>"
+    " cnoremap <expr> <C-F> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"
     inoremap <C-\><C-F> <C-F>
 
     if executable('rg')
