@@ -75,7 +75,6 @@ function M.setup()
         show_help = '?',
       },
     },
-    rainbow = { enable = true },
     refactor = {
       highlight_definitions = { enable = false },
       highlight_current_scope = { enable = false },

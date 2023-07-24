@@ -96,7 +96,6 @@ M.plugin_list = {
     'nvim-lua/lsp-status.nvim',
     config = function()
       local lsp_status = require('lsp-status')
-      local lsp_status_diagnostic_enable = vim.g.my_statusline == 'lightline'
       lsp_status.config({
         select_symbol = function(cursor_pos, symbol)
           if symbol.valueRange then
@@ -295,7 +294,6 @@ M.plugin_list = {
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/nvim-treesitter-refactor',
       'RRethy/nvim-treesitter-textsubjects',
-      'HiPhish/nvim-ts-rainbow2',
       'RRethy/nvim-treesitter-endwise',
       'JoosepAlviste/nvim-ts-context-commentstring',
       'windwp/nvim-ts-autotag',
@@ -303,6 +301,36 @@ M.plugin_list = {
     build = ':TSUpdate',
     config = function()
       require('aceforeverd.config.treesitter').setup()
+    end,
+  },
+
+  {
+    'HiPhish/rainbow-delimiters.nvim',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+    },
+    config = function()
+      local rainbow_delimiters = require('rainbow-delimiters')
+
+      vim.g.rainbow_delimiters = {
+        strategy = {
+          [''] = rainbow_delimiters.strategy['global'],
+          vim = rainbow_delimiters.strategy['local'],
+        },
+        query = {
+          [''] = 'rainbow-delimiters',
+          lua = 'rainbow-blocks',
+        },
+        highlight = {
+          'RainbowDelimiterRed',
+          'RainbowDelimiterYellow',
+          'RainbowDelimiterBlue',
+          'RainbowDelimiterOrange',
+          'RainbowDelimiterGreen',
+          'RainbowDelimiterViolet',
+          'RainbowDelimiterCyan',
+        },
+      }
     end,
   },
 
@@ -333,7 +361,9 @@ M.plugin_list = {
       -- thanks https://github.com/Wansmer/treesj/discussions/19
       local langs = require('treesj.langs')['presets']
 
+      local group = vim.api.nvim_create_augroup('MySplitJoin', { clear = true })
       vim.api.nvim_create_autocmd({ 'FileType' }, {
+        group = group,
         pattern = '*',
         callback = function()
           local opts = { buffer = true }
@@ -412,7 +442,7 @@ M.plugin_list = {
 
       'nvim-telescope/telescope-frecency.nvim',
       'LinArcX/telescope-env.nvim',
-      'tami5/sqlite.lua',
+      'kkharji/sqlite.lua',
       'nvim-tree/nvim-web-devicons',
     },
   },

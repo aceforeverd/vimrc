@@ -386,8 +386,8 @@ function! s:config_plugins()
 
     " vim-sneak
     let g:sneak#label = 1
-    map sk <Plug>Sneak_s
-    map sK <Plug>Sneak_S
+    map s <Plug>Sneak_s
+    map S <Plug>Sneak_S
 
     " vim-header
     let g:header_auto_add_header = 0
@@ -456,7 +456,7 @@ function! s:config_plugins()
     nnoremap <expr> goo 'go'
 
     " vim-sandwich
-    nnoremap ss s
+    let g:operator_sandwich_no_default_key_mappings = 1
 
     " csv.vim
     let g:csv_no_conceal = 1
