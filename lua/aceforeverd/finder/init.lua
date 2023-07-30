@@ -16,18 +16,6 @@
 
 local M = {}
 
-function M.fzflua()
-  require('fzf-lua').setup({ winopts = { width = 0.9 } })
-  require('aceforeverd.utility.map').do_mode_map('n', '', {
-    ['<space>'] = {
-      ['l'] = [[<cmd>FzfLua<cr>]],
-      ['f'] = [[<cmd>FzfLua files<cr>]],
-      -- override :Rg
-      ['r'] = [[<cmd>FzfLua grep_project<cr>]],
-    },
-  }, { noremap = true })
-end
-
 function M.telescope()
   local telescope = require('telescope')
 
@@ -104,7 +92,6 @@ function M.telescope()
 
       ['z'] = '<cmd>lua require"telescope".extensions.zoxide.list{}<cr>',
       ['l'] = [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]],
-      ['E'] = [[<cmd>lua require('telescope').extensions.env.env{}<cr>]],
     },
     ['<leader>l'] = {
       -- lsp

@@ -439,9 +439,7 @@ M.plugin_list = {
       'nvim-telescope/telescope-github.nvim',
       'cljoly/telescope-repo.nvim',
       'jvgrootveld/telescope-zoxide',
-
       'nvim-telescope/telescope-frecency.nvim',
-      'LinArcX/telescope-env.nvim',
       'kkharji/sqlite.lua',
       'nvim-tree/nvim-web-devicons',
     },
@@ -704,8 +702,13 @@ M.plugin_list = {
     'ibhagwan/fzf-lua',
     dependencies = { 'vijaymarupudi/nvim-fzf', 'nvim-tree/nvim-web-devicons' },
     config = function()
-      require('aceforeverd.finder').fzflua()
+      require('fzf-lua').setup({ winopts = { width = 0.9 } })
     end,
+    keys = {
+      { '<space>l', '<cmd>FzfLua<cr>', desc = 'FzfLua' },
+      { '<space>f', [[<cmd>FzfLua files<cr>]], desc = 'FzfLua files' },
+      { '<space>r', [[<cmd>FzfLua grep_project<cr>]], desc = 'FzfLua Rg' },
+    },
   },
 
   {
