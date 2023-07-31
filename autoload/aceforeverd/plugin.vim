@@ -49,10 +49,7 @@ function! s:minpac() abort
 
     call minpac#init({'dir': s:pack_path})
 
-    call s:plugin_add('Shougo/context_filetype.vim', {'type': 'opt'})
-    call s:plugin_add('Shougo/neco-syntax', {'type': 'opt'})
     call s:plugin_add('Shougo/neco-vim', {'type': 'opt'})
-    call s:plugin_add('Shougo/echodoc.vim', {'type': 'opt'})
 
     call s:plugin_add('voldikss/vim-floaterm')
 
@@ -142,12 +139,20 @@ function! s:minpac() abort
     " Debug
     call s:plugin_add('puremourning/vimspector', {'type': 'opt'})
 
-    " Typescript
+    " ft plugins
     call s:plugin_add('HerringtonDarkholme/yats.vim')
+    call s:plugin_add('ziglang/zig.vim')
+    call s:plugin_add('gentoo/gentoo-syntax')
+    call s:plugin_add('chrisbra/csv.vim')
+    call s:plugin_add('cdelledonne/vim-cmake')
+    call s:plugin_add('rust-lang/rust.vim')
+    call s:plugin_add('rhysd/vim-llvm')
+    call s:plugin_add('vim-ruby/vim-ruby')
+    call s:plugin_add('lervag/vimtex', {'type': 'opt'})
+    call s:plugin_add('fatih/vim-go', {'type': 'opt'})
 
     " vimL
     call s:plugin_add('mhinz/vim-lookup')
-
     call s:plugin_add('tweekmonster/helpful.vim')
     " markdown
     call s:plugin_add('mzlogin/vim-markdown-toc')
@@ -157,27 +162,14 @@ function! s:minpac() abort
                 \ 'do': '!cd app && ./install.sh'
                 \ })
 
-    call s:plugin_add('rust-lang/rust.vim')
     " Tmux
     call s:plugin_add('tmux-plugins/vim-tmux')
     call s:plugin_add('christoomey/vim-tmux-navigator')
 
-    " gentoo
-    call s:plugin_add('gentoo/gentoo-syntax')
-
-    call s:plugin_add('chrisbra/csv.vim')
-
-    call s:plugin_add('cdelledonne/vim-cmake')
-
     call s:plugin_add('k-takata/minpac', {'type': 'opt'})
     call s:plugin_add('mg979/docgen.vim')
 
-    " Latex
-    call s:plugin_add('lervag/vimtex', {'type': 'opt'})
-
     " vim only
-    " Go
-    call s:plugin_add('fatih/vim-go', {'type': 'opt'})
     call s:plugin_add('itchyny/lightline.vim', {'type': 'opt'})
     call s:plugin_add('airblade/vim-gitgutter', {'type': 'opt'})
 
@@ -213,7 +205,7 @@ function! s:config_plugins()
     " early load colorschem, ref https://github.com/sainnhe/gruvbox-material/issues/60
     PackAdd! sonokai
 
-    let g:polyglot_disabled = ['sensible', 'autoindent', 'go']
+    let g:polyglot_disabled = ['sensible', 'autoindent', 'go', 'zig', 'ruby', 'rust', 'llvm', 'csv']
     let g:vim_json_syntax_conceal = 1
 
     let g:sleuth_go_heuristics = 0
@@ -478,6 +470,12 @@ function! s:config_plugins()
     xnoremap i<localleader>w iw
     xnoremap a<localleader>w aw
     xnoremap g<localleader>e ge
+
+    " zig
+    let g:zig_fmt_autosave = 0
+
+    " llvm
+    let g:llvm_ext_no_mapping = 0
 endfunction
 
 function! s:auto_pair() abort
@@ -499,16 +497,14 @@ function! s:auto_pair() abort
         augroup END
     elseif g:my_autopair ==? 'lexima'
         PackAdd! lexima.vim
+        let g:lexima_enable_endwise_rules = 0
     endif
 endfunction
 
 function! s:coc() abort
-    PackAdd! context_filetype.vim
-    PackAdd! neco-syntax
-    PackAdd! neco-vim
-    PackAdd! echodoc.vim
     PackAdd! coc.nvim
     PackAdd! coc-fzf
+    PackAdd! neco-vim
     PackAdd! coc-neco
 
     let g:coc_fzf_preview = 'up:80%'
