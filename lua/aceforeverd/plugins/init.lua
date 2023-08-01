@@ -217,7 +217,28 @@ M.plugin_list = {
       'rafamadriz/friendly-snippets',
     },
     config = function()
-      require('aceforeverd.plugins.snip').luasnip_setup()
+      local luasnip = require('luasnip')
+      -- local types = require('luasnip.util.types')
+      luasnip.config.setup({
+        ext_opts = {
+          history = true,
+          -- [types.choiceNode] = {
+          --     active = {
+          --         virt_text = { { '●', 'DiffAdd' } },
+          --     },
+          -- },
+          -- [types.insertNode] = {
+          --     active = {
+          --         virt_text = { { '●', 'DiffDelete' } },
+          --     },
+          -- },
+        },
+      })
+
+      require('luasnip.loaders.from_vscode').lazy_load()
+      require('luasnip.loaders.from_snipmate').lazy_load()
+
+      -- keymaps defined in nvim-cmp.lua
     end,
     build = 'make install_jsregexp',
   },
@@ -385,6 +406,37 @@ M.plugin_list = {
     dependencies = { 'nvim-treesitter' },
     opts = {},
     lazy = true,
+  },
+
+  {
+    'chrisgrieser/nvim-various-textobjs',
+    config = function()
+      require('various-textobjs').setup({ useDefaultKeymaps = false })
+    end,
+    keys = {
+      { 'aS', mode = { 'o', 'x' }, '<cmd>lua require("various-textobjs").subword(false)<CR>', desc = 'around subword' },
+      { 'iS', mode = { 'o', 'x' }, '<cmd>lua require("various-textobjs").subword(true)<CR>', desc = 'inside subword' },
+      { '!', mode = { 'o', 'x' }, '<cmd>lua require("various-textobjs").diagnostic()<CR>', desc = 'diagnostics textobj' },
+      { 'ii', mode = { "o", "x" }, "<cmd>lua require('various-textobjs').indentation(true, true)<CR>", desc = 'inner-inner indentation (no line above/below)'},
+      { 'iI', mode = { "o", "x" }, "<cmd>lua require('various-textobjs').indentation(true, false)<CR>", desc = 'inner-outer indentation (no line above)'},
+      { 'ai', mode = { "o", "x" }, "<cmd>lua require('various-textobjs').indentation(false, true)<CR>", desc = 'outer-inner indentation (include above)'},
+      { 'aI', mode = { "o", "x" }, "<cmd>lua require('various-textobjs').indentation(false, false)<CR>", desc = 'outer-outer indentation (include above/below)'},
+    },
+  },
+
+  {
+    'chrisgrieser/nvim-spider',
+    config = function()
+      require('spider').setup({
+        skipInsignificantPunctuation = false,
+      })
+    end,
+    keys = {
+      { mode = { 'n', 'o', 'x' }, 'w', "<cmd>lua require('spider').motion('w')<CR>", { desc = 'Spider-w' } },
+      { mode = { 'n', 'o', 'x' }, 'e', "<cmd>lua require('spider').motion('e')<CR>", { desc = 'Spider-e' } },
+      { mode = { 'n', 'o', 'x' }, 'b', "<cmd>lua require('spider').motion('b')<CR>", { desc = 'Spider-b' } },
+      { mode = { 'n', 'o', 'x' }, 'ge', "<cmd>lua require('spider').motion('ge')<CR>", { desc = 'Spider-ge' } },
+    },
   },
 
   { 'Olical/conjure', ft = { 'clojure', 'fennel', 'janet', 'racket', 'scheme' } },

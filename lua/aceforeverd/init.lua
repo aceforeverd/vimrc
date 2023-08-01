@@ -32,6 +32,7 @@ function M.setup()
   vim.o.foldlevelstart = 99
   vim.o.foldenable = true
   vim.o.fillchars = [[foldopen:▼,foldclose:⏵]]
+  vim.o.exrc = true -- automatically execute project local configs
 
   require('aceforeverd.plugins').setup()
 

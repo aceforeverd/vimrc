@@ -91,7 +91,7 @@ function! s:minpac() abort
     call s:plugin_add('rhysd/clever-f.vim')
     call s:plugin_add('justinmk/vim-sneak')
     call s:plugin_add('andymass/vim-matchup')
-    call s:plugin_add('chaoren/vim-wordmotion')
+    call s:plugin_add('chaoren/vim-wordmotion', {'type': 'opt'})
     " Tools
     call s:plugin_add('editorconfig/editorconfig-vim')
     call s:plugin_add('will133/vim-dirdiff')
@@ -105,7 +105,6 @@ function! s:minpac() abort
     call s:plugin_add('alpertuna/vim-header')
     " code format
     call s:plugin_add('sbdchd/neoformat')
-    call s:plugin_add('junegunn/vim-easy-align')
     " run/debug/test
     call s:plugin_add('vim-test/vim-test')
     call s:plugin_add('skywind3000/asyncrun.vim')
@@ -211,8 +210,7 @@ function! s:config_plugins()
     let g:sleuth_go_heuristics = 0
 
     if !has('nvim')
-        PackAdd! vim-go
-        call aceforeverd#settings#vim_go()
+        call s:config_vim_only()
     endif
 
     if g:my_dir_viewer ==? 'dirvish'
@@ -258,10 +256,6 @@ function! s:config_plugins()
     endif
 
     call s:auto_pair()
-
-    if g:my_cmp_source ==? 'coc'
-        call s:coc()
-    endif
 
     " suda.vim
     command! SudaWrite exe 'w suda://%'
@@ -372,10 +366,6 @@ function! s:config_plugins()
         autocmd FileType markdown,rmd,pandoc.markdown,gitcommit setlocal spell
     augroup END
 
-    " easy-align
-    vmap <Leader>a <Plug>(EasyAlign)
-    nmap <Leader>a <Plug>(EasyAlign)
-
     " vim-sneak
     let g:sneak#label = 1
     map s <Plug>Sneak_s
@@ -438,6 +428,7 @@ function! s:config_plugins()
     let g:vimspector_enable_mappings = 'HUMAN'
 
     " for neovim only work when ts highlight disable. :TSDisable highlight
+    " see also zS from vim-scriptease
     nnoremap <silent> <leader>cs :<c-u>call aceforeverd#util#syn_query()<cr>
     nnoremap <silent> <leader>cv :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
 
@@ -476,6 +467,14 @@ function! s:config_plugins()
 
     " llvm
     let g:llvm_ext_no_mapping = 0
+endfunction
+
+function s:config_vim_only() abort
+    PackAdd! vim-go
+    call aceforeverd#settings#vim_go()
+    PackAdd! vim-wordmotion
+
+    call s:coc()
 endfunction
 
 function! s:auto_pair() abort
