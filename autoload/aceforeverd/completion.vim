@@ -19,16 +19,14 @@ function! aceforeverd#completion#init_cmp_source(src) abort
     endif
 
     " setup common variables
-    if a:src ==? 'coc'
-        let s:my_cmps['complete'] = function('coc#refresh')
-        let s:my_cmps['document_hover'] = function('<SID>coc_hover')
+    let s:my_cmps['complete'] = function('coc#refresh')
+    let s:my_cmps['document_hover'] = function('<SID>coc_hover')
 
-        inoremap <expr> <Plug>(MyIMappingBS) pumvisible() ? "\<C-h>" : delimitMate#BS()
-        imap <expr> <Plug>MyIMappingCR coc#pum#visible() ? coc#pum#confirm() : "<Plug>delimitMateCR"
+    inoremap <expr> <Plug>(MyIMappingBS) pumvisible() ? "\<C-h>" : delimitMate#BS()
+    imap <expr> <Plug>MyIMappingCR coc#pum#visible() ? coc#pum#confirm() : "<Plug>delimitMateCR"
 
-        let g:coc_start_at_startup = 1
-        call aceforeverd#completion#init_source_coc()
-    endif
+    let g:coc_start_at_startup = 1
+    call aceforeverd#completion#init_source_coc()
 
     call aceforeverd#completion#init_source_common()
 endfunction

@@ -15,6 +15,10 @@ function! aceforeverd#statusline#nvim_gps() abort
     return v:lua.require('aceforeverd.utility.statusline').gps()
 endfunction
 
+function! aceforeverd#statusline#coc_ctx()
+    return get(b:, 'coc_current_function', '')
+endfunction
+
 function! aceforeverd#statusline#lsp_status() abort
     if g:my_cmp_source ==? 'nvim_lsp'
         return v:lua.require('aceforeverd.utility.statusline').lsp_status()
@@ -71,6 +75,8 @@ function! aceforeverd#statusline#lsp_diagnostic() abort
         endif
         return join(msgs, ' ')
     endif
+
+    return ''
 endfunction
 
 function! aceforeverd#statusline#lightline() abort
@@ -84,7 +90,7 @@ function! aceforeverd#statusline#lightline() abort
       \   'right': [
       \     [ 'lineinfo', 'total_line', 'percent' ],
       \     [ 'fileencoding', 'fileformat', 'spell' ],
-      \     [ 'filetype' ]
+      \     [ 'ctx', 'filetype' ]
       \   ]
       \ },
       \ 'inactive': {
@@ -96,6 +102,7 @@ function! aceforeverd#statusline#lightline() abort
       \   'total_line': '%L',
       \  },
       \ 'component_function': {
+      \   'ctx': 'aceforeverd#statusline#coc_ctx',
       \   'lsp_status': 'aceforeverd#statusline#lsp_status',
       \   'diagnostic_count': 'aceforeverd#statusline#lsp_diagnostic',
       \   'git_branch': 'FugitiveHead',

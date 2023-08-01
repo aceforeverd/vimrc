@@ -26,8 +26,6 @@ function! aceforeverd#settings#my_init() abort
         endif
     endif
 
-    let g:my_autopair = get(g:, 'my_autopair', 'delimitmate')
-
     " default to vim-dirvish by 'dirvish'
     " or u can set 'netrw' to use netrw with vim-vinegar enhancements
     let g:my_dir_viewer = get(g:, 'my_dir_viewer', 'dirvish')

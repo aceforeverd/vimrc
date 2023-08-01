@@ -1,8 +1,8 @@
 {
-  "coc.preferences.extensionUpdateCheck": "never",
-  "coc.preferences.currentFunctionSymbolAutoUpdate": false,
+  "coc.preferences.extensionUpdateCheck": "weekly",
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "codeLens.enable": true,
-  "suggest.echodocSupport": true,
+  "suggest.noselect": true,
   "suggest.completionItemKindLabels": {
     "keyword": "\uf808",
     "variable": "\ue79b",
@@ -168,21 +168,12 @@
   "java.configuration.runtimes": [
     {
       "name": "JavaSE-11",
-      "path": "/Users/danielace/.sdkman/candidates/java/11.0.11.hs-adpt",
-      "default": true
+      "path": "<path>",
     }
   ],
-  "java.home": "/Users/danielace/.sdkman/candidates/java/11.0.11.hs-adpt",
-  "java.jdt.ls.vmargs": "-javaagent:/Users/danielace/.m2/repository/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar",
-  "metals.javaHome": "/Users/danielace/.sdkman/candidates/java/11.0.11.hs-adpt",
-  "metals.statusBarEnabled": true,
-  "metals.showInferredType": true,
-  "metals.showImplicitArguments": true,
-  "metals.showImplicitConversionsAndClasses": true,
   "Lua.hint.enable": true,
   "Lua.hint.setType": true,
   "Lua.runtime.version": "LuaJIT",
   "sumneko-lua.enableNvimLuaDev": true,
   "git.enableGutters": false,
-  "Lua.telemetry.enable": false
 }

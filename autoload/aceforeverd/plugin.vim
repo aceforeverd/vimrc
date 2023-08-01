@@ -182,7 +182,6 @@ function! s:minpac() abort
 
     " auto pair
     call s:plugin_add('raimondi/delimitmate', {'type': 'opt'})
-    call s:plugin_add('cohama/lexima.vim', {'type': 'opt'})
 
     call s:plugin_add('kristijanhusak/vim-dadbod-ui')
 
@@ -254,8 +253,6 @@ function! s:config_plugins()
             let g:loaded_gentags#ctags = 1
         endif
     endif
-
-    call s:auto_pair()
 
     " suda.vim
     command! SudaWrite exe 'w suda://%'
@@ -474,30 +471,17 @@ function s:config_vim_only() abort
     call aceforeverd#settings#vim_go()
     PackAdd! vim-wordmotion
 
+    PackAdd! delimitmate
+    let g:delimitMate_expand_cr = 2
+    let g:delimitMate_expand_space = 1
+    let g:delimitMate_balance_matchpairs = 1
+    augroup delimitMateCustom
+        autocmd!
+        autocmd FileType html,xhtml,xml let b:delimitMate_matchpairs = "(:),[:],{:}"
+        autocmd FileType rust let b:delimitMate_quotes = "\" `"
+    augroup END
+
     call s:coc()
-endfunction
-
-function! s:auto_pair() abort
-    if has('nvim')
-        " use nvim-autopairs for nvim
-        return
-    endif
-
-    if g:my_autopair ==? 'delimitmate'
-        PackAdd! delimitmate
-        "" see help delimitMateExpansion
-        let g:delimitMate_expand_cr = 2
-        let g:delimitMate_expand_space = 1
-        let g:delimitMate_balance_matchpairs = 1
-        augroup delimitMateCustom
-            autocmd!
-            autocmd FileType html,xhtml,xml let b:delimitMate_matchpairs = "(:),[:],{:}"
-            autocmd FileType rust let b:delimitMate_quotes = "\" `"
-        augroup END
-    elseif g:my_autopair ==? 'lexima'
-        PackAdd! lexima.vim
-        let g:lexima_enable_endwise_rules = 0
-    endif
 endfunction
 
 function! s:coc() abort
