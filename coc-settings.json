@@ -2,6 +2,7 @@
   "coc.preferences.extensionUpdateCheck": "weekly",
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "codeLens.enable": true,
+  "semanticTokens.enable": true,
   "suggest.noselect": true,
   "suggest.completionItemKindLabels": {
     "keyword": "\uf808",
@@ -75,12 +76,6 @@
     "dockerfile": ["hadolint"],
     "python": ["pylint"],
     "yaml": ["actionlint"]
-  },
-  "markdownlint.config": {
-    "line_length": false,
-    "MD007": false,
-    "MD022": false,
-    "MD032": false
   },
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt"
@@ -165,12 +160,6 @@
       "args": ["-"]
     }
   },
-  "java.configuration.runtimes": [
-    {
-      "name": "JavaSE-11",
-      "path": "<path>",
-    }
-  ],
   "Lua.hint.enable": true,
   "Lua.hint.setType": true,
   "Lua.runtime.version": "LuaJIT",
