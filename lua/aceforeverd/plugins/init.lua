@@ -596,7 +596,9 @@ M.plugin_list = {
     'sindrets/diffview.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      require('aceforeverd.integration.git').diffview()
+      require('diffview').setup({
+        enhanced_diff_hl = true,
+      })
     end,
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
   },
@@ -627,7 +629,10 @@ M.plugin_list = {
     'pwntester/octo.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      require('aceforeverd.integration.git').octo()
+      require('octo').setup({
+        user_icon = '👴',
+        timeline_marker = '📣',
+      })
     end,
     cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' },
   },
@@ -643,12 +648,7 @@ M.plugin_list = {
     'mfussenegger/nvim-treehopper',
     keys = {
       { '<space>', [[:<C-U>lua require('tsht').nodes()<CR>]], mode = 'o', { silent = true } },
-      {
-        '<space>',
-        [[:lua require('tsht').nodes()<cr>]],
-        mode = 'x',
-        { silent = true, noremap = true },
-      },
+      { '<space>', [[:lua require('tsht').nodes()<cr>]],      mode = 'x', { silent = true, noremap = true } },
     },
   },
 

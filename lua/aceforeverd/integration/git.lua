@@ -93,23 +93,4 @@ function M.gitsigns()
   })
 end
 
-function M.diffview()
-  require('diffview').setup({
-    enhanced_diff_hl = true,
-  })
-end
-
-function M.git_conflict()
-  require('git-conflict').setup({
-    default_mappings = false,
-  })
-end
-
-function M.octo()
-  require('octo').setup({
-    user_icon = '👴',
-    timeline_marker = '📣',
-  })
-end
-
 return M

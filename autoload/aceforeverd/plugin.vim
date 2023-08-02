@@ -396,6 +396,10 @@ function! s:config_plugins()
     " vim-better-whitespace
     let g:better_whitespace_operator = ''
     let g:current_line_whitespace_disabled_soft = 1
+    augroup gp_whitespace
+        autocmd!
+        autocmd TermOpen term://* :DisableWhitespace
+    augroup END
 
     " neoformat
     let g:neoformat_enabled_lua = ['luaformat', 'stylua']
