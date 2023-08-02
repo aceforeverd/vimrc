@@ -467,6 +467,9 @@ function! s:config_plugins()
 endfunction
 
 function s:config_vim_only() abort
+    " align to nvim default mapings
+    nnoremap <C-L> <Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>
+
     PackAdd! vim-go
     call aceforeverd#settings#vim_go()
     PackAdd! vim-wordmotion
