@@ -34,6 +34,13 @@ function M.setup()
   vim.o.fillchars = [[foldopen:▼,foldclose:⏵]]
   vim.o.exrc = true -- automatically execute project local configs
 
+  local gp = vim.api.nvim_create_augroup('gp_whtespace', {clear = true})
+  vim.api.nvim_create_autocmd('TermOpen', {
+    group = gp,
+    pattern = 'term://*',
+    command = 'DisableWhitespace',
+  })
+
   require('aceforeverd.plugins').setup()
 
   -- keymap guideline
