@@ -4,7 +4,7 @@
 
 function! aceforeverd#plugin#setup()
     call s:init_cmds()
-    call s:minpac()
+    call PackInit()
     call s:config_plugins()
 endfunction
 
@@ -18,6 +18,15 @@ function! s:pack_add(bang, name) abort
     endif
 endfunction
 
+function! PackList(...)
+  return join(sort(keys(minpac#getpluglist())), "\n")
+endfunction
+
+function! PackOpenDirImpl(name) abort
+    let dir = minpac#getpluginfo(substitute(a:name, '\(^\s*\|\s*$\)', '', 'g')).dir
+    exe 'FloatermNew --cwd=' . dir
+endfunction
+
 function! s:init_cmds() abort
     " tiny wrapper for :packadd
     " good thing is use :PackAdd! to ignore any errors and do not terminate,
@@ -27,13 +36,21 @@ function! s:init_cmds() abort
     command! PackUpdate call minpac#update()
     command! PackStatus call minpac#status()
     command! PackClean call minpac#clean()
+
+    command! -nargs=1 -complete=custom,PackList PackInstall
+                \ call PackInit() | call minpac#update(substitute(<q-args>, '\(^\s*\|\s*$\)', '', 'g'))
+
+    command! -nargs=1 -complete=custom,PackList PackOpenDir call PackOpenDirImpl(<q-args>)
+
+    command! -nargs=1 -complete=custom,PackList PackOpenUrl
+                \ call plugin_browse#open_uri(minpac#getpluginfo(substitute(<q-args>, '\(^\s*\|\s*$\)', '', 'g')).url)
 endfunction
 
 function s:plugin_add(...)
     call call('minpac#add', a:000)
 endfunction
 
-function! s:minpac() abort
+function! PackInit() abort
     if has('nvim')
         let s:pack_path = stdpath('data') . '/site/'
     else
@@ -86,6 +103,7 @@ function! s:minpac() abort
     call s:plugin_add('wincent/terminus')
     call s:plugin_add('vifm/vifm.vim')
     call s:plugin_add('justinmk/vim-gtfo')
+    call s:plugin_add('skywind3000/vim-quickui')
 
     " motion
     call s:plugin_add('rhysd/clever-f.vim')
@@ -464,6 +482,56 @@ function! s:config_plugins()
 
     " llvm
     let g:llvm_ext_no_mapping = 0
+
+    call s:quickui()
+endfunction
+
+function s:quickui() abort
+    " clear all the menus
+    call quickui#menu#reset()
+
+    " install a 'File' menu, use [text, command] to represent an item.
+    call quickui#menu#install('&File', [
+                \ [ "&New File\tCtrl+n", 'echo 0' ],
+                \ [ "&Open File\t(F3)", 'echo 1' ],
+                \ [ "&Close", 'echo 2' ],
+                \ [ "--", '' ],
+                \ [ "&Save\tCtrl+s", 'echo 3'],
+                \ [ "Save &As", 'echo 4' ],
+                \ [ "Save All", 'echo 5' ],
+                \ [ "--", '' ],
+                \ [ "E&xit\tAlt+x", 'echo 6' ],
+                \ ])
+
+    " items containing tips, tips will display in the cmdline
+    call quickui#menu#install('&Edit', [
+                \ [ '&Copy', 'echo 1', 'help 1' ],
+                \ [ '&Paste', 'echo 2', 'help 2' ],
+                \ [ '&Find', 'echo 3', 'help 3' ],
+                \ ])
+
+    " script inside %{...} will be evaluated and expanded in the string
+    call quickui#menu#install("&Option", [
+                \ ['Set &Spell %{&spell? "Off":"On"}', 'set spell!'],
+                \ ['Set &Cursor Line %{&cursorline? "Off":"On"}', 'set cursorline!'],
+                \ ['Set &Paste %{&paste? "Off":"On"}', 'set paste!'],
+                \ ])
+
+    " register HELP menu with weight 10000
+    call quickui#menu#install('H&elp', [
+                \ ["&Cheatsheet", 'help index', ''],
+                \ ['T&ips', 'help tips', ''],
+                \ ['--',''],
+                \ ["&Tutorial", 'help tutor', ''],
+                \ ['&Quick Reference', 'help quickref', ''],
+                \ ['&Summary', 'help summary', ''],
+                \ ], 10000)
+
+    " enable to display tips in the cmdline
+    let g:quickui_show_tip = 1
+
+    " hit space twice to open menu
+    noremap <space>m :call quickui#menu#open()<cr>
 endfunction
 
 function s:config_vim_only() abort
