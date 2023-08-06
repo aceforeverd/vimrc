@@ -2,7 +2,7 @@
 " setup plugins with minpac
 ""
 
-function! aceforeverd#plugin#setup()
+function! aceforeverd#plugin#setup() abort
     call s:init_cmds()
     call PackInit()
     call s:config_plugins()
@@ -12,13 +12,13 @@ endfunction
 function! s:pack_add(bang, name) abort
     " silent(!) applied just in case exception in vim, if plugin not installed yet
     if a:bang
-        silent! execute 'packadd! ' .. a:name
+        silent! execute 'packadd! ' . a:name
     else
-        execute 'packadd! ' .. a:name
+        execute 'packadd! ' . a:name
     endif
 endfunction
 
-function! PackList(...)
+function! PackList(...) abort
   return join(sort(keys(minpac#getpluglist())), "\n")
 endfunction
 
@@ -46,7 +46,7 @@ function! s:init_cmds() abort
                 \ call plugin_browse#open_uri(minpac#getpluginfo(substitute(<q-args>, '\(^\s*\|\s*$\)', '', 'g')).url)
 endfunction
 
-function s:plugin_add(...)
+function! s:plugin_add(...) abort
     call call('minpac#add', a:000)
 endfunction
 
@@ -211,7 +211,7 @@ function! PackInit() abort
     call s:plugin_add('voldikss/vim-translator')
 endfunction
 
-function! s:config_plugins()
+function! s:config_plugins() abort
     " no matchit & matchparen
     let g:loaded_matchit = 1
     let g:loaded_matchparen = 1
@@ -284,7 +284,7 @@ function! s:config_plugins()
 
     " fzf
     nnoremap <c-p> :FZF --info=inline<CR>
-    function! s:build_quickfix_list(lines)
+    function! s:build_quickfix_list(lines) abort
         call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
         copen
         cc
@@ -371,7 +371,7 @@ function! s:config_plugins()
     let g:mkdp_auto_close = 0
 
     " markdown local settings
-    function s:mk_hook()
+    function! s:mk_hook() abort
         packadd markdown-preview.nvim
         map <buffer> <leader>mp <Plug>MarkdownPreview
     endfunction
@@ -483,58 +483,10 @@ function! s:config_plugins()
     " llvm
     let g:llvm_ext_no_mapping = 0
 
-    call s:quickui()
+    call aceforeverd#ui#setup()
 endfunction
 
-function s:quickui() abort
-    " clear all the menus
-    call quickui#menu#reset()
-
-    " install a 'File' menu, use [text, command] to represent an item.
-    call quickui#menu#install('&File', [
-                \ [ "&New File\tCtrl+n", 'echo 0' ],
-                \ [ "&Open File\t(F3)", 'echo 1' ],
-                \ [ "&Close", 'echo 2' ],
-                \ [ "--", '' ],
-                \ [ "&Save\tCtrl+s", 'echo 3'],
-                \ [ "Save &As", 'echo 4' ],
-                \ [ "Save All", 'echo 5' ],
-                \ [ "--", '' ],
-                \ [ "E&xit\tAlt+x", 'echo 6' ],
-                \ ])
-
-    " items containing tips, tips will display in the cmdline
-    call quickui#menu#install('&Edit', [
-                \ [ '&Copy', 'echo 1', 'help 1' ],
-                \ [ '&Paste', 'echo 2', 'help 2' ],
-                \ [ '&Find', 'echo 3', 'help 3' ],
-                \ ])
-
-    " script inside %{...} will be evaluated and expanded in the string
-    call quickui#menu#install("&Option", [
-                \ ['Set &Spell %{&spell? "Off":"On"}', 'set spell!'],
-                \ ['Set &Cursor Line %{&cursorline? "Off":"On"}', 'set cursorline!'],
-                \ ['Set &Paste %{&paste? "Off":"On"}', 'set paste!'],
-                \ ])
-
-    " register HELP menu with weight 10000
-    call quickui#menu#install('H&elp', [
-                \ ["&Cheatsheet", 'help index', ''],
-                \ ['T&ips', 'help tips', ''],
-                \ ['--',''],
-                \ ["&Tutorial", 'help tutor', ''],
-                \ ['&Quick Reference', 'help quickref', ''],
-                \ ['&Summary', 'help summary', ''],
-                \ ], 10000)
-
-    " enable to display tips in the cmdline
-    let g:quickui_show_tip = 1
-
-    " hit space twice to open menu
-    noremap <space>m :call quickui#menu#open()<cr>
-endfunction
-
-function s:config_vim_only() abort
+function! s:config_vim_only() abort
     " align to nvim default mapings
     nnoremap <C-L> <Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>
 
