@@ -6,6 +6,7 @@ function GetRepo(repo)
 end
 
 function GetOldPlugins()
+  -- minpac plugins
   local plugins = vim.fn['minpac#getpluglist']()
   local out = {}
   for _, value in pairs(plugins) do
@@ -14,11 +15,25 @@ function GetOldPlugins()
     local stats = GetRepo(repo)
 
     if stats ~= nil and stats.archived == true then
-      table.insert(out, {value, 'archived'})
+      table.insert(out, repo)
+    else
+      vim.notify('ok: ' .. repo, vim.log.levels.INFO, {})
     end
   end
 
-  vim.api.nvim_notify(vim.inspect(out), vim.log.levels.INFO, {})
+  -- lazy plugins
+  local lua_plugins = require('aceforeverd.plugins').plugin_list
+  for _, value in pairs(lua_plugins) do
+    local stats = GetRepo(value[0])
+
+    if stats ~= nil and stats.archived == true then
+      table.insert(out, value[0])
+    else
+      vim.notify('ok: ' .. value[0], vim.log.levels.INFO, {})
+    end
+  end
+
+  vim.notify('archived: ' .. vim.inspect(out), vim.log.levels.INFO, {})
 end
 
 return {

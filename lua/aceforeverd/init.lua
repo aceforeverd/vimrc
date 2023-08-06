@@ -47,7 +47,7 @@ function M.setup()
   -- <space>xxx   -> view-only operators
   -- <leader>xxx  -> possibly write operators
 
-  vim.api.nvim_create_user_command('GetOldPlugins', [[lua require('aceforeverd.plugins.util').GetOldPlugins()]], {})
+  vim.api.nvim_create_user_command('PackCheckHealth', [[lua require('aceforeverd.plugins.util').GetOldPlugins()]], {})
 end
 
 return M
