@@ -38,6 +38,7 @@ Plug 'Shougo/context_filetype.vim'
 Plug 'Shougo/neco-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'justinmk/vim-sneak'
 
 Plug 'rafi/awesome-vim-colorschemes'
 
@@ -293,6 +294,8 @@ set matchtime=2
 set history=1000
 set wildmenu
 set backspace=indent,eol,start
+set cursorline
+set cursorcolumn
 
 " No annoying sound on errors
 set noerrorbells
@@ -388,6 +391,8 @@ catch
 endtry
 
 set laststatus=2
+
+nnoremap <C-L> <Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>
 
 " netrw
 augroup gp_netrw_cs
@@ -545,3 +550,7 @@ function! s:syn_query_verbose() abort
 endfunction
 
 nnoremap <silent> <leader>cv :<c-u>call <SID>syn_query_verbose()<cr>
+
+let g:sneak#label = 1
+map s <Plug>Sneak_s
+map S <Plug>Sneak_S
