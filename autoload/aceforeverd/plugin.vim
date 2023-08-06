@@ -276,6 +276,28 @@ function! s:config_plugins() abort
     command! SudaWrite exe 'w suda://%'
     command! SudaRead  exe 'e suda://%'
 
+    " terminal mode mapping
+    function! s:terminal_mapping() abort
+        let g:floaterm_width = 0.9
+        let g:floaterm_height = 0.9
+        tnoremap <C-w>j <C-\><C-n><C-w>j
+        tnoremap <C-w>k <C-\><C-n><C-w>k
+        tnoremap <C-w>l <C-\><C-n><C-w>l
+        tnoremap <C-w>h <C-\><C-n><C-w>h
+        tnoremap <C-w>m <C-\><c-n>:FloatermToggle<CR>
+        tnoremap <C-w>] <C-\><c-n>:FloatermNext<CR>
+        tnoremap <C-w>[ <C-\><c-n>:FloatermPrev<CR>
+        tnoremap <C-w>a <C-\><C-n>:FloatermNew<CR>
+        tnoremap <C-w>e <C-\><C-n>:FloatermKill<CR>
+        tnoremap <c-w>n <c-\><c-n>
+        nnoremap <C-w>m :FloatermToggle<CR>
+        " paste register content in terminal mode
+        tnoremap <expr> <C-q> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+    endfunction
+    if has('nvim') || has('terminal')
+        call s:terminal_mapping()
+    endif
+
     augroup gp_filetype
         autocmd!
         autocmd FileType verilog,verilog_systemverilog setlocal nosmartindent
@@ -397,6 +419,12 @@ function! s:config_plugins() abort
 
     " tmux navigator
     let g:tmux_navigator_no_mappings = 1
+    let g:tmux_navigator_preserve_zoom = 1
+    nnoremap <silent> <c-w>j :call <sid>smart_window_jump('j')<cr>
+    nnoremap <silent> <c-w>k :call <sid>smart_window_jump('k')<cr>
+    nnoremap <silent> <c-w>h :call <sid>smart_window_jump('h')<cr>
+    nnoremap <silent> <c-w>l :call <sid>smart_window_jump('l')<cr>
+    nnoremap <silent> <c-w>p :call <sid>smart_window_jump("#")<cr>
 
     augroup gp_lookup
         autocmd!
@@ -516,4 +544,25 @@ function! s:coc() abort
     let g:coc_fzf_preview = 'up:80%'
 
     call aceforeverd#completion#init_cmp_source(g:my_cmp_source)
+endfunction
+
+let s:direction_dict = {
+            \ 'h': ['TmuxNavigateLeft', 'h'],
+            \ 'l': ['TmuxNavigateRight', 'l'],
+            \ 'j': ['TmuxNavigateDown', 'j'],
+            \ 'k': ['TmuxNavigateUp', 'k'],
+            \ '#': ['TmuxNavigatePrevious', 'p'],
+            \ }
+
+" direction is 'hjkl#', refer winnr()
+function! s:smart_window_jump(direction) abort
+    if getenv('TMUX') != v:null
+        let nei_win = winnr(a:direction)
+
+        if nei_win !=# 0 && nei_win ==# winnr()
+            execute s:direction_dict[a:direction][0]
+        endif
+    endif
+
+    execute "normal! \<c-w>" . s:direction_dict[a:direction][1]
 endfunction

@@ -142,28 +142,6 @@ if has('patch-8.1.0360')
     set diffopt+=internal,algorithm:patience
 endif
 
-" terminal mode mapping
-function! s:terminal_mapping() abort
-    let g:floaterm_width = 0.9
-    let g:floaterm_height = 0.9
-    tnoremap <C-w>j <C-\><C-n><C-w>j
-    tnoremap <C-w>k <C-\><C-n><C-w>k
-    tnoremap <C-w>l <C-\><C-n><C-w>l
-    tnoremap <C-w>h <C-\><C-n><C-w>h
-    tnoremap <C-w>m <C-\><c-n>:FloatermToggle<CR>
-    tnoremap <C-w>] <C-\><c-n>:FloatermNext<CR>
-    tnoremap <C-w>[ <C-\><c-n>:FloatermPrev<CR>
-    tnoremap <C-w>a <C-\><C-n>:FloatermNew<CR>
-    tnoremap <C-w>e <C-\><C-n>:FloatermKill<CR>
-    tnoremap <c-w>n <c-\><c-n>
-    nnoremap <C-w>m :FloatermToggle<CR>
-    " paste register content in terminal mode
-    tnoremap <expr> <C-q> '<C-\><C-N>"'.nr2char(getchar()).'pi'
-endfunction
-if has('nvim') || has('terminal')
-    call s:terminal_mapping()
-endif
-
 " map <silent> <leader><cr> :noh<cr>
 nnoremap <leader>tn :tabnew<cr>
 nnoremap <leader>to :tabonly<cr>
