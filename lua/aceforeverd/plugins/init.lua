@@ -127,6 +127,13 @@ M.plugin_list = {
   },
 
   {
+    'p00f/clangd_extensions.nvim',
+    config = function()
+      require('clangd_extensions').setup({})
+    end,
+    lazy = true,
+  },
+  {
     'neovim/nvim-lspconfig',
     dependencies = {
       'williamboman/mason.nvim',
@@ -336,11 +343,9 @@ M.plugin_list = {
       vim.g.rainbow_delimiters = {
         strategy = {
           [''] = rainbow_delimiters.strategy['global'],
-          vim = rainbow_delimiters.strategy['local'],
         },
         query = {
           [''] = 'rainbow-delimiters',
-          lua = 'rainbow-blocks',
         },
         highlight = {
           'RainbowDelimiterRed',

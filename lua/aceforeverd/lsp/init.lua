@@ -43,47 +43,8 @@ function M.setup()
     fn(name)
   end
 
-  M.clangd()
   require('aceforeverd.lsp.jdtls').setup()
   require('aceforeverd.lsp.metals').metals()
-end
-
-function M.clangd()
-  local on_attach = lsp_basic.on_attach
-  local capabilities = lsp_basic.capabilities
-
-  local lsp_status = require('lsp-status')
-
-  local clangd_caps = vim.tbl_deep_extend('force', capabilities, {
-    -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428#issuecomment-997226723
-    offsetEncoding = { 'utf-16' },
-  })
-
-  local clangd_cfg = {
-    on_attach = function(client, bufnr)
-      on_attach(client, bufnr)
-      vim.keymap.set(
-        'n',
-        '<Leader>af',
-        '<cmd>ClangdSwitchSourceHeader<cr>',
-        { noremap = true, silent = true, buffer = bufnr }
-      )
-    end,
-    capabilities = clangd_caps,
-    handlers = vim.tbl_deep_extend('error', lsp_basic.handlers, lsp_status.extensions.clangd.setup()),
-    init_options = { clangdFileStatus = true },
-    cmd = {
-      'clangd',
-      '--background-index',
-      '--clang-tidy',
-      '--all-scopes-completion',
-      -- '--inlay-hints',
-    },
-  }
-
-  require('clangd_extensions').setup({
-    server = clangd_cfg,
-  })
 end
 
 function M.go()

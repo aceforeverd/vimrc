@@ -26,8 +26,7 @@ end
 -- @param cfg_override lsp configuration override, can be
 --   1. table
 --   2. function: return the override table
--- @param post_hook additional action take after lsp setup, only support function type with one parameter that is lsp server name
-local function setup_generalized_with_override(cfg_override, post_hook)
+local function setup_generalized_with_override(cfg_override)
   return function(server_name)
     local override = {}
     if type(cfg_override) == 'table' then
@@ -49,10 +48,6 @@ local function setup_generalized_with_override(cfg_override, post_hook)
     end
 
     lspconfig[server_name].setup(override)
-
-    if type(post_hook) == 'function' then
-      post_hook(server_name)
-    end
   end
 end
 
@@ -67,6 +62,43 @@ local html_cfg = {
 }
 
 return {
+  clangd = function(name)
+    local on_attach = general_lsp_config.on_attach
+    local capabilities = general_lsp_config.capabilities
+
+    local lsp_status = require('lsp-status')
+
+    local clangd_caps = vim.tbl_deep_extend('force', capabilities, {
+      -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428#issuecomment-997226723
+      offsetEncoding = { 'utf-16' },
+    })
+
+    local clangd_cfg = {
+      on_attach = function(client, bufnr)
+        on_attach(client, bufnr)
+        vim.keymap.set(
+          'n',
+          '<Leader>af',
+          '<cmd>ClangdSwitchSourceHeader<cr>',
+          { noremap = true, silent = true, buffer = bufnr }
+        )
+
+        require("clangd_extensions.inlay_hints").setup_autocmd()
+        require("clangd_extensions.inlay_hints").set_inlay_hints()
+      end,
+      capabilities = clangd_caps,
+      handlers = vim.tbl_deep_extend('error', general_lsp_config.handlers, lsp_status.extensions.clangd.setup()),
+      init_options = { clangdFileStatus = true },
+      cmd = {
+        'clangd',
+        '--background-index',
+        '--clang-tidy',
+        '--all-scopes-completion',
+        -- '--inlay-hints',
+      },
+    }
+    lspconfig[name].setup(clangd_cfg)
+  end,
   lua_ls = function(name)
     require('neodev').setup({})
     setup_generalized_with_override({
