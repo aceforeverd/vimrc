@@ -177,6 +177,36 @@ M.plugin_list = {
     end,
     lazy = true,
   },
+  {
+    'uga-rosa/cmp-dictionary',
+    config = function()
+      local dict = require('cmp_dictionary')
+
+      dict.setup({
+        exact = 2,
+        async = false,
+        capacity = 5,
+        debug = false,
+      })
+      dict.switcher({
+        spelllang = {
+          en = { '/usr/share/dict/words' },
+          en_US = { '/usr/share/dict/words' },
+        }
+      })
+    end,
+    lazy = true,
+  },
+  {
+    'petertriho/cmp-git',
+    config = function()
+      require('cmp_git').setup({
+        filetypes = { 'gitcommit', 'markdown', 'octo' },
+      })
+    end,
+    lazy = true,
+
+  },
 
   {
     'hrsh7th/nvim-cmp',
@@ -195,7 +225,7 @@ M.plugin_list = {
     },
     event = 'InsertEnter',
     config = function()
-      require('aceforeverd.plugins.nvim-cmp').setup()
+      require('aceforeverd.config').cmp()
     end,
   },
 
@@ -328,7 +358,7 @@ M.plugin_list = {
     },
     build = ':TSUpdate',
     config = function()
-      require('aceforeverd.config.treesitter').setup()
+      require('aceforeverd.config').treesitter()
     end,
   },
 
@@ -484,7 +514,7 @@ M.plugin_list = {
   {
     'nvim-telescope/telescope.nvim',
     config = function()
-      require('aceforeverd.finder').telescope()
+      require('aceforeverd.config').teelscope()
     end,
     dependencies = {
       'nvim-lua/popup.nvim',
