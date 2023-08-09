@@ -467,10 +467,10 @@ M.plugin_list = {
       })
     end,
     keys = {
-      { mode = { 'n', 'o', 'x' }, 'w', "<cmd>lua require('spider').motion('w')<CR>", { desc = 'Spider-w' } },
-      { mode = { 'n', 'o', 'x' }, 'e', "<cmd>lua require('spider').motion('e')<CR>", { desc = 'Spider-e' } },
-      { mode = { 'n', 'o', 'x' }, 'b', "<cmd>lua require('spider').motion('b')<CR>", { desc = 'Spider-b' } },
-      { mode = { 'n', 'o', 'x' }, 'ge', "<cmd>lua require('spider').motion('ge')<CR>", { desc = 'Spider-ge' } },
+      { mode = { 'n', 'o', 'x' }, 'w', "<cmd>lua require('spider').motion('w')<CR>",  desc = 'Spider-w: next word'  },
+      { mode = { 'n', 'o', 'x' }, 'e', "<cmd>lua require('spider').motion('e')<CR>",  desc = 'Spider-e: end of word'  },
+      { mode = { 'n', 'o', 'x' }, 'b', "<cmd>lua require('spider').motion('b')<CR>",  desc = 'Spider-b: previous word'  },
+      { mode = { 'n', 'o', 'x' }, 'ge', "<cmd>lua require('spider').motion('ge')<CR>", desc = 'Spider-ge: previous end of word' },
     },
   },
 
@@ -790,12 +790,11 @@ M.plugin_list = {
     dependencies = { 'vijaymarupudi/nvim-fzf', 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('fzf-lua').setup({ winopts = { width = 0.9 } })
+
+      vim.keymap.set('n', '<space>l', [[<cmd>FzfLua<cr>]], { desc = 'FzfLua' })
+      vim.keymap.set('n', '<space>f', [[<cmd>FzfLua files<cr>]], { desc = 'FzfLua files' })
+      vim.keymap.set('n', '<space>r', [[<cmd>FzfLua grep_project<cr>]], { desc = 'FzfLua Rg' })
     end,
-    keys = {
-      { '<space>l', '<cmd>FzfLua<cr>', desc = 'FzfLua' },
-      { '<space>f', [[<cmd>FzfLua files<cr>]], desc = 'FzfLua files' },
-      { '<space>r', [[<cmd>FzfLua grep_project<cr>]], desc = 'FzfLua Rg' },
-    },
   },
 
   {
