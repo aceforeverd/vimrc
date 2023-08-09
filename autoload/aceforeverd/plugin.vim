@@ -167,6 +167,8 @@ function! PackInit() abort
     call s:plugin_add('vim-ruby/vim-ruby')
     call s:plugin_add('lervag/vimtex', {'type': 'opt'})
     call s:plugin_add('fatih/vim-go', {'type': 'opt'})
+    call s:plugin_add('neoclide/jsonc.vim')
+    call s:plugin_add('MTDL9/vim-log-highlighting')
 
     " vimL
     call s:plugin_add('mhinz/vim-lookup')
@@ -206,8 +208,6 @@ function! PackInit() abort
     call s:plugin_add('sainnhe/sonokai', {'type': 'opt'})
     call s:plugin_add('chrisbra/unicode.vim')
 
-    call s:plugin_add('sheerun/vim-polyglot')
-
     call s:plugin_add('voldikss/vim-translator')
 endfunction
 
@@ -220,9 +220,6 @@ function! s:config_plugins() abort
     PackAdd! cfilter
     " early load colorschem, ref https://github.com/sainnhe/gruvbox-material/issues/60
     PackAdd! sonokai
-
-    let g:polyglot_disabled = ['sensible', 'autoindent', 'go', 'zig', 'ruby', 'rust', 'llvm', 'csv']
-    let g:vim_json_syntax_conceal = 1
 
     let g:sleuth_go_heuristics = 0
 
