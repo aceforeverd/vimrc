@@ -177,6 +177,8 @@ else
     set laststatus=2
 endif
 
+set mouse=a
+
 " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
 if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
     " when start insert mode - blinking vertical bar

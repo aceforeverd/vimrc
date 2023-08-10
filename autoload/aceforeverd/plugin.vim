@@ -512,6 +512,9 @@ function! s:config_plugins() abort
     let g:llvm_ext_no_mapping = 0
 
     call aceforeverd#ui#setup()
+
+    " terminus has different defaults for cursor shape, disable it
+    let g:TerminusCursorShape = 0
 endfunction
 
 function! s:config_vim_only() abort
