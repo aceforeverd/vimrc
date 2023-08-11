@@ -70,8 +70,8 @@
   "python.formatting.provider": "yapf",
   // diagnostic-languageserver
   "diagnostic-languageserver.filetypes": {
-    "vim": "vint",
-    "sh": "shellcheck",
+    "vim": ["vint"],
+    "sh": ["shellcheck"],
     "cpp": ["cpplint"],
     "dockerfile": ["hadolint"],
     "python": ["pylint"],
@@ -90,10 +90,12 @@
     "vint": {
       "command": "vint",
       "debounce": 100,
-      "args": ["--enable-neovim", "--no-color", "-"],
+      // vint has issue with stdin, ref https://github.com/Vimjas/vint/issues/332
+      "args": ["--enable-neovim", "--no-color", "%file"],
       "offsetLine": 0,
       "offsetColumn": 0,
       "sourceName": "vint",
+      "rootPatterns": [".vintrc.yml", ".git"],
       "formatLines": 1,
       "formatPattern": [
         "[^:]+:(\\d+):(\\d+):\\s*(.*)(\\r|\\n)*$",
@@ -113,6 +115,7 @@
       "sourceName": "cpplint",
       "offsetLine": 0,
       "offsetColumn": 0,
+      "rootPatterns": [ "CPPLINT.cfg", ".git" ],
       "formatPattern": [
         "^[^:]+:(\\d+):(\\d+)?\\s+(.+?)\\s\\[(\\d)\\]$",
         {

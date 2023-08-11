@@ -26,7 +26,8 @@ function M.get_config()
         vint = {
           command = 'vint',
           debounce = 100,
-          args = { '--enable-neovim', '--no-color', '-' },
+          -- vint has issue with stdin: ref https://github.com/Vimjas/vint/issues/332
+          args = { '--enable-neovim', '--no-color', '%file' },
           offsetLine = 0,
           offsetColumn = 0,
           sourceName = 'vint',
