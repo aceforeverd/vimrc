@@ -179,29 +179,30 @@ endif
 
 set mouse=a
 
-" Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
-if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
-    " when start insert mode - blinking vertical bar
-    let &t_SI = "\<Esc>[5 q"
-    " when end insert/replace mode(common) - blinking block
-    let &t_EI = "\<Esc>[1 q"
-    " when start replace mode
-    let &t_SR = "\<Esc>[4 q"
+if !has('nvim')
+    " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
+    if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
+        " when start insert mode - blinking vertical bar
+        let &t_SI = "\<Esc>[5 q"
+        " when end insert/replace mode(common) - blinking block
+        let &t_EI = "\<Esc>[1 q"
+        " when start replace mode
+        let &t_SR = "\<Esc>[4 q"
+    endif
+    augroup cursor_shape
+        autocmd!
+        autocmd VimLeave * let &t_te .= "\<Esc>[3 q"
+        autocmd VimLeave * set guicursor=a:hor25-blinkon300
+    augroup END
+    " if exists('$TMUX')
+    "     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    "     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    " endif
 endif
 
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 		\,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
 		\,sm:block-blinkwait175-blinkoff150-blinkon175
-augroup cursor_shape
-    autocmd!
-    autocmd VimLeave * let &t_te .= "\<Esc>[3 q"
-    autocmd VimLeave * set guicursor=a:hor25-blinkon300
-augroup END
-
-" if exists('$TMUX')
-"     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-"     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-" endif
 
 " Make VIM remember position in file after reopen
 augroup gp_cursor_location

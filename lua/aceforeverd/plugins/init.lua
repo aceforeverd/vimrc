@@ -851,8 +851,6 @@ M.plugin_list = {
     ft = { 'json', 'yaml' },
   },
 
-  { 'milisims/nvim-luaref' },
-
   -- UI
   {
     'freddiehaddad/feline.nvim',
