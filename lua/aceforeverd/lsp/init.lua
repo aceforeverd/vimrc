@@ -53,12 +53,20 @@ function M.go()
     lsp_cfg = require('aceforeverd.lsp.common').general_cfg,
     textobjects = false,
     lsp_keymaps = false,
+    lsp_inlay_hints = {
+      highlight = 'LspInlayHint',
+    },
   })
 end
 
 function M.rust_analyzer()
   require('rust-tools').setup({
     server = require('aceforeverd.lsp.common').general_cfg,
+    tools = {
+      inlay_hints = {
+        highlight = 'LspInlayHint',
+      },
+    },
   })
 end
 

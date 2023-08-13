@@ -129,7 +129,11 @@ M.plugin_list = {
   {
     'p00f/clangd_extensions.nvim',
     config = function()
-      require('clangd_extensions').setup({})
+      require('clangd_extensions').setup({
+        inlay_hints = {
+          highlight = 'LspInlayHint'
+        }
+      })
     end,
     lazy = true,
   },

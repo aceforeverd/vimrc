@@ -84,6 +84,16 @@ function! aceforeverd#settings#hl_groups() abort
 
     " gitsigns
     highlight GitSignsCurrentLineBlame ctermfg=246 guifg=#b3b3b3
+
+    " inlay hints
+    if hlexists('LspInlayHint')
+        " github-theme defines LspInlayHint by default
+        highlight LspInlayHint cterm=italic gui=italic
+    else
+        highlight LspInlayHint cterm=italic ctermfg=110 gui=italic guifg=#7aa4a4
+    endif
+    highlight link lspInlayHintsType LspInlayHint
+    highlight link CocInlayHint LspInlayHint
 endfunction
 
 function! aceforeverd#settings#basic_color() abort
