@@ -69,63 +69,6 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-zig',
                 \ ]
 
-    function! s:coc_maps() abort
-        " Use `c-j` and `c-k` to navigate diagnostics
-        nmap <silent> <c-k> <Plug>(coc-diagnostic-prev)
-        nmap <silent> <c-j> <Plug>(coc-diagnostic-next)
-
-        " Remap keys for gotos
-        nmap <silent> gd <Plug>(coc-definition)
-        nnoremap <Leader>gd gd
-        nnoremap <Leader>gi gi
-        nmap <silent> gy <Plug>(coc-type-definition)
-        nmap <silent> gi <Plug>(coc-implementation)
-        nmap <silent> gr <Plug>(coc-references)
-
-        " Remap for rename current word
-        nmap <leader>rn <Plug>(coc-rename)
-
-        " Remap for format selected region
-        xmap <leader>o  <Plug>(coc-format-selected)
-        nmap <leader>o  <Plug>(coc-format-selected)
-
-        " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-        xmap <leader>a  <Plug>(coc-codeaction-selected)
-        nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-        " Remap for do codeAction of current line
-        nmap <leader>ca  <Plug>(coc-codeaction)
-        " Fix autofix problem of current line
-        nmap <leader>qf  <Plug>(coc-fix-current)
-
-        " Map function and class text objects
-        " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-        xmap if <Plug>(coc-funcobj-i)
-        omap if <Plug>(coc-funcobj-i)
-        xmap af <Plug>(coc-funcobj-a)
-        omap af <Plug>(coc-funcobj-a)
-        xmap ic <Plug>(coc-classobj-i)
-        omap ic <Plug>(coc-classobj-i)
-        xmap ac <Plug>(coc-classobj-a)
-        omap ac <Plug>(coc-classobj-a)
-
-        " Remap <C-f> and <C-b> for scroll float windows/popups.
-        if has('nvim-0.4.0') || has('patch-8.2.0750')
-            nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-            nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-            inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-            inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-            vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-            vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-        endif
-
-        " select selections ranges, needs server support, like: coc-tsserver, coc-python
-        nmap <silent> <Leader>rs <Plug>(coc-range-select)
-        xmap <silent> <Leader>rs <Plug>(coc-range-select)
-
-        nmap gl <Plug>(coc-openlink)
-    endfunction
-
     augroup gp_coc
         autocmd!
 
@@ -149,9 +92,6 @@ function! aceforeverd#completion#init_source_coc() abort
 
     " use `:OR` for organize import of current buffer
     command! -nargs=0 CocOR :call CocAction('runCommand', 'editor.action.organizeImport')
-
-    " Add status line support, for integration with other plugin, checkout `:h coc-status`
-    " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
     " Using CocList
     " Show all diagnostics
@@ -186,6 +126,75 @@ function! aceforeverd#completion#init_source_coc() abort
     " coc-snippets
     imap <expr> <C-l> coc#expandableOrJumpable() ? "<Plug>(coc-snippets-expand-jump)" : "\<C-l>"
     vmap <c-j> <Plug>(coc-snippets-select)
+endfunction
+
+function! s:coc_maps() abort
+    " Use `c-j` and `c-k` to navigate diagnostics
+    nmap <silent> <c-k> <Plug>(coc-diagnostic-prev)
+    nmap <silent> <c-j> <Plug>(coc-diagnostic-next)
+
+    " Remap keys for gotos
+    nmap <silent> gd <Plug>(coc-definition)
+    nnoremap <Leader>gd gd
+    nnoremap <Leader>gi gi
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " Remap for rename current word
+    nmap <leader>rn <Plug>(coc-rename)
+
+    " range format
+    xmap <cr>  <Plug>(coc-format-selected)
+    nmap g<cr>  <Plug>(coc-format-selected)
+
+    " Remap for do codeAction of selected region
+    xmap <leader>cc  <Plug>(coc-codeaction-selected)
+    nmap <leader>cc  <Plug>(coc-codeaction-selected)
+
+    " code action for current file
+    nmap <leader>cA  <Plug>(coc-codeaction)
+    " Remap keys for applying code actions at the cursor position
+    nmap <leader>ca  <Plug>(coc-codeaction-cursor)
+    " Remap keys for apply code actions affect whole buffer
+    nmap <leader>cb  <Plug>(coc-codeaction-source)
+    " Apply the most preferred quickfix action to fix diagnostic on the current line
+    nmap <leader>qf  <Plug>(coc-fix-current)
+
+    " Remap keys for applying refactor code actions
+    nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
+    xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+    nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+
+    " Run the Code Lens action on the current line
+    nmap <leader>cl <Plug>(coc-codelens-action)
+
+    " select selections ranges, needs server support, like: coc-tsserver, coc-python
+    nmap <silent> <Leader>rs <Plug>(coc-range-select)
+    xmap <silent> <Leader>rs <Plug>(coc-range-select)
+
+    nmap gl <Plug>(coc-openlink)
+
+    " Map function and class text objects
+    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+    xmap if <Plug>(coc-funcobj-i)
+    omap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap af <Plug>(coc-funcobj-a)
+    xmap ic <Plug>(coc-classobj-i)
+    omap ic <Plug>(coc-classobj-i)
+    xmap ac <Plug>(coc-classobj-a)
+    omap ac <Plug>(coc-classobj-a)
+
+    " Remap <C-f> and <C-b> for scroll float windows/popups.
+    if has('nvim-0.4.0') || has('patch-8.2.0750')
+        nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+        nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+        inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+        inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+        vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+        vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    endif
 endfunction
 
 function! aceforeverd#completion#help() abort

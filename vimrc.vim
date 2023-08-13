@@ -81,13 +81,13 @@ set wildmenu
 set backspace=indent,eol,start
 set dictionary+=/usr/share/dict/words
 set spelllang=en_us,en,cjk
-" set spell
 
 set showcmd
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
 set t_vb=
+set signcolumn=yes
 
 " enable italic for vim
 let &t_ZH="\e[3m"
