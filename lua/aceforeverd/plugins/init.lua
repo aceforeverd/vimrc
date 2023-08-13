@@ -538,6 +538,7 @@ M.plugin_list = {
       require('project_nvim').setup({
         manual_mode = false,
         silent_chdir = true,
+        scope_chdir = 'win',
         detection_methods = { 'pattern', 'lsp' },
       })
     end,

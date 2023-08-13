@@ -199,6 +199,7 @@ function! PackInit() abort
                 \ 'rev': 'release' })
     call s:plugin_add('antoinemadec/coc-fzf', {'type': 'opt'})
     call s:plugin_add('neoclide/coc-neco', {'type': 'opt'})
+    call s:plugin_add('airblade/vim-rooter', {'type': 'opt'})
 
     " auto pair
     call s:plugin_add('raimondi/delimitmate', {'type': 'opt'})
@@ -533,6 +534,10 @@ function! s:config_vim_only() abort
     augroup END
 
     call s:coc()
+
+    " vim rooter
+    PackAdd! vim-rooter
+    let g:rooter_cd_cmd = 'lcd'
 endfunction
 
 function! s:coc() abort

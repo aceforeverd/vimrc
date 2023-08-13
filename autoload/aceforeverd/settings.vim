@@ -122,11 +122,6 @@ function! aceforeverd#settings#basic_color() abort
     " endif
 endfunction
 
-function! aceforeverd#settings#glaive() abort
-    call glaive#Install()
-    Glaive codefmt plugin[mappings]
-endfunction
-
 " little utilities to open current file editing/file under cursor in netrw/dirvish with in browser
 "
 " @param type:
