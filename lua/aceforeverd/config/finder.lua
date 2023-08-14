@@ -26,7 +26,7 @@ function M.telescope()
           ['<C-j>'] = require('telescope.actions').move_selection_next,
           ['<C-k>'] = require('telescope.actions').move_selection_previous,
           ['<C-e>'] = { '<END>', type = 'command' },
-          ['<C-/>'] = require('telescope.actions.generate').which_key,
+          ['<C-/>'] = require('telescope.actions.generate').which_key({}),
           ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
           ['<c-n>'] = false, -- resevered key
           -- disabled for conflicts with builtin mapping in some commands

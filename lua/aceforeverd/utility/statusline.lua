@@ -125,11 +125,7 @@ function M.ctx_location(opts)
 end
 
 local lsp_status
-if vim.g.lsp_process_provider == 'lsp_progress' then
-  lsp_status = function()
-    return require('lsp-progress').progress()
-  end
-elseif vim.g.lsp_process_provider == 'lsp_status' then
+if vim.g.lsp_process_provider == 'lsp_status' then
   lsp_status = function()
     return require('lsp-status').status()
   end

@@ -119,14 +119,6 @@ M.plugin_list = {
   },
 
   {
-    'linrongbin16/lsp-progress.nvim',
-    config = function()
-      require('lsp-progress').setup()
-    end,
-    lazy = true,
-  },
-
-  {
     'p00f/clangd_extensions.nvim',
     config = function()
       require('clangd_extensions').setup({
@@ -154,7 +146,6 @@ M.plugin_list = {
       'MunifTanjim/nui.nvim',
       -- statusline
       'nvim-lua/lsp-status.nvim',
-      'linrongbin16/lsp-progress.nvim',
     },
     config = function()
       require('aceforeverd.lsp').setup()
@@ -345,6 +336,10 @@ M.plugin_list = {
     ft = { 'css', 'html' },
   },
 
+  -- ==============================================
+  --        TREESITTER START
+  -- ==============================================
+
   {
     'nvim-treesitter/playground',
     cmd = 'TSPlaygroundToggle',
@@ -446,6 +441,53 @@ M.plugin_list = {
     opts = {},
     lazy = true,
   },
+
+  {
+    'mfussenegger/nvim-treehopper',
+    keys = {
+      { '<space>', [[:<C-U>lua require('tsht').nodes()<CR>]], mode = 'o', { silent = true } },
+      { '<space>', [[:lua require('tsht').nodes()<cr>]],      mode = 'x', { silent = true, noremap = true } },
+    },
+  },
+
+  {
+    'numToStr/Comment.nvim',
+    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
+    config = function()
+      vim.g.tcomment_maps = 0
+
+      require('Comment').setup({
+        mappings = {
+          basic = true,
+          extra = true,
+          -- extended maps ? https://github.com/numToStr/Comment.nvim/wiki/Extended-Keybindings
+        },
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      })
+    end,
+    event = 'VeryLazy',
+  },
+  {
+    'kevinhwang91/nvim-ufo',
+    dependencies = {
+      'kevinhwang91/promise-async',
+    },
+    config = function()
+      require('aceforeverd.apperance').ufo()
+    end,
+  },
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    config = function()
+      require('aceforeverd.plugins.enhance').autopairs()
+    end,
+  },
+  -- ==============================================
+  --        TREESITTER END
+  -- ==============================================
+
 
   {
     'chrisgrieser/nvim-various-textobjs',
@@ -608,16 +650,6 @@ M.plugin_list = {
   { 'kevinhwang91/nvim-bqf', ft = { 'qf' } },
 
   {
-    'kevinhwang91/nvim-ufo',
-    dependencies = {
-      'kevinhwang91/promise-async',
-    },
-    config = function()
-      require('aceforeverd.apperance').ufo()
-    end,
-  },
-
-  {
     'nacro90/numb.nvim',
     config = function()
       require('numb').setup({ show_numbers = true, show_cursorline = true, number_only = false })
@@ -685,18 +717,12 @@ M.plugin_list = {
   },
 
   {
-    'mfussenegger/nvim-treehopper',
-    keys = {
-      { '<space>', [[:<C-U>lua require('tsht').nodes()<CR>]], mode = 'o', { silent = true } },
-      { '<space>', [[:lua require('tsht').nodes()<cr>]],      mode = 'x', { silent = true, noremap = true } },
-    },
-  },
-
-  {
     'folke/which-key.nvim',
     event = 'VeryLazy',
     config = function()
-      require('which-key').setup({ plugins = { registers = true } })
+      require('which-key').setup({
+        plugins = { registers = true },
+      })
     end,
   },
 
@@ -803,33 +829,6 @@ M.plugin_list = {
   },
 
   {
-    'numToStr/Comment.nvim',
-    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
-    config = function()
-      vim.g.tcomment_maps = 0
-
-      require('Comment').setup({
-        mappings = {
-          basic = true,
-          extra = true,
-          -- extended maps ? https://github.com/numToStr/Comment.nvim/wiki/Extended-Keybindings
-        },
-        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-      })
-    end,
-    event = 'VeryLazy',
-  },
-
-  {
-    'windwp/nvim-autopairs',
-    event = 'InsertEnter',
-    dependencies = { 'hrsh7th/nvim-cmp' },
-    config = function()
-      require('aceforeverd.plugins.enhance').autopairs()
-    end,
-  },
-
-  {
     'vuki656/package-info.nvim',
     dependencies = { 'MunifTanjim/nui.nvim' },
     event = { 'BufRead package.json' },
@@ -859,7 +858,10 @@ M.plugin_list = {
   -- UI
   {
     'freddiehaddad/feline.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+      'nvim-lua/lsp-status.nvim',
+    },
     cond = function()
       return vim.g.my_statusline == 'feline'
     end,
@@ -869,7 +871,10 @@ M.plugin_list = {
   },
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+      'nvim-lua/lsp-status.nvim',
+    },
     cond = function()
       return vim.g.my_statusline == 'lualine'
     end,
