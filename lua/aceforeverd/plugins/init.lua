@@ -529,33 +529,6 @@ M.plugin_list = {
     end,
   },
 
-  {
-    'Vigemus/iron.nvim',
-    cmd = { 'IronRepl', 'IronReplHere' },
-    config = function()
-      require('iron.core').setup({
-        config = {
-          -- Whether a repl should be discarded or not
-          scratch_repl = true,
-          -- Your repl definitions come here
-          repl_definition = {},
-          -- How the repl window will be displayed
-          -- See below for more information
-          repl_open_cmd = require('iron.view').bottom(40),
-        },
-        -- Iron doesn't set keymaps by default anymore.
-        -- You can set them here or manually add keymaps to the functions in iron.core
-        keymaps = {},
-        -- If the highlight is on, you can change how it looks
-        -- For the available options, check nvim_set_hl
-        highlight = {
-          italic = true,
-        },
-        ignore_blank_lines = true,
-      })
-    end,
-  },
-
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', lazy = true },
   {
     'nvim-telescope/telescope.nvim',
@@ -923,6 +896,11 @@ M.plugin_list = {
   {
     'nvim-neotest/neotest',
     lazy = true,
+  },
+
+  {
+    'stevearc/overseer.nvim',
+    opts = {},
   },
 
   -- color picker

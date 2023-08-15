@@ -154,6 +154,7 @@ function M.indent_blankline()
       'packer',
       'lsp-installer',
       'mason.nvim',
+      'OverseerForm',
     },
   })
 end
