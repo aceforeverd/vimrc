@@ -342,7 +342,7 @@ M.plugin_list = {
 
   {
     'nvim-treesitter/playground',
-    cmd = 'TSPlaygroundToggle',
+    cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor', 'TSNodeUnderCursor' },
   },
 
   {
@@ -451,23 +451,6 @@ M.plugin_list = {
   },
 
   {
-    'numToStr/Comment.nvim',
-    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
-    config = function()
-      vim.g.tcomment_maps = 0
-
-      require('Comment').setup({
-        mappings = {
-          basic = true,
-          extra = true,
-          -- extended maps ? https://github.com/numToStr/Comment.nvim/wiki/Extended-Keybindings
-        },
-        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-      })
-    end,
-    event = 'VeryLazy',
-  },
-  {
     'kevinhwang91/nvim-ufo',
     dependencies = {
       'kevinhwang91/promise-async',
@@ -488,6 +471,21 @@ M.plugin_list = {
   --        TREESITTER END
   -- ==============================================
 
+  -- ==============================================
+  --        MOTIONS START
+  -- ==============================================
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      -- { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      -- { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o"}, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+    },
+  },
 
   {
     'chrisgrieser/nvim-various-textobjs',
@@ -518,6 +516,32 @@ M.plugin_list = {
       { mode = { 'n', 'o', 'x' }, 'b', "<cmd>lua require('spider').motion('b')<CR>",  desc = 'Spider-b: previous word'  },
       { mode = { 'n', 'o', 'x' }, 'ge', "<cmd>lua require('spider').motion('ge')<CR>", desc = 'Spider-ge: previous end of word' },
     },
+  },
+
+  {
+    'rlane/pounce.nvim',
+    cmd = { 'Pounce', 'PounceRepeat', 'PounceReg', 'PounceExpand' },
+  },
+  -- ==============================================
+  --        MOTIONS END
+  -- ==============================================
+
+  {
+    'numToStr/Comment.nvim',
+    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
+    config = function()
+      vim.g.tcomment_maps = 0
+
+      require('Comment').setup({
+        mappings = {
+          basic = true,
+          extra = true,
+          -- extended maps ? https://github.com/numToStr/Comment.nvim/wiki/Extended-Keybindings
+        },
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      })
+    end,
+    event = 'VeryLazy',
   },
 
   { 'Olical/conjure', ft = { 'clojure', 'fennel', 'janet', 'racket', 'scheme' } },
@@ -878,11 +902,6 @@ M.plugin_list = {
       })
     end,
     cmd = 'Neogen',
-  },
-
-  {
-    'rlane/pounce.nvim',
-    cmd = { 'Pounce', 'PounceRepeat', 'PounceReg', 'PounceExpand' },
   },
 
   {

@@ -20,7 +20,7 @@ function M.setup()
   -- TODO: udpate the list where nvim-ts-autotag not support
   vim.g.tagalong_filetypes = { 'xml' }
 
-  local hi_disable_fts = { 'yaml', 'coc-explorer' }
+  local hi_disable_fts = { 'yaml', 'coc-explorer', 'cmake' }
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
     ignore_install = {

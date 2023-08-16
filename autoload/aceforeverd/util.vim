@@ -18,16 +18,6 @@
 "
 " @param post_hook: a string to be executed after finish as Ex command
 ""
-function! aceforeverd#util#install(post_hook) abort
-    try
-        call dein#install()
-        execute "call minpac#update('', {'do': '" .. a:post_hook .. "'})"
-
-        " NOTE: u may run :PackerSync or :CocUpdate manually
-    catch /.*/
-        echomsg 'catched ' .. v:exception
-    endtry
-endfunction
 
 function! aceforeverd#util#has_float() abort
     " see https://github.com/neoclide/coc.nvim/wiki/F.A.Q#how-to-make-preview-window-shown-aside-with-pum
