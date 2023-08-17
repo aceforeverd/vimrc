@@ -32,6 +32,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-apathy'
 Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-dispatch'
 
 Plug 'Shougo/neco-syntax'
 Plug 'Shougo/context_filetype.vim'
@@ -406,7 +407,8 @@ function! s:netrw_custom() abort
 endfunction
 
 " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
-if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
+let g:TerminusCursorShape = 0
+if !has('nvim') && &term =~? '256color$'
     " when start insert mode - blinking vertical bar
     let &t_SI = "\<Esc>[5 q"
     " when end insert/replace mode(common) - blinking block
@@ -415,6 +417,12 @@ if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
     if v:version > 800
         let &t_SR = "\<Esc>[4 q"
     endif
+
+    augroup cursor_shape
+        autocmd!
+        autocmd VimLeave * let &t_te .= "\<Esc>[3 q"
+        autocmd VimLeave * set guicursor=a:hor25-blinkon300
+    augroup END
 endif
 
 " if exists('$TMUX')
@@ -425,11 +433,6 @@ endif
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
             \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
             \,sm:block-blinkwait175-blinkoff150-blinkon175
-augroup cursor_shape
-    autocmd!
-    autocmd VimLeave * let &t_te .= "\<Esc>[3 q"
-    autocmd VimLeave * set guicursor=a:hor25-blinkon300
-augroup END
 
 " Make VIM remember position in file after reopen
 if has('autocmd')
