@@ -86,10 +86,10 @@ function! aceforeverd#settings#hl_groups() abort
     highlight GitSignsCurrentLineBlame ctermfg=246 guifg=#b3b3b3
 
     " inlay hints
-    if hlexists('LspInlayHint') && get(g:, 'colorsc_name') =~# '^github'
+    if hlexists('LspInlayHint') && get(g:, 'colors_name') =~# '^github'
         highlight LspInlayHint cterm=italic gui=italic
     else
-        highlight LspInlayHint cterm=italic ctermfg=110 gui=italic guifg=#dbbc7f guibg=#4f5b58
+        highlight LspInlayHint cterm=italic ctermfg=110 gui=italic guifg=#8b949e guibg=#363c44
     endif
     highlight link lspInlayHintsType LspInlayHint
     highlight link CocInlayHint LspInlayHint
