@@ -181,7 +181,7 @@ set mouse=a
 
 if !has('nvim')
     " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
-    if &term ==? 'xterm-256color' || &term ==? 'screen-256color'
+    if &term =~? '256color'
         " when start insert mode - blinking vertical bar
         let &t_SI = "\<Esc>[5 q"
         " when end insert/replace mode(common) - blinking block

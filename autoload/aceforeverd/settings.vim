@@ -86,11 +86,10 @@ function! aceforeverd#settings#hl_groups() abort
     highlight GitSignsCurrentLineBlame ctermfg=246 guifg=#b3b3b3
 
     " inlay hints
-    if hlexists('LspInlayHint')
-        " github-theme defines LspInlayHint by default
+    if hlexists('LspInlayHint') && get(g:, 'colorsc_name') =~# '^github'
         highlight LspInlayHint cterm=italic gui=italic
     else
-        highlight LspInlayHint cterm=italic ctermfg=110 gui=italic guifg=#7aa4a4
+        highlight LspInlayHint cterm=italic ctermfg=110 gui=italic guifg=#dbbc7f guibg=#4f5b58
     endif
     highlight link lspInlayHintsType LspInlayHint
     highlight link CocInlayHint LspInlayHint
@@ -109,7 +108,7 @@ function! aceforeverd#settings#basic_color() abort
         let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
         set termguicolors
     else
-        if $TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color' || $TERM=~#'xterm-kitty' || has('gui_running')
+        if $TERM =~? '256color$' || $TERM=~#'xterm-color' || $TERM=~#'xterm-kitty' || has('gui_running')
             set termguicolors
         endif
     endif

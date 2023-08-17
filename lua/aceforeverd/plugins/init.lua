@@ -223,6 +223,14 @@ M.plugin_list = {
       require('aceforeverd.config').cmp()
     end,
   },
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    config = function()
+      require('aceforeverd.plugins.enhance').autopairs()
+    end,
+  },
 
   {
     'glepnir/lspsaga.nvim',
@@ -326,14 +334,6 @@ M.plugin_list = {
     config = function()
       require('aceforeverd.plugins.null-ls').setup()
     end,
-  },
-
-  {
-    'NvChad/nvim-colorizer.lua',
-    config = function()
-      require('colorizer').setup({})
-    end,
-    ft = { 'css', 'html' },
   },
 
   -- ==============================================
@@ -460,13 +460,16 @@ M.plugin_list = {
     end,
   },
   {
-    'windwp/nvim-autopairs',
-    event = 'InsertEnter',
-    dependencies = { 'hrsh7th/nvim-cmp' },
+    'danymat/neogen',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', },
     config = function()
-      require('aceforeverd.plugins.enhance').autopairs()
+      require('neogen').setup({
+        snippet_engine = 'luasnip',
+      })
     end,
+    cmd = 'Neogen',
   },
+
   -- ==============================================
   --        TREESITTER END
   -- ==============================================
@@ -477,13 +480,23 @@ M.plugin_list = {
   {
     "folke/flash.nvim",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+      modes = {
+        search = {
+          enabled = false,
+        },
+        char = {
+          enabled = false
+        }
+      }
+    },
     -- stylua: ignore
     keys = {
       -- { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
       -- { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
       { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
       { "R", mode = { "o"}, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<M-l>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
   },
 
@@ -895,16 +908,6 @@ M.plugin_list = {
   },
 
   {
-    'danymat/neogen',
-    config = function()
-      require('neogen').setup({
-        snippet_engine = 'luasnip',
-      })
-    end,
-    cmd = 'Neogen',
-  },
-
-  {
     'andythigpen/nvim-coverage',
     config = function()
       require('coverage').setup()
@@ -922,7 +925,15 @@ M.plugin_list = {
     opts = {},
   },
 
-  -- color picker
+  -- colors
+  {
+    'NvChad/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup({})
+    end,
+    ft = { 'css', 'html' },
+  },
+
   {
     'uga-rosa/ccc.nvim',
     config = function()

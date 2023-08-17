@@ -436,6 +436,9 @@ function! s:config_plugins() abort
 
     " ferret
     let g:FerretMap = 0
+    let g:FerretExecutableArguments = {
+                \ 'rg': '--smart-case'
+                \ }
 
     " vim-better-whitespace
     let g:better_whitespace_operator = ''
