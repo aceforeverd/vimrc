@@ -100,7 +100,6 @@ return {
     lspconfig[name].setup(clangd_cfg)
   end,
   lua_ls = function(name)
-    require('neodev').setup({})
     setup_generalized_with_override({
       settings = {
         Lua = {

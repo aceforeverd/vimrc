@@ -179,14 +179,14 @@ endif
 
 set mouse=a
 
-if !has('nvim')
+if !has('nvim') && &term =~? '256color$'
     " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
-    if &term =~? '256color'
-        " when start insert mode - blinking vertical bar
-        let &t_SI = "\<Esc>[5 q"
-        " when end insert/replace mode(common) - blinking block
-        let &t_EI = "\<Esc>[1 q"
-        " when start replace mode
+    " when start insert mode - blinking vertical bar
+    let &t_SI = "\<Esc>[5 q"
+    " when end insert/replace mode(common) - blinking block
+    let &t_EI = "\<Esc>[1 q"
+    " when start replace mode
+    if v:version > 800
         let &t_SR = "\<Esc>[4 q"
     endif
     augroup cursor_shape

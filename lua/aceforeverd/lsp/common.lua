@@ -154,6 +154,7 @@ local lsp_default_maps = {
     ['<space>a'] = '<cmd>lua vim.diagnostic.setqflist()<CR>',
 
     ['<space>F'] = M.lsp_fmt,
+    -- TODO: improve builtin gq ?
     ['g<cr>'] = [[<cmd>lua require('aceforeverd.lsp.common').range_format_operator()<cr>]],
     ['<space>s'] = [[<cmd>FzfLua lsp_document_symbols<cr>]],
     ['<space>S'] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],

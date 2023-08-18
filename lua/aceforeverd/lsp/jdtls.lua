@@ -111,14 +111,4 @@ function M.jdtls()
   require('jdtls').start_or_attach(config)
 end
 
-function M.setup()
-  -- Autocmd that will actually be in charging of starting the whole thing
-  local nvim_jdtls_group = vim.api.nvim_create_augroup("nvim-jdtls", { clear = true })
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "java" },
-    callback = function() M.jdtls() end,
-    group = nvim_jdtls_group,
-  })
-end
-
 return M

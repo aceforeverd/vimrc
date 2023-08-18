@@ -110,7 +110,7 @@ M.plugin_list = {
         current_function = true,
         show_filename = false,
         status_symbol = '🐶',
-        diagnostics = true,
+        diagnostics = false,
       })
 
       lsp_status.register_progress()
@@ -130,6 +130,16 @@ M.plugin_list = {
     lazy = true,
   },
   {
+    'folke/neodev.nvim',
+    config = function()
+      require('neodev').setup({
+        lspconfig = true,
+        pathStrict = true
+      })
+    end,
+    lazy = true,
+  },
+  {
     'neovim/nvim-lspconfig',
     dependencies = {
       'williamboman/mason.nvim',
@@ -139,8 +149,6 @@ M.plugin_list = {
       -- lsp enhance
       'folke/neodev.nvim',
       'b0o/schemastore.nvim',
-      'mfussenegger/nvim-jdtls',
-      'scalameta/nvim-metals',
       'SmiteshP/nvim-navic',
       'SmiteshP/nvim-navbuddy',
       'MunifTanjim/nui.nvim',
@@ -149,6 +157,94 @@ M.plugin_list = {
     },
     config = function()
       require('aceforeverd.lsp').setup()
+    end,
+  },
+
+  {
+    'mfussenegger/nvim-jdtls',
+    ft = { 'java' },
+    config = function()
+      require('aceforeverd.lsp.jdtls').jdtls()
+    end,
+  },
+
+  {
+    'scalameta/nvim-metals',
+    ft = { 'scala', 'sbt' },
+    config = function()
+      require('aceforeverd.lsp.metals').metals()
+    end
+  },
+
+  {
+    'glepnir/lspsaga.nvim',
+    event = 'LspAttach',
+    config = function()
+      require('lspsaga').setup({
+        lightbulb = {
+          virtual_text = false,
+        },
+        symbol_in_winbar = {
+          enable = false,
+        },
+      })
+    end,
+    dependencies = {
+      { 'nvim-tree/nvim-web-devicons' },
+      { 'nvim-treesitter/nvim-treesitter' },
+    },
+  },
+
+  {
+    'simrat39/rust-tools.nvim',
+    ft = { 'rust' },
+    config = function()
+      require('aceforeverd.lsp').rust_analyzer()
+    end,
+  },
+
+  { 'ray-x/guihua.lua', build = 'cd lua/fzy && make', lazy = true },
+
+  {
+    'ray-x/go.nvim',
+    dependencies = {
+      'ray-x/guihua.lua',
+      'neovim/nvim-lspconfig',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    config = function()
+      require('aceforeverd.lsp').go()
+    end,
+    ft = { 'go', 'gomod' },
+  },
+
+  {
+    'RRethy/vim-illuminate',
+    dependencies = { 'nvim-lspconfig' },
+    config = function()
+      require('illuminate').configure({
+        providers = {
+          'lsp',
+          'treesitter',
+          'regex',
+        },
+        delay = vim.go.updatetime,
+      })
+
+      vim.keymap.set('n', '<a-i>', function()
+        require('illuminate').toggle_freeze_buf()
+      end, { noremap = true, desc = 'Toggle freezing' })
+    end,
+    event = 'VeryLazy',
+  },
+
+  {
+    'jose-elias-alvarez/null-ls.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    config = function()
+      require('aceforeverd.plugins.null-ls').setup()
     end,
   },
 
@@ -233,25 +329,6 @@ M.plugin_list = {
   },
 
   {
-    'glepnir/lspsaga.nvim',
-    event = 'LspAttach',
-    config = function()
-      require('lspsaga').setup({
-        lightbulb = {
-          virtual_text = false,
-        },
-        symbol_in_winbar = {
-          enable = false,
-        },
-      })
-    end,
-    dependencies = {
-      { 'nvim-tree/nvim-web-devicons' },
-      { 'nvim-treesitter/nvim-treesitter' },
-    },
-  },
-
-  {
     'L3MON4D3/LuaSnip',
     dependencies = {
       'rafamadriz/friendly-snippets',
@@ -281,59 +358,6 @@ M.plugin_list = {
       -- keymaps defined in nvim-cmp.lua
     end,
     build = 'make install_jsregexp',
-  },
-
-  {
-    'simrat39/rust-tools.nvim',
-    ft = { 'rust' },
-    config = function()
-      require('aceforeverd.lsp').rust_analyzer()
-    end,
-  },
-
-  { 'ray-x/guihua.lua', build = 'cd lua/fzy && make', lazy = true },
-
-  {
-    'ray-x/go.nvim',
-    dependencies = {
-      'ray-x/guihua.lua',
-      'neovim/nvim-lspconfig',
-      'nvim-treesitter/nvim-treesitter',
-    },
-    config = function()
-      require('aceforeverd.lsp').go()
-    end,
-    ft = { 'go', 'gomod' },
-  },
-
-  {
-    'RRethy/vim-illuminate',
-    dependencies = { 'nvim-lspconfig' },
-    config = function()
-      require('illuminate').configure({
-        providers = {
-          'lsp',
-          'treesitter',
-          'regex',
-        },
-        delay = vim.go.updatetime,
-      })
-
-      vim.keymap.set('n', '<a-i>', function()
-        require('illuminate').toggle_freeze_buf()
-      end, { noremap = true, desc = 'Toggle freezing' })
-    end,
-    event = 'VeryLazy',
-  },
-
-  {
-    'jose-elias-alvarez/null-ls.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-    },
-    config = function()
-      require('aceforeverd.plugins.null-ls').setup()
-    end,
   },
 
   -- ==============================================

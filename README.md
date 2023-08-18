@@ -13,14 +13,13 @@
 
 ## Optional Dependencies (Debian for example)
 
-+ [nerd font](https://github.com/ryanoasis/nerd-fonts)
-+ utilities:
-  - [ripgrep](https://github.com/BurntSushi/ripgrep)
-  - [fd](https://github.com/sharkdp/fd)
-  - [bat](https://github.com/sharkdp/bat)
-  - sqlite3 & libsqlite3-dev
-  - [ctags](https://github.com/universal-ctags/ctags)
-  - [gtags](https://www.gnu.org/software/global/)
+- [nerd font](https://github.com/ryanoasis/nerd-fonts)
+- [ripgrep](https://github.com/BurntSushi/ripgrep)
+- [fd](https://github.com/sharkdp/fd)
+- [bat](https://github.com/sharkdp/bat)
+- sqlite3 & libsqlite3-dev
+- [ctags](https://github.com/universal-ctags/ctags)
+- [gtags](https://www.gnu.org/software/global/)
 
 ---
 

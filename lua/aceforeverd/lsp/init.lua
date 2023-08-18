@@ -42,9 +42,6 @@ function M.setup()
   for name, fn in pairs(cfgs) do
     fn(name)
   end
-
-  require('aceforeverd.lsp.jdtls').setup()
-  require('aceforeverd.lsp.metals').metals()
 end
 
 function M.go()

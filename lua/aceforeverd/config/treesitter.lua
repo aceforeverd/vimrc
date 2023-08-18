@@ -25,7 +25,7 @@ function M.setup()
     ensure_installed = 'all',
     ignore_install = {
       -- https://github.com/alemuller/tree-sitter-make not active ?
-      'make'
+      'make',
     },
     highlight = {
       enable = true,
@@ -36,10 +36,11 @@ function M.setup()
         local max_filesize = 100 * 1024 -- 100 KB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
         if ok and stats and stats.size > max_filesize then
-            return true
+          return true
         end
         return false
-    end,
+      end,
+      additional_vim_regex_highlighting = false,
     },
     indent = { enable = true, disable = { 'yaml' } },
     incremental_selection = {
@@ -222,7 +223,7 @@ function M.setup()
     context_commentstring = { enable = true, enable_autocmd = false },
     autotag = {
       enable = true,
-    }
+    },
   })
 
   -- :set foldmethod=expr to enable fold with expr, default is manual

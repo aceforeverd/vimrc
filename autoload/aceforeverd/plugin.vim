@@ -99,7 +99,6 @@ function! PackInit() abort
     call s:plugin_add('ryanoasis/vim-devicons')
     call s:plugin_add('mhinz/vim-startify')
     call s:plugin_add('ntpeters/vim-better-whitespace')
-    call s:plugin_add('liuchengxu/vista.vim')
     call s:plugin_add('wincent/terminus')
     call s:plugin_add('vifm/vifm.vim')
     call s:plugin_add('justinmk/vim-gtfo')
@@ -129,6 +128,8 @@ function! PackInit() abort
     call s:plugin_add('skywind3000/asynctasks.vim')
     call s:plugin_add('jpalardy/vim-slime')
     call s:plugin_add('preservim/vimux')
+    call s:plugin_add('tmux-plugins/vim-tmux')
+    call s:plugin_add('christoomey/vim-tmux-navigator')
 
     " VCS
     call s:plugin_add('tpope/vim-fugitive')
@@ -181,12 +182,7 @@ function! PackInit() abort
                 \ 'do': '!cd app && ./install.sh'
                 \ })
 
-    " Tmux
-    call s:plugin_add('tmux-plugins/vim-tmux')
-    call s:plugin_add('christoomey/vim-tmux-navigator')
-
     call s:plugin_add('k-takata/minpac', {'type': 'opt'})
-    call s:plugin_add('mg979/docgen.vim')
 
     " vim only
     call s:plugin_add('itchyny/lightline.vim', {'type': 'opt'})
@@ -207,9 +203,11 @@ function! PackInit() abort
     call s:plugin_add('kristijanhusak/vim-dadbod-ui')
 
     call s:plugin_add('sainnhe/sonokai', {'type': 'opt'})
+    call s:plugin_add('sainnhe/everforest', {'type': 'opt'})
     call s:plugin_add('chrisbra/unicode.vim')
 
     call s:plugin_add('voldikss/vim-translator')
+    call s:plugin_add('kkoomen/vim-doge', {'do': 'call doge#install()'})
 endfunction
 
 function! s:config_plugins() abort
@@ -364,7 +362,7 @@ function! s:config_plugins() abort
     inoremap <C-\><C-F> <C-F>
 
     if executable('rg')
-        set grepprg=rg\ --vimgrep\ --smart-case
+        set grepprg=rg\ --vimgrep\ --smart-case\ --no-heading\ --no-config
     endif
 
     " editorconfig
@@ -437,7 +435,7 @@ function! s:config_plugins() abort
     " ferret
     let g:FerretMap = 0
     let g:FerretExecutableArguments = {
-                \ 'rg': '--smart-case'
+                \ 'rg': '--vimgrep --no-heading --no-config --smart-case'
                 \ }
 
     " vim-better-whitespace
@@ -512,10 +510,14 @@ function! s:config_plugins() abort
     " llvm
     let g:llvm_ext_no_mapping = 0
 
+    let g:tcomment_maps = 0
+
     call aceforeverd#ui#setup()
 
     " terminus has different defaults for cursor shape, disable it
     let g:TerminusCursorShape = 0
+
+    let g:doge_enable_mappings = 0
 endfunction
 
 function! s:config_vim_only() abort
