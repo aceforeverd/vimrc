@@ -59,6 +59,7 @@ function M.selective_fmt(opts)
       end
     end)
   else
+    vim.notify('ui selector not set for nvim < 0.8.0, fallback to default format')
     if opts.range ~= nil and opts.range['start'] ~= nil and opts.range['end'] ~= nil then
       vim.lsp.buf.range_formatting({}, opts.range['start'], opts.range['end'])
     else
@@ -102,22 +103,17 @@ local function visual_range_fmt(fmt_fn)
 end
 
 -- https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips#range-formatting-with-a-motion
-function M.range_format_operator()
+function M.range_format_operator(fmt_fn)
   local old_func = vim.go.operatorfunc
   _G.op_func_formatting = function()
     local start = vim.api.nvim_buf_get_mark(0, '[')
     local finish = vim.api.nvim_buf_get_mark(0, ']')
-    if vim.fn.has('nvim-0.8.0') == 1 then
-      vim.lsp.buf.format({
-        bufnr = 0,
-        range = {
-          ['start'] = start,
-          ['end'] = finish,
-        },
-      })
-    else
-      vim.lsp.buf.range_formatting({}, start, finish)
-    end
+    fmt_fn({
+      range = {
+        ['start'] = start,
+        ['end'] = finish,
+      },
+    })
     vim.go.operatorfunc = old_func
     _G.op_func_formatting = nil
   end
@@ -153,13 +149,22 @@ local lsp_default_maps = {
     -- all diagnostic
     ['<space>a'] = '<cmd>lua vim.diagnostic.setqflist()<CR>',
 
+    -- format whole buffer
     ['<space>F'] = M.lsp_fmt,
-    -- TODO: improve builtin gq ?
-    ['g<cr>'] = [[<cmd>lua require('aceforeverd.lsp.common').range_format_operator()<cr>]],
+    -- lsp format motion
+    ['<cr>'] = function()
+      -- or uses the gq format motion
+      M.range_format_operator(M.lsp_fmt)
+    end,
+    ['g<cr>'] = function()
+      M.range_format_operator(M.selective_fmt)
+    end,
+
     ['<space>s'] = [[<cmd>FzfLua lsp_document_symbols<cr>]],
     ['<space>S'] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
     ['<space>v'] = [[<cmd>Navbuddy<cr>]],
 
+    -- vim default: insert in where insert stops
     ['<leader>gi'] = 'gi',
   },
   x = {

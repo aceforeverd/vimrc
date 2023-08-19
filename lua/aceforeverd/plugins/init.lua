@@ -578,7 +578,6 @@ M.plugin_list = {
         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
       })
     end,
-    event = 'VeryLazy',
   },
 
   { 'Olical/conjure', ft = { 'clojure', 'fennel', 'janet', 'racket', 'scheme' } },
@@ -926,7 +925,14 @@ M.plugin_list = {
   {
     'stevearc/dressing.nvim',
     config = function()
-      require('aceforeverd.plugins.enhance').dressing()
+      require('dressing').setup({
+        input = {
+          border = 'rounded',
+          win_options = {
+            winblend = 10,
+          },
+        },
+      })
     end,
     event = 'VeryLazy',
   },

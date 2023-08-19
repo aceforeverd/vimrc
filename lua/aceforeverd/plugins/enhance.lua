@@ -109,17 +109,6 @@ function M.toggle_term()
   }, {})
 end
 
-function M.dressing()
-  require('dressing').setup({
-    input = {
-      border = 'rounded',
-      win_options = {
-        winblend = 10,
-      }
-    },
-  })
-end
-
 function M.autopairs()
   local npairs = require('nvim-autopairs')
   npairs.setup()
