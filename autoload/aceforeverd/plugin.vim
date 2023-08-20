@@ -31,7 +31,7 @@ function! s:init_cmds() abort
     " tiny wrapper for :packadd
     " good thing is use :PackAdd! to ignore any errors and do not terminate,
     " this may helpful when first install and plugins not installed yet
-    command! -bang -nargs=1 PackAdd call s:pack_add(<bang>0, <f-args>)
+    command! -bang -complete=packadd -nargs=1 PackAdd call s:pack_add(<bang>0, <f-args>)
 
     command! PackUpdate call minpac#update()
     command! PackStatus call minpac#status()

@@ -312,7 +312,7 @@ M.plugin_list = {
       'andersevenrud/cmp-tmux',
       'petertriho/cmp-git',
       'saadparwaiz1/cmp_luasnip',
-      'onsails/lspkind-nvim',
+      'onsails/lspkind.nvim',
     },
     event = 'InsertEnter',
     config = function()
@@ -859,6 +859,13 @@ M.plugin_list = {
       vim.keymap.set('n', '<space>f', [[<cmd>FzfLua files<cr>]], { desc = 'FzfLua files' })
       vim.keymap.set('n', '<space>r', [[<cmd>FzfLua grep_project<cr>]], { desc = 'FzfLua Rg' })
     end,
+  },
+
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {},
+    cmd = { 'Trouble', 'TroubleToggle' }
   },
 
   {
