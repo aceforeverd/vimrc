@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+REMOTE_ADDR=
+if [ -n "$NVIM" ] ; then
+    REMOTE_ADDR="$NVIM"
+elif [ -n "$NVIM_LISTEN_ADDRESS" ] ; then
+    REMOTE_ADDR="$NVIM_LISTEN_ADDRESS"
+else
+    echo "not inside a nvim process"
+    exit 1
+fi
+
+exec nvim --headless -u NONE --server "$REMOTE_ADDR" --remote-tab "$@"

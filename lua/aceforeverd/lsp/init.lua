@@ -73,4 +73,7 @@ function M.hls()
   })
 end
 
+M.jdtls = require('aceforeverd.lsp.jdtls').setup
+M.metals =require('aceforeverd.lsp.metals').setup
+
 return M

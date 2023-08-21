@@ -57,4 +57,15 @@ function M.metals()
   metals.initialize_or_attach(metals_config)
 end
 
+function M.setup()
+  local nvim_metals_group = vim.api.nvim_create_augroup('nvim-metals', { clear = true })
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'scala', 'sbt' },
+    callback = function()
+      M.metals()
+    end,
+    group = nvim_metals_group,
+  })
+end
+
 return M

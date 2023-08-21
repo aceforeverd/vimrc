@@ -138,6 +138,9 @@ set autoindent "Auto indent
 set smartindent "Smart indent
 set wrap "Wrap lines
 
+" magic script from vim/neovim terminal
+let $PATH .= ":" . s:home . '/bin'
+
 if has('patch-8.1.0360')
     set diffopt+=internal,algorithm:patience
 endif

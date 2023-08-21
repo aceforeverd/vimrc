@@ -81,7 +81,6 @@ function M.telescope()
       ['s'] = [[<cmd>lua require('telescope.builtin').spell_suggest()<CR>]],
       ['o'] = [[<cmd>lua require("telescope").extensions.repo.list{}<cr>]],
       ['r'] = [[<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>]],
-      ['p'] = [[<Cmd>lua require'telescope'.extensions.project.project{}<CR>]],
       ['j'] = [[<Cmd>lua require'telescope'.extensions.projects.projects{}<CR>]],
 
       ['I'] = "<cmd>lua require'telescope'.extensions.gh.issues()<cr>",

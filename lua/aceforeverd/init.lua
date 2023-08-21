@@ -15,6 +15,10 @@
 
 local M = {}
 
+local function on_term_enter()
+  vim.cmd[[DisableWhitespace]]
+end
+      
 function M.setup()
   if vim.g.lsp_process_provider == nil then
     vim.g.lsp_process_provider = 'lsp_status'
@@ -34,11 +38,12 @@ function M.setup()
   vim.o.fillchars = [[foldopen:▼,foldclose:⏵]]
   vim.o.exrc = true -- automatically execute project local configs
 
+  -- terminals
   local gp = vim.api.nvim_create_augroup('gp_whtespace', {clear = true})
   vim.api.nvim_create_autocmd('TermOpen', {
     group = gp,
-    pattern = 'term://*',
-    command = 'DisableWhitespace',
+    pattern = '*',
+    callback = on_term_enter,
   })
 
   require('aceforeverd.plugins').setup()

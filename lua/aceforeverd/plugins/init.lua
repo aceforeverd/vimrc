@@ -164,7 +164,7 @@ M.plugin_list = {
     'mfussenegger/nvim-jdtls',
     ft = { 'java' },
     config = function()
-      require('aceforeverd.lsp.jdtls').jdtls()
+      require('aceforeverd.lsp').jdtls()
     end,
   },
 
@@ -172,7 +172,7 @@ M.plugin_list = {
     'scalameta/nvim-metals',
     ft = { 'scala', 'sbt' },
     config = function()
-      require('aceforeverd.lsp.metals').metals()
+      require('aceforeverd.lsp').metals()
     end
   },
 
@@ -600,7 +600,6 @@ M.plugin_list = {
       'nvim-telescope/telescope-fzf-native.nvim',
 
       'nvim-telescope/telescope-symbols.nvim',
-      'nvim-telescope/telescope-project.nvim',
       'nvim-telescope/telescope-file-browser.nvim',
       'nvim-telescope/telescope-github.nvim',
       'cljoly/telescope-repo.nvim',
