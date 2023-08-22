@@ -113,7 +113,6 @@ function! PackInit() abort
     call s:plugin_add('editorconfig/editorconfig-vim')
     call s:plugin_add('will133/vim-dirdiff')
     call s:plugin_add('dstein64/vim-startuptime')
-    call s:plugin_add('aceforeverd/gen_tags.vim', {'type': 'opt'})
     call s:plugin_add('AndrewRadev/bufferize.vim')
     call s:plugin_add('tyru/open-browser.vim')
     call s:plugin_add('wincent/ferret')
@@ -518,6 +517,8 @@ function! s:config_plugins() abort
     let g:TerminusCursorShape = 0
 
     let g:doge_enable_mappings = 0
+
+    let g:slime_no_mappings = 1
 endfunction
 
 function! s:config_vim_only() abort

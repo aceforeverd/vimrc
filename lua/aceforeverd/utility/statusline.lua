@@ -131,6 +131,10 @@ if vim.g.lsp_process_provider == 'lsp_status' then
   end
 end
 
+function M.tag_status()
+  return vim.api.nvim_call_function('aceforeverd#statusline#tag_status', {})
+end
+
 M.lsp_status = lsp_status
 
 return M

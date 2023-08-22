@@ -79,6 +79,19 @@ function! aceforeverd#statusline#lsp_diagnostic() abort
     return ''
 endfunction
 
+function! aceforeverd#statusline#tag_status() abort
+    let gutentags = ''
+    if get(g:, 'loaded_gutentags', 0) == 1
+        let gutentags = gutentags#statusline()
+    endif
+
+    if has('nvim')
+        return '[' . get(g:, 'cscope_maps_statusline_indicator', '') . '/' . gutentags . ']'
+    else
+        return gutentags
+    endif
+endfunction
+
 function! aceforeverd#statusline#lightline() abort
     let g:lightline = {
       \ 'colorscheme': 'deus',

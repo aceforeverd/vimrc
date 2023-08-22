@@ -166,6 +166,7 @@ local lsp_default_maps = {
 
     -- vim default: insert in where insert stops
     ['<leader>gi'] = 'gi',
+    ['<leader>gr'] = 'gr',
   },
   x = {
     ['<cr>'] = function()

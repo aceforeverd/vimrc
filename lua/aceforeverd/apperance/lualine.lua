@@ -88,6 +88,7 @@ function M.setup()
           end,
           color = { fg = '#fda5b4' },
         },
+        { require('aceforeverd.utility.statusline').tag_status },
         'filetype',
         { require('aceforeverd.utility.statusline').indent },
         {

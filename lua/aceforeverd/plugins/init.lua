@@ -984,21 +984,18 @@ M.plugin_list = {
 
   {
     'dhananjaylatkar/cscope_maps.nvim',
-    event = 'VeryLazy',
-    dependencies = {
-      'folke/which-key.nvim',
-    },
     cond = function()
       return vim.fn.has('nvim-0.9') == 1
     end,
     config = function()
-      require('cscope_maps').setup({
-        disable_maps = true,
-      })
+      require('aceforeverd.integration.cscope').cscope_maps()
     end,
   },
 
-  { 'echasnovski/mini.nvim', lazy = true },
+  {
+    'echasnovski/mini.nvim',
+    lazy = true,
+  },
 }
 
 return M

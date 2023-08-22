@@ -183,6 +183,9 @@ local feline_config = {
           priority = priority_low,
         },
         {
+          provider = 'tag_status'
+        },
+        {
           provider = 'file_type',
           hl = { fg = 'cyan', style = 'bold,italic' },
           left_sep = { { str = 'vertical_bar', hl = { fg = '#108080' } }, ' ' },
@@ -294,6 +297,7 @@ local feline_config = {
     lsp_status = require('aceforeverd.utility.statusline').lsp_status,
     my_lsp_client_names = require('aceforeverd.utility.statusline').lsp_client_names,
     gps = require('aceforeverd.utility.statusline').ctx_location,
+    tag_status = require('aceforeverd.utility.statusline').tag_status,
   },
 }
 
