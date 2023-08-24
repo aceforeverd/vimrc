@@ -15,7 +15,7 @@
 
 local M = {}
 
-local default_map_opts = { noremap = true, silent = true }
+local default_map_opts = { noremap = true, silent = true, buffer = 0 }
 
 --- request format from lsp server
 --

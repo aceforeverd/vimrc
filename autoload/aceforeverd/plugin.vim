@@ -4,7 +4,6 @@
 
 function! aceforeverd#plugin#setup() abort
     call s:init_cmds()
-    call PackInit()
     call s:config_plugins()
 endfunction
 
@@ -19,7 +18,8 @@ function! s:pack_add(bang, name) abort
 endfunction
 
 function! PackList(...) abort
-  return join(sort(keys(minpac#getpluglist())), "\n")
+    call aceforeverd#plugin#init()
+    return join(sort(keys(minpac#getpluglist())), "\n")
 endfunction
 
 function! PackOpenDirImpl(name) abort
@@ -33,12 +33,14 @@ function! s:init_cmds() abort
     " this may helpful when first install and plugins not installed yet
     command! -bang -complete=packadd -nargs=1 PackAdd call s:pack_add(<bang>0, <f-args>)
 
-    command! PackUpdate call minpac#update()
-    command! PackStatus call minpac#status()
-    command! PackClean call minpac#clean()
+    command! PackUpdate call aceforeverd#plugin#init() | call minpac#update()
+    command! PackStatus call aceforeverd#plugin#init() | call minpac#status()
+    command! PackClean  call aceforeverd#plugin#init() | call minpac#clean()
 
     command! -nargs=1 -complete=custom,PackList PackInstall
-                \ call PackInit() | call minpac#update(substitute(<q-args>, '\(^\s*\|\s*$\)', '', 'g'))
+                \ call aceforeverd#plugin#init() | call minpac#update(substitute(<q-args>, '\(^\s*\|\s*$\)', '', 'g'))
+    command! -nargs=0 PackInstallMissing
+                \ call aceforeverd#plugin#init() | call minpac#update(keys(filter(copy(minpac#getpluglist()), {-> !isdirectory(v:val.dir . '/.git')})))
 
     command! -nargs=1 -complete=custom,PackList PackOpenDir call PackOpenDirImpl(<q-args>)
 
@@ -50,7 +52,7 @@ function! s:plugin_add(...) abort
     call call('minpac#add', a:000)
 endfunction
 
-function! PackInit() abort
+function! aceforeverd#plugin#init() abort
     if has('nvim')
         let s:pack_path = stdpath('data') . '/site/'
     else
@@ -59,6 +61,7 @@ function! PackInit() abort
     let s:minpac_path = s:pack_path . '/pack/minpac/opt/minpac'
 
     if empty(glob(s:minpac_path))
+        echomsg "Installing minpac to " . s:minpac_path . ' ...'
         call system(join([ 'git', 'clone', 'https://github.com/k-takata/minpac', s:minpac_path ]))
     endif
 
@@ -206,7 +209,8 @@ function! PackInit() abort
     call s:plugin_add('chrisbra/unicode.vim')
 
     call s:plugin_add('voldikss/vim-translator')
-    call s:plugin_add('kkoomen/vim-doge', {'do': 'call doge#install()'})
+
+    call s:plugin_add('kkoomen/vim-doge', {'type': 'opt', 'do': 'packadd vim-doge | call doge#install()'})
 endfunction
 
 function! s:config_plugins() abort
@@ -386,7 +390,6 @@ function! s:config_plugins() abort
 
     " vim-markdown
     let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh', 'vim', 'help']
-    " markdown-preview
     let g:mkdp_auto_close = 0
 
     " markdown local settings
@@ -516,7 +519,10 @@ function! s:config_plugins() abort
     " terminus has different defaults for cursor shape, disable it
     let g:TerminusCursorShape = 0
 
+    PackAdd! vim-doge
     let g:doge_enable_mappings = 0
+    let g:doge_mapping_comment_jump_forward = '<c-j>'
+    let g:doge_mapping_comment_jump_backward = '<c-k>'
 
     let g:slime_no_mappings = 1
 endfunction

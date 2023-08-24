@@ -91,6 +91,11 @@ function M.telescope()
       ['z'] = '<cmd>lua require"telescope".extensions.zoxide.list{}<cr>',
       ['l'] = [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]],
     },
+    ['<leader>q'] = {
+      f = '<cmd>FzfLua quickfix<cr>',
+      t = '<cmd>Telescope quickfix<cr>',
+      b = '<cmd>Trouble quickfix<cr>',
+    },
     ['<leader>l'] = {
       -- lsp
       ['s'] = [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]],
