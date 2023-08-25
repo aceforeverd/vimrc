@@ -120,6 +120,8 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('tyru/open-browser.vim')
     call s:plugin_add('wincent/ferret')
     call s:plugin_add('ojroques/vim-oscyank')
+    call s:plugin_add('dhananjaylatkar/vim-gutentags', {'type': 'opt'})
+    call s:plugin_add('skywind3000/gutentags_plus', {'type': 'opt'})
 
     call s:plugin_add('alpertuna/vim-header')
     " code format
@@ -252,22 +254,6 @@ function! s:config_plugins() abort
         let g:gitgutter_sign_modified = '~'
         if has('nvim-0.4.0')
             let g:gitgutter_highlight_linenrs = 1
-        endif
-    endif
-
-    if !has('nvim-0.9.0')
-        PackAdd! gen_tags.vim
-
-        " gen_tags.vim
-        let g:gen_tags#ctags_auto_update = 0
-        let g:gen_tags#gtags_auto_update = 0
-        let g:gen_tags#ctags_opts = '--links=no'
-        let g:gen_tags#gtags_opts = '--skip-symlink'
-        if !executable('gtags')
-            let g:loaded_gentags#gtags = 1
-        endif
-        if !executable('ctags')
-            let g:loaded_gentags#ctags = 1
         endif
     endif
 
@@ -525,6 +511,23 @@ function! s:config_plugins() abort
     let g:doge_mapping_comment_jump_backward = '<c-k>'
 
     let g:slime_no_mappings = 1
+
+    " gutentags
+    PackAdd! vim-gutentags
+    if has('nvim')
+        let g:gutentags_modules = [ 'cscope_maps' ]
+    else
+        PackAdd! gutentags_plus
+        let g:gutentags_modules = [ 'ctags', 'gtags_cscope' ]
+        let g:gutentags_plus_nomap = 1
+    endif
+    let g:gutentags_file_list_command = {
+                \ 'markers': {
+                \   '.git': 'git ls-files',
+                \   'default': 'fd',
+                \ }
+                \ }
+
 endfunction
 
 function! s:config_vim_only() abort
