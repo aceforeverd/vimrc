@@ -275,7 +275,6 @@ M.plugin_list = {
 
       dict.setup({
         exact = 2,
-        async = false,
         capacity = 5,
         debug = false,
       })
@@ -285,6 +284,8 @@ M.plugin_list = {
           en_US = { '/usr/share/dict/words' },
         }
       })
+      -- required since it loads from InsertEnter
+      vim.cmd("CmpDictionaryUpdate")
     end,
     lazy = true,
   },
@@ -537,6 +538,8 @@ M.plugin_list = {
       { 'iI', mode = { "o", "x" }, "<cmd>lua require('various-textobjs').indentation(true, false)<CR>", desc = 'inner-outer indentation (no line above)'},
       { 'ai', mode = { "o", "x" }, "<cmd>lua require('various-textobjs').indentation(false, true)<CR>", desc = 'outer-inner indentation (include above)'},
       { 'aI', mode = { "o", "x" }, "<cmd>lua require('various-textobjs').indentation(false, false)<CR>", desc = 'outer-outer indentation (include above/below)'},
+      { 'aD', mode = { 'o', 'x'}, "<cmd>lua require('various-textobjs').doubleSquareBrackets(false)<cr>", desc = "around doubleSquareBrackets"},
+      { 'iD', mode = { 'o', 'x'}, "<cmd>lua require('various-textobjs').doubleSquareBrackets(true)<cr>", desc = "inside doubleSquareBrackets"},
     },
   },
 
