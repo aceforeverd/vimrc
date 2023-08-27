@@ -1,3 +1,24 @@
+function! aceforeverd#tags#setup() abort
+    " ctags for vim's 'tags' feature
+    let g:gutentags_modules = [ 'ctags' ]
+    if has('nvim-0.9.0')
+        let g:gutentags_modules += [ 'cscope_maps' ]
+    else
+        PaddAdd! gutentags_plus
+        let g:gutentags_plus_nomap = 1
+        let g:gutentags_modules += [ 'gtags_cscope' ]
+        for [action, desc, suffix] in s:cs_cmds
+            call s:set_map(action, suffix)
+        endfor
+    endif
+    let g:gutentags_file_list_command = {
+                \ 'markers': {
+                \   '.git': 'git ls-files',
+                \   'default': 'fd',
+                \ }
+                \ }
+endfunction
+
 let s:cs_cmds = [
             \ [ 'a', 'Assignments to this symbol', '<C-R><C-W><cr>' ],
             \ [ 'c', 'Functions calling this function', '<C-R><C-W><cr>' ],
@@ -9,27 +30,6 @@ let s:cs_cmds = [
             \ [ 's', 'C symbol', '<C-R><C-W><cr>' ],
             \ [ 't', 'Text string', '<C-R><C-W><cr>' ],
             \ ]
-
-function! aceforeverd#tags#setup() abort
-    " ctags for vim's 'tags' feature
-    " gtags primary for use with 'cscope' feature
-    " gtags_cscope is fine for nvim 0.9.0, since gutentags_plus simulate it
-    let g:gutentags_modules = [ 'ctags', 'gtags_cscope' ]
-    let g:gutentags_plus_nomap = 1
-    if has('nvim-0.9.0')
-        let g:gutentags_modules += ['cscope_maps']
-    endif
-    let g:gutentags_file_list_command = {
-                \ 'markers': {
-                \   '.git': 'git ls-files',
-                \   'default': 'fd',
-                \ }
-                \ }
-
-    for [action, desc, suffix] in s:cs_cmds
-        call s:set_map(action, suffix)
-    endfor
-endfunction
 
 
 function! s:set_map(action, suffix) abort

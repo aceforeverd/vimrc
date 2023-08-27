@@ -121,7 +121,7 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('wincent/ferret')
     call s:plugin_add('ojroques/vim-oscyank')
     call s:plugin_add('dhananjaylatkar/vim-gutentags')
-    call s:plugin_add('skywind3000/gutentags_plus')
+    call s:plugin_add('skywind3000/gutentags_plus', {'type': 'opt'})
 
     call s:plugin_add('alpertuna/vim-header')
     " code format
