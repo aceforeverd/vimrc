@@ -3,7 +3,7 @@
 ""
 
 function! aceforeverd#plugin#setup() abort
-    call s:init_cmds()
+    call s:pre_cmds()
     call s:config_plugins()
 endfunction
 
@@ -27,7 +27,7 @@ function! PackOpenDirImpl(name) abort
     exe 'FloatermNew --cwd=' . dir
 endfunction
 
-function! s:init_cmds() abort
+function! s:pre_cmds() abort
     " tiny wrapper for :packadd
     " good thing is use :PackAdd! to ignore any errors and do not terminate,
     " this may helpful when first install and plugins not installed yet
@@ -120,8 +120,8 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('tyru/open-browser.vim')
     call s:plugin_add('wincent/ferret')
     call s:plugin_add('ojroques/vim-oscyank')
-    call s:plugin_add('dhananjaylatkar/vim-gutentags', {'type': 'opt'})
-    call s:plugin_add('skywind3000/gutentags_plus', {'type': 'opt'})
+    call s:plugin_add('dhananjaylatkar/vim-gutentags')
+    call s:plugin_add('skywind3000/gutentags_plus')
 
     call s:plugin_add('alpertuna/vim-header')
     " code format
@@ -512,22 +512,7 @@ function! s:config_plugins() abort
 
     let g:slime_no_mappings = 1
 
-    " gutentags
-    PackAdd! vim-gutentags
-    if has('nvim')
-        let g:gutentags_modules = [ 'cscope_maps' ]
-    else
-        PackAdd! gutentags_plus
-        let g:gutentags_modules = [ 'ctags', 'gtags_cscope' ]
-        let g:gutentags_plus_nomap = 1
-    endif
-    let g:gutentags_file_list_command = {
-                \ 'markers': {
-                \   '.git': 'git ls-files',
-                \   'default': 'fd',
-                \ }
-                \ }
-
+    call aceforeverd#tags#setup()
 endfunction
 
 function! s:config_vim_only() abort

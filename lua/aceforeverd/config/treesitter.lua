@@ -83,8 +83,8 @@ function M.setup()
       navigation = {
         enable = true,
         keymaps = {
-          goto_definition = '<space>gd',
-          list_definitions = '<space>gD',
+          goto_definition = '<space>gl',
+          list_definitions = '<space>gL',
           list_definitions_toc = 'gO',
           goto_next_usage = '<a-*>',
           goto_previous_usage = '<a-#>',

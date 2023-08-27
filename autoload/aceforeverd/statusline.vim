@@ -103,7 +103,7 @@ function! aceforeverd#statusline#lightline() abort
       \   'right': [
       \     [ 'lineinfo', 'total_line', 'percent' ],
       \     [ 'fileencoding', 'fileformat', 'spell' ],
-      \     [ 'ctx', 'filetype' ]
+      \     [ 'tag_status', 'ctx', 'filetype' ]
       \   ]
       \ },
       \ 'inactive': {
@@ -120,6 +120,13 @@ function! aceforeverd#statusline#lightline() abort
       \   'diagnostic_count': 'aceforeverd#statusline#lsp_diagnostic',
       \   'git_branch': 'FugitiveHead',
       \   'git_diff': 'aceforeverd#statusline#git_status',
+      \   'tag_status': 'aceforeverd#statusline#tag_status'
       \ }
       \ }
+
+    augroup MyGutentagsStatusLineRefresher
+        autocmd!
+        autocmd User GutentagsUpdating call lightline#update()
+        autocmd User GutentagsUpdated call lightline#update()
+    augroup END
 endfunction

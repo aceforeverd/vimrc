@@ -1,15 +1,15 @@
 local M = {}
 
 local cmds = {
-  { 'a', 'Assignments to this symbol' },
-  { 'c', 'Functions calling this function' },
-  { 'd', 'Functions called by this function' },
-  { 'e', 'This egrep pattern' },
-  { 'f', 'This file' },
-  { 'g', 'This definition' },
-  { 'i', 'Files #including this file' },
-  { 's', 'This C symbol' },
-  { 't', 'This text string' },
+  { 'a', 'Assignments to this symbol', '<C-R><C-W><cr>' },
+  { 'c', 'Functions calling this function', '<C-R><C-W><cr>' },
+  { 'd', 'Functions called by this function', '<C-R><C-W><cr>' },
+  { 'e', 'Egrep pattern', '<C-R><C-W><cr>' },
+  { 'f', 'Find the file', '<C-R>=expand("<cfile>")<cr><cr>' },
+  { 'g', 'Find definition', '<C-R><C-W><cr>' },
+  { 'i', 'Files #including this file', '<C-R>=expand("<cfile>")<cr><cr>' },
+  { 's', 'C symbol', '<C-R><C-W><cr>' },
+  { 't', 'Text string', '<C-R><C-W><cr>' },
 }
 
 ---@param selection string|function
@@ -84,7 +84,7 @@ function M.cscope_maps()
     vim.keymap.set(
       'n',
       prefix .. value[1],
-      string.format([[<cmd>exe 'Cscope find %s' expand('<cword>')<cr>]], value[1]),
+      string.format([[:Cscope find %s %s]], value[1], value[3]),
       { noremap = true, silent = true, desc = value[2] }
     )
   end

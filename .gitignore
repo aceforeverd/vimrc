@@ -6,4 +6,10 @@ plugin/packer_compiled.lua
 before.vim
 after.vim
 tags
+GPATH
+GTAGS
+GRTAGS
+cscope.out
 pack/
+vimrc
+init.vim

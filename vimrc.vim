@@ -60,7 +60,7 @@ set wildignore=*.o,*~,*.pyc,*.gch
 if has('win16') || has('win32')
     set wildignore+=.git\*,.hg\*,.svn\*
 else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,*/node_modules/*
 endif
 
 set autoread
