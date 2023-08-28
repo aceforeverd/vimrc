@@ -41,3 +41,11 @@ function! s:visual_gs_find(action) abort
     execute 'normal! `<v`>"cy'
     execute 'GscopeFind ' . a:action . ' ' . getreg('c')
 endfunction
+
+" TODO: 1. select action with prompt (inputlist or quickui#listbox)
+" 2. cs find operator
+function! s:cs_find(selection) abort
+endfunction
+
+function! s:cs_find_operator() abort
+endfunction

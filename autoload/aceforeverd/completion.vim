@@ -226,24 +226,14 @@ function! s:get_my_cmp_fn(key) abort
 endfunction
 
 function! s:show_documentation() abort
-    if (index(['vim','help'], &filetype) >= 0)
-        let l:name = expand('<cword>')
-        try
-            execute 'help ' . l:name
-        catch /.*/
-            echo 'no help for ' . l:name
-            echoerr
-        endtry
-    else
-        call <SID>get_my_cmp_fn('document_hover')()
-    endif
+    call <SID>get_my_cmp_fn('document_hover')()
 endfunction
 
 function! s:coc_hover() abort
-    if (coc#rpc#ready())
+    if CocAction('hasProvider', 'hover')
         call CocActionAsync('doHover')
     else
-        execute '!' . &keywordprg . ' ' . expand('<cword>')
+        call feedkeys('K', 'in')
     endif
 endfunction
 
