@@ -4,7 +4,7 @@ function! aceforeverd#tags#setup() abort
     if has('nvim-0.9.0')
         let g:gutentags_modules += [ 'cscope_maps' ]
     else
-        PaddAdd! gutentags_plus
+        PackAdd! gutentags_plus
         let g:gutentags_plus_nomap = 1
         let g:gutentags_modules += [ 'gtags_cscope' ]
         for [action, desc, suffix] in s:cs_cmds
