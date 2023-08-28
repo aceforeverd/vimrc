@@ -322,6 +322,7 @@ function! s:config_plugins() abort
         nnoremap <Space>c :Commands<CR>
         nnoremap <Space>f :Files<CR>
         nnoremap <Space>b :Buffers<CR>
+        nnoremap <Space>T :Tags<CR>
     endif
     nnoremap <Space>B :BLines<CR>
     nnoremap <Space>L :Lines<CR>

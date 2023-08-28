@@ -174,6 +174,8 @@ function! s:coc_maps() abort
     xmap <silent> <Leader>rs <Plug>(coc-range-select)
 
     nmap gl <Plug>(coc-openlink)
+    nnoremap <leader>co :call CocAction('ShowOutgoingCalls')
+    nnoremap <leader>ci :call CocAction('ShowIncommingCalls')
 
     " Map function and class text objects
     " NOTE: Requires 'textDocument.documentSymbol' support from the language server.

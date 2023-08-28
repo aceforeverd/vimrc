@@ -860,6 +860,7 @@ M.plugin_list = {
       vim.keymap.set('n', '<space>l', [[<cmd>FzfLua<cr>]], { desc = 'FzfLua' })
       vim.keymap.set('n', '<space>f', [[<cmd>FzfLua files<cr>]], { desc = 'FzfLua files' })
       vim.keymap.set('n', '<space>r', [[<cmd>FzfLua grep_project<cr>]], { desc = 'FzfLua Rg' })
+      vim.keymap.set('n', '<space>T', [[<cmd>FzfLua tags<cr>]], { desc = 'FzfLua Tags' })
     end,
   },
 
