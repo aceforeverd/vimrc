@@ -72,15 +72,20 @@ function! aceforeverd#completion#init_source_coc() abort
     augroup gp_coc
         autocmd!
 
-        autocmd User CocNvimInit call <SID>coc_maps()
+        autocmd User CocNvimInit call <SID>coc_on_attach()
         " Highlight symbol under cursor on CursorHold
         autocmd CursorHold * silent call CocActionAsync('highlight')
-        " Setup formatexpr specified filetype(s).
-        autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
         autocmd FileType c,cpp,objcpp nnoremap <Leader>af :<C-u>CocCommand clangd.switchSourceHeader<cr>
         " Update signature help on jump placeholder
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup end
+
+    " TODO: setlocal only for buffers that coc attached
+    if exists('&tagfunc')
+        " resolve tag with coc, fallback to tag search if not found
+        set tagfunc=CocTagFunc
+    endif
+    set formatexpr=CocAction('formatSelected')
 
     nnoremap <leader>k <cmd>call CocActionAsync('highlight')<cr>
 
@@ -128,7 +133,11 @@ function! aceforeverd#completion#init_source_coc() abort
     vmap <c-j> <Plug>(coc-snippets-select)
 endfunction
 
-function! s:coc_maps() abort
+function! s:coc_on_attach() abort
+    " ==================================
+    " keymaps
+    " ==================================
+
     " Use `c-j` and `c-k` to navigate diagnostics
     nmap <silent> <c-k> <Plug>(coc-diagnostic-prev)
     nmap <silent> <c-j> <Plug>(coc-diagnostic-next)
@@ -146,6 +155,7 @@ function! s:coc_maps() abort
 
     " range format
     xmap <cr>  <Plug>(coc-format-selected)
+    " format operator, or use gq
     nmap g<cr>  <Plug>(coc-format-selected)
 
     " Remap for do codeAction of selected region
