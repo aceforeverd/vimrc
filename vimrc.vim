@@ -38,6 +38,11 @@ let g:mapleader = ','
 " local leader
 let g:maplocalleader = '\'
 
+" in case can't go back with t/T/f/F
+nnoremap ,, ,
+" vim default ;, is not necessary with clever-f
+" NOTE: ; may used for other maps
+
 
 " =============================================================== "
 " Plugin Manager, in order
@@ -215,7 +220,7 @@ augroup END
 
 " guifont only works on GUIs
 if has('mac') || has('macunix')
-    set guifont=JetBrainsMonoNerdFontComplete-Regular:h13,JetBrainsMono\ Nerd\ Font:h13,FiraCodeNerdFontComplete-Regular:h13,FiraCode\ Nerd\ Font:h13,SauceCodeProNerdFontComplete-Regular:h13
+    set guifont=JetBrainsMono\ Nerd\ Font:h13,FiraCode\ Nerd\ Font:h13,SauceCodePro\ Nerd\ Font:h13
 elseif has('win16') || has('win32')
     set guifont=Hack:h14,Source\ Code\ Pro:h12,Bitstream\ Vera\ Sans\ Mono:h11
 elseif has('gui_gtk2')

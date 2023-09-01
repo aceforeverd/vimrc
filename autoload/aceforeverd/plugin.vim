@@ -113,7 +113,8 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('andymass/vim-matchup')
     call s:plugin_add('chaoren/vim-wordmotion', {'type': 'opt'})
     " Tools
-    call s:plugin_add('editorconfig/editorconfig-vim')
+    " neovim core already and vim will have editorconfig builtin
+    call s:plugin_add('editorconfig/editorconfig-vim', {'name': 'editorconfig', 'type': 'opt'})
     call s:plugin_add('will133/vim-dirdiff')
     call s:plugin_add('dstein64/vim-startuptime')
     call s:plugin_add('AndrewRadev/bufferize.vim')
@@ -357,9 +358,11 @@ function! s:config_plugins() abort
         set grepprg=rg\ --vimgrep\ --smart-case\ --no-heading\ --no-config
     endif
 
-    " editorconfig
-    let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
-
+    if !has('nvim-0.9.0')
+        PackAdd! editorconfig
+        " editorconfig
+        let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
+    endif
 
     " startify
     let g:startify_session_dir = '~/.vim/sessions/'
@@ -392,8 +395,10 @@ function! s:config_plugins() abort
 
     " vim-sneak
     let g:sneak#label = 1
-    map s <Plug>Sneak_s
-    map S <Plug>Sneak_S
+    let g:sneak#s_next = 1 " go the next/previous match by s/S, same as clever-f
+    " WARN(MAY CHANGE LATER): mapping <tab>/<s-tab> are not necessary since sneak#s_next enabled
+    nmap <silent> <expr> <tab> sneak#is_sneaking() ? '<Plug>Sneak_;' : '<TAB>'
+    nmap <silent> <expr> <s-tab> sneak#is_sneaking() ? '<Plug>Sneak_,' : '<S-TAB>'
 
     " vim-header
     let g:header_auto_add_header = 0
@@ -446,6 +451,8 @@ function! s:config_plugins() abort
         endif
     endif
     let g:matchup_matchparen_deferred = 1
+    " in case conflicts with sneak
+    omap <leader>% <plug>(matchup-z%)
 
     " vim-translator
     let g:translator_default_engines = ['google']
