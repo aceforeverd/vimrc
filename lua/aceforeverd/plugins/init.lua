@@ -900,6 +900,15 @@ M.plugin_list = {
 
   -- UI
   {
+    'goolord/alpha-nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    event = { 'VimEnter' },
+    config = function ()
+      require('alpha').setup(require('alpha.themes.startify').config)
+    end
+  },
+
+  {
     'freddiehaddad/feline.nvim',
     dependencies = {
       'nvim-tree/nvim-web-devicons',

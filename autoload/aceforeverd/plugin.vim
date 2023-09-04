@@ -22,9 +22,14 @@ function! PackList(...) abort
     return join(sort(keys(minpac#getpluglist())), "\n")
 endfunction
 
-function! PackOpenDirImpl(name) abort
+function! s:pack_open_in_term(name) abort
     let dir = minpac#getpluginfo(substitute(a:name, '\(^\s*\|\s*$\)', '', 'g')).dir
     exe 'FloatermNew --cwd=' . dir
+endfunction
+
+function! s:pack_open_dir(name) abort
+    let dir = minpac#getpluginfo(substitute(a:name, '\(^\s*\|\s*$\)', '', 'g')).dir
+    exe 'edit' dir
 endfunction
 
 function! s:pre_cmds() abort
@@ -42,7 +47,11 @@ function! s:pre_cmds() abort
     command! -nargs=0 PackInstallMissing
                 \ call aceforeverd#plugin#init() | call minpac#update(keys(filter(copy(minpac#getpluglist()), {-> !isdirectory(v:val.dir . '/.git')})))
 
-    command! -nargs=1 -complete=custom,PackList PackOpenDir call PackOpenDirImpl(<q-args>)
+    command! -nargs=1 -complete=custom,PackList PackOpenTerm
+                \ call aceforeverd#plugin#init() | call <SID>pack_open_in_term(<q-args>)
+
+    command! -nargs=1 -complete=custom,PackList PackOpenDir
+                \ call aceforeverd#plugin#init() | call <SID>pack_open_dir(<q-args>)
 
     command! -nargs=1 -complete=custom,PackList PackOpenUrl
                 \ call plugin_browse#open_uri(minpac#getpluginfo(substitute(<q-args>, '\(^\s*\|\s*$\)', '', 'g')).url)
@@ -100,7 +109,7 @@ function! aceforeverd#plugin#init() abort
 
     " interface
     call s:plugin_add('ryanoasis/vim-devicons')
-    call s:plugin_add('mhinz/vim-startify')
+    call s:plugin_add('mhinz/vim-startify', {'type': 'opt'})
     call s:plugin_add('ntpeters/vim-better-whitespace')
     call s:plugin_add('wincent/terminus')
     call s:plugin_add('vifm/vifm.vim')
@@ -364,20 +373,6 @@ function! s:config_plugins() abort
         let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://*']
     endif
 
-    " startify
-    let g:startify_session_dir = '~/.vim/sessions/'
-    let g:startify_update_oldfiles = 1
-    let g:startify_session_autoload = 1
-    let g:startify_session_persistence = 1
-    let g:startify_skiplist = [
-                \ '/tmp',
-                \ '/usr/share/vim/vimfiles/doc',
-                \ '/usr/local/share/vim/vimfiles/doc',
-                \ ]
-    let g:startify_fortune_use_unicode = 1
-    let g:startify_session_sort = 1
-    let g:startify_relative_path = 1
-
     " vim-markdown
     let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh', 'vim', 'help']
     let g:mkdp_auto_close = 0
@@ -546,6 +541,22 @@ function! s:config_vim_only() abort
     " vim rooter
     PackAdd! vim-rooter
     let g:rooter_cd_cmd = 'lcd'
+
+    " startify
+    PackAdd! vim-startify
+    let g:startify_session_dir = '~/.vim/sessions/'
+    let g:startify_update_oldfiles = 1
+    let g:startify_session_autoload = 1
+    let g:startify_session_persistence = 1
+    let g:startify_skiplist = [
+                \ '/tmp',
+                \ '/usr/share/vim/vimfiles/doc',
+                \ '/usr/local/share/vim/vimfiles/doc',
+                \ ]
+    let g:startify_fortune_use_unicode = 1
+    let g:startify_session_sort = 1
+    let g:startify_relative_path = 1
+
 endfunction
 
 function! s:coc() abort
