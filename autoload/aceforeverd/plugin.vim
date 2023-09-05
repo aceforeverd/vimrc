@@ -124,7 +124,6 @@ function! aceforeverd#plugin#init() abort
     " Tools
     " neovim core already and vim will have editorconfig builtin
     call s:plugin_add('editorconfig/editorconfig-vim', {'name': 'editorconfig', 'type': 'opt'})
-    call s:plugin_add('will133/vim-dirdiff')
     call s:plugin_add('dstein64/vim-startuptime')
     call s:plugin_add('AndrewRadev/bufferize.vim')
     call s:plugin_add('tyru/open-browser.vim')
@@ -462,10 +461,8 @@ function! s:config_plugins() abort
     " vimspector
     let g:vimspector_enable_mappings = 'HUMAN'
 
-    " for neovim only work when ts highlight disable. :TSDisable highlight
-    " see also zS from vim-scriptease
-    nnoremap <silent> <leader>cs :<c-u>call aceforeverd#util#syn_query()<cr>
-    nnoremap <silent> <leader>cv :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
+    nnoremap zS :<c-u>call aceforeverd#util#syn_query()<cr>
+    nnoremap zV :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
 
     " switch.vim
     let g:switch_mapping = '<space>x'

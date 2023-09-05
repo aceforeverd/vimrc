@@ -25,15 +25,27 @@ function! aceforeverd#util#has_float() abort
 endfunction
 
 " good util function to investigate highlight staffs
-" Note: for treesitter enabled neovim, try 'TSHighlightCapturesUnderCursor'
 function! aceforeverd#util#syn_query() abort
-    for id in synstack(line('.'), col('.'))
-        echomsg synIDattr(id, 'name')
-    endfor
+    if has('nvim')
+        execute 'Inspect'
+    else
+        if get(g:, 'loaded_scriptease', 0) == 1
+            execute 'normal <Plug>ScripteaseSynnames'
+        else
+            for id in synstack(line('.'), col('.'))
+                echomsg synIDattr(id, 'name')
+            endfor
+        endif
+    endif
 endfunction
+
 function! aceforeverd#util#syn_query_verbose() abort
-    for id in synstack(line('.'), col('.'))
-        execute 'highlight' synIDattr(id, 'name')
-    endfor
+    if has('nvim')
+        execute 'Inspect!'
+    else
+        for id in synstack(line('.'), col('.'))
+            execute 'highlight' synIDattr(id, 'name')
+        endfor
+    endif
 endfunction
 
