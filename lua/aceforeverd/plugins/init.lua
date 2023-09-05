@@ -366,11 +366,6 @@ M.plugin_list = {
   -- ==============================================
 
   {
-    'nvim-treesitter/playground',
-    cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor', 'TSNodeUnderCursor' },
-  },
-
-  {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
