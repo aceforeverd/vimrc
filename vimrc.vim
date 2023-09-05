@@ -33,6 +33,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-apathy'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-scriptease'
 
 Plug 'Shougo/neco-syntax'
 Plug 'Shougo/context_filetype.vim'
@@ -40,8 +41,9 @@ Plug 'Shougo/neco-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
+Plug 'rhysd/clever-f.vim'
 
-Plug 'rafi/awesome-vim-colorschemes'
+Plug 'sainnhe/everforest'
 
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
@@ -51,7 +53,12 @@ Plug 'raimondi/delimitmate'
 Plug 'mhinz/vim-startify'
 Plug 'rhysd/committia.vim'
 Plug 'ojroques/vim-oscyank'
-Plug 'jsfaint/gen_tags.vim'
+
+Plug 'ludovicchabant/vim-gutentags'
+let g:gutentags_modules = [ 'ctags' ]
+
+Plug 'airblade/vim-rooter'
+let g:rooter_cd_cmd = 'lcd'
 
 Plug 'airblade/vim-gitgutter'
 omap ih <Plug>(GitGutterTextObjectInnerPending)
@@ -330,7 +337,7 @@ augroup gp_vim_lsp_color
     autocmd! ColorScheme * highlight lspReference cterm=bold gui=bold guibg=#5e5e5e
 augroup END
 
-colorscheme onedark
+colorscheme everforest
 
 if has('gui_macvim')
     autocmd GUIEnter * set vb t_vb=
@@ -445,8 +452,6 @@ try
 catch
 endtry
 
-autocmd BufRead,BufNewFile *.verilog,*.vlg setlocal filetype=verilog
-
 " fzf
 nnoremap <c-p> :FZF --info=inline<CR>
 function! s:build_quickfix_list(lines)
@@ -486,7 +491,7 @@ command! -bang -nargs=* GGrep
             \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
 
 if executable('rg')
-    set grepprg=rg\ --vimgrep\ --smart-case
+    set grepprg=rg\ --vimgrep\ --smart-case\ --no-heading\ --no-config
 endif
 
 " neosnippet
@@ -526,18 +531,6 @@ nmap <silent> <c-k> <Plug>(ale_previous_wrap)
 nmap <silent> <c-j> <Plug>(ale_next_wrap)
 let g:ale_disable_lsp = 1
 
-" gen_tags.vim
-let g:gen_tags#ctags_auto_update = 0
-let g:gen_tags#gtags_auto_update = 0
-let g:gen_tags#ctags_opts = '--links=no'
-let g:gen_tags#gtags_opts = '--skip-symlink'
-if !executable('gtags')
-    let g:loaded_gentags#gtags = 1
-endif
-if !executable('ctags')
-    let g:loaded_gentags#ctags = 1
-endif
-
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh']
 
@@ -546,14 +539,17 @@ if !has('gui_running')
     inoremap <C-@> <C-x><C-o>
 endif
 
-function! s:syn_query_verbose() abort
-    for id in synstack(line('.'), col('.'))
-        execute 'highlight' synIDattr(id, 'name')
-    endfor
+function! s:syn_query() abort
+    if has('nvim')
+        execute 'Inspect'
+    else
+        execute "normal \<Plug>ScripteaseSynnames"
+    endif
 endfunction
 
-nnoremap <silent> <leader>cv :<c-u>call <SID>syn_query_verbose()<cr>
+nnoremap <silent> zS :<c-u>call s:syn_query()<cr>
 
 let g:sneak#label = 1
-map s <Plug>Sneak_s
-map S <Plug>Sneak_S
+let g:sneak#s_next = 1 " go the next/previous match by s/S, same as clever-f
+nmap <silent> <expr> <tab> sneak#is_sneaking() ? '<Plug>Sneak_;' : '<TAB>'
+nmap <silent> <expr> <s-tab> sneak#is_sneaking() ? '<Plug>Sneak_,' : '<S-TAB>'
