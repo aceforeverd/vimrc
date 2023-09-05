@@ -30,7 +30,7 @@ function! aceforeverd#util#syn_query() abort
         execute 'Inspect'
     else
         if get(g:, 'loaded_scriptease', 0) == 1
-            execute 'normal <Plug>ScripteaseSynnames'
+            execute "normal \<Plug>ScripteaseSynnames"
         else
             for id in synstack(line('.'), col('.'))
                 echomsg synIDattr(id, 'name')
