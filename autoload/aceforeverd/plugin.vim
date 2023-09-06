@@ -129,7 +129,7 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('tyru/open-browser.vim')
     call s:plugin_add('wincent/ferret')
     call s:plugin_add('ojroques/vim-oscyank')
-    call s:plugin_add('dhananjaylatkar/vim-gutentags')
+    call s:plugin_add('ludovicchabant/vim-gutentags')
     call s:plugin_add('skywind3000/gutentags_plus', {'type': 'opt'})
 
     call s:plugin_add('alpertuna/vim-header')
@@ -185,7 +185,6 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('MTDL9/vim-log-highlighting')
 
     " vimL
-    call s:plugin_add('mhinz/vim-lookup')
     call s:plugin_add('tweekmonster/helpful.vim')
     " markdown
     call s:plugin_add('mzlogin/vim-markdown-toc')
