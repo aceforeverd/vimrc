@@ -35,10 +35,12 @@ function! aceforeverd#completion#init_source_common() abort
     " Tab complete
     inoremap <silent><expr> <TAB>
                 \ pumvisible() ? "\<C-n>" :
+                \ coc#pum#visible() ? coc#pum#next(1) :
                 \ <SID>check_back_space() ? "\<TAB>" :
                 \ <SID>get_my_cmp_fn('complete')()
     inoremap <silent><expr> <S-TAB>
                 \ pumvisible() ? "\<C-p>" :
+                \ coc#pum#visible() ? coc#pum#prev(1) :
                 \ "\<S-TAB>"
     " <C-h>, <BS>: close popup and delete backword char.
     imap <BS> <Plug>(MyIMappingBS)
