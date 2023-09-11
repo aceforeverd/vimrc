@@ -61,7 +61,7 @@ endfunction
 function! aceforeverd#completion#init_source_coc() abort
     let g:coc_global_extensions = [
                 \ 'coc-vimlsp', 'coc-syntax',
-                \ 'coc-snippets', 'coc-lists', 'coc-floaterm',
+                \ 'coc-snippets', 'coc-lists',
                 \ 'coc-highlight', 'coc-git',
                 \ 'coc-explorer', 'coc-word',
                 \ 'coc-yank', 'coc-sumneko-lua',
@@ -70,10 +70,9 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-pyright', 'coc-json',
                 \ 'coc-html', 'coc-go',
                 \ 'coc-css', 'coc-clangd',
-                \ 'coc-java', 'coc-diagnostic',
+                \ 'coc-diagnostic',
                 \ 'coc-xml', 'coc-toml', 'coc-emoji',
-                \ 'coc-esbonio', 'coc-sql',
-                \ 'coc-zig',
+                \ 'coc-sql', 'coc-zig',
                 \ ]
 
     augroup gp_coc

@@ -2,7 +2,8 @@ function! aceforeverd#tags#setup() abort
     " ctags for vim's 'tags' feature
     let g:gutentags_modules = [ 'ctags' ]
     if has('nvim-0.9.0')
-        let g:gutentags_modules += [ 'cscope_maps' ]
+        " cscope_maps module not work well with gtags-cscope
+        " build manually
     else
         PackAdd! gutentags_plus
         let g:gutentags_plus_nomap = 1

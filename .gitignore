@@ -13,3 +13,4 @@ cscope.out
 pack/
 vimrc
 init.vim
+lazy-lock.json
