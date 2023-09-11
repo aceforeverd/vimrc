@@ -899,7 +899,18 @@ M.plugin_list = {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     event = { 'VimEnter' },
     config = function ()
-      require('alpha').setup(require('alpha.themes.startify').config)
+      local cfg = require('alpha.themes.startify')
+      -- go https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something
+      local logo = [[
+      ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+      ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+      ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+      ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+      ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+      ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
+      ]]
+      cfg.section.header.val = vim.split(logo, "\n")
+      require('alpha').setup(cfg.config)
     end
   },
 
