@@ -39,7 +39,7 @@ function M.yanky()
       cancel_event = 'move',
     },
   })
-  require('aceforeverd.utility.map').do_map({
+  require('aceforeverd.util.map').do_map({
     n = {
       p = [[<Plug>(YankyPutAfter)]],
       P = [[<Plug>(YankyPutBefore)]],
@@ -64,7 +64,7 @@ function M.substitute()
     end,
     yank_substituted_text = true,
   })
-  require('aceforeverd.utility.map').do_map({
+  require('aceforeverd.util.map').do_map({
     n = {
       ['<leader>s'] = [[<cmd>lua require('substitute').operator()<cr>]],
       ['<leader>ss'] = [[<cmd>lua require('substitute').line()<cr>]],
@@ -100,7 +100,7 @@ function M.toggle_term()
       winblend = 10,
     },
   })
-  require('aceforeverd.utility.map').do_mode_map('n', '', {
+  require('aceforeverd.util.map').do_mode_map('n', '', {
     ['<leader>tx'] = [[<cmd>execute v:count . "ToggleTerm direction=horizontal"<cr>]],
     ['<leader>tv'] = [[<cmd>execute v:count . "ToggleTerm direction=vertical"<cr>]],
     ['<leader>tf'] = [[<cmd>execute v:count . "ToggleTerm direction=float"<cr>]],

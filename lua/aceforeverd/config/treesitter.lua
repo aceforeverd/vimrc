@@ -228,7 +228,7 @@ function M.setup()
 
   -- :set foldmethod=expr to enable fold with expr, default is manual
   vim.cmd([[set foldexpr=nvim_treesitter#foldexpr()]])
-  require('aceforeverd.utility.map').set_map(
+  require('aceforeverd.util.map').set_map(
     'n',
     '<leader>uc',
     ":lua require('ts_context_commentstring.internal').update_commentstring()<CR>",

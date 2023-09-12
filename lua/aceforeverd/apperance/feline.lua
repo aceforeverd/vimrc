@@ -294,10 +294,10 @@ local feline_config = {
     bufnames = {},
   },
   custom_providers = {
-    lsp_status = require('aceforeverd.utility.statusline').lsp_status,
-    my_lsp_client_names = require('aceforeverd.utility.statusline').lsp_client_names,
-    gps = require('aceforeverd.utility.statusline').ctx_location,
-    tag_status = require('aceforeverd.utility.statusline').tag_status,
+    lsp_status = require('aceforeverd.util.statusline').lsp_status,
+    my_lsp_client_names = require('aceforeverd.util.statusline').lsp_client_names,
+    gps = require('aceforeverd.util.statusline').ctx_location,
+    tag_status = require('aceforeverd.util.statusline').tag_status,
   },
 }
 
@@ -312,7 +312,7 @@ local function gen_winbar_components()
         },
         {
           provider = function()
-            return require('aceforeverd.utility.statusline').ctx_location()
+            return require('aceforeverd.util.statusline').ctx_location()
           end,
           left_sep = { { str = ' :: ', hl = { fg = bit_yellow } } },
           hl = { fg = 'orange' },

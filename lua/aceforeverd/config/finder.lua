@@ -112,7 +112,7 @@ function M.telescope()
     },
   }
 
-  require('aceforeverd.utility.map').do_map({ ['n'] = tel_map_list }, map_opts)
+  require('aceforeverd.util.map').do_map({ ['n'] = tel_map_list }, map_opts)
 end
 
 return M

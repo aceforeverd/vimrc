@@ -40,7 +40,7 @@ const s:sonokai_styles = ['atlantis', 'andromeda', 'shusia', 'espresso']
 
 function! aceforeverd#settings#sonokai_pre() abort
     if has('nvim')
-        let random_idx = v:lua.require('aceforeverd.utility.random').random(0, len(s:sonokai_styles) - 1)
+        let random_idx = v:lua.require('aceforeverd.util.random').random(0, len(s:sonokai_styles) - 1)
         let g:sonokai_style = s:sonokai_styles[random_idx]
     else
         let g:sonokai_style = 'andromeda'

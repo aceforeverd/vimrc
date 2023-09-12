@@ -181,7 +181,7 @@ local lsp_default_maps = {
 function M.on_attach(client, bufnr)
   -- omnifunc, tagfunc, formatexpr is set from neovim runtime by default if LSP supports
 
-  require('aceforeverd.utility.map').do_map(lsp_default_maps, default_map_opts)
+  require('aceforeverd.util.map').do_map(lsp_default_maps, default_map_opts)
 
   vim.cmd([[
     command! -range=% Format  :lua require('aceforeverd.lsp.common').fmt_cmd(<range>, require('aceforeverd.lsp.common').lsp_fmt)

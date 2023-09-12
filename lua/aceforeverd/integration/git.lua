@@ -25,7 +25,7 @@ function M.gitsigns()
       local map = function(mode, l, r, opts)
         opts = opts or {}
         opts.buffer = bufnr
-        require('aceforeverd.utility.map').set_map(mode, l, r, opts)
+        require('aceforeverd.util.map').set_map(mode, l, r, opts)
       end
       local gs = package.loaded.gitsigns
 

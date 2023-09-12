@@ -14,7 +14,7 @@
 " along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 function! aceforeverd#statusline#nvim_gps() abort
-    return v:lua.require('aceforeverd.utility.statusline').gps()
+    return v:lua.require('aceforeverd.util.statusline').gps()
 endfunction
 
 function! aceforeverd#statusline#coc_ctx()
@@ -23,7 +23,7 @@ endfunction
 
 function! aceforeverd#statusline#lsp_status() abort
     if g:my_cmp_source ==? 'nvim_lsp'
-        return v:lua.require('aceforeverd.utility.statusline').lsp_status()
+        return v:lua.require('aceforeverd.util.statusline').lsp_status()
     elseif g:my_cmp_source ==? 'coc'
         return get(g:, 'coc_status', '')
     elseif g:my_cmp_source ==? 'vim_lsp'
@@ -33,7 +33,7 @@ function! aceforeverd#statusline#lsp_status() abort
 endfunction
 
 function! aceforeverd#statusline#file_size() abort
-    return v:lua.require('aceforeverd.utility.statusline').file_size()
+    return v:lua.require('aceforeverd.util.statusline').file_size()
 endfunction
 
 function! aceforeverd#statusline#git_diff() abort
@@ -58,7 +58,7 @@ endfunction
 function! aceforeverd#statusline#lsp_diagnostic() abort
     let cmp = get(g:, 'my_cmp_source', '')
     if cmp ==? 'nvim_lsp'
-        return v:lua.require('aceforeverd.utility.statusline').lsp_diagnostic()
+        return v:lua.require('aceforeverd.util.statusline').lsp_diagnostic()
     elseif cmp ==? 'coc'
         let info = get(b:, 'coc_diagnostic_info', {})
         if empty(info) | return '' | endif

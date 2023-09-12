@@ -33,7 +33,7 @@ local function gen_winbar_cfg()
       },
       lualine_b = {
         {
-          require('aceforeverd.utility.statusline').ctx_location,
+          require('aceforeverd.util.statusline').ctx_location,
           on_click = function(num_click, mounse, modifiers)
             require('nvim-navbuddy').open()
           end,
@@ -73,24 +73,24 @@ function M.setup()
         'diagnostics',
       },
       lualine_c = {
-        { require('aceforeverd.utility.statusline').lsp_client_names, icon = { ' ' }, color = { fg = '#FF9000' } },
+        { require('aceforeverd.util.statusline').lsp_client_names, icon = { ' ' }, color = { fg = '#FF9000' } },
         {
-          require('aceforeverd.utility.statusline').lsp_status,
+          require('aceforeverd.util.statusline').lsp_status,
           color = { fg = '#E1E120' },
         },
       },
       lualine_x = {
         {
-          require('aceforeverd.utility.statusline').ctx_location,
+          require('aceforeverd.util.statusline').ctx_location,
           cond = function()
             -- otherwise it will appear in winbar
             return vim.fn.exists('+winbar') == 0
           end,
           color = { fg = '#fda5b4' },
         },
-        { require('aceforeverd.utility.statusline').tag_status },
+        { require('aceforeverd.util.statusline').tag_status },
         'filetype',
-        { require('aceforeverd.utility.statusline').indent },
+        { require('aceforeverd.util.statusline').indent },
         {
           'vim.bo.spelllang',
           cond = function()

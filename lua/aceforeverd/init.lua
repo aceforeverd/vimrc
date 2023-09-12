@@ -30,7 +30,7 @@ function M.setup()
     vim.g.lsp_process_provider = 'lsp_status'
   end
 
-  require('aceforeverd.utility.map').do_map({
+  require('aceforeverd.util.map').do_map({
     n = {
       ['}}'] = '}',
       ['{{'] = '{',
