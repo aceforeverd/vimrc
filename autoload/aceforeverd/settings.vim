@@ -108,7 +108,7 @@ function! aceforeverd#settings#basic_color() abort
         let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
         set termguicolors
     else
-        if $TERM =~? '256color$' || $TERM=~#'xterm-color' || $TERM=~#'xterm-kitty' || has('gui_running')
+        if $TERM =~? '256color$' || $TERM=~? 'xterm-color' || $TERM ==? 'xterm-kitty' || $TERM ==? 'alacritty' || has('gui_running')
             set termguicolors
         endif
     endif
