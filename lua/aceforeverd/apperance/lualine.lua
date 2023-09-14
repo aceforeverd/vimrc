@@ -56,7 +56,10 @@ function M.setup()
       component_separators = { left = '|', right = '|' },
     },
     sections = {
-      lualine_a = { 'mode' },
+      lualine_a = {
+        'mode',
+        function() return vim.fn['aceforeverd#statusline#props']() end
+      },
       lualine_b = {
         'branch',
         {

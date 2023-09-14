@@ -94,11 +94,36 @@ function! aceforeverd#statusline#tag_status() abort
     endif
 endfunction
 
+function! aceforeverd#statusline#props() abort
+    let s = []
+    try
+        let caps = CapsLockStatusline()
+        if caps != ''
+            let s += ['CAP']
+        endif
+    catch /.*/
+    endtry
+
+    if &paste == 1
+        let s += ['PASTE']
+    endif
+
+    if &readonly == 1
+        let s += ['RO']
+    endif
+
+    if empty(s)
+        return ''
+    endif
+
+    return '[' . join(s, ',') . ']'
+endfunction
+
 function! aceforeverd#statusline#lightline() abort
     let g:lightline = {
       \ 'colorscheme': 'deus',
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste', 'git_branch' ],
+      \   'left': [ [ 'mode', 'cap', 'paste', 'git_branch' ],
       \             [ 'readonly', 'modified', 'git_diff', 'diagnostic_count' ],
       \             [ 'lsp_status' ]
       \    ],
@@ -122,7 +147,8 @@ function! aceforeverd#statusline#lightline() abort
       \   'diagnostic_count': 'aceforeverd#statusline#lsp_diagnostic',
       \   'git_branch': 'FugitiveHead',
       \   'git_diff': 'aceforeverd#statusline#git_status',
-      \   'tag_status': 'aceforeverd#statusline#tag_status'
+      \   'tag_status': 'aceforeverd#statusline#tag_status',
+      \   'cap': 'CapsLockStatusline',
       \ }
       \ }
 

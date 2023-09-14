@@ -101,6 +101,7 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('tpope/vim-apathy')
     call s:plugin_add('tpope/vim-characterize')
     call s:plugin_add('tpope/vim-rsi')
+    call s:plugin_add('tpope/vim-capslock')
 
     call s:plugin_add('lambdalisue/suda.vim')
 

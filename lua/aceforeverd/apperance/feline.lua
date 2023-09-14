@@ -76,6 +76,14 @@ local feline_config = {
           priority = priority_high,
         },
         {
+          provider = function()
+            return vim.fn['aceforeverd#statusline#props']()
+          end,
+          hl = vi_mode_hl,
+          right_sep = { str = ' ', hl = vi_mode_hl },
+          priority = priority_high,
+        },
+        {
           provider = 'git_branch',
           hl = { fg = 'black', bg = bit_blue, style = 'bold' },
           enabled = function()
