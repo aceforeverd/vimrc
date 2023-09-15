@@ -327,9 +327,7 @@ elseif has('nvim')
     let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
     set termguicolors
 else
-    if empty($TMUX) && ($TERM=~#'xterm-256color' || $TERM=~#'screen-256color' || $TERM=~#'xterm-color' || $TERM =~# 'xterm-kitty' || has('gui_running'))
-        set termguicolors
-    endif
+    set termguicolors
 endif
 
 augroup gp_vim_lsp_color
@@ -415,7 +413,7 @@ endfunction
 
 " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
 let g:TerminusCursorShape = 0
-if !has('nvim') && &term =~? '256color$'
+if !has('nvim') && !has('gui_running')
     " when start insert mode - blinking vertical bar
     let &t_SI = "\<Esc>[5 q"
     " when end insert/replace mode(common) - blinking block
