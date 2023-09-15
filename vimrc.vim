@@ -187,7 +187,10 @@ endif
 
 set mouse=a
 
-if !has('nvim') && (&term =~? '256color$' || &term ==? 'xterm-kitty' || &term ==? 'alacritty')
+if !has('nvim') && !has('gui_running')
+    " ONLY APPLY VIMS INSIDE TERMINAL
+    " older vim may problematic, I don't intend fixing that
+
     " Cursor shapes, use a blinking upright bar cursor in Insert mode, a blinking block in normal
     " when start insert mode - blinking vertical bar
     let &t_SI = "\<Esc>[5 q"
