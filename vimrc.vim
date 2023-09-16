@@ -110,15 +110,9 @@ endif
 
 syntax enable
 
-" Enable 256 colors palette in Gnome Terminal
-if $COLORTERM ==? 'gnome-terminal'
-    set t_Co=256
-endif
-
 if has('gui_running')
     set guioptions-=T
     set guioptions-=e
-    set t_Co=256
     set guitablabel=%M\ %t
 endif
 
@@ -209,6 +203,9 @@ if !has('nvim') && !has('gui_running')
     "     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
     "     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
     " endif
+
+    " better configure TERM of terminal or tmux, t_Co is not needed in most case
+    set t_Co=256
 endif
 
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
@@ -225,13 +222,13 @@ augroup END
 if has('mac') || has('macunix')
     set guifont=JetBrainsMono\ Nerd\ Font:h13,FiraCode\ Nerd\ Font:h13,SauceCodePro\ Nerd\ Font:h13
 elseif has('win16') || has('win32')
-    set guifont=Hack:h14,Source\ Code\ Pro:h12,Bitstream\ Vera\ Sans\ Mono:h11
+    set guifont=Hack:h13,Source\ Code\ Pro:h13,Bitstream\ Vera\ Sans\ Mono:h13
 elseif has('gui_gtk2')
-    set guifont=Hack\ 14,Source\ Code\ Pro\ 12,Bitstream\ Vera\ Sans\ Mono\ 11
+    set guifont=Hack\ 14,Source\ Code\ Pro\ 13,Bitstream\ Vera\ Sans\ Mono\ 13
 elseif has('linux')
-    set guifont=FiraCode\ Nerd\ Font\ 12,JetBrainsMono\ Nerd\ Font\ 12,Fira\ Code\ 12,JetBrains\ Mono\ 12
+    set guifont=JetBrainsMono\ Nerd\ Font\ 13,FiraCode\ Nerd\ Font\ 13,JetBrains\ Mono\ 13
 elseif has('unix')
-    set guifont=Source\ Code\ Pro\ Medium\ 11
+    set guifont=Source\ Code\ Pro\ Medium\ 13
 endif
 
 try
