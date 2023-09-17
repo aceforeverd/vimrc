@@ -414,7 +414,7 @@ function! s:config_plugins() abort
 
     augroup gp_lookup
         autocmd!
-        autocmd FileType vim,lua,tmux nnoremap <buffer> gs :call plugin_browse#try_open()<CR>
+        autocmd FileType vim,lua,tmux nnoremap <buffer> gs :call aceforeverd#keymap#browse#try_open()<CR>
         autocmd FileType vim,lua,help nnoremap <buffer> <leader>gh :call aceforeverd#completion#help()<cr>
     augroup END
 
