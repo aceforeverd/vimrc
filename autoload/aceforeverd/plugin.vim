@@ -255,6 +255,7 @@ function! s:config_plugins() abort
         call aceforeverd#statusline#lightline()
 
         PackAdd! vim-gitgutter
+        nmap <Leader>hr <Plug>(GitGutterUndoHunk)
         omap ih <Plug>(GitGutterTextObjectInnerPending)
         omap ah <Plug>(GitGutterTextObjectOuterPending)
         xmap ih <Plug>(GitGutterTextObjectInnerVisual)

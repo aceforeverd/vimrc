@@ -231,17 +231,19 @@ elseif has('unix')
     set guifont=Source\ Code\ Pro\ Medium\ 13
 endif
 
-try
-    " the undo dir may need create manually
-    if has('nvim-0.5')
-        let &undodir= s:common_path . '/undodir-0.5/'
-    else
-        let &undodir= s:common_path . '/undodir/'
-    endif
+if has('nvim-0.5')
+    let s:undodir = s:common_path . '/undodir-0.5/'
+else
+    let s:undodir = s:common_path . '/undodir/'
+endif
 
-    set undofile
-catch
-endtry
+if !isdirectory(s:undodir)
+    echomsg "creating undodir in" s:undodir
+    call mkdir(s:undodir, "p")
+endif
+
+let &undodir = s:undodir
+set undofile
 
 " scroll window and cursor together, cursor location compared to current window not change
 nnoremap <M-j> <C-e>j

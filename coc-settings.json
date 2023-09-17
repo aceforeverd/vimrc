@@ -168,4 +168,5 @@
   "Lua.runtime.version": "LuaJIT",
   "sumneko-lua.enableNvimLuaDev": true,
   "git.enableGutters": false,
+  "git.addGBlameToVirtualText": true
 }
