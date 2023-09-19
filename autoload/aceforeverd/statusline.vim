@@ -88,7 +88,14 @@ function! aceforeverd#statusline#tag_status() abort
     endif
 
     if has('nvim')
-        return '[' . get(g:, 'cscope_maps_statusline_indicator', '') . '/' . gutentags . ']'
+        let cs_maps = get(g:, 'cscope_maps_statusline_indicator', '')
+        if strlen(cs_maps) == 0
+            return gutentags
+        elseif strlen(gutentags) == 0
+            return cs_maps
+        else
+            return cs_maps . ',' . gutentags
+        endif
     else
         return gutentags
     endif

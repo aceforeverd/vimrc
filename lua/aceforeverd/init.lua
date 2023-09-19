@@ -44,8 +44,20 @@ function M.setup()
   vim.o.fillchars = [[foldopen:▼,foldclose:⏵]]
   vim.o.exrc = true -- automatically execute project local configs
 
+  vim.filetype.add({
+    filename = {
+      ['docker-compose.yml'] = function(path, _)
+        if string.match(path, '.github/workflows') then
+          return 'yaml'
+        else
+          return 'yaml.docker-compose'
+        end
+      end,
+    },
+  })
+
   -- terminals
-  local gp = vim.api.nvim_create_augroup('gp_whtespace', {clear = true})
+  local gp = vim.api.nvim_create_augroup('gp_whtespace', { clear = true })
   vim.api.nvim_create_autocmd('TermOpen', {
     group = gp,
     pattern = '*',
