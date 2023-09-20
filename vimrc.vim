@@ -19,6 +19,11 @@ if empty(glob(s:home. '/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" global leader
+let g:mapleader = ','
+" local leader
+let g:maplocalleader = '\'
+
 call plug#begin(s:common_pkg)
 
 Plug 'tpope/vim-fugitive'
@@ -61,6 +66,7 @@ Plug 'airblade/vim-rooter'
 let g:rooter_cd_cmd = 'lcd'
 
 Plug 'airblade/vim-gitgutter'
+nmap <Leader>hr <Plug>(GitGutterUndoHunk)
 omap ih <Plug>(GitGutterTextObjectInnerPending)
 omap ah <Plug>(GitGutterTextObjectOuterPending)
 xmap ih <Plug>(GitGutterTextObjectInnerVisual)
@@ -265,11 +271,6 @@ call plug#end()
 filetype plugin on
 filetype indent on
 
-" global leader
-let g:mapleader = ','
-" local leader
-let g:maplocalleader = '\'
-
 let $LANG='en'
 set langmenu=en
 set shortmess+=c
@@ -292,7 +293,6 @@ set ignorecase
 set smartcase
 
 set hlsearch
-nnoremap <leader>l :nohlsearch<cr>
 
 set incsearch
 set lazyredraw
@@ -304,6 +304,8 @@ set wildmenu
 set backspace=indent,eol,start
 set cursorline
 set cursorcolumn
+
+set dictionary+=/usr/share/dict/words
 
 " No annoying sound on errors
 set noerrorbells
@@ -343,15 +345,9 @@ endif
 
 syntax enable
 
-" Enable 256 colors palette in Gnome Terminal
-if $COLORTERM ==? 'gnome-terminal'
-    set t_Co=256
-endif
-
 if has('gui_running')
     set guioptions-=T
     set guioptions-=e
-    set t_Co=256
     set guitablabel=%M\ %t
 endif
 
@@ -444,11 +440,19 @@ if has('autocmd')
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-try
-    let &undodir = s:common_path . '/undodir/'
-    set undofile
-catch
-endtry
+if has('nvim-0.5')
+    let s:undodir = s:common_path . '/undodir-0.5/'
+else
+    let s:undodir = s:common_path . '/undodir/'
+endif
+
+if !isdirectory(s:undodir)
+    echomsg "creating undodir in" s:undodir
+    call mkdir(s:undodir, "p")
+endif
+
+let &undodir = s:undodir
+set undofile
 
 " fzf
 nnoremap <c-p> :FZF --info=inline<CR>
