@@ -53,6 +53,12 @@ function! aceforeverd#settings#sonokai_pre() abort
     let g:sonokai_diagnostic_virtual_text = 'colored'
 endfunction
 
+function! aceforeverd#settings#sonokai_post() abort
+    " token from everforest
+    highlight! Visual term=reverse ctermbg=52 guibg=#543a48
+    highlight! VisualNOS ctermbg=52 guibg=#543a48
+endfunction
+
 " common highlight customization
 function! aceforeverd#settings#hl_groups() abort
     " highlights for line numbers

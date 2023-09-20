@@ -266,6 +266,7 @@ call aceforeverd#settings#basic_color()
 augroup gp_colorscheme
     autocmd!
     autocmd ColorSchemePre sonokai call aceforeverd#settings#sonokai_pre()
+    autocmd ColorScheme sonokai call aceforeverd#settings#sonokai_post()
     autocmd ColorScheme * call aceforeverd#settings#hl_groups()
 augroup END
 
