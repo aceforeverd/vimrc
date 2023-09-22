@@ -38,12 +38,6 @@ let g:mapleader = ','
 " local leader
 let g:maplocalleader = '\'
 
-" in case can't go back with t/T/f/F
-nnoremap ,, ,
-" vim default ;, is not necessary with clever-f
-" NOTE: ; may used for other maps
-
-
 " =============================================================== "
 " Plugin Manager, in order
 " 1. minpac
@@ -52,7 +46,10 @@ nnoremap ,, ,
 
 call aceforeverd#plugin#setup()
 
-" =================== extra conf ============================= "
+
+" =============================================================== "
+" Basic settings
+" =============================================================== "
 
 filetype plugin on
 filetype indent on
@@ -144,34 +141,11 @@ if has('patch-8.1.0360')
     set diffopt+=internal,algorithm:patience
 endif
 
-" map <silent> <leader><cr> :noh<cr>
-nnoremap <leader>tn :tabnew<cr>
-nnoremap <leader>to :tabonly<cr>
-nnoremap <leader>tc :tabclose<cr>
-nnoremap <leader>tm :tabmove<cr>
-nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
-" open current window in new tab, same as maximize current window
-" <c-w>c to close the tab
-nnoremap <leader>to :tab split<cr>
-nnoremap ]v :tabnext<cr>
-nnoremap [v :tabprevious<cr>
-
-" swith to last active tab
-let g:lasttab = 1
-nnoremap <Leader>ts :exe "tabn ".g:lasttab<CR>
-augroup tab_boy
-    autocmd!
-    autocmd TabLeave * let g:lasttab = tabpagenr()
-augroup END
-
 nnoremap <Leader>ec :execute 'edit' g:vimrc<CR>
 
 " Specify the behavior when switching between buffers
-try
-    set switchbuf=useopen,usetab,newtab
-    set showtabline=2
-catch
-endtry
+set switchbuf=useopen,usetab,newtab
+set showtabline=2
 
 if has('nvim-0.7.0')
     set laststatus=3
@@ -245,10 +219,6 @@ endif
 let &undodir = s:undodir
 set undofile
 
-" scroll window and cursor together, cursor location compared to current window not change
-nnoremap <M-j> <C-e>j
-nnoremap <M-k> <C-y>k
-
 " basic completion settings
 set completeopt-=preview
 set completeopt+=menuone
@@ -261,6 +231,15 @@ set shortmess-=F
 " only apply to vim
 set shortmess-=S
 
+" =============================================================== "
+" essential keymaps & commands
+" =============================================================== "
+call aceforeverd#keymap#essential#setup()
+call aceforeverd#cmd#essential#setup()
+
+" =============================================================== "
+" colorscheme
+" =============================================================== "
 call aceforeverd#settings#basic_color()
 " setup sonokai
 augroup gp_colorscheme
@@ -272,6 +251,9 @@ augroup END
 
 colorscheme sonokai
 
+" =============================================================== "
+" NVIM
+" =============================================================== "
 if has('nvim-0.5')
     lua require('aceforeverd').setup()
 endif

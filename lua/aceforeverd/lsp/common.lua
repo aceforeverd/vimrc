@@ -103,7 +103,7 @@ local function visual_range_fmt(fmt_fn)
 end
 
 -- https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips#range-formatting-with-a-motion
-function M.range_format_operator(fmt_fn)
+local function range_format_operator(fmt_fn)
   local old_func = vim.go.operatorfunc
   _G.op_func_formatting = function()
     local start = vim.api.nvim_buf_get_mark(0, '[')
@@ -151,13 +151,19 @@ local lsp_default_maps = {
 
     -- format whole buffer
     ['<space>F'] = M.lsp_fmt,
-    -- lsp format motion
+    -- LSP format motion
+    -- same as `gq`, once setting formatexpr=v:lua.vim.lsp.formatexpr()
+    -- I'd keep map `<cr>` to lsp format util find better usage
     ['<cr>'] = function()
-      -- or uses the gq format motion
-      M.range_format_operator(M.lsp_fmt)
+      range_format_operator(M.lsp_fmt)
+    end,
+    ['<cr><cr>'] = function()
+      -- format current line
+      vim.cmd [[normal! v0o$]]
+      visual_range_fmt(M.lsp_fmt)
     end,
     ['g<cr>'] = function()
-      M.range_format_operator(M.selective_fmt)
+      range_format_operator(M.selective_fmt)
     end,
 
     ['<space>s'] = [[<cmd>FzfLua lsp_document_symbols<cr>]],

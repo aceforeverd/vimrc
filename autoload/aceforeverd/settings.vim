@@ -133,37 +133,3 @@ function! aceforeverd#settings#basic_color() abort
         " endif
     " endif
 endfunction
-
-" little utilities to open current file editing/file under cursor in netrw/dirvish with in browser
-"
-" @param type:
-"    1. 'b' -> file current editing
-"    2. 'c' -> file under cursor, apply to netrw & dirvish
-""
-function! aceforeverd#settings#open_with_browser(type) abort
-    if a:type ==? 'b'
-        " file current editing
-        let s:file_path = expand('%:p')
-    elseif a:type ==? 'c'
-        " file under cursor
-        let s:file_path = expand('<cfile>:p')
-    endif
-
-    if !filereadable(s:file_path)
-        echomsg 'file ' . s:file_path . ' not exists!'
-        return
-    endif
-
-    execute '!open ' . s:file_path
-endfunction
-
-function! aceforeverd#settings#vim_go() abort
-    let g:go_fmt_autosave = 0
-    let g:go_imports_autosave = 0
-    let g:go_mod_fmt_autosave = 0
-    let g:go_doc_popup_window = 1
-    let g:go_term_enabled = 1
-    let g:go_def_mapping_enabled = 0
-    let g:go_doc_keywordprg_enabled = 0
-    let g:go_gopls_enabled = 0
-endfunction

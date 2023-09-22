@@ -517,11 +517,16 @@ function! s:config_plugins() abort
 endfunction
 
 function! s:config_vim_only() abort
-    " align to nvim default mapings
-    nnoremap <C-L> <Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>
-
     PackAdd! vim-go
-    call aceforeverd#settings#vim_go()
+    let g:go_fmt_autosave = 0
+    let g:go_imports_autosave = 0
+    let g:go_mod_fmt_autosave = 0
+    let g:go_doc_popup_window = 1
+    let g:go_term_enabled = 1
+    let g:go_def_mapping_enabled = 0
+    let g:go_doc_keywordprg_enabled = 0
+    let g:go_gopls_enabled = 0
+
     PackAdd! vim-wordmotion
 
     PackAdd! delimitmate
