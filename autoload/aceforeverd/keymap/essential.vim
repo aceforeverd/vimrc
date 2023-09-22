@@ -1,4 +1,16 @@
 function!  aceforeverd#keymap#essential#setup() abort
+    if !has('nvim')
+        " align to nvim default mapings
+        nnoremap <C-L> <Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>
+
+        " vim in terminal do not behavior correct with alt
+        " see `:help map-alt-keys` and https://vi.stackexchange.com/a/38866
+        if !has('gui_running') && &term !~? 'kitty$'
+            execute "set <M-j>=\<Esc>j"
+            execute "set <M-k>=\<Esc>k"
+        endif
+    endif
+
     " in case can't go back with t/T/f/F
     nnoremap ,, ,
     " vim default ;, is not necessary with clever-f
@@ -35,9 +47,4 @@ function!  aceforeverd#keymap#essential#setup() abort
     " scroll window and cursor together, cursor location compared to current window not change
     nnoremap <M-j> <C-e>j
     nnoremap <M-k> <C-y>k
-
-    if !has('nvim')
-        " align to nvim default mapings
-        nnoremap <C-L> <Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>
-    endif
 endfunction
