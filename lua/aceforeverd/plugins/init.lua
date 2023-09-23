@@ -133,8 +133,20 @@ M.plugin_list = {
     'folke/neodev.nvim',
     config = function()
       require('neodev').setup({
+        library = {
+          enabled = true,
+          plugins = {
+            'plenary.nvim',
+            'nvim-lspconfig',
+            'nvim-treesitter',
+            'telescope.nvim',
+            'nvim-web-devicons',
+            'nui.nvim',
+            'sqlite.lua',
+          },
+        },
         lspconfig = true,
-        pathStrict = true
+        pathStrict = true,
       })
     end,
     lazy = true,
@@ -173,7 +185,7 @@ M.plugin_list = {
     ft = { 'scala', 'sbt' },
     config = function()
       require('aceforeverd.lsp').metals()
-    end
+    end,
   },
 
   {
@@ -599,7 +611,6 @@ M.plugin_list = {
       require('aceforeverd.config').teelscope()
     end,
     dependencies = {
-      'nvim-lua/popup.nvim',
       'nvim-telescope/telescope-fzf-native.nvim',
 
       'nvim-telescope/telescope-symbols.nvim',
