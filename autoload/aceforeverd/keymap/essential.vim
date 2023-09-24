@@ -40,11 +40,33 @@ function!  aceforeverd#keymap#essential#setup() abort
     " ==========================
 
     " around current line
-    xnoremap a_ 0o$
+    xnoremap <silent> a_ :call <sid>current_line(v:true)<cr>
+    onoremap <silent> a_ :call <sid>current_line(v:true)<cr>
     " inside current line
-    xnoremap i_ _og_
+    xnoremap <silent> i_ :call <sid>current_line(v:false)<cr>
+    onoremap <silent> i_ :call <sid>current_line(v:false)<cr>
+
+    " whole buffer
+    xnoremap gG GoggV
+    onoremap gG :normal! VGogg<cr>
 
     " scroll window and cursor together, cursor location compared to current window not change
     nnoremap <M-j> <C-e>j
     nnoremap <M-k> <C-y>k
+endfunction
+
+function! s:current_line(outter) abort
+    if col('$') == 1
+        return
+    endif
+
+    if mode() !=# 'v'
+        normal! v
+    endif
+
+    if a:outter == v:true
+        normal! $ho0
+    else
+        normal! g_o_
+    endif
 endfunction

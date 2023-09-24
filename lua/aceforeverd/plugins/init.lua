@@ -547,8 +547,6 @@ M.plugin_list = {
       { 'aI', mode = { "o", "x" }, "<cmd>lua require('various-textobjs').indentation(false, false)<CR>", desc = 'outer-outer indentation (include above/below)'},
       { 'aD', mode = { 'o', 'x'}, "<cmd>lua require('various-textobjs').doubleSquareBrackets(false)<cr>", desc = "around doubleSquareBrackets"},
       { 'iD', mode = { 'o', 'x'}, "<cmd>lua require('various-textobjs').doubleSquareBrackets(true)<cr>", desc = "inside doubleSquareBrackets"},
-      { 'i_', mode = { 'o', 'x'}, "<cmd>lua require('various-textobjs').lineCharacterwise(true)<cr>", desc = "inside line"},
-      { 'a_', mode = { 'o', 'x'}, "<cmd>lua require('various-textobjs').lineCharacterwise(false)<cr>", desc = "around line"},
       { 'in', mode = { 'o', 'x'}, "<cmd>lua require('various-textobjs').number(true)<cr>", desc = "inside number"},
       { 'an', mode = { 'o', 'x'}, "<cmd>lua require('various-textobjs').number(false)<cr>", desc = "around number"},
       { 'i$', mode = { 'o', 'x'}, "<cmd>lua require('various-textobjs').nearEoL()<cr>", desc = "till before last char of line"},
