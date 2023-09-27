@@ -51,7 +51,7 @@ function! aceforeverd#ui#setup() abort
     let g:quickui_show_tip = 1
 
     " hit space twice to open menu
-    noremap <space>m :call quickui#menu#open()<cr>
+    nnoremap <space>m :call quickui#menu#open()<cr>
 endfunction
 
 function! aceforeverd#ui#saveas() abort
