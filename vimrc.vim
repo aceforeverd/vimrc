@@ -205,6 +205,7 @@ augroup gp_lsp_install
     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
     autocmd User asyncomplete_setup call s:asyncomplete_setup_sources()
+    autocmd FileType lsp-quickpick-filter let b:asyncomplete_enable = 0
 augroup END
 
 function! s:check_back_space() abort
