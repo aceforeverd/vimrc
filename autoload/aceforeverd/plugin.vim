@@ -271,27 +271,23 @@ function! s:config_plugins() abort
     command! SudaWrite exe 'w suda://%'
     command! SudaRead  exe 'e suda://%'
 
+    let g:floaterm_width = 0.9
+    let g:floaterm_height = 0.9
+
     " terminal mode mapping
-    function! s:terminal_mapping() abort
-        let g:floaterm_width = 0.9
-        let g:floaterm_height = 0.9
-        tnoremap <C-w>j <C-\><C-n><C-w>j
-        tnoremap <C-w>k <C-\><C-n><C-w>k
-        tnoremap <C-w>l <C-\><C-n><C-w>l
-        tnoremap <C-w>h <C-\><C-n><C-w>h
-        tnoremap <C-w>m <C-\><c-n>:FloatermToggle<CR>
-        tnoremap <C-w>] <C-\><c-n>:FloatermNext<CR>
-        tnoremap <C-w>[ <C-\><c-n>:FloatermPrev<CR>
-        tnoremap <C-w>a <C-\><C-n>:FloatermNew<CR>
-        tnoremap <C-w>e <C-\><C-n>:FloatermKill<CR>
-        tnoremap <c-w>n <c-\><c-n>
-        nnoremap <C-w>m :FloatermToggle<CR>
-        " paste register content in terminal mode
-        tnoremap <expr> <C-q> '<C-\><C-N>"'.nr2char(getchar()).'pi'
-    endfunction
-    if has('nvim') || has('terminal')
-        call s:terminal_mapping()
-    endif
+    tnoremap <C-w>j <C-\><C-n><C-w>j
+    tnoremap <C-w>k <C-\><C-n><C-w>k
+    tnoremap <C-w>l <C-\><C-n><C-w>l
+    tnoremap <C-w>h <C-\><C-n><C-w>h
+    tnoremap <C-w>m <C-\><c-n>:FloatermToggle<CR>
+    tnoremap <C-w>] <C-\><c-n>:FloatermNext<CR>
+    tnoremap <C-w>[ <C-\><c-n>:FloatermPrev<CR>
+    tnoremap <C-w>a <C-\><C-n>:FloatermNew<CR>
+    tnoremap <C-w>e <C-\><C-n>:FloatermKill<CR>
+    tnoremap <c-w>n <c-\><c-n>
+    nnoremap <C-w>m :FloatermToggle<CR>
+    " paste register content in terminal mode
+    tnoremap <expr> <C-q> '<C-\><C-N>"'.nr2char(getchar()).'pi'
 
     augroup gp_filetype
         autocmd!
@@ -307,8 +303,8 @@ function! s:config_plugins() abort
         cc
     endfunction
     let g:fzf_action = {
-                \ 'ctrl-l': function('s:build_quickfix_list'),
-                \ 'ctrl-a': 'tab split',
+                \ 'alt-q': function('s:build_quickfix_list'),
+                \ 'ctrl-t': 'tab split',
                 \ 'ctrl-x': 'split',
                 \ 'ctrl-v': 'vsplit' }
     let g:fzf_layout = {

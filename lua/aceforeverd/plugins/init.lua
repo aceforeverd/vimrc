@@ -309,7 +309,6 @@ M.plugin_list = {
       })
     end,
     lazy = true,
-
   },
 
   {
@@ -557,7 +556,7 @@ M.plugin_list = {
     'chrisgrieser/nvim-spider',
     config = function()
       require('spider').setup({
-        skipInsignificantPunctuation = false,
+        skipInsignificantPunctuation = true,
       })
     end,
     keys = {
@@ -691,7 +690,17 @@ M.plugin_list = {
     lazy = true,
   },
 
-  { 'kevinhwang91/nvim-bqf', ft = { 'qf' } },
+  {
+    'kevinhwang91/nvim-bqf',
+    ft = { 'qf' },
+    config = function()
+      require('bqf').setup({
+        preview = {
+          auto_preview = false,
+        },
+      })
+    end
+  },
 
   {
     'nacro90/numb.nvim',

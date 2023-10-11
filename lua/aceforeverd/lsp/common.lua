@@ -122,6 +122,9 @@ local function range_format_operator(fmt_fn)
   vim.api.nvim_feedkeys('g@', 'n', false)
 end
 
+-- TODO: custom action list with all lsp function
+-- one keymap -> [all]
+
 local lsp_default_maps = {
   n = {
     ['gd'] = [[<cmd>lua require('telescope.builtin').lsp_definitions()<CR>]],

@@ -112,7 +112,7 @@ return {
         '--background-index',
         '--clang-tidy',
         '--all-scopes-completion',
-        -- '--inlay-hints',
+        '--enable-config'
       },
     }
     lspconfig[name].setup(clangd_cfg)
