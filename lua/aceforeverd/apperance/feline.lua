@@ -122,6 +122,7 @@ local feline_config = {
           enabled = function()
             return lsp.diagnostics_exist('HINT')
           end,
+          icon = ' ',
           priority = priority_med,
           hl = { fg = 'cyan' },
         },
