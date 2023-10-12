@@ -142,7 +142,6 @@ M.plugin_list = {
             'telescope.nvim',
             'nvim-web-devicons',
             'nui.nvim',
-            'sqlite.lua',
           },
         },
         lspconfig = true,
@@ -251,13 +250,58 @@ M.plugin_list = {
   },
 
   {
-    'jose-elias-alvarez/null-ls.nvim',
+    'nvimtools/none-ls.nvim',
     dependencies = {
       'nvim-lua/plenary.nvim',
     },
     config = function()
       require('aceforeverd.plugins.null-ls').setup()
     end,
+  },
+
+  {
+    'stevearc/conform.nvim',
+    config = function(_, opts)
+      local conform = require('conform')
+      conform.setup(opts)
+
+      vim.api.nvim_create_user_command('Conform', function()
+        conform.format()
+      end, { desc = 'format with conform.nvim' })
+    end,
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+      },
+    },
+    cmd = { 'ConformInfo', 'Conform' }
+  },
+
+  {
+    "lewis6991/hover.nvim",
+    config = function()
+      require('hover').setup({
+        init = function()
+          -- Require providers
+          require('hover.providers.lsp')
+          require('hover.providers.gh')
+          require('hover.providers.gh_user')
+          require('hover.providers.man')
+          require('hover.providers.dictionary')
+        end,
+        preview_opts = {
+          border = nil,
+        },
+        -- Whether the contents of a currently open hover window should be moved
+        -- to a :h preview-window when pressing the hover keymap.
+        preview_window = false,
+        title = true,
+      })
+    end,
+    keys = {
+      { 'K', function() require('hover').hover() end, desc = 'hover.nvim' },
+      { 'gK', function() require('hover').hover_select() end, desc = 'hover.nvim (select)' },
+    }
   },
 
   {
@@ -909,11 +953,6 @@ M.plugin_list = {
     config = function()
       require('crates').setup()
     end,
-  },
-
-  {
-    'gennaro-tedesco/nvim-jqx',
-    ft = { 'json', 'yaml' },
   },
 
   -- UI

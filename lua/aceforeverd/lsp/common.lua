@@ -129,10 +129,13 @@ local lsp_default_maps = {
   n = {
     ['gd'] = [[<cmd>lua require('telescope.builtin').lsp_definitions()<CR>]],
     ['gD'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
-    ['K'] = '<cmd>lua vim.lsp.buf.hover()<CR>',
     ['gi'] = [[<cmd>lua require('telescope.builtin').lsp_implementations()<CR>]],
     ['gr'] = [[<cmd>FzfLua lsp_references<CR>]],
-    ['gK'] = '<cmd>lua vim.lsp.buf.signature_help()<CR>',
+    ['<leader>gd'] = '<cmd>lua vim.lsp.buf.definition()<cr>',
+    ['<leader>K'] = '<cmd>lua vim.lsp.buf.hover()<CR>',
+    ['<leader>gK'] = '<cmd>lua vim.lsp.buf.signature_help()<CR>',
+    ['<leader>gi'] = '<cmd>lua vim.lsp.buf.implementation()<cr>',
+    ['<leader>gr'] = '<cmd>lua vim.lsp.buf.references()<cr>',
     ['<Leader>wa'] = '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',
     ['<Leader>wr'] = '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',
     ['<Leader>wl'] = '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
@@ -174,8 +177,8 @@ local lsp_default_maps = {
     ['<space>v'] = [[<cmd>Navbuddy<cr>]],
 
     -- vim default: insert in where insert stops
-    ['<leader>gi'] = 'gi',
-    ['<leader>gr'] = 'gr',
+    ['<space>gi'] = 'gi',
+    ['<space>gr'] = 'gr',
   },
   x = {
     ['<cr>'] = function()
