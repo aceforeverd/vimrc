@@ -34,6 +34,11 @@ function M.setup()
 
   require('aceforeverd.lsp.common').diagnostics_config()
 
+  vim.cmd([[
+    command! -range=% Format  :lua require('aceforeverd.lsp.common').fmt_cmd(<range>, require('aceforeverd.lsp.common').lsp_fmt)
+    command! -range=% FormatS :lua require('aceforeverd.lsp.common').fmt_cmd(<range>, require('aceforeverd.lsp.common').selective_fmt)
+    ]])
+
   -- setup lsp installer just before other lsp configurations
   -- so they will inherit lsp-insatller settings, picking up the correct lsp program
   require('aceforeverd.lsp.installer').setup()
@@ -74,6 +79,6 @@ function M.hls()
 end
 
 M.jdtls = require('aceforeverd.lsp.jdtls').setup
-M.metals =require('aceforeverd.lsp.metals').setup
+M.metals = require('aceforeverd.lsp.metals').setup
 
 return M

@@ -160,12 +160,12 @@ local lsp_default_maps = {
     -- LSP format motion
     -- same as `gq`, once setting formatexpr=v:lua.vim.lsp.formatexpr()
     -- I'd keep map `<cr>` to lsp format util find better usage
-    ['<cr>'] = function()
+    [';<cr>'] = function()
       range_format_operator(M.lsp_fmt)
     end,
-    ['<cr><cr>'] = function()
+    [';<cr><cr>'] = function()
       -- format current line
-      vim.cmd [[normal! v0o$]]
+      vim.cmd([[normal! v0o$]])
       visual_range_fmt(M.lsp_fmt)
     end,
     ['g<cr>'] = function()
@@ -194,11 +194,6 @@ function M.on_attach(client, bufnr)
   -- omnifunc, tagfunc, formatexpr is set from neovim runtime by default if LSP supports
 
   require('aceforeverd.util.map').do_map(lsp_default_maps, default_map_opts)
-
-  vim.cmd([[
-    command! -range=% Format  :lua require('aceforeverd.lsp.common').fmt_cmd(<range>, require('aceforeverd.lsp.common').lsp_fmt)
-    command! -range=% FormatS :lua require('aceforeverd.lsp.common').fmt_cmd(<range>, require('aceforeverd.lsp.common').selective_fmt)
-    ]])
 
   -- lsp_signature.nvim
   local s2, lsp_signature = pcall(require, 'lsp_signature')

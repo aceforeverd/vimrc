@@ -36,7 +36,7 @@ call aceforeverd#settings#my_init()
 " global leader
 let g:mapleader = ','
 " local leader
-let g:maplocalleader = '\'
+let g:maplocalleader = ';'
 
 " =============================================================== "
 " Plugin Manager, in order
