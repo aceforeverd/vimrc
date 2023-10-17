@@ -19,6 +19,10 @@ function M.setup()
   local null_ls = require('null-ls')
 
   local sources = {
+    -- code actions
+    -- line comment to disable shellcheck error/warning
+    null_ls.builtins.code_actions.shellcheck,
+
     -- null_ls.builtins.formatting.prettier,
     null_ls.builtins.formatting.eslint,
     null_ls.builtins.formatting.shfmt.with({
@@ -34,7 +38,7 @@ function M.setup()
       extra_args = { '--config_path', vim.fn.stdpath('config') .. '/.protolint.yaml' },
     }),
     null_ls.builtins.diagnostics.hadolint,
-    null_ls.builtins.diagnostics.checkmake,
+
     null_ls.builtins.diagnostics.pylint.with({
       condition = function(utils)
         -- too many reports by pylint, enable only required

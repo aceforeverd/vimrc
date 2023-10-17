@@ -33,6 +33,7 @@ function M.setup()
   vim.o.pumblend = 20
 
   require('aceforeverd.lsp.common').diagnostics_config()
+  require('aceforeverd.lsp.common').keymaps()
 
   vim.cmd([[
     command! -range=% Format  :lua require('aceforeverd.lsp.common').fmt_cmd(<range>, require('aceforeverd.lsp.common').lsp_fmt)

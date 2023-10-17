@@ -15,8 +15,6 @@
 
 local M = {}
 
-local default_map_opts = { noremap = true, silent = true, buffer = 0 }
-
 --- request format from lsp server
 --
 ---@param opts (table|nil)
@@ -125,35 +123,45 @@ end
 -- TODO: custom action list with all lsp function
 -- one keymap -> [all]
 
-local lsp_default_maps = {
+local global_maps = {
   n = {
-    ['gd'] = [[<cmd>lua require('telescope.builtin').lsp_definitions()<CR>]],
-    ['gD'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
-    ['gi'] = [[<cmd>lua require('telescope.builtin').lsp_implementations()<CR>]],
-    ['gr'] = [[<cmd>FzfLua lsp_references<CR>]],
-    ['<leader>gd'] = '<cmd>lua vim.lsp.buf.definition()<cr>',
-    ['<leader>K'] = '<cmd>lua vim.lsp.buf.hover()<CR>',
-    ['<leader>gK'] = '<cmd>lua vim.lsp.buf.signature_help()<CR>',
-    ['<leader>gi'] = '<cmd>lua vim.lsp.buf.implementation()<cr>',
-    ['<leader>gr'] = '<cmd>lua vim.lsp.buf.references()<cr>',
-    ['<Leader>wa'] = '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',
-    ['<Leader>wr'] = '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',
-    ['<Leader>wl'] = '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
-    ['<Leader>D'] = '<cmd>lua vim.lsp.buf.type_definition()<CR>',
-    ['<Leader>rn'] = '<cmd>lua vim.lsp.buf.rename()<CR>',
-    ['<Leader>ca'] = '<cmd>lua vim.lsp.buf.code_action()<CR>',
+    ['<c-k>'] = vim.diagnostic.goto_prev,
+    ['<c-j>'] = vim.diagnostic.goto_next,
 
-    ['<Leader>ci'] = '<cmd>lua vim.lsp.buf.incoming_calls()<CR>',
-    ['<Leader>co'] = '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>',
-
-    ['<c-k>'] = '<cmd>lua vim.diagnostic.goto_prev()<CR>',
-    ['<c-j>'] = '<cmd>lua vim.diagnostic.goto_next()<CR>',
-
-    ['<space>dp'] = '<cmd>lua vim.diagnostic.open_float()<CR>',
+    ['<space>dp'] = vim.diagnostic.open_float,
     -- buffer local diagnostic
-    ['<space>q'] = '<cmd>lua vim.diagnostic.setloclist()<CR>',
+    ['<space>q'] = vim.diagnostic.setloclist,
     -- all diagnostic
-    ['<space>a'] = '<cmd>lua vim.diagnostic.setqflist()<CR>',
+    ['<space>a'] = vim.diagnostic.setqflist,
+  },
+}
+
+local lsp_maps = {
+  n = {
+    ['gd'] = function()
+      require('telescope.builtin').lsp_definitions()
+    end,
+    ['gD'] = vim.lsp.buf.declaration,
+    ['gi'] = function()
+      require('telescope.builtin').lsp_implementations()
+    end,
+    ['gr'] = [[<cmd>FzfLua lsp_references<CR>]],
+    ['<leader>gd'] = vim.lsp.buf.definition,
+    ['<leader>K'] = vim.lsp.buf.hover,
+    ['<leader>gK'] = vim.lsp.buf.signature_help,
+    ['<leader>gi'] = vim.lsp.buf.implementation,
+    ['<leader>gr'] = vim.lsp.buf.references,
+    ['<Leader>wa'] = vim.lsp.buf.add_workspace_folder,
+    ['<Leader>wr'] = vim.lsp.buf.remove_workspace_folder,
+    ['<Leader>wl'] = function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end,
+    ['<Leader>D'] = vim.lsp.buf.type_definition,
+    ['<Leader>rn'] = vim.lsp.buf.rename,
+    ['<Leader>ca'] = vim.lsp.buf.code_action,
+
+    ['<Leader>ci'] = vim.lsp.buf.incoming_calls,
+    ['<Leader>co'] = vim.lsp.buf.outgoing_calls,
 
     -- format whole buffer
     ['<space>F'] = M.lsp_fmt,
@@ -173,12 +181,9 @@ local lsp_default_maps = {
     end,
 
     ['<space>s'] = [[<cmd>FzfLua lsp_document_symbols<cr>]],
-    ['<space>S'] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
-    ['<space>v'] = [[<cmd>Navbuddy<cr>]],
-
-    -- vim default: insert in where insert stops
-    ['<space>gi'] = 'gi',
-    ['<space>gr'] = 'gr',
+    ['<space>S'] = function()
+      require('telescope.builtin').lsp_workspace_symbols()
+    end,
   },
   x = {
     ['<cr>'] = function()
@@ -187,13 +192,24 @@ local lsp_default_maps = {
     ['g<cr>'] = function()
       visual_range_fmt(M.selective_fmt)
     end,
+    ['<Leader>ca'] = vim.lsp.buf.code_action,
   },
 }
 
+function M.keymaps()
+  require('aceforeverd.util.map').do_map(global_maps, { silent = true, noremap = true })
+
+  vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+    callback = function(ev)
+      local opts = { buffer = ev.buf, silent = true, noremap = true }
+      require('aceforeverd.util.map').do_map(lsp_maps, opts)
+    end,
+  })
+end
+
 function M.on_attach(client, bufnr)
   -- omnifunc, tagfunc, formatexpr is set from neovim runtime by default if LSP supports
-
-  require('aceforeverd.util.map').do_map(lsp_default_maps, default_map_opts)
 
   -- lsp_signature.nvim
   local s2, lsp_signature = pcall(require, 'lsp_signature')

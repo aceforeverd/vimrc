@@ -192,7 +192,7 @@ function! aceforeverd#plugin#init() abort
 
     call s:plugin_add('iamcco/markdown-preview.nvim', {
                 \ 'type': 'opt',
-                \ 'do': '!cd app && ./install.sh'
+                \ 'do': '!./app/install.sh'
                 \ })
 
     call s:plugin_add('k-takata/minpac', {'type': 'opt'})
