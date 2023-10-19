@@ -438,18 +438,17 @@ M.plugin_list = {
 
   {
     'HiPhish/rainbow-delimiters.nvim',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-    },
     config = function()
       local rainbow_delimiters = require('rainbow-delimiters')
 
       vim.g.rainbow_delimiters = {
         strategy = {
           [''] = rainbow_delimiters.strategy['global'],
+          vim = rainbow_delimiters.strategy['local'],
         },
         query = {
           [''] = 'rainbow-delimiters',
+          lua = 'rainbow-blocks',
         },
         highlight = {
           'RainbowDelimiterRed',
@@ -507,14 +506,6 @@ M.plugin_list = {
         end,
       })
     end,
-  },
-
-  {
-    -- generic ts node actions: config later
-    'ckolkey/ts-node-action',
-    dependencies = { 'nvim-treesitter' },
-    opts = {},
-    lazy = true,
   },
 
   {
@@ -921,7 +912,9 @@ M.plugin_list = {
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {},
+    opts = {
+      auto_preview = false,
+    },
     cmd = { 'Trouble', 'TroubleToggle' }
   },
 
