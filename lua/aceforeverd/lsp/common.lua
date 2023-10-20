@@ -184,6 +184,17 @@ local lsp_maps = {
     ['<space>S'] = function()
       require('telescope.builtin').lsp_workspace_symbols()
     end,
+    [';gi'] = 'gi',
+  },
+  i = {
+    ['<c-g>'] = {
+      ['<cr>'] = function()
+        -- format current line
+        vim.cmd([[exe "normal! \<esc>v0o$"]])
+        visual_range_fmt(M.lsp_fmt)
+        vim.cmd([[normal! gi]])
+      end,
+    },
   },
   x = {
     ['<cr>'] = function()

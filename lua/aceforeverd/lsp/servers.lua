@@ -112,6 +112,7 @@ return {
         '--background-index',
         '--clang-tidy',
         '--all-scopes-completion',
+        '--header-insertion-decorators',
         '--enable-config'
       },
     }
