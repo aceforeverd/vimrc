@@ -268,7 +268,17 @@ local severity_emoji_map = {
 }
 
 local fmt_fn = function(diagnostic)
-  return diagnostic.message
+  local mes = diagnostic.message
+
+  if diagnostic.code ~= nil then
+    mes = mes .. string.format(' [%s]', diagnostic.code)
+  end
+
+  -- if diagnostic.user_data then
+  --   mes = mes .. string.format(' (%s)', vim.inspect(diagnostic.user_data))
+  -- end
+
+  return mes
 end
 local suffix_fn = function(diagnostic)
   return severity_emoji_map[diagnostic.severity]

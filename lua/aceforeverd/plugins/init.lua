@@ -260,6 +260,19 @@ M.plugin_list = {
   },
 
   {
+    'mfussenegger/nvim-lint',
+    config = function()
+      require('lint').linters_by_ft = {
+        cpp = { 'cpplint' },
+        c = { 'cpplint' },
+      }
+
+      vim.api.nvim_create_user_command('Lint', function() require('lint').try_lint() end, {})
+    end,
+    cmd = { 'Lint' },
+  },
+
+  {
     'stevearc/conform.nvim',
     config = function(_, opts)
       local conform = require('conform')
