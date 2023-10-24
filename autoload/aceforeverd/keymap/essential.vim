@@ -53,6 +53,15 @@ function!  aceforeverd#keymap#essential#setup() abort
     " scroll window and cursor together, cursor location compared to current window not change
     nnoremap <M-j> <C-e>j
     nnoremap <M-k> <C-y>k
+
+    " go to plugin url
+
+    nnoremap gs :call aceforeverd#keymap#browse#try_open()<CR>
+    augroup gp_goto_plugin
+        autocmd!
+        autocmd FileType vim,lua,tmux let b:uri_pattern = '[''"]\zs[^''"/ ]\+\/[^''"/ ]\+\ze[''"]'
+        autocmd FileType yaml let b:uri_pattern = 'uses:\s\+\zs[^@]\+\/[^@]\+\ze'
+    augroup END
 endfunction
 
 function! s:current_line(outter) abort

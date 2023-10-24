@@ -2,7 +2,7 @@
 function! aceforeverd#keymap#browse#try_open() abort
     let l:uri_list = aceforeverd#keymap#browse#get_uri()
     if empty(l:uri_list)
-        echomsg 'no plugin uri found in current line ' . line('.') . ' open as url'
+        echomsg 'no plugin uri found here, line ' . line('.')
         return
     endif
 
@@ -10,9 +10,15 @@ function! aceforeverd#keymap#browse#try_open() abort
 endfunction
 
 function! aceforeverd#keymap#browse#get_uri() abort
-    " match uri inside quotes with pattern {owner}/{repo}, support multiple matches in the given string
+    " default pattern: quotes with inside {owner}/{repo}, support multiple matches in the given string
+    let l:pattern = get(b:, 'uri_pattern', '')
+    if l:pattern == ''
+        echomsg 'no url patern specified for filetype ' . &filetype
+        return []
+    endif
+
     let l:matched_list = []
-    call substitute(getline('.'), '[''"]\zs[^''"/ ]\+\/[^''"/ ]\+\ze[''"]', '\=add(l:matched_list, submatch(0))', 'g')
+    call substitute(getline('.'), l:pattern, '\=add(l:matched_list, submatch(0))', 'g')
     return l:matched_list
 endfunction
 

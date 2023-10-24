@@ -184,7 +184,11 @@ local lsp_maps = {
     ['<space>S'] = function()
       require('telescope.builtin').lsp_workspace_symbols()
     end,
-    [';gi'] = 'gi',
+    ['<space>v'] = [[<cmd>Navbuddy<cr>]],
+
+    -- vim defaults
+    ['<space>gi'] = 'gi',
+    ['<space>gr'] = 'gr',
   },
   i = {
     ['<c-g>'] = {
