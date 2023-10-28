@@ -138,7 +138,6 @@ M.plugin_list = {
           plugins = {
             'plenary.nvim',
             'nvim-lspconfig',
-            'nvim-treesitter',
             'telescope.nvim',
             'nvim-web-devicons',
             'nui.nvim',
@@ -151,11 +150,26 @@ M.plugin_list = {
     lazy = true,
   },
   {
+    -- LSP signature hint as you type
+    'ray-x/lsp_signature.nvim',
+    config = function()
+      require('lsp_signature').setup({
+        bind = true,
+        handler_opts = {
+          border = 'rounded',
+        },
+        transparency = 25,
+        toggle_key = '<M-x>',
+        select_signature_key = '<M-n>',
+        move_cursor_key = '<M-m>',
+      })
+    end
+  },
+
+  {
     'neovim/nvim-lspconfig',
     dependencies = {
       'williamboman/mason.nvim',
-      -- LSP signature hint as you type
-      'ray-x/lsp_signature.nvim',
       'p00f/clangd_extensions.nvim',
       -- lsp enhance
       'folke/neodev.nvim',
@@ -188,22 +202,16 @@ M.plugin_list = {
   },
 
   {
-    'glepnir/lspsaga.nvim',
+    'kosayoda/nvim-lightbulb',
     event = 'LspAttach',
     config = function()
-      require('lspsaga').setup({
-        lightbulb = {
-          virtual_text = false,
-        },
-        symbol_in_winbar = {
-          enable = false,
+      require('nvim-lightbulb').setup({
+        autocmd = {
+          enabled = true,
+          updatetime = 500,
         },
       })
     end,
-    dependencies = {
-      { 'nvim-tree/nvim-web-devicons' },
-      { 'nvim-treesitter/nvim-treesitter' },
-    },
   },
 
   {

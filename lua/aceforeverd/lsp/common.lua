@@ -226,19 +226,6 @@ end
 function M.on_attach(client, bufnr)
   -- omnifunc, tagfunc, formatexpr is set from neovim runtime by default if LSP supports
 
-  -- lsp_signature.nvim
-  local s2, lsp_signature = pcall(require, 'lsp_signature')
-  if s2 then
-    lsp_signature.on_attach({
-      bind = true,
-      handler_opts = {
-        border = 'rounded',
-      },
-      transparency = 25,
-      toggle_key = '<A-x>',
-    }, bufnr)
-  end
-
   -- lsp-status
   local s3, lsp_status = pcall(require, 'lsp-status')
   if s3 then
