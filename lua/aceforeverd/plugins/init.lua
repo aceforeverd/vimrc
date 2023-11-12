@@ -320,8 +320,8 @@ M.plugin_list = {
       })
     end,
     keys = {
-      { 'K', function() require('hover').hover() end, desc = 'hover.nvim' },
-      { 'gK', function() require('hover').hover_select() end, desc = 'hover.nvim (select)' },
+      { '<leader>K', function() require('hover').hover() end, desc = 'hover.nvim' },
+      { '<leader>gK', function() require('hover').hover_select() end, desc = 'hover.nvim (select)' },
     }
   },
 
@@ -612,7 +612,7 @@ M.plugin_list = {
     'chrisgrieser/nvim-spider',
     config = function()
       require('spider').setup({
-        skipInsignificantPunctuation = true,
+        skipInsignificantPunctuation = false,
       })
     end,
     keys = {
@@ -626,6 +626,7 @@ M.plugin_list = {
   {
     'rlane/pounce.nvim',
     cmd = { 'Pounce', 'PounceRepeat', 'PounceReg', 'PounceExpand' },
+    keys = { { mode = { 'n', 'x', 'o' }, ';p', '<cmd>Pounce<cr>', desc = 'Pounce' } }
   },
   -- ==============================================
   --        MOTIONS END
