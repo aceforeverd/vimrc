@@ -191,7 +191,6 @@ function M.setup()
     endwise = {
       enable = true,
     },
-    context_commentstring = { enable = true, enable_autocmd = false },
     autotag = {
       enable = true,
     },
@@ -199,12 +198,6 @@ function M.setup()
 
   -- :set foldmethod=expr to enable fold with expr, default is manual
   vim.cmd([[set foldexpr=nvim_treesitter#foldexpr()]])
-  require('aceforeverd.util.map').set_map(
-    'n',
-    '<leader>uc',
-    ":lua require('ts_context_commentstring.internal').update_commentstring()<CR>",
-    { silent = true, noremap = true }
-  )
 end
 
 return M

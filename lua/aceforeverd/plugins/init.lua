@@ -448,13 +448,26 @@ M.plugin_list = {
       'nvim-treesitter/nvim-treesitter-refactor',
       'RRethy/nvim-treesitter-textsubjects',
       'RRethy/nvim-treesitter-endwise',
-      'JoosepAlviste/nvim-ts-context-commentstring',
       'windwp/nvim-ts-autotag',
     },
     build = ':TSUpdate',
     config = function()
       require('aceforeverd.config').treesitter()
     end,
+  },
+  {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    config = function()
+      require('ts_context_commentstring').setup({
+        enable_autocmd = false,
+      })
+      vim.keymap.set(
+        'n',
+        '<leader>uc',
+        function() require('ts_context_commentstring.internal').update_commentstring() end,
+        { silent = true, noremap = true, desc = 'update commentstring' }
+      )
+    end
   },
 
   {
