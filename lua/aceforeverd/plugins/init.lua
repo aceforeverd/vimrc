@@ -478,7 +478,6 @@ M.plugin_list = {
       vim.g.rainbow_delimiters = {
         strategy = {
           [''] = rainbow_delimiters.strategy['global'],
-          vim = rainbow_delimiters.strategy['local'],
         },
         query = {
           [''] = 'rainbow-delimiters',
@@ -492,6 +491,9 @@ M.plugin_list = {
           'RainbowDelimiterGreen',
           'RainbowDelimiterViolet',
           'RainbowDelimiterCyan',
+        },
+        blacklist = {
+          'markdown', -- nvim freeze when opening large markdown, as a temporizingly solution
         },
       }
     end,
@@ -753,11 +755,6 @@ M.plugin_list = {
     dependencies = {
       'rcarriga/nvim-dap-ui',
     },
-  },
-
-  {
-    'sakhnik/nvim-gdb',
-    lazy = true,
   },
 
   {

@@ -115,7 +115,6 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('wincent/terminus')
     call s:plugin_add('vifm/vifm.vim')
     call s:plugin_add('justinmk/vim-gtfo')
-    call s:plugin_add('skywind3000/vim-quickui')
 
     " motion
     call s:plugin_add('rhysd/clever-f.vim')
@@ -187,8 +186,6 @@ function! aceforeverd#plugin#init() abort
 
     " vimL
     call s:plugin_add('tweekmonster/helpful.vim')
-    " markdown
-    call s:plugin_add('mzlogin/vim-markdown-toc')
 
     call s:plugin_add('iamcco/markdown-preview.nvim', {
                 \ 'type': 'opt',
@@ -495,8 +492,6 @@ function! s:config_plugins() abort
 
     " llvm
     let g:llvm_ext_no_mapping = 0
-
-    call aceforeverd#ui#setup()
 
     " terminus has different defaults for cursor shape, disable it
     let g:TerminusCursorShape = 0
