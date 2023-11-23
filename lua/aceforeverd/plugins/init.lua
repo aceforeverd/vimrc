@@ -248,6 +248,8 @@ M.plugin_list = {
           'regex',
         },
         delay = vim.go.updatetime,
+        -- nvim hang if file too large, disable on large file
+        large_file_cutoff = 10000, -- lines
       })
 
       vim.keymap.set('n', '<a-i>', function()

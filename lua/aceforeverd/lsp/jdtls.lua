@@ -31,10 +31,10 @@ function M.jdtls()
   local root_marks = { 'mvnw', 'gradlew', 'pom.xml', '.git' }
   local prj_root = require('jdtls.setup').find_root(root_marks)
 
-  local extendedClientCapabilities = jdtls.extendedClientCapabilities;
-  extendedClientCapabilities.resolveAdditionalTextEditsSupport = true;
+  local extendedClientCapabilities = jdtls.extendedClientCapabilities
+  extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
-  -- TODO: check java version is jdk 11 or later
+  -- TODO: check java version, jdtls requires JAVA >= 17
 
   local cfg_file
   if vim.fn.has('mac') == 1 then
@@ -56,19 +56,29 @@ function M.jdtls()
   local config = vim.tbl_deep_extend('force', {
     cmd = { config_path .. '/bin/java-lsp', dir, dir .. '/' .. cfg_file, workspace_dir },
     settings = {
-      -- https://github.com/mfussenegger/dotfiles/blob/833d634251ebf3bf7e9899ed06ac710735d392da/vim/.config/nvim/ftplugin/java.lua#L1-L149
+      -- https://github.com/mfussenegger/dotfiles/blob/master/vim/.config/nvim/ftplugin/java.lua
       java = {
+        autobuild = { enabled = false },
+        maxConcurrentBuilds = 8,
         signatureHelp = { enabled = true },
         contentProvider = { preferred = 'fernflower' },
+        saveActions = {
+          organizeImports = true,
+        },
         completion = {
           favoriteStaticMembers = {
-            'org.hamcrest.MatcherAssert.assertThat',
-            'org.hamcrest.Matchers.*',
-            'org.hamcrest.CoreMatchers.*',
-            'org.junit.jupiter.api.Assertions.*',
-            'java.util.Objects.requireNonNull',
-            'java.util.Objects.requireNonNullElse',
-            'org.mockito.Mockito.*',
+            "io.crate.testing.Asserts.assertThat",
+            "org.assertj.core.api.Assertions.assertThat",
+            "org.assertj.core.api.Assertions.assertThatThrownBy",
+            "org.assertj.core.api.Assertions.assertThatExceptionOfType",
+            "org.assertj.core.api.Assertions.catchThrowable",
+            "org.hamcrest.MatcherAssert.assertThat",
+            "org.hamcrest.Matchers.*",
+            "org.hamcrest.CoreMatchers.*",
+            "org.junit.jupiter.api.Assertions.*",
+            "java.util.Objects.requireNonNull",
+            "java.util.Objects.requireNonNullElse",
+            "org.mockito.Mockito.*",
           },
           filteredTypes = {
             'com.sun.*',
