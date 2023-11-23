@@ -2,22 +2,64 @@
 
 set -eE
 
-if [ $# -ne 3 ]; then
-  echo "Usage: $0 {ROOT_PATH} {CFG_PATH} {WORKSPACE_PATH}"
-  exit 1
-fi
+#===  FUNCTION  ================================================================
+#         NAME:  usage
+#  DESCRIPTION:  Display usage information.
+#===============================================================================
+function usage ()
+{
+  echo "Usage :  $0 [options] [--]
 
-# assume _ROOT_DIR, _CFG_PATH, _WORKSPACE_DIR all absolute path
-_ROOT_DIR=$1
-_CFG_PATH=$2
-_WORKSPACE_DIR=$3
+    Options:
+    -j            path to JAVA_HOME
+    -r            ROOT DIRECTORY
+    -c            JDTLS config path
+    -d            JDTLS workspace path
+    -h|help       Display this message"
+
+}    # ----------  end of function usage  ----------
+
+#-----------------------------------------------------------------------
+#  Handle command line arguments
+#-----------------------------------------------------------------------
+
+JAVA_EXE=java
+JAVA_HOME=
+_ROOT_DIR=
+_CFG_PATH=
+_WORKSPACE_DIR=
+while getopts ":hj:r:c:d:" opt
+do
+  case $opt in
+
+  h)  usage; exit 0   ;;
+
+  j) JAVA_HOME=$OPTARG ;;
+
+  r) _ROOT_DIR=$OPTARG ;;
+
+  c) _CFG_PATH=$OPTARG ;;
+
+  d) _WORKSPACE_DIR=$OPTARG ;;
+
+  * )  echo -e "\n  Option does not exist : $OPTARG\n"
+      usage; exit 1   ;;
+
+  esac    # --- end of case ---
+done
+shift $((OPTIND-1))
 
 pushd "$_ROOT_DIR"
 
 JAR="$_ROOT_DIR/plugins/org.eclipse.equinox.launcher_*.jar"
 
+if [ ! -d "$JAVA_HOME" ] ; then
+  echo "JAVA HOME $JAVA_HOME not exist"
+  exit 1
+fi
+JAVA_EXE="$JAVA_HOME/bin/java"
+
 _DEBUG_OPTS=
-JAVA_PRG=$(command -v java || echo java)
 if [[ -n "$DEBUG" ]]; then
   # note jdtls will fail if other precess runs on port 1044
   _DEBUG_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044
@@ -35,7 +77,7 @@ fi
 # 1. https://github.com/mfussenegger/nvim-jdtls#configuration
 # 2. https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
 # shellcheck disable=SC2086
-exec $JAVA_PRG $_DEBUG_OPTS $_LOMBOK_OPT \
+exec $JAVA_EXE $_DEBUG_OPTS $_LOMBOK_OPT \
   -Declipse.application=org.eclipse.jdt.ls.core.id1 \
   -Dosgi.bundles.defaultStartLevel=4 \
   -Declipse.product=org.eclipse.jdt.ls.core.product \

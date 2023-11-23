@@ -15,6 +15,26 @@
 
 local M = {}
 
+
+local function search_jdk_runtimes()
+  local runtimes = {}
+  local sdkman_java_candidates = '~/.sdkman/candidates/java/'
+  local jdk_versions = { '8', '11', '17', '21', '22', '18' }
+  for _, version in ipairs(jdk_versions) do
+    local path = vim.fn.glob(sdkman_java_candidates .. version .. '.*', true, true)
+    if #path > 0 then
+      table.insert(runtimes, { name = 'JDK' .. version, path = path[1] })
+    end
+  end
+
+  local system_default = vim.fn.system({ 'java-config', '-O' })
+  if vim.v.shell_error == 0 then
+    table.insert(runtimes, { name = 'System Default', path = string.gsub(system_default, "%s+$", '') })
+  end
+
+  return runtimes
+end
+
 function M.jdtls()
   local mason_registery = require('mason-registry')
   local server = mason_registery.get_package('jdtls')
@@ -34,7 +54,16 @@ function M.jdtls()
   local extendedClientCapabilities = jdtls.extendedClientCapabilities
   extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
-  -- TODO: check java version, jdtls requires JAVA >= 17
+  -- Finding supported Java in sdkman
+  -- or u can search in more locations
+  local javas = vim.fn.glob('~/.sdkman/candidates/java/{21,20,17,22,18,19}*', true, true)
+  local java_home
+  if #javas > 0 then
+    java_home = javas[1]
+  else
+    java_home = os.getenv('JAVA_HOME')
+  end
+  -- TODO: build a JDK table dynamically to 'settings.java.configuration' ?
 
   local cfg_file
   if vim.fn.has('mac') == 1 then
@@ -54,7 +83,13 @@ function M.jdtls()
   local workspace_dir = data_path .. '/jdtls-ws/' .. prj_name
 
   local config = vim.tbl_deep_extend('force', {
-    cmd = { config_path .. '/bin/java-lsp', dir, dir .. '/' .. cfg_file, workspace_dir },
+    cmd = {
+      config_path .. '/bin/java-lsp',
+      '-r', dir,
+      '-c', dir .. '/' .. cfg_file,
+      '-d', workspace_dir,
+      '-j', java_home,
+    },
     settings = {
       -- https://github.com/mfussenegger/dotfiles/blob/master/vim/.config/nvim/ftplugin/java.lua
       java = {
@@ -103,8 +138,9 @@ function M.jdtls()
           },
           useBlocks = true,
         },
-        -- runtimes = {
-        -- },
+        configuration = {
+          runtimes = search_jdk_runtimes(),
+        }
       },
     },
     flags = {
