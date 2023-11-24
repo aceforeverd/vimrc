@@ -23,6 +23,7 @@ function M.metals()
   metals_config.settings = {
     showImplicitArguments = true,
   }
+  -- TODO: add message to statusline via vim.g['metals_status']
   metals_config.init_options.statusBarProvider = 'on'
 
   metals_config = vim.tbl_deep_extend('force', metals_config, require('aceforeverd.lsp.common').general_cfg)

@@ -21,19 +21,32 @@ local function search_jdk_runtimes()
   local sdkman_java_candidates = '~/.sdkman/candidates/java/'
   local jdk_versions = { '8', '11', '17', '21', '22', '18' }
   for _, version in ipairs(jdk_versions) do
-    local path = vim.fn.glob(sdkman_java_candidates .. version .. '.*', true, true)
-    if #path > 0 then
-      table.insert(runtimes, { name = 'JDK' .. version, path = path[1] })
+    local paths = vim.fn.glob(sdkman_java_candidates .. version .. '.*', true, true)
+    for _, jdk_path in ipairs(paths) do
+      -- https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+      -- name is NOT arbitrary, go link above and search 'enum ExecutionEnvironment'
+      if version ~= '8' then
+        table.insert(runtimes, { name = 'JavaSE-' .. version, path = jdk_path })
+      else
+        table.insert(runtimes, { name = 'JavaSE-1.8', path = jdk_path })
+      end
     end
   end
 
-  local system_default = vim.fn.system({ 'java-config', '-O' })
-  if vim.v.shell_error == 0 then
-    table.insert(runtimes, { name = 'System Default', path = string.gsub(system_default, "%s+$", '') })
+  if vim.fn.executable('java-config') == 1 then
+    -- system default
+    local system_default = vim.fn.system({ 'java-config', '-O' })
+    if vim.v.shell_error == 0 and system_default ~= nil then
+      -- TODO: extract jdk version
+      table.insert(runtimes, { name = 'JavaSE-17', path = string.gsub(system_default, '%s+$', '') })
+    end
   end
 
   return runtimes
 end
+
+-- TODO: setup java-debug & vscode-java-test & nvim-dap
+-- they can install via mason
 
 function M.jdtls()
   local mason_registery = require('mason-registry')
