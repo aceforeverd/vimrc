@@ -112,10 +112,15 @@ M.plugin_list = {
         status_symbol = '🐶',
         diagnostics = false,
       })
-
-      lsp_status.register_progress()
     end,
     lazy = true,
+  },
+
+  {
+    'j-hui/fidget.nvim',
+    config = function()
+      require('fidget').setup()
+    end
   },
 
   {
@@ -177,8 +182,6 @@ M.plugin_list = {
       'SmiteshP/nvim-navic',
       'SmiteshP/nvim-navbuddy',
       'MunifTanjim/nui.nvim',
-      -- statusline
-      'nvim-lua/lsp-status.nvim',
     },
     config = function()
       require('aceforeverd.lsp').setup()

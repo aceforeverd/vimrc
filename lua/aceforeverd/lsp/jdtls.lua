@@ -66,6 +66,9 @@ function M.jdtls()
 
   local extendedClientCapabilities = jdtls.extendedClientCapabilities
   extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
+  -- Switching to standard LSP progress events (as soon as it lands, see link)
+  -- https://github.com/eclipse/eclipse.jdt.ls/pull/2030#issuecomment-1210815017
+  extendedClientCapabilities.progressReportProvider = false
 
   -- Finding supported Java in sdkman
   -- or u can search in more locations

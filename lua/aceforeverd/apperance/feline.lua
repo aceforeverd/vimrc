@@ -317,6 +317,7 @@ local function gen_winbar_components()
       {
         {
           provider = { name = 'file_info', opts = { type = 'relative' } },
+          short_provider = { name = 'file_info', opts = { type = 'relative-short' } },
           hl = { fg = bit_green },
         },
         {

@@ -73,6 +73,10 @@ return {
       offsetEncoding = { 'utf-16' },
     })
 
+    local clangd_handlers = vim.tbl_deep_extend('error', general_lsp_config.handlers, lsp_status.extensions.clangd.setup())
+    -- use lsp-status's handler, disabling fidget
+    clangd_handlers['$/progress'] = require('lsp-status.util').mk_handler(require('lsp-status.messaging').progress_callback)
+
     local clangd_cfg = {
       on_attach = function(client, bufnr)
         on_attach(client, bufnr)
@@ -80,32 +84,36 @@ return {
           'n',
           '<Leader>af',
           '<cmd>ClangdSwitchSourceHeader<cr>',
-          { noremap = true, silent = true, buffer = bufnr }
+          { noremap = true, silent = true, buffer = bufnr, desc = 'switch source' }
         )
         vim.keymap.set(
           'n',
           '<C-w>av',
           '<c-w>v<cmd>ClangdSwitchSourceHeader<cr>',
-          { noremap = true, silent = true, buffer = bufnr }
+          { noremap = true, silent = true, buffer = bufnr, desc = 'switch source (vsplit)' }
         )
         vim.keymap.set(
           'n',
           '<C-w>as',
           '<c-w>s<cmd>ClangdSwitchSourceHeader<cr>',
-          { noremap = true, silent = true, buffer = bufnr }
+          { noremap = true, silent = true, buffer = bufnr, desc = 'switch source (split)' }
         )
         vim.keymap.set(
           'n',
           '<Leader>ai',
           '<cmd>ClangdToggleInlayHints<cr>',
-          { noremap = true, silent = true, buffer = bufnr }
+          { noremap = true, silent = true, buffer = bufnr, desc = 'toggle inlay hints' }
         )
 
         require("clangd_extensions.inlay_hints").setup_autocmd()
         require("clangd_extensions.inlay_hints").set_inlay_hints()
+
+        -- use lsp-status only for clangd
+        -- clangd file status is not LSP [progress protocal](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#workDoneProgress) so only lsp-status handle it
+        lsp_status.on_attach(client)
       end,
       capabilities = clangd_caps,
-      handlers = vim.tbl_deep_extend('error', general_lsp_config.handlers, lsp_status.extensions.clangd.setup()),
+      handlers = clangd_handlers,
       init_options = { clangdFileStatus = true },
       cmd = {
         'clangd',

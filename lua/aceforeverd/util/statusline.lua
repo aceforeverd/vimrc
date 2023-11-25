@@ -127,7 +127,13 @@ end
 local lsp_status
 if vim.g.lsp_process_provider == 'lsp_status' then
   lsp_status = function()
-    return require('lsp-status').status()
+    if vim.tbl_contains({'c', 'cpp', 'objc'}, vim.bo.filetype) == true then
+      -- use lsp-status that comes with clangd file status
+      return require('lsp-status').status()
+    else
+      -- vim.lsp.status() ?
+      return ''
+    end
   end
 end
 
