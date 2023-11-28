@@ -45,8 +45,33 @@ local function search_jdk_runtimes()
   return runtimes
 end
 
--- TODO: setup java-debug & vscode-java-test & nvim-dap
--- they can install via mason
+local jdtls_actions = {
+  n = {
+    { name = 'organize imports', action = function() require('jdtls').organize_imports() end, },
+    { name = 'extract variable', action = function() require('jdtls').extract_variable() end, },
+    { name = 'extract constant', action = function() require('jdtls').extract_constant() end },
+    { name = 'test class', action = function() require('jdtls').test_class() end },
+    { name = 'test nearest class', action = function() require('jdtls').test_nearest_method() end },
+  },
+  x = {
+    { name = 'extract variable', action = function() require('jdtls').extract_variable(true) end },
+    { name = 'extract constant', action = function() require('jdtls').extract_constant(true) end },
+    { name = 'extract method', action = function() require('jdtls').extract_method(true) end },
+  },
+}
+
+local function call_jdtls_actions(mode)
+  vim.ui.select(jdtls_actions[mode], {
+    prompt = 'Jdtls Actions',
+    format_item = function(item)
+      return item.name
+    end,
+  }, function(choice)
+      if choice ~= nil then
+        choice.action()
+      end
+  end)
+end
 
 function M.jdtls()
   local mason_registery = require('mason-registry')
@@ -61,8 +86,12 @@ function M.jdtls()
   local dir = server:get_install_path()
 
   local jdtls = require('jdtls')
-  local root_marks = { 'mvnw', 'gradlew', 'pom.xml', '.git' }
-  local prj_root = require('jdtls.setup').find_root(root_marks)
+  local prj_root = require('aceforeverd.util').detect_root({
+    {'.jdtls-root'},
+    { 'mvnw',    'mvnw.cmd',    'gradlew', 'gradlew.bat' },
+    { 'pom.xml', 'build.gradle' },
+    { '.git' },
+  })
 
   local extendedClientCapabilities = jdtls.extendedClientCapabilities
   extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
@@ -79,7 +108,6 @@ function M.jdtls()
   else
     java_home = os.getenv('JAVA_HOME')
   end
-  -- TODO: build a JDK table dynamically to 'settings.java.configuration' ?
 
   local cfg_file
   if vim.fn.has('mac') == 1 then
@@ -98,6 +126,20 @@ function M.jdtls()
   local prj_name = vim.fn.substitute(vim.fn.fnamemodify(prj_root, ':p:h'), [[/\|\\\|\ \|:\|\.]], '', 'g')
   local workspace_dir = data_path .. '/jdtls-ws/' .. prj_name
 
+  local general_cfg = require('aceforeverd.lsp.common').general_cfg
+
+  general_cfg.on_attach = function(client, bufnr)
+    require('aceforeverd.lsp.common').on_attach(client, bufnr)
+
+    -- jdtls defined maps
+    vim.keymap.set('n', '<leader>jj', function()
+      call_jdtls_actions('n')
+    end, { buffer = bufnr, noremap = true, desc = 'jdtls action' })
+    vim.keymap.set('x', '<leader>jj', function()
+      call_jdtls_actions('x')
+    end, { buffer = bufnr, noremap = true, desc = 'jdtls action' })
+  end
+
   local config = vim.tbl_deep_extend('force', {
     cmd = {
       config_path .. '/bin/java-lsp',
@@ -114,7 +156,7 @@ function M.jdtls()
         signatureHelp = { enabled = true },
         contentProvider = { preferred = 'fernflower' },
         saveActions = {
-          organizeImports = true,
+          organizeImports = false,
         },
         completion = {
           favoriteStaticMembers = {
@@ -163,12 +205,30 @@ function M.jdtls()
       allow_incremental_sync = true,
     },
     init_options = {
+      bundles = {},
       extendedClientCapabilities = extendedClientCapabilities
     },
     -- TODO: add more mappings from nvim-jdtls
 
     root_dir = prj_root,
-  }, require('aceforeverd.lsp.common').general_cfg)
+  }, general_cfg)
+
+  local java_test = mason_registery.get_package('java-test')
+  if java_test:is_installed() then
+    local java_test_jars = vim.fn.glob(java_test:get_install_path() .. '/extension/server/*.jar', true, true)
+    for _, value in ipairs(java_test_jars) do
+      table.insert(config.init_options.bundles, value)
+    end
+  end
+
+  local java_debug = mason_registery.get_package('java-debug-adapter')
+  if java_debug:is_installed() then
+    local java_debug_jars =
+        vim.fn.glob(java_debug:get_install_path() .. '/extension/server/com.microsoft.java.debug.plugin-*.jar', true, true)
+    for _, value in ipairs(java_debug_jars) do
+      table.insert(config.init_options.bundles, value)
+    end
+  end
 
   require('jdtls').start_or_attach(config)
 end
