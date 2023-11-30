@@ -76,6 +76,7 @@ function M.cscope_maps()
     disable_maps = true,
     cscope = {
       exec = 'gtags-cscope',
+      qf_window_size = 9,
     },
   })
 
