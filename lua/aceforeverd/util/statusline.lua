@@ -124,23 +124,30 @@ function M.ctx_location(opts)
   end
 end
 
-local lsp_status
-if vim.g.lsp_process_provider == 'lsp_status' then
-  lsp_status = function()
-    if vim.tbl_contains({'c', 'cpp', 'objc'}, vim.bo.filetype) == true then
-      -- use lsp-status that comes with clangd file status
-      return require('lsp-status').status()
-    else
-      -- vim.lsp.status() ?
-      return ''
-    end
+local custom_status_dict = {
+  -- use lsp-status that comes with clangd file status
+  c = require('lsp-status').status,
+  cpp = require('lsp-status').status,
+  objc = require('lsp-status').status,
+  scala = function()
+    return vim.g.metals_status or ''
+  end,
+}
+
+local lsp_status = function()
+  local f = custom_status_dict[vim.bo.filetype]
+  if f ~= nil then
+    return f()
   end
+
+  return ''
 end
 
 function M.tag_status()
   return vim.api.nvim_call_function('aceforeverd#statusline#tag_status', {})
 end
 
+-- customized lsp progress info
 M.lsp_status = lsp_status
 
 return M
