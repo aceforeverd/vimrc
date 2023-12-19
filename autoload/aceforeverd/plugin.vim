@@ -454,9 +454,6 @@ function! s:config_plugins() abort
     " vimspector
     let g:vimspector_enable_mappings = 'HUMAN'
 
-    nnoremap <silent> zS :<c-u>call aceforeverd#util#syn_query()<cr>
-    nnoremap <silent> zV :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
-
     " switch.vim
     let g:switch_mapping = '<space>x'
 

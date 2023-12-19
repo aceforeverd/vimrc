@@ -74,6 +74,7 @@ syn	match	yaccType	"<[a-zA-Z_][a-zA-Z0-9_]*>"	contains=yaccBrkt	contained
 
 HiFold syn	region	yaccNonterminal	start="^\s*\a\(\w\|\w\.\w\)*\ze\_s*\(/\*\_.\{-}\*/\)\=\_s*:"	matchgroup=yaccDelim end=";"	matchgroup=yaccSectionSep end='^%%$'me=e-2,re=e-2 contains=yaccAction,yaccDelim,yaccString,yaccComment	contained
 syn	region	yaccComment	start="/\*"	end="\*/"	contained
+syn	match	yaccComment	"//.*$"	contained
 syn	match	yaccString	"'[^']*'"	contained
 syn	match	yaccString	'"[^"]*"'	contained
 

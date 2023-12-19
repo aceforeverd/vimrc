@@ -62,6 +62,9 @@ function!  aceforeverd#keymap#essential#setup() abort
         autocmd FileType vim,lua,tmux let b:uri_pattern = '[''"]\zs[^''"/ ]\+\/[^''"/ ]\+\ze[''"]'
         autocmd FileType yaml let b:uri_pattern = 'uses:\s\+\zs[^@]\+\/[^@]\+\ze'
     augroup END
+
+    nnoremap <silent> zS :<c-u>call aceforeverd#util#syn_query()<cr>
+    nnoremap <silent> zV :<c-u>call aceforeverd#util#syn_query_verbose()<cr>
 endfunction
 
 function! s:current_line(outter) abort
