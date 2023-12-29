@@ -32,6 +32,13 @@ function! s:pack_open_dir(name) abort
     exe 'edit' dir
 endfunction
 
+function! s:pack_reinstall(name) abort
+    let canonical_name = substitute(a:name, '\(^\s*\|\s*$\)', '', 'g')
+    let dir = minpac#getpluginfo(canonical_name).dir
+    call delete(dir, 'rf')
+    call minpac#update(a:name)
+endfunction
+
 function! s:pre_cmds() abort
     " tiny wrapper for :packadd
     " good thing is use :PackAdd! to ignore any errors and do not terminate,
@@ -54,7 +61,10 @@ function! s:pre_cmds() abort
                 \ call aceforeverd#plugin#init() | call <SID>pack_open_dir(<q-args>)
 
     command! -nargs=1 -complete=custom,PackList PackOpenUrl
-                \ call plugin_browse#open_uri(minpac#getpluginfo(substitute(<q-args>, '\(^\s*\|\s*$\)', '', 'g')).url)
+                \ call aceforeverd#plugin#init() | call aceforeverd#keymap#browse#open_uri(minpac#getpluginfo(substitute(<q-args>, '\(^\s*\|\s*$\)', '', 'g')).url)
+
+    command! -nargs=1 -complete=custom,PackList PackReinstall
+                \ call aceforeverd#plugin#init() | call <sid>pack_reinstall(<q-args>)
 endfunction
 
 function! s:plugin_add(...) abort
@@ -62,6 +72,11 @@ function! s:plugin_add(...) abort
 endfunction
 
 function! aceforeverd#plugin#init() abort
+    if get(g:, 'initialized_minpac', 0) != 0
+        return
+    endif
+    let g:initialized_minpac = 1
+
     if has('nvim')
         let s:pack_path = stdpath('data') . '/site/'
     else
