@@ -1064,6 +1064,14 @@ M.plugin_list = {
     opts = {},
   },
 
+  {
+    'Civitasv/cmake-tools.nvim',
+    config = function()
+      require('cmake-tools').setup({})
+    end,
+    dependencies = { 'stevearc/overseer.nvim' }
+  },
+
   -- colors
   {
     'NvChad/nvim-colorizer.lua',

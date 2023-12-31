@@ -190,7 +190,6 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('ziglang/zig.vim')
     call s:plugin_add('gentoo/gentoo-syntax')
     call s:plugin_add('chrisbra/csv.vim')
-    call s:plugin_add('cdelledonne/vim-cmake')
     call s:plugin_add('rust-lang/rust.vim')
     call s:plugin_add('rhysd/vim-llvm')
     call s:plugin_add('vim-ruby/vim-ruby')
@@ -461,10 +460,6 @@ function! s:config_plugins() abort
     let g:translator_history_enable = 1
     nmap <silent> <Leader>tr <Plug>TranslateW
     vmap <silent> <Leader>tr <Plug>TranslateWV
-
-    " vim-cmake
-    let g:cmake_generate_options = [ '-G Ninja' ]
-    let g:cmake_link_compile_commands = 1
 
     " vimspector
     let g:vimspector_enable_mappings = 'HUMAN'
