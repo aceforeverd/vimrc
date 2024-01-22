@@ -359,15 +359,10 @@ M.plugin_list = {
         exact = 2,
         capacity = 5,
         debug = false,
-      })
-      dict.switcher({
-        spelllang = {
-          en = { '/usr/share/dict/words' },
-          en_US = { '/usr/share/dict/words' },
+        paths = {
+          '/usr/share/dict/words',
         }
       })
-      -- required since it loads from InsertEnter
-      vim.cmd("CmpDictionaryUpdate")
     end,
     lazy = true,
   },
