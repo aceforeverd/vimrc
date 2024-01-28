@@ -356,9 +356,7 @@ M.plugin_list = {
       local dict = require('cmp_dictionary')
 
       dict.setup({
-        exact = 2,
-        capacity = 5,
-        debug = false,
+        exact_length = 2,
         paths = {
           '/usr/share/dict/words',
         }
@@ -1057,14 +1055,6 @@ M.plugin_list = {
   {
     'stevearc/overseer.nvim',
     opts = {},
-  },
-
-  {
-    'Civitasv/cmake-tools.nvim',
-    config = function()
-      require('cmake-tools').setup({})
-    end,
-    dependencies = { 'stevearc/overseer.nvim' }
   },
 
   -- colors
