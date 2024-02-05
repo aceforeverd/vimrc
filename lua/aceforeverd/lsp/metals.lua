@@ -22,6 +22,7 @@ function M.metals()
   local metals_config = vim.deepcopy(metals.bare_config())
   metals_config.settings = {
     showImplicitArguments = true,
+    testUserInterface = "Test Explorer",
   }
   -- TODO: add message to statusline via vim.g['metals_status']
   metals_config.init_options.statusBarProvider = 'on'

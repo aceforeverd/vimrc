@@ -213,6 +213,11 @@ M.plugin_list = {
           enabled = true,
           updatetime = 500,
         },
+        ignore = {
+          clients = {
+            "metals" -- metals just giving too many hints
+          }
+        }
       })
     end,
   },
@@ -470,6 +475,7 @@ M.plugin_list = {
 
   {
     'HiPhish/rainbow-delimiters.nvim',
+    submodules = false,
     config = function()
       local rainbow_delimiters = require('rainbow-delimiters')
 
