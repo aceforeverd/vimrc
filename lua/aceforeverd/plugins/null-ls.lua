@@ -21,10 +21,8 @@ function M.setup()
   local sources = {
     -- code actions
     -- line comment to disable shellcheck error/warning
-    null_ls.builtins.code_actions.shellcheck,
+    -- null_ls.builtins.code_actions.shellcheck,
 
-    -- null_ls.builtins.formatting.prettier,
-    null_ls.builtins.formatting.eslint,
     null_ls.builtins.formatting.shfmt.with({
       extra_args = { '-i', '4' },
     }),
@@ -54,7 +52,7 @@ function M.setup()
         )
       end,
     }),
-    null_ls.builtins.diagnostics.shellcheck,
+    -- null_ls.builtins.diagnostics.shellcheck,
     -- null_ls.builtins.diagnostics.cpplint.with({
     --   condition = function(utils)
     --     return utils.root_has_file({ 'CPPLINT.cfg' })
