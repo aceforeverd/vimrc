@@ -83,8 +83,8 @@ function M.setup()
           local bufs = {}
           local cur_buf = vim.api.nvim_get_current_buf()
           local byte_size = vim.api.nvim_buf_get_offset(cur_buf, vim.api.nvim_buf_line_count(cur_buf))
-          if byte_size > 256 * 1024 or vim.fn.line('$') > 5000 then
-            -- stop on files larger than 256k or line number > 5000
+          if byte_size > 256 * 1024 or vim.fn.line('$') > 1000 then
+            -- stop on files larger than 256k or line number > 1000
             return {}
           end
 
