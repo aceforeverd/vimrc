@@ -223,11 +223,13 @@ M.plugin_list = {
   },
 
   {
-    'simrat39/rust-tools.nvim',
+    'mrcjkb/rustaceanvim',
     ft = { 'rust' },
-    config = function()
-      require('aceforeverd.lsp').rust_analyzer()
-    end,
+  },
+
+  {
+    'mrcjkb/haskell-tools.nvim',
+     ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
   },
 
   { 'ray-x/guihua.lua', build = 'cd lua/fzy && make', lazy = true },
@@ -333,17 +335,6 @@ M.plugin_list = {
       { '<leader>K', function() require('hover').hover() end, desc = 'hover.nvim' },
       { '<leader>gK', function() require('hover').hover_select() end, desc = 'hover.nvim (select)' },
     }
-  },
-
-  {
-    'mrcjkb/haskell-tools.nvim',
-    config = function()
-      require('aceforeverd.lsp').hls()
-    end,
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-    },
-    ft = { 'haskell', 'cabal' },
   },
 
   {
