@@ -138,17 +138,17 @@ local global_maps = {
 
 local lsp_maps = {
   n = {
-    ['gd'] = function()
-      require('telescope.builtin').lsp_definitions()
-    end,
+    ['gd'] = vim.lsp.buf.definition,
     ['gD'] = vim.lsp.buf.declaration,
     ['gi'] = function()
       require('telescope.builtin').lsp_implementations()
     end,
     ['gr'] = [[<cmd>FzfLua lsp_references<CR>]],
-    ['<leader>gd'] = vim.lsp.buf.definition,
     ['K'] = vim.lsp.buf.hover,
     ['gK'] = vim.lsp.buf.signature_help,
+    ['<leader>gd'] = function()
+      require('telescope.builtin').lsp_definitions()
+    end,
     ['<leader>gi'] = vim.lsp.buf.implementation,
     ['<leader>gr'] = vim.lsp.buf.references,
     ['<Leader>wa'] = vim.lsp.buf.add_workspace_folder,
