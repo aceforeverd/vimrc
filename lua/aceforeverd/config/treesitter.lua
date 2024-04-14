@@ -47,21 +47,6 @@ function M.setup()
       enable = false,
     },
     matchup = { enable = true },
-    refactor = {
-      highlight_definitions = { enable = false },
-      highlight_current_scope = { enable = false },
-      smart_rename = { enable = true, keymaps = { smart_rename = '<Leader>rt' } },
-      navigation = {
-        enable = true,
-        keymaps = {
-          goto_definition = '<space>gl',
-          list_definitions = '<space>gL',
-          list_definitions_toc = 'gO',
-          goto_next_usage = '<a-*>',
-          goto_previous_usage = '<a-#>',
-        },
-      },
-    },
     textobjects = {
       move = {
         enable = true,
