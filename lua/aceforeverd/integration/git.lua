@@ -40,9 +40,9 @@ function M.gitsigns()
 
       map('n', '[c', function()
         if vim.wo.diff then
-          vim.cmd.normal({ ']c', bang = true })
+          vim.cmd.normal({ '[c', bang = true })
         else
-          gs.nav_hunk('next')
+          gs.nav_hunk('prev')
         end
       end)
 
