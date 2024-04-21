@@ -88,13 +88,13 @@ return {
         )
         vim.keymap.set(
           'n',
-          '<C-w>av',
+          '<Leader>av',
           '<c-w>v<cmd>ClangdSwitchSourceHeader<cr>',
           { noremap = true, silent = true, buffer = bufnr, desc = 'switch source (vsplit)' }
         )
         vim.keymap.set(
           'n',
-          '<C-w>as',
+          '<Leader>as',
           '<c-w>s<cmd>ClangdSwitchSourceHeader<cr>',
           { noremap = true, silent = true, buffer = bufnr, desc = 'switch source (split)' }
         )
@@ -105,7 +105,15 @@ return {
           { noremap = true, silent = true, buffer = bufnr, desc = 'toggle inlay hints' }
         )
 
-        require("clangd_extensions.inlay_hints").setup_autocmd()
+        vim.keymap.set(
+          'n',
+          '<Leader>al',
+          '<cmd>ClangdSetInlayHints<cr>',
+          { noremap = true, silent = true, buffer = bufnr, desc = 'refresh inlay hints' }
+        )
+
+        -- inlay hints autocmd get confused with :ClangdToggleInlayHints, a workaround is toggle manually
+        -- require("clangd_extensions.inlay_hints").setup_autocmd()
         require("clangd_extensions.inlay_hints").set_inlay_hints()
 
         -- use lsp-status only for clangd
