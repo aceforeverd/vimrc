@@ -1124,12 +1124,9 @@ M.plugin_list = {
   {
     "chrisgrieser/nvim-rulebook",
     keys = {
-      { "<leader>ri", function()
-        require('rulebook').ignoreRule()
-      end },
-      { "<leader>rl", function()
-        require('rulebook').lookupRule()
-      end },
+      { "<leader>ri", function() require('rulebook').ignoreRule() end, desc = 'ignore rule' },
+      { "<leader>rl", function() require('rulebook').lookupRule() end, desc = 'lookup rule' },
+      { "<leader>ry", function() require("rulebook").yankDiagnosticCode() end }
     }
   },
 }
