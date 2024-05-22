@@ -225,11 +225,30 @@ M.plugin_list = {
   {
     'mrcjkb/rustaceanvim',
     ft = { 'rust' },
+    init = function()
+      vim.g.rustaceanvim = {
+        -- tools = {}
+        server = {
+          default_settings = {
+            -- rust-analyzer language server configuration
+            -- ref https://rust-analyzer.github.io/manual.html#configuration
+            ['rust-analyzer'] = {
+              cargo = {},
+              procMacro = {
+                enable = true
+              }
+            },
+          },
+        },
+        -- DAP configuration
+        -- dap = {},
+      }
+    end
   },
 
   {
     'mrcjkb/haskell-tools.nvim',
-     ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
+    ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
   },
 
   { 'ray-x/guihua.lua', build = 'cd lua/fzy && make', lazy = true },
