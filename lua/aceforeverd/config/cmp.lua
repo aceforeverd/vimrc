@@ -67,6 +67,7 @@ function M.setup()
   -- level 1 source
   local sources_1 = {
     { name = 'nvim_lsp' },
+    { name = "lazydev" },
     { name = 'luasnip', option = { use_show_condition = false } },
 
     { name = 'nvim_lua' },
@@ -136,6 +137,7 @@ function M.setup()
         maxwidth = 50,
         menu = {
           nvim_lsp = '[LSP]',
+          lazydev = '[LazyDev]',
           luasnip = '[LuaSnip]',
           buffer = '[Buffer]',
           path = '[Path]',

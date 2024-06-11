@@ -152,8 +152,25 @@ M.plugin_list = {
         pathStrict = true,
       })
     end,
-    lazy = true,
+    cond = function()
+      return vim.fn.has('nvim-0.10') ~= 1
+    end,
   },
+
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+      },
+    },
+    cond = function()
+      return vim.fn.has('nvim-0.10') == 1
+    end,
+  },
+  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+
   {
     -- LSP signature hint as you type
     'ray-x/lsp_signature.nvim',
@@ -177,7 +194,6 @@ M.plugin_list = {
       'williamboman/mason.nvim',
       'p00f/clangd_extensions.nvim',
       -- lsp enhance
-      'folke/neodev.nvim',
       'b0o/schemastore.nvim',
       'SmiteshP/nvim-navic',
       'SmiteshP/nvim-navbuddy',
