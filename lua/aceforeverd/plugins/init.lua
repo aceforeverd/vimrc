@@ -90,7 +90,20 @@ M.plugin_list = {
       'MunifTanjim/nui.nvim',
     },
     opts = { lsp = { auto_attach = true } },
+    cond = function()
+      return vim.fn.has('nvim-0.10') == 1
+    end
   },
+
+  -- {
+  --   'Bekaboo/dropbar.nvim',
+  --   dependencies = {
+  --     'nvim-telescope/telescope-fzf-native.nvim'
+  --   },
+  --   cond = function()
+  --     return vim.fn.has('nvim-0.10') == 1
+  --   end
+  -- },
 
   {
     'nvim-lua/lsp-status.nvim',
@@ -1164,6 +1177,16 @@ M.plugin_list = {
       { "<leader>ry", function() require("rulebook").yankDiagnosticCode() end }
     }
   },
+
+    {
+    'MagicDuck/grug-far.nvim',
+    config = function()
+      require('grug-far').setup({
+        engine = 'ripgrep'
+      });
+    end
+  },
+
 }
 
 return M

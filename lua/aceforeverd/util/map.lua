@@ -17,7 +17,7 @@
 local M = {}
 
 -- some mapping may not work for nvim < 0.7.0 due to can't map function-rhs
-local map_fn = vim.fn.has('nvim-0.7.0') == 1 and vim.keymap.set or vim.api.nvim_set_keymap
+local map_fn = vim.keymap.set
 
 --- create map based on a table
 ---@param map_list dict first level key should be vim mode name, e.g 'n', 'v'
