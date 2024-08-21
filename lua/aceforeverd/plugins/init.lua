@@ -318,16 +318,6 @@ M.plugin_list = {
   },
 
   {
-    'nvimtools/none-ls.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-    },
-    config = function()
-      require('aceforeverd.plugins.null-ls').setup()
-    end,
-  },
-
-  {
     'mfussenegger/nvim-lint',
     config = function()
       require('lint').linters_by_ft = {
@@ -424,7 +414,6 @@ M.plugin_list = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
-      'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-emoji',
       'uga-rosa/cmp-dictionary',
       'ray-x/cmp-treesitter',

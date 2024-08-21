@@ -344,10 +344,18 @@ function! s:config_plugins() abort
     nnoremap <Space>B :BLines<CR>
     nnoremap <Space>L :Lines<CR>
 
+    " GGrep <pattern>
     command! -bang -nargs=* GGrep
                 \ call fzf#vim#grep(
                 \   'git grep --line-number -- '.shellescape(<q-args>), 0,
                 \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+
+    " SG <sg pattern>. relaunch sg on every keystroke
+    " TODO: sg pattern do not work well with single quote pattern
+    command! -bang -nargs=* SG
+                \ call fzf#vim#grep2(
+                \   'sg run --heading never --pattern ', <q-args>, 0,
+                \   fzf#vim#with_preview(), <bang>0)
 
     " more for vim-rsi
     let g:rsi_no_meta = 1

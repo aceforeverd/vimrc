@@ -19,12 +19,6 @@ local function on_term_enter()
   vim.cmd[[DisableWhitespace]]
 end
 
--- runs a lua expr and print its results
-local function inspect(opts)
-  local res = vim.api.nvim_eval('luaeval("' .. vim.fn.escape(opts.args, '"') .. '")')
-  vim.notify(vim.inspect(res), vim.log.levels.INFO, {})
-end
-
 function M.setup()
   if vim.g.lsp_process_provider == nil then
     vim.g.lsp_process_provider = 'lsp_status'
@@ -64,8 +58,7 @@ function M.setup()
     callback = on_term_enter,
   })
 
-  vim.api.nvim_create_user_command('LuaInspect', inspect, { complete = 'lua', nargs = 1 })
-
+  require('aceforeverd.cmd').setup()
   require('aceforeverd.plugins').setup()
 
   -- keymap guideline
