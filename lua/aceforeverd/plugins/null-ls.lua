@@ -19,14 +19,8 @@ function M.setup()
   local null_ls = require('null-ls')
 
   local sources = {
-    -- code actions
-    -- line comment to disable shellcheck error/warning
-    -- null_ls.builtins.code_actions.shellcheck,
-
-    null_ls.builtins.formatting.shfmt.with({
-      extra_args = { '-i', '4' },
-    }),
-    null_ls.builtins.formatting.shellharden,
+    -- null_ls.builtins.formatting.shfmt.with({ extra_args = { '-i', '4' }, }),
+    -- null_ls.builtins.formatting.shellharden,
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.formatting.protolint,
     null_ls.builtins.formatting.yapf,
@@ -52,7 +46,11 @@ function M.setup()
         )
       end,
     }),
+
+    -- bashls includes shellcheck integration, skip it
     -- null_ls.builtins.diagnostics.shellcheck,
+
+    -- diagnosticsls sets more accurate errorformat for cpplint
     -- null_ls.builtins.diagnostics.cpplint.with({
     --   condition = function(utils)
     --     return utils.root_has_file({ 'CPPLINT.cfg' })

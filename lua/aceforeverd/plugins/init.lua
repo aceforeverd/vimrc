@@ -69,7 +69,7 @@ M.plugin_list = {
     'SmiteshP/nvim-navic',
     config = function()
       require('nvim-navic').setup({
-        click = true,
+        click = true, -- Single click to goto element, double click to open nvim-navbuddy
         lsp = { auto_attach = true },
       })
 
@@ -90,9 +90,8 @@ M.plugin_list = {
       'MunifTanjim/nui.nvim',
     },
     opts = { lsp = { auto_attach = true } },
-    cond = function()
-      return vim.fn.has('nvim-0.10') == 1
-    end
+    cmd = { 'Navbuddy' },
+    keys = { { '<space>v', '<cmd>Navbuddy<cr>', desc = 'navbuddy' } }
   },
 
   -- {
@@ -187,6 +186,7 @@ M.plugin_list = {
   {
     -- LSP signature hint as you type
     'ray-x/lsp_signature.nvim',
+    event = 'VeryLazy',
     config = function()
       require('lsp_signature').setup({
         bind = true,
@@ -209,7 +209,6 @@ M.plugin_list = {
       -- lsp enhance
       'b0o/schemastore.nvim',
       'SmiteshP/nvim-navic',
-      'SmiteshP/nvim-navbuddy',
       'MunifTanjim/nui.nvim',
     },
     config = function()
@@ -318,11 +317,26 @@ M.plugin_list = {
   },
 
   {
+    'nvimtools/none-ls.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    config = function()
+      require('aceforeverd.plugins.null-ls').setup()
+    end,
+  },
+
+  {
     'mfussenegger/nvim-lint',
     config = function()
       require('lint').linters_by_ft = {
         cpp = { 'cpplint' },
         c = { 'cpplint' },
+        sh = {'shellcheck'},
+        vim = { 'vint' },
+        dockerfile = {'hadolint'},
+        python = { 'pylint' },
+        yaml = { 'actionlint' },
       }
 
       vim.api.nvim_create_user_command('Lint', function() require('lint').try_lint() end, {})
@@ -343,6 +357,11 @@ M.plugin_list = {
     opts = {
       formatters_by_ft = {
         lua = { "stylua" },
+        sh = { 'shfmt', 'shellharden' },
+        python = { 'yapf' },
+        cmake = { 'cmake_format' },
+        c = { 'clang-format' },
+        cpp = { 'clang-format' },
       },
     },
     cmd = { 'ConformInfo', 'Conform' }
@@ -669,11 +688,6 @@ M.plugin_list = {
     },
   },
 
-  {
-    'rlane/pounce.nvim',
-    cmd = { 'Pounce', 'PounceRepeat', 'PounceReg', 'PounceExpand' },
-    keys = { { mode = { 'n', 'x', 'o' }, ';p', '<cmd>Pounce<cr>', desc = 'Pounce' } }
-  },
   -- ==============================================
   --        MOTIONS END
   -- ==============================================
@@ -722,18 +736,6 @@ M.plugin_list = {
       'kkharji/sqlite.lua',
       'nvim-tree/nvim-web-devicons',
     },
-  },
-
-  {
-    'ahmedkhalf/project.nvim',
-    config = function()
-      require('project_nvim').setup({
-        manual_mode = false,
-        silent_chdir = true,
-        scope_chdir = 'win',
-        detection_methods = { 'pattern', 'lsp' },
-      })
-    end,
   },
 
   {
@@ -1088,6 +1090,7 @@ M.plugin_list = {
   {
     'stevearc/overseer.nvim',
     opts = {},
+    cmd = { 'OverseerRun', 'OverseerRunCmd', 'OverseerBuild', 'OverseerTaskAction' }
   },
 
   -- colors
@@ -1167,13 +1170,14 @@ M.plugin_list = {
     }
   },
 
-    {
+  {
     'MagicDuck/grug-far.nvim',
     config = function()
       require('grug-far').setup({
         engine = 'ripgrep'
       });
-    end
+    end,
+    cmd = { 'GrugFar' }
   },
 
 }

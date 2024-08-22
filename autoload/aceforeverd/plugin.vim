@@ -518,6 +518,10 @@ function! s:config_plugins() abort
 
     let g:slime_no_mappings = 1
 
+    " vim rooter
+    PackAdd! vim-rooter
+    let g:rooter_cd_cmd = 'lcd'
+
     call aceforeverd#tags#setup()
 endfunction
 
@@ -545,10 +549,6 @@ function! s:config_vim_only() abort
     augroup END
 
     call s:coc()
-
-    " vim rooter
-    PackAdd! vim-rooter
-    let g:rooter_cd_cmd = 'lcd'
 
     " startify
     PackAdd! vim-startify
