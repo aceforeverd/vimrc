@@ -80,15 +80,8 @@ endfunction
 
 ""
 " open the uri
-" if open-browser.vim intalled, use openbrowser#open
-" otherwise, !open
 ""
 function! aceforeverd#keymap#browse#open_uri(uri) abort
-    if get(g:, 'loaded_openbrowser', 0) == 1
-        call openbrowser#open(a:uri)
-        return
-    endif
-
     let l:open = ''
     if has('mac')
         let l:open = 'open'
