@@ -9,4 +9,5 @@ endfunction
 
 function! aceforeverd#cmd#essential#setup() abort
     command! -nargs=? Apache silent call <SID>apache(<args>)
+    command! -bang -nargs=0 Gdep call aceforeverd#keymap#browse#try_open(<bang>0)
 endfunction

@@ -1,37 +1,60 @@
-let g:browse_fmt_pattern = {
+" Default to <quote>username/repo<quote>, for filetype vim,lua,tmux
+let g:browse_uri_pattern = {
+            \ '*': '[''"]\zs[^''"/ ]\+\/[^''"/ ]\+\ze[''"]',
+            \ 'yaml': 'uses:\s\+\zs[^@]\+\/[^@]\+\ze',
+            \ 'gomod': '\v\zs([[:alnum:]\._-]+)(\/([[:alnum:]\._-])+)*\ze\s+v.*',
+            \ 'gosum': '\v^\zs([[:alnum:]\._-]+)(\/([[:alnum:]\._-])+)*\ze\s+v.*',
+            \ 'go': '\v"\zs([[:alnum:]\._-]+)(\/([[:alnum:]\._-])+)*\ze"',
+            \ }
+let g:browse_uri_fmt = {
             \ 'go': 'https://pkg.go.dev/%s',
-            \ 'gomod': 'https://%s',
-            \ 'gosum': 'https://%s',
+            \ 'gomod': 'https://pkg.go.dev/%s',
+            \ 'gosum': 'https://pkg.go.dev/%s',
             \ '*': 'https://github.com/%s',
             \ }
 
-function! aceforeverd#keymap#browse#try_open() abort
-    let l:uri_list = aceforeverd#keymap#browse#get_uri()
-    if empty(l:uri_list)
-        echomsg 'no plugin uri found here, line ' . line('.')
+" For gomod/gosum filetype: ^domain/sub[/sub ...]
+"   since we want remove the optional version suffix (v\d+) in the url, it's important to use '{-}' to match subpath as few as possible,
+"   then the suffix removed selection (if exists) if preferred in regex engine.
+"   It is not perfect when dealing with upstream string 'github.com/uname/repo/subpath', this path never exists.
+let g:browse_upstream_pattern = {
+            \ '*': '\v[''"]\zs[^''"/ ]+\/[^''"/ ]+\ze[''"]',
+            \ 'gosum': '\v^\zs[[:alnum:]_-]+(\.([[:alnum:]_-])+)+(\/[[:alnum:]_\.-]+){-}(\ze\/v\d+|\ze)\s+v.*',
+            \ 'gomod': '\v\zs[[:alnum:]_-]+(\.([[:alnum:]_-])+)+(\/[[:alnum:]_\.-]+){-}(\ze\/v\d+|\ze)\s+v.*',
+            \ }
+let g:browse_upstream_fmt = {
+            \ '*': 'https://github.com/%s',
+            \ 'go': 'https://%s',
+            \ 'gomod': 'https://%s',
+            \ 'gosum': 'https://%s',
+            \ }
+
+function! aceforeverd#keymap#browse#try_open(go_upstream = v:false) abort
+    let l:pattern = ''
+    let l:fmt = ''
+    " default pattern: quotes with inside {owner}/{repo}, support multiple matches in the given string
+    if !a:go_upstream
+        let l:pattern = get(g:browse_uri_pattern, &filetype, get(g:browse_uri_pattern, '*', ''))
+        let l:fmt = get(g:browse_uri_fmt, &filetype, get(g:browse_uri_fmt, '*', ''))
+    else
+        let l:pattern = get(g:browse_upstream_pattern, &filetype, get(g:browse_upstream_pattern, '*', ''))
+        let l:fmt = get(g:browse_upstream_fmt, &filetype, get(g:browse_upstream_fmt, '*', ''))
+    endif
+
+    if l:pattern == ''
+        echomsg 'no url patern specified for filetype ' . &filetype
         return
     endif
 
-    call aceforeverd#keymap#browse#open(l:uri_list)
-endfunction
-
-function! aceforeverd#keymap#browse#get_uri() abort
-    " default pattern: quotes with inside {owner}/{repo}, support multiple matches in the given string
-    let l:pattern = get(b:, 'uri_pattern', '')
-    if l:pattern == ''
-        echomsg 'no url patern specified for filetype ' . &filetype
-        return []
-    endif
-
-    let l:fmt = get(g:browse_fmt_pattern, &filetype, get(g:browse_fmt_pattern, '*', ''))
     if l:fmt == ''
         echomsg 'no fmt patern specified for filetype ' . &filetype
-        return []
+        return
     endif
 
     let l:matched_list = []
     call substitute(getline('.'), l:pattern, '\=add(l:matched_list, printf(l:fmt, submatch(0)))', 'g')
-    return l:matched_list
+
+    call aceforeverd#keymap#browse#open(l:matched_list)
 endfunction
 
 " TODO: a option to open all plugins once
