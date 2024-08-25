@@ -1,3 +1,9 @@
+let g:browse_fmt_pattern = {
+            \ 'go': 'https://pkg.go.dev/%s',
+            \ 'gomod': 'https://%s',
+            \ 'gosum': 'https://%s',
+            \ '*': 'https://github.com/%s',
+            \ }
 
 function! aceforeverd#keymap#browse#try_open() abort
     let l:uri_list = aceforeverd#keymap#browse#get_uri()
@@ -17,8 +23,14 @@ function! aceforeverd#keymap#browse#get_uri() abort
         return []
     endif
 
+    let l:fmt = get(g:browse_fmt_pattern, &filetype, get(g:browse_fmt_pattern, '*', ''))
+    if l:fmt == ''
+        echomsg 'no fmt patern specified for filetype ' . &filetype
+        return []
+    endif
+
     let l:matched_list = []
-    call substitute(getline('.'), l:pattern, '\=add(l:matched_list, submatch(0))', 'g')
+    call substitute(getline('.'), l:pattern, '\=add(l:matched_list, printf(l:fmt, submatch(0)))', 'g')
     return l:matched_list
 endfunction
 
@@ -30,7 +42,7 @@ function! aceforeverd#keymap#browse#open(uris) abort
     endif
 
     if type(a:uris) == v:t_string
-        call aceforeverd#keymap#browse#open_uri('https://github.com/' .. a:uris)
+        call aceforeverd#keymap#browse#open_uri(a:uris)
     elseif len(a:uris) == 1
         call aceforeverd#keymap#browse#open(a:uris[0])
     else

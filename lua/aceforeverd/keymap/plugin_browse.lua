@@ -19,11 +19,11 @@ function M.select_browse_plugin(plugin_list)
   vim.ui.select(plugin_list, {
     prompt = 'select a plugin',
     format_item = function(item)
-      return 'https://github.com/' .. item
+      return item
     end,
   }, function(choice)
     if choice ~= nil then
-      vim.api.nvim_call_function('plugin_browse#open', { choice })
+      vim.api.nvim_call_function('aceforeverd#keymap#browse#open', { choice })
     end
   end)
 end

@@ -61,6 +61,13 @@ function!  aceforeverd#keymap#essential#setup() abort
         autocmd!
         autocmd FileType vim,lua,tmux let b:uri_pattern = '[''"]\zs[^''"/ ]\+\/[^''"/ ]\+\ze[''"]'
         autocmd FileType yaml let b:uri_pattern = 'uses:\s\+\zs[^@]\+\/[^@]\+\ze'
+
+        " ^domain/sub[/sub ...]
+        " since we want remove the optional version suffix (v\d+) in the url, it's important to use '{-}' to match subpath as few as possible,
+        " then the suffix removed selection (if exists) if preferred in regex engine
+        autocmd FileType gosum let b:uri_pattern = '\v^\zs[[:alnum:]_-]+(\.([[:alnum:]_-])+)+(\/[[:alnum:]_\.-]+){-}(\ze\/v\d+|\ze)\s+v.*'
+        autocmd FileType gomod let b:uri_pattern = '\v\zs[[:alnum:]_-]+(\.([[:alnum:]_-])+)+(\/[[:alnum:]_\.-]+){-}(\ze\/v\d+|\ze)\s+v.*'
+        autocmd FileType go let b:uri_pattern = '\v"\zs([[:alnum:]\._-]+)(\/([[:alnum:]\._-])+)*\ze"'
     augroup END
 
     nnoremap <silent> zS :<c-u>call aceforeverd#util#syn_query()<cr>
