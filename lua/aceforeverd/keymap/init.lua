@@ -3,7 +3,7 @@ local function ast_grep_search(opts)
   local args = opts.fargs
   local pattern = args[1]
 
-  local cmds = { 'sg', 'run', '--heading', 'never', '--pattern', pattern }
+  local cmds = { 'ast-grep', 'run', '--heading', 'never', '--pattern', pattern }
   for i = 2, #args, 1 do
     table.insert(cmds, args[i])
   end

@@ -1075,14 +1075,6 @@ M.plugin_list = {
   },
 
   {
-    'andythigpen/nvim-coverage',
-    config = function()
-      require('coverage').setup()
-    end,
-    lazy = true,
-  },
-
-  {
     'nvim-neotest/neotest',
     lazy = true,
   },
@@ -1155,7 +1147,7 @@ M.plugin_list = {
         desc = "Delete Buffer",
       },
       { "<leader>bD", function() require("mini.bufremove").delete(0, true) end, desc = "Delete Buffer (Force)" },
-      { "<leader>mf", function() require('mini.files').open() end },
+      { "<leader>mf", function() require('mini.files').open() end, desc = 'mini files' },
       "<leader>ga",
       "<leader>gA",
     },

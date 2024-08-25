@@ -354,7 +354,7 @@ function! s:config_plugins() abort
     " TODO: sg pattern do not work well with single quote pattern
     command! -bang -nargs=* SG
                 \ call fzf#vim#grep2(
-                \   'sg run --heading never --pattern ', <q-args>, 0,
+                \   'ast-grep run --heading never --pattern ', <q-args>, 0,
                 \   fzf#vim#with_preview(), <bang>0)
 
     " more for vim-rsi
