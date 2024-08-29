@@ -17,8 +17,6 @@
 
 local M = {}
 
-local lsp_basic = require('aceforeverd.lsp.common')
-
 function M.setup()
   if vim.g.my_cmp_source ~= 'nvim_lsp' then
     return
@@ -51,9 +49,31 @@ function M.setup()
 end
 
 function M.go()
+  local go_cfg = require('aceforeverd.lsp.common').general_cfg
+  -- https://github.com/ray-x/go.nvim?tab=readme-ov-file#nvim-lsp-setup
+  go_cfg.settings = {
+    gopls = {
+      -- more settings: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+      analyses = {
+        unreachable = true,
+        nilness = true,
+        unusedparams = true,
+        useany = true,
+        unusedwrite = true,
+        ST1003 = true,
+        undeclaredname = true,
+        fillreturns = true,
+        nonewvars = true,
+        fieldalignment = true,
+        shadow = true,
+      },
+    }
+  }
+  go_cfg.capabilities.textDocument.completion.dynamicRegistration = true
+
   -- :GoInstallBinaries
   require('go').setup({
-    lsp_cfg = require('aceforeverd.lsp.common').general_cfg,
+    lsp_cfg = go_cfg,
     textobjects = false,
     lsp_keymaps = false,
     lsp_inlay_hints = {
