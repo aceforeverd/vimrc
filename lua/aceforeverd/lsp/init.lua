@@ -67,7 +67,7 @@ function M.go()
         fieldalignment = true,
         shadow = true,
       },
-    }
+    },
   }
   go_cfg.capabilities.textDocument.completion.dynamicRegistration = true
 
@@ -84,5 +84,63 @@ end
 
 M.jdtls = require('aceforeverd.lsp.jdtls').setup
 M.metals = require('aceforeverd.lsp.metals').setup
+
+--- Set directory for curent buffer. By LSPs firstly, if non available, use fallback function
+--- @param fallback function Fallback function returns root directory as string
+function M.find_root(fallback)
+  local ft = vim.api.nvim_get_option_value('filetype', { buf = 0 })
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
+  if next(clients) == nil then
+    return nil
+  end
+
+  local dirs = vim
+    .iter(clients)
+    :filter(function(client)
+      local filetypes = client.config.filetypes
+      if filetypes and vim.tbl_contains(filetypes, ft) then
+        return true
+      end
+
+      return false
+    end)
+    :map(function(client)
+      return { root = client.config.root_dir, client = client.name }
+    end)
+
+  if fallback ~= nil then
+    table.insert(dirs, { root = fallback(), client = 'fallback' })
+  end
+
+  vim.ui.select(dirs, {
+    prompt = 'select root directory',
+    format_item = function(info)
+      return info.name .. ': ' .. info.root
+    end,
+  }, function(choice)
+    if choice ~= nil then
+      M.set_pwd(choice.root, 'win')
+    end
+  end)
+end
+
+function M.set_pwd(dir, method)
+  if dir ~= nil then
+    if vim.fn.getcwd() ~= dir then
+      local scope_chdir = method or 'win'
+      if scope_chdir == 'global' then
+        vim.api.nvim_set_current_dir(dir)
+      elseif scope_chdir == 'tab' then
+        vim.cmd('tcd ' .. dir)
+      elseif scope_chdir == 'win' then
+        vim.cmd('lcd ' .. dir)
+      else
+        return
+      end
+
+      vim.notify('Set CWD to ' .. dir .. ' using ' .. method)
+    end
+  end
+end
 
 return M
