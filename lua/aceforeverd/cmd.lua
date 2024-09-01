@@ -11,7 +11,7 @@ return {
     -- Sg <pattern> [<dir1> <dir2> ...]
     vim.api.nvim_create_user_command(
       'Sg',
-      require('aceforeverd.keymap.init').ast_grep_search,
+      require('aceforeverd.grep').ast_grep,
       -- TODO: custom complete function
       { nargs = '+', desc = 'ast grep search', complete = 'dir' }
     )

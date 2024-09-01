@@ -67,7 +67,7 @@ function M.go()
         fieldalignment = true,
         shadow = true,
       },
-    }
+    },
   }
   go_cfg.capabilities.textDocument.completion.dynamicRegistration = true
 

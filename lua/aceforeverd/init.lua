@@ -59,6 +59,7 @@ function M.setup()
   })
 
   require('aceforeverd.cmd').setup()
+  require('aceforeverd.keymap').setup()
   require('aceforeverd.plugins').setup()
 
   -- keymap guideline
