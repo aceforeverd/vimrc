@@ -183,7 +183,7 @@ return {
   vimls = setup_generalized,
   dockerls = setup_generalized,
   tailwindcss = setup_generalized,
-  tsserver = setup_generalized,
+  ts_ls = setup_generalized,
   -- remark_ls = setup_generalized,
   taplo = setup_generalized,
   jsonnet_ls = setup_generalized,
