@@ -178,7 +178,7 @@ return {
   })),
   bashls = setup_generalized,
   pyright = setup_generalized,
-  cmake = setup_generalized,
+  neocmake = setup_generalized,
   lemminx = setup_generalized,
   vimls = setup_generalized,
   dockerls = setup_generalized,
