@@ -70,7 +70,7 @@ function! aceforeverd#completion#init_source_coc() abort
                 \ 'coc-pyright', 'coc-json',
                 \ 'coc-html', 'coc-go',
                 \ 'coc-css', 'coc-clangd',
-                \ 'coc-diagnostic',
+                \ 'coc-diagnostic', 'coc-dictionary',
                 \ 'coc-xml', 'coc-toml', 'coc-emoji',
                 \ 'coc-sql', 'coc-zig',
                 \ ]

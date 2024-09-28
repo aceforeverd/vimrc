@@ -74,7 +74,6 @@
     "sh": ["shellcheck"],
     "cpp": ["cpplint"],
     "dockerfile": ["hadolint"],
-    "python": ["pylint"],
     "yaml": ["actionlint"]
   },
   "diagnostic-languageserver.formatFiletypes": {
@@ -168,5 +167,6 @@
   "Lua.runtime.version": "LuaJIT",
   "sumneko-lua.enableNvimLuaDev": true,
   "git.enableGutters": false,
-  "git.addGBlameToVirtualText": true
+  "git.addGBlameToVirtualText": true,
+  "snippets.ultisnips.pythonPrompt": false
 }

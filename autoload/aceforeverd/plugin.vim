@@ -272,6 +272,7 @@ function! s:config_plugins() abort
         xmap ih <Plug>(GitGutterTextObjectInnerVisual)
         xmap ah <Plug>(GitGutterTextObjectOuterVisual)
         let g:gitgutter_sign_added = '+'
+        let g:gitgutter_preview_win_floating = 1
         let g:gitgutter_sign_modified = '~'
         if has('nvim-0.4.0')
             let g:gitgutter_highlight_linenrs = 1
