@@ -404,20 +404,6 @@ M.plugin_list = {
     lazy = true,
   },
   {
-    'uga-rosa/cmp-dictionary',
-    config = function()
-      local dict = require('cmp_dictionary')
-
-      dict.setup({
-        exact_length = 2,
-        paths = {
-          '/usr/share/dict/words',
-        }
-      })
-    end,
-    lazy = true,
-  },
-  {
     'petertriho/cmp-git',
     config = function()
       require('cmp_git').setup({
@@ -434,7 +420,6 @@ M.plugin_list = {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-emoji',
-      'uga-rosa/cmp-dictionary',
       'ray-x/cmp-treesitter',
       'andersevenrud/cmp-tmux',
       'petertriho/cmp-git',
@@ -1167,7 +1152,7 @@ M.plugin_list = {
     config = function()
       require('grug-far').setup({
         engine = 'ripgrep'
-      });
+      })
     end,
     cmd = { 'GrugFar' }
   },

@@ -97,7 +97,6 @@ function M.setup()
     },
     { name = 'emoji' },
     { name = 'tmux', keyword_length = 3, max_item_count = 10 },
-    { name = 'dictionary', keyword_length = 3 },
     { name = "crates" },
   }
 
@@ -143,7 +142,6 @@ function M.setup()
           look = '[Look]',
           emoji = '[Emoji]',
           treesitter = '[TreeSitter]',
-          dictionary = '[Dictionary]',
           tmux = '[Tmux]',
           git = '[Git]',
           crates = '[Crates]',
