@@ -98,6 +98,15 @@ function M.setup()
     { name = 'emoji' },
     { name = 'tmux', keyword_length = 3, max_item_count = 10 },
     { name = "crates" },
+    {
+      name = 'look',
+      keyword_length = 3,
+      option = {
+        convert_case = true,
+        loud = true
+        --dict = '/usr/share/dict/words'
+      }
+    },
   }
 
   cmp.setup({
@@ -145,6 +154,7 @@ function M.setup()
           tmux = '[Tmux]',
           git = '[Git]',
           crates = '[Crates]',
+          look = '[LOOK]',
         },
       }),
     },

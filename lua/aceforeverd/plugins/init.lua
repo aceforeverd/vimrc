@@ -425,6 +425,7 @@ M.plugin_list = {
       'petertriho/cmp-git',
       'saadparwaiz1/cmp_luasnip',
       'onsails/lspkind.nvim',
+      'octaltree/cmp-look',
     },
     event = 'InsertEnter',
     config = function()
