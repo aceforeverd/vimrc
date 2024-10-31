@@ -667,10 +667,10 @@ M.plugin_list = {
       })
     end,
     keys = {
-      { mode = { 'n', 'o', 'x' }, 'w', "<cmd>lua require('spider').motion('w')<CR>",  desc = 'Spider-w: next word'  },
-      { mode = { 'n', 'o', 'x' }, 'e', "<cmd>lua require('spider').motion('e')<CR>",  desc = 'Spider-e: end of word'  },
-      { mode = { 'n', 'o', 'x' }, 'b', "<cmd>lua require('spider').motion('b')<CR>",  desc = 'Spider-b: previous word'  },
-      { mode = { 'n', 'o', 'x' }, 'ge', "<cmd>lua require('spider').motion('ge')<CR>", desc = 'Spider-ge: previous end of word' },
+      { mode = { 'n', 'o', 'x' }, '<localleader>w', "<cmd>lua require('spider').motion('w')<CR>",  desc = 'Spider-w: next word'  },
+      { mode = { 'n', 'o', 'x' }, '<localleader>e', "<cmd>lua require('spider').motion('e')<CR>",  desc = 'Spider-e: end of word'  },
+      { mode = { 'n', 'o', 'x' }, '<localleader>b', "<cmd>lua require('spider').motion('b')<CR>",  desc = 'Spider-b: previous word'  },
+      { mode = { 'n', 'o', 'x' }, '<localleader>ge', "<cmd>lua require('spider').motion('ge')<CR>", desc = 'Spider-ge: previous end of word' },
     },
   },
 
