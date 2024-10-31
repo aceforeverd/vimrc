@@ -70,26 +70,26 @@ function M.telescope()
   local tel_map_list = {
     ['<space>'] = {
       ['<space>'] = [[<cmd>Telescope<CR>]],
-      ['b'] = "<cmd>lua require('telescope.builtin').buffers()<cr>",
-      ['c'] = "<cmd>lua require('telescope.builtin').commands()<cr>",
-      ['R'] = [[<cmd>lua require('telescope.builtin').live_grep{}<cr>]],
+      ['b'] = function() require('telescope.builtin').buffers() end,
+      ['c'] = function() require('telescope.builtin').commands() end,
+      ['R'] = function() require('telescope.builtin').live_grep{} end,
     },
     ['<leader>f'] = {
       -- general case
-      ['f'] = [[<Cmd>lua require('telescope.builtin').find_files()<CR>]],
-      ['e'] = [[<Cmd>lua require('telescope.builtin').grep_string{}<CR>]],
-      ['s'] = [[<cmd>lua require('telescope.builtin').spell_suggest()<CR>]],
-      ['o'] = [[<cmd>lua require("telescope").extensions.repo.list{}<cr>]],
-      ['r'] = [[<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>]],
-      ['j'] = [[<Cmd>lua require'telescope'.extensions.projects.projects{}<CR>]],
+      ['f'] = function() require('telescope.builtin').find_files() end,
+      ['e'] = function() require('telescope.builtin').grep_string{} end,
+      ['s'] = function() require('telescope.builtin').spell_suggest() end,
+      ['o'] = function() require("telescope").extensions.repo.list{} end,
+      ['r'] = function() require('telescope').extensions.frecency.frecency() end,
+      ['j'] = function() require'telescope'.extensions.projects.projects{} end,
 
-      ['I'] = "<cmd>lua require'telescope'.extensions.gh.issues()<cr>",
-      ['P'] = "<cmd>lua require'telescope'.extensions.gh.pull_request()<cr>",
-      ['R'] = "<cmd>lua require'telescope'.extensions.gh.run()<cr>",
-      ['G'] = "<cmd>lua require'telescope'.extensions.gh.gist()<cr>",
+      ['I'] = function() require'telescope'.extensions.gh.issues() end,
+      ['P'] = function() require'telescope'.extensions.gh.pull_request() end,
+      ['R'] = function() require'telescope'.extensions.gh.run() end,
+      ['G'] = function() require'telescope'.extensions.gh.gist() end,
 
-      ['z'] = '<cmd>lua require"telescope".extensions.zoxide.list{}<cr>',
-      ['l'] = [[<cmd>lua require"telescope".extensions.file_browser.file_browser()<cr>]],
+      ['z'] = function() require"telescope".extensions.zoxide.list{} end,
+      ['l'] = function() require"telescope".extensions.file_browser.file_browser() end,
     },
     ['<leader>q'] = {
       f = '<cmd>FzfLua quickfix<cr>',
@@ -98,8 +98,8 @@ function M.telescope()
     },
     ['<leader>l'] = {
       -- lsp
-      ['s'] = [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]],
-      ['S'] = [[<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>]],
+      ['s'] = function() require('telescope.builtin').lsp_document_symbols() end,
+      ['S'] = function() require('telescope.builtin').lsp_workspace_symbols() end,
     },
     ['<leader>g'] = {
       -- git ops
