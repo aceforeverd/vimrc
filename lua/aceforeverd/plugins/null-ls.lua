@@ -57,7 +57,12 @@ function M.setup()
     --   end,
     -- }),
     null_ls.builtins.diagnostics.vint,
-    null_ls.builtins.diagnostics.actionlint,
+    null_ls.builtins.diagnostics.actionlint.with({
+      condition = function(_)
+        -- matches directory starts with '.github/workflows'
+        return string.match(vim.fn.expand('%:h'), ".github/workflows") ~= nil
+      end
+    })
   }
 
   null_ls.setup({
