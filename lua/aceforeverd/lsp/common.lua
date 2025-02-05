@@ -123,7 +123,7 @@ end
 -- TODO: custom action list with all lsp function
 -- one keymap -> [all]
 
-local global_maps = {
+local lsp_global_maps = {
   n = {
     ['<c-k>'] = vim.diagnostic.goto_prev,
     ['<c-j>'] = vim.diagnostic.goto_next,
@@ -133,10 +133,19 @@ local global_maps = {
     ['<space>q'] = vim.diagnostic.setloclist,
     -- all diagnostic
     ['<space>a'] = vim.diagnostic.setqflist,
+    ['<space>I'] = function()
+      local enabled = vim.lsp.inlay_hint.is_enabled()
+      vim.lsp.inlay_hint.enable(not enabled)
+      if enabled then
+        vim.notify('inlay hint DISABLED!', vim.log.levels.INFO)
+      else
+        vim.notify('inlay hint ENABLED', vim.log.levels.INFO)
+      end
+    end
   },
 }
 
-local lsp_maps = {
+local lsp_buf_maps = {
   n = {
     ['gd'] = vim.lsp.buf.definition,
     ['gD'] = vim.lsp.buf.declaration,
@@ -162,6 +171,14 @@ local lsp_maps = {
 
     ['<Leader>ci'] = vim.lsp.buf.incoming_calls,
     ['<Leader>co'] = vim.lsp.buf.outgoing_calls,
+    ['<Leader>a'] = {
+      -- toggle lsp inlay hint on current buffer
+      ['i'] = function()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({
+          bufnr = 0,
+        }), { bufnr = 0 })
+      end,
+    },
 
     -- format whole buffer
     ['<space>F'] = M.lsp_fmt,
@@ -211,13 +228,13 @@ local lsp_maps = {
 }
 
 function M.keymaps()
-  require('aceforeverd.util.map').do_map(global_maps, { silent = true, noremap = true })
+  require('aceforeverd.util.map').do_map(lsp_global_maps, { silent = true, noremap = true })
 
   vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function(ev)
       local opts = { buffer = ev.buf, silent = true, noremap = true }
-      require('aceforeverd.util.map').do_map(lsp_maps, opts)
+      require('aceforeverd.util.map').do_map(lsp_buf_maps, opts)
     end,
   })
 end
