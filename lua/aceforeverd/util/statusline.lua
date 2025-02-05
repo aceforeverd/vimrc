@@ -17,11 +17,8 @@
 
 local M = {}
 
-local _get_active_client = function() return vim.lsp.buf_get_clients(0) end
-if vim.fn.has('nvim-0.8.0') == 1 then
-  _get_active_client = function ()
-    return vim.lsp.get_active_clients({ bufnr = 0 })
-  end
+local _get_active_client = function()
+  return vim.lsp.get_clients({ bufnr = 0 })
 end
 
 function M.indent()

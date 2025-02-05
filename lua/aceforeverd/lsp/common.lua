@@ -40,7 +40,7 @@ function M.selective_fmt(opts)
   if vim.fn.has('nvim-0.8.0') == 1 then
     local available_clients = vim.tbl_filter(function(elem)
       return elem.server_capabilities.documentFormattingProvider == true
-    end, vim.lsp.get_active_clients({ bufnr = 0 }))
+    end, vim.lsp.get_clients({ bufnr = 0 }))
 
     vim.ui.select(available_clients, {
       prompt = 'select a server:',
