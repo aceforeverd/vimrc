@@ -235,6 +235,9 @@ function M.keymaps()
     callback = function(ev)
       local opts = { buffer = ev.buf, silent = true, noremap = true }
       require('aceforeverd.util.map').do_map(lsp_buf_maps, opts)
+
+      -- enable inlay hint
+      vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
     end,
   })
 end
