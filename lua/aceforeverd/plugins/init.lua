@@ -1011,20 +1011,6 @@ M.plugin_list = {
       require('alpha').setup(cfg.config)
     end
   },
-
-  {
-    'freddiehaddad/feline.nvim',
-    dependencies = {
-      'nvim-tree/nvim-web-devicons',
-      'nvim-lua/lsp-status.nvim',
-    },
-    cond = function()
-      return vim.g.my_statusline == 'feline'
-    end,
-    config = function()
-      require('aceforeverd.apperance').feline()
-    end,
-  },
   {
     'nvim-lualine/lualine.nvim',
     dependencies = {
