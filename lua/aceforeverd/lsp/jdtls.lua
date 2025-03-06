@@ -101,7 +101,7 @@ function M.jdtls()
 
   -- Finding supported Java in sdkman
   -- or u can search in more locations
-  local javas = vim.fn.glob('~/.sdkman/candidates/java/{21,20,17,22,18,19}*', true, true)
+  local javas = vim.fn.glob('~/.sdkman/candidates/java/{21,22,23}*', true, true)
   local java_home
   if #javas > 0 then
     java_home = javas[1]
