@@ -47,16 +47,16 @@ end
 
 local jdtls_actions = {
   n = {
-    { name = 'organize imports', action = function() require('jdtls').organize_imports() end, },
-    { name = 'extract variable', action = function() require('jdtls').extract_variable() end, },
-    { name = 'extract constant', action = function() require('jdtls').extract_constant() end },
-    { name = 'test class', action = function() require('jdtls').test_class() end },
+    { name = 'organize imports',   action = function() require('jdtls').organize_imports() end, },
+    { name = 'extract variable',   action = function() require('jdtls').extract_variable() end, },
+    { name = 'extract constant',   action = function() require('jdtls').extract_constant() end },
+    { name = 'test class',         action = function() require('jdtls').test_class() end },
     { name = 'test nearest class', action = function() require('jdtls').test_nearest_method() end },
   },
   x = {
     { name = 'extract variable', action = function() require('jdtls').extract_variable(true) end },
     { name = 'extract constant', action = function() require('jdtls').extract_constant(true) end },
-    { name = 'extract method', action = function() require('jdtls').extract_method(true) end },
+    { name = 'extract method',   action = function() require('jdtls').extract_method(true) end },
   },
 }
 
@@ -67,9 +67,9 @@ local function call_jdtls_actions(mode)
       return item.name
     end,
   }, function(choice)
-      if choice ~= nil then
-        choice.action()
-      end
+    if choice ~= nil then
+      choice.action()
+    end
   end)
 end
 
@@ -78,7 +78,7 @@ function M.jdtls()
   local server = mason_registery.get_package('jdtls')
 
   if not server:is_installed() then
-    vim.api.nvim_notify('installing jdtls via lsp-installer', 2, {})
+    vim.notify('installing jdtls via mason', vim.log.levels.INFO, {})
     server:install()
   end
 
@@ -87,9 +87,9 @@ function M.jdtls()
 
   local jdtls = require('jdtls')
   local prj_root = require('aceforeverd.util').detect_root({
-    {'.jdtls-root'},
-    { 'mvnw',    'mvnw.cmd',    'gradlew', 'gradlew.bat' },
-    { 'pom.xml', 'build.gradle' },
+    { '.jdtls-root' },
+    { 'mvnw',       'mvnw.cmd',    'gradlew', 'gradlew.bat' },
+    { 'pom.xml',    'build.gradle' },
     { '.git' },
   })
 
@@ -120,11 +120,11 @@ function M.jdtls()
   end
 
   local config_path = vim.fn.stdpath('config')
-  local data_path = vim.fn.stdpath('data')
+  local jdtls_workspace_prefix = vim.fn.stdpath('cache')
 
   -- create the project data directory by the full path of java project
   local prj_name = vim.fn.substitute(vim.fn.fnamemodify(prj_root, ':p:h'), [[/\|\\\|\ \|:\|\.]], '', 'g')
-  local workspace_dir = data_path .. '/jdtls-ws/' .. prj_name
+  local workspace_dir = jdtls_workspace_prefix .. '/jdtls-ws/' .. prj_name
 
   local general_cfg = require('aceforeverd.lsp.common').general_cfg
 
@@ -140,14 +140,19 @@ function M.jdtls()
     end, { buffer = bufnr, noremap = true, desc = 'jdtls action' })
   end
 
-  local config = vim.tbl_deep_extend('force', {
+  local cmd = { 'jdtls', "-data", workspace_dir }
+  if vim.g.jdtls_legacy_script then
     cmd = {
       config_path .. '/bin/java-lsp',
       '-r', dir,
       '-c', dir .. '/' .. cfg_file,
       '-d', workspace_dir,
       '-j', java_home,
-    },
+    }
+  end
+
+  local config = vim.tbl_deep_extend('force', {
+    cmd = cmd,
     settings = {
       -- https://github.com/mfussenegger/dotfiles/blob/master/vim/.config/nvim/ftplugin/java.lua
       java = {
@@ -224,7 +229,8 @@ function M.jdtls()
   local java_debug = mason_registery.get_package('java-debug-adapter')
   if java_debug:is_installed() then
     local java_debug_jars =
-        vim.fn.glob(java_debug:get_install_path() .. '/extension/server/com.microsoft.java.debug.plugin-*.jar', true, true)
+        vim.fn.glob(java_debug:get_install_path() .. '/extension/server/com.microsoft.java.debug.plugin-*.jar', true,
+          true)
     for _, value in ipairs(java_debug_jars) do
       table.insert(config.init_options.bundles, value)
     end
