@@ -197,6 +197,7 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('fatih/vim-go', {'type': 'opt'})
     call s:plugin_add('neoclide/jsonc.vim')
     call s:plugin_add('MTDL9/vim-log-highlighting')
+    call s:plugin_add('grafana/vim-alloy')
 
     " vimL
     call s:plugin_add('tweekmonster/helpful.vim')

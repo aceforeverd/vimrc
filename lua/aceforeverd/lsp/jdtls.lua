@@ -15,21 +15,30 @@
 
 local M = {}
 
+local function jdk_major_version(dir)
+  local basename = vim.fs.basename(dir)
+  local version = nil
+  for v in string.gmatch(basename, '%d+') do
+    version = v
+    break
+  end
+
+  return version
+end
 
 local function search_jdk_runtimes()
   local runtimes = {}
   local sdkman_java_candidates = '~/.sdkman/candidates/java/'
-  local jdk_versions = { '8', '11', '17', '21', '22', '18' }
-  for _, version in ipairs(jdk_versions) do
-    local paths = vim.fn.glob(sdkman_java_candidates .. version .. '.*', true, true)
-    for _, jdk_path in ipairs(paths) do
-      -- https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
-      -- name is NOT arbitrary, go link above and search 'enum ExecutionEnvironment'
-      if version ~= '8' then
-        table.insert(runtimes, { name = 'JavaSE-' .. version, path = jdk_path })
-      else
-        table.insert(runtimes, { name = 'JavaSE-1.8', path = jdk_path })
-      end
+  local paths = vim.fn.glob(sdkman_java_candidates .. '*', true, true)
+  for _, jdk_path in ipairs(paths) do
+    -- https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+    -- name is NOT arbitrary, go link above and search 'enum ExecutionEnvironment'
+
+    local version = jdk_major_version(jdk_path)
+    if version == '8' then
+      table.insert(runtimes, { name = 'JavaSE-1.8', path = jdk_path })
+    elseif version ~= nil then
+      table.insert(runtimes, { name = 'JavaSE-' .. version, path = jdk_path })
     end
   end
 
@@ -140,7 +149,7 @@ function M.jdtls()
     end, { buffer = bufnr, noremap = true, desc = 'jdtls action' })
   end
 
-  local cmd = { 'jdtls', "-data", workspace_dir }
+  local cmd = { 'jdtls', '-data', workspace_dir, '--java-executable', java_home .. '/bin/java' }
   if vim.g.jdtls_legacy_script then
     cmd = {
       config_path .. '/bin/java-lsp',
