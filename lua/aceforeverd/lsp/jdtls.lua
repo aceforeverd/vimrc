@@ -82,6 +82,19 @@ local function call_jdtls_actions(mode)
   end)
 end
 
+local function lombok_jvm_args(dir)
+  local lomboks = vim.fn.glob(dir .. "/lombok*.jar", true, true)
+  if #lomboks > 0 then
+    local lombok_file = lomboks[1]
+    return {
+      "-javaagent:" .. lombok_file,
+      "-Xbootclasspath/a:" .. lombok_file,
+    }
+  end
+
+  return {}
+end
+
 function M.jdtls()
   local mason_registery = require('mason-registry')
   local server = mason_registery.get_package('jdtls')
@@ -150,6 +163,10 @@ function M.jdtls()
   end
 
   local cmd = { 'jdtls', '-data', workspace_dir, '--java-executable', java_home .. '/bin/java' }
+  local lombok_args = lombok_jvm_args(dir)
+  for _, value in ipairs(lombok_args) do
+    table.insert(cmd, '--jvm-arg=' .. value)
+  end
   if vim.g.jdtls_legacy_script then
     cmd = {
       config_path .. '/bin/java-lsp',
