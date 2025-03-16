@@ -26,6 +26,58 @@ local function jdk_major_version(dir)
   return version
 end
 
+local function cfg_file()
+  if vim.fn.has('mac') == 1 then
+    return 'config_mac'
+  elseif vim.fn.has('unix') == 1 then
+    return 'config_linux'
+  else
+    vim.notify('Unsupported system', vim.log.levels.ERROR, {})
+    return nil
+  end
+end
+
+--- extract major version of java exe
+--- @return number|nil
+local function extract_jdk_major(java_exe)
+  local out = vim.fn.systemlist ({java_exe , '--version'})
+  if #out == 0 then
+    return nil
+  end
+  local version_line = out[1]
+  local matches = vim.fn.matchlist(version_line, [[\v(\d+)\.(\d+)\.(\d+(_\d+)?)]])
+  if #matches < 2 then
+    return nil
+  end
+
+  return tonumber(matches[2])
+end
+
+--- valid if the java is sufficient to run jdtls
+---@param java_exe string path to java
+---@return boolean
+local function valid_java_version(java_exe)
+  local major = extract_jdk_major(java_exe)
+  return major ~= nil and major >= 21
+end
+
+--- search JDK sufficient running jdtls. Currently we looking for jdks in sdkamn and system wide
+--- @return string|nil # sufficient jdk path if found
+local function search_jdk_for_jdtls()
+  local javas = vim.fn.glob('~/.sdkman/candidates/java/{21,22,23}*', true, true)
+  if #javas > 0 then
+    return javas[1]
+  else
+    local java_home = os.getenv('JAVA_HOME')
+    if valid_java_version(java_home .. '/bin/java') then
+      return java_home
+    end
+
+  end
+
+  return nil
+end
+
 local function search_jdk_runtimes()
   local runtimes = {}
   local sdkman_java_candidates = '~/.sdkman/candidates/java/'
@@ -46,8 +98,8 @@ local function search_jdk_runtimes()
     -- system default
     local system_default = vim.fn.system({ 'java-config', '-O' })
     if vim.v.shell_error == 0 and system_default ~= nil then
-      -- TODO: extract jdk version
-      table.insert(runtimes, { name = 'JavaSE-17', path = string.gsub(system_default, '%s+$', '') })
+      local ver = extract_jdk_major(string.gsub(system_default, '%s+', '') .. '/bin/java')
+      table.insert(runtimes, { name = 'JavaSE-' .. ver, path = string.gsub(system_default, '%s+$', '') })
     end
   end
 
@@ -121,26 +173,6 @@ function M.jdtls()
   -- https://github.com/eclipse/eclipse.jdt.ls/pull/2030#issuecomment-1210815017
   extendedClientCapabilities.progressReportProvider = false
 
-  -- Finding supported Java in sdkman
-  -- or u can search in more locations
-  local javas = vim.fn.glob('~/.sdkman/candidates/java/{21,22,23}*', true, true)
-  local java_home
-  if #javas > 0 then
-    java_home = javas[1]
-  else
-    java_home = os.getenv('JAVA_HOME')
-  end
-
-  local cfg_file
-  if vim.fn.has('mac') == 1 then
-    cfg_file = 'config_mac'
-  elseif vim.fn.has('unix') == 1 then
-    cfg_file = 'config_linux'
-  else
-    vim.api.nvim_notify('Unsupported system', 4, {})
-    return
-  end
-
   local config_path = vim.fn.stdpath('config')
   local jdtls_workspace_prefix = vim.fn.stdpath('cache')
 
@@ -162,7 +194,12 @@ function M.jdtls()
     end, { buffer = bufnr, noremap = true, desc = 'jdtls action' })
   end
 
-  local cmd = { 'jdtls', '-data', workspace_dir, '--java-executable', java_home .. '/bin/java' }
+  local maybe_java_home = search_jdk_for_jdtls()
+  if maybe_java_home == nil then
+    vim.notify('no sufficient JDK found for jdtls, hint jdtls require jdk >= 21', vim.log.levels.WARN, {})
+    return
+  end
+  local cmd = { 'jdtls', '-data', workspace_dir, '--java-executable', maybe_java_home .. '/bin/java' }
   local lombok_args = lombok_jvm_args(dir)
   for _, value in ipairs(lombok_args) do
     table.insert(cmd, '--jvm-arg=' .. value)
@@ -171,9 +208,9 @@ function M.jdtls()
     cmd = {
       config_path .. '/bin/java-lsp',
       '-r', dir,
-      '-c', dir .. '/' .. cfg_file,
+      '-c', dir .. '/' .. cfg_file(),
       '-d', workspace_dir,
-      '-j', java_home,
+      '-j', maybe_java_home,
     }
   end
 
