@@ -514,9 +514,9 @@ M.plugin_list = {
     'windwp/nvim-ts-autotag',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
-      -- treesitter removes xml, fallback to tagalong
-      -- TODO: udpate the list where nvim-ts-autotag not support
-      -- vim.g.tagalong_filetypes = { 'xml' }
+      -- still issue on tag rename for xml, fallback to tagalone
+      vim.g.tagalong_filetypes = { 'xml' }
+
       require('nvim-ts-autotag').setup({
         opts = {
           -- Defaults
@@ -1180,6 +1180,11 @@ M.plugin_list = {
     end,
     cmd = { 'GrugFar' }
   },
+
+  {
+    'folke/snacks.nvim',
+    lazy = true,
+  }
 
 }
 
