@@ -481,14 +481,51 @@ M.plugin_list = {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
-      'RRethy/nvim-treesitter-textsubjects',
-      'RRethy/nvim-treesitter-endwise',
-      'windwp/nvim-ts-autotag',
     },
     build = ':TSUpdate',
     config = function()
       require('aceforeverd.config').treesitter()
     end,
+  },
+  {
+    'RRethy/nvim-treesitter-endwise',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    init = function()
+      -- disable vim-endwise
+      vim.g.loaded_endwise = 1
+    end
+  },
+  {
+    'RRethy/nvim-treesitter-textsubjects',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require('nvim-treesitter-textsubjects').configure({
+        prev_selection = ',',
+        keymaps = {
+          -- omap
+          ['.'] = 'textsubjects-smart',
+          ['a.'] = 'textsubjects-container-outer',
+          ['i.'] = 'textsubjects-container-inner',
+        },
+      })
+    end
+  },
+  {
+    'windwp/nvim-ts-autotag',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      -- treesitter removes xml, fallback to tagalong
+      -- TODO: udpate the list where nvim-ts-autotag not support
+      -- vim.g.tagalong_filetypes = { 'xml' }
+      require('nvim-ts-autotag').setup({
+        opts = {
+          -- Defaults
+          enable_close = true,          -- Auto close tags
+          enable_rename = true,         -- Auto rename pairs of tags
+          enable_close_on_slash = true -- Auto close on trailing </
+        }
+      })
+    end
   },
   {
     'JoosepAlviste/nvim-ts-context-commentstring',

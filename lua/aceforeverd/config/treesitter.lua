@@ -15,12 +15,9 @@
 local M = {}
 
 function M.setup()
-  vim.g.loaded_endwise = 1
-  -- treesitter removes xml, fallback to tagalong
-  -- TODO: udpate the list where nvim-ts-autotag not support
-  vim.g.tagalong_filetypes = { 'xml' }
 
   local hi_disable_fts = { 'yaml', 'coc-explorer', 'cmake' }
+  local hi_max_filesize = 100 * 1024 -- 100 KB
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
     ignore_install = {
@@ -33,9 +30,8 @@ function M.setup()
         if vim.tbl_contains(hi_disable_fts, lang) then
           return true
         end
-        local max_filesize = 100 * 1024 -- 100 KB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-        if ok and stats and stats.size > max_filesize then
+        if ok and stats and stats.size > hi_max_filesize then
           return true
         end
         return false
@@ -162,22 +158,6 @@ function M.setup()
           ['<leader>dF'] = '@class.outer',
         },
       },
-    },
-    textsubjects = {
-      enable = true,
-      prev_selection = ',',
-      keymaps = {
-        -- omap
-        ['.'] = 'textsubjects-smart',
-        ['a.'] = 'textsubjects-container-outer',
-        ['i.'] = 'textsubjects-container-inner',
-      },
-    },
-    endwise = {
-      enable = true,
-    },
-    autotag = {
-      enable = true,
     },
   })
 
