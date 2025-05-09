@@ -36,7 +36,9 @@ function M.setup()
   -- Mason.nvim
   -- Easily install lsp servers, dap servers, linters and formaters
   require('mason').setup()
-  require('mason-lspconfig').setup()
+  require('mason-lspconfig').setup(
+    { automatic_enable = false }
+  )
 end
 
 return M
