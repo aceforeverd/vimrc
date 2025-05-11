@@ -73,9 +73,11 @@ return {
       offsetEncoding = { 'utf-16' },
     })
 
-    local clangd_handlers = vim.tbl_deep_extend('error', general_lsp_config.handlers, lsp_status.extensions.clangd.setup())
+    local clangd_handlers =
+      vim.tbl_deep_extend('error', general_lsp_config.handlers, lsp_status.extensions.clangd.setup())
     -- use lsp-status's handler, disabling fidget
-    clangd_handlers['$/progress'] = require('lsp-status.util').mk_handler(require('lsp-status.messaging').progress_callback)
+    clangd_handlers['$/progress'] =
+      require('lsp-status.util').mk_handler(require('lsp-status.messaging').progress_callback)
 
     local clangd_cfg = {
       on_attach = function(client, bufnr)
@@ -112,7 +114,7 @@ return {
         '--clang-tidy',
         '--all-scopes-completion',
         '--header-insertion-decorators',
-        '--enable-config'
+        '--enable-config',
       },
     }
     lspconfig[name].setup(clangd_cfg)
@@ -134,10 +136,22 @@ return {
   yamlls = setup_generalized_with_override({
     settings = {
       yaml = {
+        schemaStore = {
+          enable = true
+        },
+        -- or setup with inlined schema: https://github.com/redhat-developer/yaml-language-server?tab=readme-ov-file#using-inlined-schema
+        -- format: # yaml-language-server: $schema=<urlToTheSchema>
         schemas = {
           -- check default in https://github.com/SchemaStore/schemastore/blob/master/src/api/json/catalog.json
-          ['https://json.schemastore.org/github-workflow.json'] = '/.github/workflows/*',
-          ['https://json.schemastore.org/prometheus.json'] = { 'prometheus*.yml', 'prometheus*.yaml' },
+          kubernetes = { "k8s-*.{yaml,yml}", "*-k8s.{yaml,yml}" },
+          ["https://json.schemastore.org/github-workflow"] = ".github/workflows/*",
+          ["https://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
+          ["https://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/**/*.{yml,yaml}",
+          ["https://json.schemastore.org/prettierrc"] = ".prettierrc.{yml,yaml}",
+          ["https://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
+          ["https://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
+          ["https://json.schemastore.org/circleciconfig"] = ".circleci/**/*.{yml,yaml}",
+          ['https://json.schemastore.org/prometheus'] = { 'prometheus*.yml', 'prometheus*.yaml' },
         },
       },
     },

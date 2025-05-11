@@ -58,7 +58,9 @@ function M.setup()
     sections = {
       lualine_a = {
         'mode',
-        function() return vim.fn['aceforeverd#statusline#props']() end
+        function()
+          return vim.fn['aceforeverd#statusline#props']()
+        end,
       },
       lualine_b = {
         'branch',
@@ -92,7 +94,20 @@ function M.setup()
           color = { fg = '#fda5b4' },
         },
         { require('aceforeverd.util.statusline').tag_status },
-        'filetype',
+        {
+          function()
+            local ft = vim.bo.filetype
+            if ft == 'yaml' then
+              -- add yaml extensions
+              local sc = require('aceforeverd.lsp.yaml').get_schema(0)
+              if sc and sc ~= "" then
+                ft = string.format('%s[%s]', ft, sc)
+              end
+            end
+
+            return ft
+          end,
+        },
         { require('aceforeverd.util.statusline').indent },
         {
           'vim.bo.spelllang',
