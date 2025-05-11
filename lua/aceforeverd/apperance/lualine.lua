@@ -99,7 +99,7 @@ function M.setup()
             local ft = vim.bo.filetype
             if ft == 'yaml' then
               -- add yaml extensions
-              local sc = require('aceforeverd.lsp.yaml').get_schema(0)
+              local sc = require('aceforeverd.lsp.yaml').get_schema()
               if sc and sc ~= "" then
                 ft = string.format('%s[%s]', ft, sc)
               end
