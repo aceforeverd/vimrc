@@ -26,6 +26,10 @@ local function jdk_major_version(dir)
   return version
 end
 
+local function get_mason_package(pkg_name)
+  return vim.fn.expand("$MASON/packages/" .. pkg_name)
+end
+
 local function cfg_file()
   if vim.fn.has('mac') == 1 then
     return 'config_mac'
@@ -157,7 +161,7 @@ function M.jdtls()
   end
 
   -- dir should be absolute path
-  local dir = server:get_install_path()
+  local dir = get_mason_package('jdtls')
 
   local jdtls = require('jdtls')
   local prj_root = require('aceforeverd.util').detect_root({
@@ -283,7 +287,7 @@ function M.jdtls()
 
   local java_test = mason_registery.get_package('java-test')
   if java_test:is_installed() then
-    local java_test_jars = vim.fn.glob(java_test:get_install_path() .. '/extension/server/*.jar', true, true)
+    local java_test_jars = vim.fn.glob(get_mason_package('java-test') .. '/extension/server/*.jar', true, true)
     for _, value in ipairs(java_test_jars) do
       table.insert(config.init_options.bundles, value)
     end
@@ -292,7 +296,7 @@ function M.jdtls()
   local java_debug = mason_registery.get_package('java-debug-adapter')
   if java_debug:is_installed() then
     local java_debug_jars =
-        vim.fn.glob(java_debug:get_install_path() .. '/extension/server/com.microsoft.java.debug.plugin-*.jar', true,
+        vim.fn.glob(get_mason_package('java-debug-adapter') .. '/extension/server/com.microsoft.java.debug.plugin-*.jar', true,
           true)
     for _, value in ipairs(java_debug_jars) do
       table.insert(config.init_options.bundles, value)
