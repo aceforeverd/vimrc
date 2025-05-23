@@ -73,7 +73,7 @@ function M.substitute()
     x = {
       ['<leader>s'] = [[<cmd>lua require('substitute').visual()<cr>]],
     },
-  }, { nnoremap = true })
+  }, { noremap = true })
 end
 
 function M.toggle_term()

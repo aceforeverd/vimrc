@@ -15,6 +15,18 @@
 
 local M = {}
 
+-- basic border, check :help nvim_open_win()
+local border = {
+  { '╭', 'FloatBorder' },
+  { '─', 'FloatBorder' },
+  { '╮', 'FloatBorder' },
+  { '│', 'FloatBorder' },
+  { '╯', 'FloatBorder' },
+  { '─', 'FloatBorder' },
+  { '╰', 'FloatBorder' },
+  { '│', 'FloatBorder' },
+}
+
 --- request format from lsp server
 --
 ---@param opts (table|nil)
@@ -125,8 +137,8 @@ end
 
 local lsp_global_maps = {
   n = {
-    ['<c-k>'] = vim.diagnostic.goto_prev,
-    ['<c-j>'] = vim.diagnostic.goto_next,
+    ['<c-k>'] = function() vim.diagnostic.jump({count = 1, float = true}) end,
+    ['<c-j>'] = function() vim.diagnostic.jump({count = -1, float = true}) end,
 
     ['<space>dp'] = vim.diagnostic.open_float,
     -- buffer local diagnostic
@@ -153,8 +165,8 @@ local lsp_buf_maps = {
       require('telescope.builtin').lsp_implementations()
     end,
     ['gr'] = [[<cmd>FzfLua lsp_references<CR>]],
-    ['K'] = vim.lsp.buf.hover,
-    ['gK'] = vim.lsp.buf.signature_help,
+    ['K'] = function() vim.lsp.buf.hover({border = border, title = 'Hover'}) end,
+    ['gK'] = function() vim.lsp.buf.signature_help({border = border, title = 'Signature Help'}) end,
     ['<leader>gd'] = function()
       require('telescope.builtin').lsp_definitions()
     end,
@@ -251,17 +263,6 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 M.capabilities = capabilities
 
--- basic border, check :help nvim_open_win()
-local border = {
-  { '╭', 'FloatBorder' },
-  { '─', 'FloatBorder' },
-  { '╮', 'FloatBorder' },
-  { '│', 'FloatBorder' },
-  { '╯', 'FloatBorder' },
-  { '─', 'FloatBorder' },
-  { '╰', 'FloatBorder' },
-  { '│', 'FloatBorder' },
-}
 
 local severity_emoji_map = {
   [vim.diagnostic.severity.ERROR] = '😡',
@@ -286,6 +287,7 @@ end
 local suffix_fn = function(diagnostic)
   return severity_emoji_map[diagnostic.severity]
 end
+
 local pub_diag_config = { virtual_text = true, signs = true, underline = true, update_in_insert = false }
 if vim.fn.has('nvim-0.6.0') == 1 then
   pub_diag_config = vim.tbl_deep_extend('force', pub_diag_config, {
@@ -325,8 +327,8 @@ end
 
 M.handlers = {
   ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, pub_diag_config),
-  ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-  ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+  -- ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+  -- ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.buf.signature_help, { border = border }),
 }
 
 M.general_cfg = {

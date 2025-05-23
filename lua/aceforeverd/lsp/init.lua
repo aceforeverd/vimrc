@@ -23,7 +23,7 @@ function M.setup()
   end
 
   if vim.fn.has('mac') ~= 1 and vim.fn.has('unix') ~= 1 then
-    vim.api.nvim_notify('Unsupported system', 3, {})
+    vim.notify('Unsupported system', 3, {})
     return
   end
 
@@ -42,44 +42,39 @@ function M.setup()
   -- so they will inherit lsp-insatller settings, picking up the correct lsp program
   require('aceforeverd.lsp.installer').setup()
 
+  -- general lsp setup for all
+  vim.lsp.config('*', require('aceforeverd.lsp.common').general_cfg)
+
+  -- extra lsp cfg for each lsp server
   local cfgs = require('aceforeverd.lsp.servers')
-  for name, fn in pairs(cfgs) do
-    fn(name)
+  for name, cfg_override in pairs(cfgs) do
+    if type(cfg_override) == 'table' then
+      vim.lsp.config(name, cfg_override)
+    elseif type(cfg_override) == 'function' then
+      vim.lsp.config(name, cfg_override())
+    else -- just assume no extra config apply
+    end
+    vim.lsp.enable(name)
   end
 end
 
 function M.go()
-  local go_cfg = require('aceforeverd.lsp.common').general_cfg
-  -- https://github.com/ray-x/go.nvim?tab=readme-ov-file#nvim-lsp-setup
-  go_cfg.settings = {
-    gopls = {
-      -- more settings: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
-      analyses = {
-        unreachable = true,
-        nilness = true,
-        unusedparams = true,
-        useany = true,
-        unusedwrite = true,
-        ST1003 = true,
-        undeclaredname = true,
-        fillreturns = true,
-        nonewvars = true,
-        fieldalignment = true,
-        shadow = true,
-      },
-    },
-  }
-  go_cfg.capabilities.textDocument.completion.dynamicRegistration = true
-
   -- :GoInstallBinaries
   require('go').setup({
-    lsp_cfg = go_cfg,
+    lsp_cfg = false,
     textobjects = false,
     lsp_keymaps = false,
+    diagnostic = false, -- not conflict with global diagnostic
     lsp_inlay_hints = {
       highlight = 'LspInlayHint',
     },
   })
+
+  local go_cfg = require('go.lsp').config()
+  -- https://github.com/ray-x/go.nvim?tab=readme-ov-file#nvim-lsp-setup
+  go_cfg.settings.gopls.analyses.fieldalignment = false
+  vim.lsp.config('gopls', go_cfg)
+  vim.lsp.enable('gopls')
 end
 
 M.jdtls = require('aceforeverd.lsp.jdtls').setup

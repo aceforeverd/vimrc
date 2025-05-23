@@ -37,7 +37,7 @@ function M.ufo()
     })
 end
 
-local set_map = vim.api.nvim_set_keymap
+local set_map = vim.keymap.set
 local map_opt = { noremap = false, silent = true }
 
 

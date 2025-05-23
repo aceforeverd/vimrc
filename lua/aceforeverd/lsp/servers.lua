@@ -15,41 +15,7 @@
 
 -- LSP server configurations
 
-local lspconfig = require('lspconfig')
 local general_lsp_config = require('aceforeverd.lsp.common').general_cfg
-
--- for those do not need extra configs in lsp-config setup, use this generalized one
-local function setup_generalized(name)
-  lspconfig[name].setup(general_lsp_config)
-end
-
--- @param cfg_override lsp configuration override, can be
---   1. table
---   2. function: return the override table
-local function setup_generalized_with_override(cfg_override)
-  return function(server_name)
-    local override = {}
-    if type(cfg_override) == 'table' then
-      if type(cfg_override.on_attach) == 'function' then
-        -- extend the function
-        local extra_on_attach = cfg_override.on_attach
-        if type(extra_on_attach) == 'function' then
-          cfg_override.on_attach = function(client, bufnr)
-            general_lsp_config.on_attach(client, bufnr)
-            extra_on_attach(client, bufnr)
-          end
-        end
-      end
-      override = vim.tbl_deep_extend('force', general_lsp_config, cfg_override)
-    elseif type(cfg_override) == 'function' then
-      override = vim.tbl_deep_extend('force', general_lsp_config, cfg_override())
-    elseif type(cfg_override) == 'nil' then
-      override = general_lsp_config
-    end
-
-    lspconfig[server_name].setup(override)
-  end
-end
 
 local html_cfg = {
   capabilities = {
@@ -62,16 +28,10 @@ local html_cfg = {
 }
 
 return {
-  clangd = function(name)
+  clangd = function()
     local on_attach = general_lsp_config.on_attach
-    local capabilities = general_lsp_config.capabilities
 
     local lsp_status = require('lsp-status')
-
-    local clangd_caps = vim.tbl_deep_extend('force', capabilities, {
-      -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428#issuecomment-997226723
-      offsetEncoding = { 'utf-16' },
-    })
 
     local clangd_handlers =
       vim.tbl_deep_extend('error', general_lsp_config.handlers, lsp_status.extensions.clangd.setup())
@@ -79,7 +39,7 @@ return {
     clangd_handlers['$/progress'] =
       require('lsp-status.util').mk_handler(require('lsp-status.messaging').progress_callback)
 
-    local clangd_cfg = {
+    return {
       on_attach = function(client, bufnr)
         on_attach(client, bufnr)
         vim.keymap.set(
@@ -105,7 +65,10 @@ return {
         -- clangd file status is not LSP [progress protocal](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#workDoneProgress) so only lsp-status handle it
         lsp_status.on_attach(client)
       end,
-      capabilities = clangd_caps,
+      capabilities = {
+        -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428#issuecomment-997226723
+        offsetEncoding = { 'utf-16' },
+      },
       handlers = clangd_handlers,
       init_options = { clangdFileStatus = true },
       cmd = {
@@ -117,26 +80,23 @@ return {
         '--enable-config',
       },
     }
-    lspconfig[name].setup(clangd_cfg)
   end,
-  lua_ls = function(name)
-    setup_generalized_with_override({
-      settings = {
-        Lua = {
-          workspace = {
-            checkThirdParty = false,
-          },
-          telemetry = {
-            enable = false,
-          },
+  lua_ls = {
+    settings = {
+      Lua = {
+        workspace = {
+          checkThirdParty = false,
+        },
+        telemetry = {
+          enable = false,
         },
       },
-    })(name)
-  end,
-  yamlls = setup_generalized_with_override(require('aceforeverd.lsp.yaml').lsp_cfg),
-  html = setup_generalized_with_override(html_cfg),
-  cssls = setup_generalized_with_override(html_cfg),
-  jsonls = setup_generalized_with_override(vim.tbl_deep_extend('force', html_cfg, {
+    },
+  },
+  yamlls = require('aceforeverd.lsp.yaml').lsp_cfg,
+  html = html_cfg,
+  cssls = html_cfg,
+  jsonls = vim.tbl_deep_extend('force', html_cfg, {
     commands = {
       JsonFormat = {
         function()
@@ -150,21 +110,21 @@ return {
         validate = { enable = true },
       },
     },
-  })),
-  bashls = setup_generalized,
-  pyright = setup_generalized,
-  neocmake = setup_generalized,
-  lemminx = setup_generalized,
-  vimls = setup_generalized,
-  dockerls = setup_generalized,
-  tailwindcss = setup_generalized,
-  ts_ls = setup_generalized,
-  -- remark_ls = setup_generalized,
-  taplo = setup_generalized,
-  jsonnet_ls = setup_generalized,
-  docker_compose_language_service = setup_generalized_with_override({
+  }),
+  bashls = nil,
+  pyright = nil,
+  neocmake = nil,
+  lemminx = nil,
+  vimls = nil,
+  dockerls = nil,
+  tailwindcss = nil,
+  ts_ls = nil,
+  -- remark_ls = nil,
+  taplo = nil,
+  jsonnet_ls = nil,
+  docker_compose_language_service = {
     filetypes = { 'yaml.docker-compose' },
     root_dir = require('lspconfig.util').root_pattern('docker-compose*.yml', 'docker-compose*.yaml'),
-  }),
-  diagnosticls = setup_generalized_with_override(require('aceforeverd.lsp.diagnosticls').get_config()),
+  },
+  diagnosticls = require('aceforeverd.lsp.diagnosticls').get_config(),
 }

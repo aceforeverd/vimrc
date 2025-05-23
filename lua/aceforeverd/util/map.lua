@@ -22,7 +22,7 @@ local M = {}
 ---@param map_opts {}
 function M.do_map(map_list, map_opts)
   if type(map_list) ~= "table" then
-    vim.api.nvim_notify('[skip]: map_list not a table: ' .. vim.inspect(map_list), vim.log.levels.WARN, {})
+    vim.notify('[skip]: map_list not a table: ' .. vim.inspect(map_list), vim.log.levels.WARN, {})
   end
 
   for k, v in pairs(map_list) do
@@ -33,12 +33,12 @@ end
 
 function M.do_mode_map(mode, prefix, map_list, map_opts)
   if type(prefix) ~= 'string' then
-    vim.api.nvim_notify('[skip]: prefix is not string', vim.log.levels.WARN, {})
+    vim.notify('[skip]: prefix is not string', vim.log.levels.WARN, {})
   end
 
   if type(map_list) == 'table' then
     for key, value in pairs(map_list) do
-      M.do_mode_map(mode, prefix .. key, value)
+      M.do_mode_map(mode, prefix .. key, value, map_opts)
     end
   else
     vim.keymap.set(mode, prefix, map_list, map_opts or {})
