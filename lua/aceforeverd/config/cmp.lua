@@ -148,7 +148,6 @@ function M.setup()
           luasnip = '[LuaSnip]',
           buffer = '[Buffer]',
           path = '[Path]',
-          look = '[Look]',
           emoji = '[Emoji]',
           treesitter = '[TreeSitter]',
           tmux = '[Tmux]',

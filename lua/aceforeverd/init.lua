@@ -37,6 +37,8 @@ function M.setup()
   vim.o.foldenable = true
   vim.o.fillchars = [[foldopen:▼,foldclose:▶]]
   vim.o.exrc = true -- automatically execute project local configs
+  vim.o.winblend = 10
+  vim.o.winborder = 'rounded'
 
   vim.filetype.add({
     filename = {
