@@ -27,9 +27,6 @@ function M.setup()
     return
   end
 
-  -- basic settings
-  vim.o.pumblend = 20
-
   require('aceforeverd.lsp.diagnostic').diagnostics_config()
   require('aceforeverd.lsp.common').keymaps()
 
