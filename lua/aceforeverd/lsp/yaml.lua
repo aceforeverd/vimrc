@@ -90,7 +90,7 @@ function M.select_schema()
 
   local cur_sc = M.get_schema()
 
-  local resp, err = yamlls_client.request_sync("yaml/get/all/jsonSchemas", { vim.uri_from_bufnr(0) })
+  local resp, err = yamlls_client.request_sync("yaml/get/all/jsonSchemas", {})
   if err then
     vim.notify(err, vim.log.levels.WARN, {})
     return
