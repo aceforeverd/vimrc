@@ -16,6 +16,30 @@
 
 local M = {}
 
+--- extract rhs for vim.keymap.set if present, return nil otherwise
+---@param input {}
+local function get_map_rhs(input)
+  if input[1] ~= nil then
+    return input[1]
+  end
+  if input['rhs'] ~= nil then
+    return input['rhs']
+  end
+  return nil
+end
+
+--- extract opts for vim.keymap.set if present, return nil otherwise
+---@param input {}
+local function get_map_opts(input)
+  if input[2] ~= nil then
+    return input[2]
+  end
+  if input['opts'] ~= nil then
+    return input['opts']
+  end
+  return nil
+end
+
 --- create map based on a table
 ---@param map_list {} first level key should be vim mode name, e.g 'n', 'v'
 --                      TODO: for nvim >= 0.7, first level key can be a list e.g { 'n', 'x' }
@@ -36,9 +60,27 @@ function M.do_mode_map(mode, prefix, map_list, map_opts)
     vim.notify('[skip]: prefix is not string', vim.log.levels.WARN, {})
   end
 
-  if type(map_list) == 'table' then
-    for key, value in pairs(map_list) do
-      M.do_mode_map(mode, prefix .. key, value, map_opts)
+  local rhs_type = type(map_list)
+  if rhs_type == 'table' then
+    local rhs = get_map_rhs(map_list)
+    if rhs ~= nil then
+      -- format:
+      --   {[rhs_key=]<rhs>, [[opts_key=]<opts>]}
+      --
+      -- rhs_key:
+      --   '1' | 'rhs'
+      --
+      -- opts_key:
+      --   '2' | 'opts'
+      --
+      -- notations:
+      --     [...] means this part is optional
+      local opts = vim.tbl_deep_extend('force', map_opts or {}, get_map_opts(map_list) or {})
+      vim.keymap.set(mode, prefix, rhs, opts)
+    else
+      for key, value in pairs(map_list) do
+        M.do_mode_map(mode, prefix .. key, value, map_opts)
+      end
     end
   else
     vim.keymap.set(mode, prefix, map_list, map_opts or {})

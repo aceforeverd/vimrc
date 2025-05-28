@@ -138,8 +138,12 @@ end
 
 local lsp_global_maps = {
   n = {
-    ['<c-k>'] = function() vim.diagnostic.jump({ count = -1, float = true }) end,
-    ['<c-j>'] = function() vim.diagnostic.jump({ count = 1, float = true }) end,
+    ['<c-k>'] = function()
+      vim.diagnostic.jump({ count = -1, float = true })
+    end,
+    ['<c-j>'] = function()
+      vim.diagnostic.jump({ count = 1, float = true })
+    end,
 
     ['<space>dp'] = vim.diagnostic.open_float,
     -- buffer local diagnostic
@@ -160,38 +164,61 @@ local lsp_global_maps = {
 
 local lsp_buf_maps = {
   n = {
-    ['gd'] = vim.lsp.buf.definition,
-    ['gD'] = vim.lsp.buf.declaration,
-    ['gi'] = function()
-      require('telescope.builtin').lsp_implementations()
-    end,
-    ['gr'] = [[<cmd>FzfLua lsp_references<CR>]],
+    ['gd'] = { vim.lsp.buf.definition, { desc = 'go to definition' } },
+    ['gD'] = { vim.lsp.buf.declaration, opts = { desc = 'go to declaration' } },
+    ['gi'] = {
+      function()
+        require('telescope.builtin').lsp_implementations()
+      end,
+      { desc = '[telescope] implementations' },
+    },
+    ['gr'] = { [[<cmd>FzfLua lsp_references<CR>]], { desc = 'lsp references' } },
     -- NOTE: hit 'K' again to jump to the float window
-    ['K'] = function() vim.lsp.buf.hover({ border = border, title = 'LSP Hover' }) end,
-    ['gK'] = function() vim.lsp.buf.signature_help({ border = border, title = 'LSP Signature Help' }) end,
-    ['<leader>gd'] = function()
-      require('telescope.builtin').lsp_definitions()
-    end,
-    ['<leader>gi'] = vim.lsp.buf.implementation,
-    ['<leader>gr'] = vim.lsp.buf.references,
-    ['<Leader>wa'] = vim.lsp.buf.add_workspace_folder,
-    ['<Leader>wr'] = vim.lsp.buf.remove_workspace_folder,
-    ['<Leader>wl'] = function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end,
-    ['<Leader>D'] = vim.lsp.buf.type_definition,
-    ['<Leader>rn'] = vim.lsp.buf.rename,
-    ['<Leader>ca'] = vim.lsp.buf.code_action,
+    ['K'] = {
+      function()
+        vim.lsp.buf.hover({ border = border, title = 'LSP Hover' })
+      end,
+      { desc = 'hover' },
+    },
+    ['gK'] = {
+      function()
+        vim.lsp.buf.signature_help({ border = border, title = 'LSP Signature Help' })
+      end,
+      { desc = 'signature help' },
+    },
+    ['<leader>gd'] = {
+      function()
+        require('telescope.builtin').lsp_definitions()
+      end,
+      { desc = 'telescope lsp definitions' },
+    },
+    ['<leader>gi'] = { vim.lsp.buf.implementation, { desc = 'implementations' } },
+    ['<leader>gr'] = { vim.lsp.buf.references, { desc = 'references' } },
+    ['<Leader>wa'] = { vim.lsp.buf.add_workspace_folder, { desc = 'add workspace folder' } },
+    ['<Leader>wr'] = { vim.lsp.buf.remove_workspace_folder, { desc = 'rm workspace folder' } },
 
-    ['<Leader>ci'] = vim.lsp.buf.incoming_calls,
-    ['<Leader>co'] = vim.lsp.buf.outgoing_calls,
+    ['<Leader>wl'] = {
+      function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      end,
+      { desc = 'list workspace folders' },
+    },
+    ['<Leader>D'] = { vim.lsp.buf.type_definition, { desc = 'type definition' } },
+    ['<Leader>rn'] = { vim.lsp.buf.rename, { desc = 'rename' } },
+    ['<Leader>ca'] = { vim.lsp.buf.code_action, { desc = 'codeaction' } },
+
+    ['<Leader>ci'] = { vim.lsp.buf.incoming_calls, { desc = 'incoming calls' } },
+    ['<Leader>co'] = { vim.lsp.buf.outgoing_calls, { desc = 'outgoing calls' } },
     ['<Leader>a'] = {
       -- toggle lsp inlay hint on current buffer
-      ['i'] = function()
-        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({
-          bufnr = 0,
-        }), { bufnr = 0 })
-      end,
+      ['i'] = {
+        function()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({
+            bufnr = 0,
+          }), { bufnr = 0 })
+        end,
+        { desc = 'toggle inlay hint' },
+      },
     },
 
     -- format whole buffer
