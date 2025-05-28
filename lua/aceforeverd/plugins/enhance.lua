@@ -41,18 +41,18 @@ function M.yanky()
   })
   require('aceforeverd.util.map').do_map({
     n = {
-      p = [[<Plug>(YankyPutAfter)]],
-      P = [[<Plug>(YankyPutBefore)]],
-      gp = [[<Plug>(YankyGPutAfter)]],
-      gP = [[<Plug>(YankyGPutBefore)]],
-      ['<c-n>'] = map_c_n,
-      ['<c-p>'] = map_c_p,
+      p = { [[<Plug>(YankyPutAfter)]], { desc = 'put after [yanky]' } },
+      P = { [[<Plug>(YankyPutBefore)]], { desc = 'put before [yanky]' } },
+      gp = { [[<Plug>(YankyGPutAfter)]], { desc = 'put after [yanky]' } },
+      gP = { [[<Plug>(YankyGPutBefore)]], { desc = 'put before [yanky]' } },
+      ['<c-n>'] = { map_c_n, { desc = 'next yank or <c-n>' } },
+      ['<c-p>'] = { map_c_p, { desc = 'prev yank or <c-p>' } },
     },
     x = {
-      p = [[<Plug>(YankyPutAfter)]],
-      P = [[<Plug>(YankyPutBefore)]],
-      gp = [[<Plug>(YankyGPutAfter)]],
-      gP = [[<Plug>(YankyGPutBefore)]],
+      p = { [[<Plug>(YankyPutAfter)]], { desc = 'put after' } },
+      P = { [[<Plug>(YankyPutBefore)]], { desc = 'put before' } },
+      gp = { [[<Plug>(YankyGPutAfter)]], { desc = 'put after (cursor after)' } },
+      gP = { [[<Plug>(YankyGPutBefore)]], { desc = 'put before (cursor after)' } },
     },
   }, {})
 end
@@ -66,12 +66,12 @@ function M.substitute()
   })
   require('aceforeverd.util.map').do_map({
     n = {
-      ['<leader>s'] = [[<cmd>lua require('substitute').operator()<cr>]],
-      ['<leader>ss'] = [[<cmd>lua require('substitute').line()<cr>]],
-      ['<leader>S'] = [[<cmd>lua require('substitute').eol()<cr>]],
+      ['<leader>s'] = { [[<cmd>lua require('substitute').operator()<cr>]], { desc = 'substitute motion' } },
+      ['<leader>ss'] = { [[<cmd>lua require('substitute').line()<cr>]], { desc = 'substitute current line' } },
+      ['<leader>S'] = { [[<cmd>lua require('substitute').eol()<cr>]], { desc = 'substitute current pos to eol' } },
     },
     x = {
-      ['<leader>s'] = [[<cmd>lua require('substitute').visual()<cr>]],
+      ['<leader>s'] = { [[<cmd>lua require('substitute').visual()<cr>]], { desc = 'substitute' } },
     },
   }, { noremap = true })
 end

@@ -26,8 +26,8 @@ function M.setup()
 
   require('aceforeverd.util.map').do_map({
     n = {
-      ['}}'] = '}',
-      ['{{'] = '{',
+      ['}}'] = {'}', {desc = '[count] paragraphs forward'}},
+      ['{{'] = {'{', {desc = '[count] paragraphs backward'} },
     }
   }, { noremap = true, silent = true })
 

@@ -13,7 +13,6 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 local M = {}
 
 function M.telescope()
@@ -70,45 +69,130 @@ function M.telescope()
   local tel_map_list = {
     ['<space>'] = {
       ['<space>'] = [[<cmd>Telescope<CR>]],
-      ['b'] = function() require('telescope.builtin').buffers() end,
-      ['c'] = function() require('telescope.builtin').commands() end,
-      ['R'] = function() require('telescope.builtin').live_grep{} end,
+      ['b'] = {
+        function()
+          require('telescope.builtin').buffers()
+        end,
+        { desc = 'buffers' },
+      },
+      ['c'] = {
+        function()
+          require('telescope.builtin').commands()
+        end,
+        { desc = 'commands' },
+      },
+      ['R'] = {
+        function()
+          require('telescope.builtin').live_grep({})
+        end,
+        { desc = 'live grep' },
+      },
     },
     ['<leader>f'] = {
       -- general case
-      ['f'] = function() require('telescope.builtin').find_files() end,
-      ['e'] = function() require('telescope.builtin').grep_string{} end,
-      ['s'] = function() require('telescope.builtin').spell_suggest() end,
-      ['o'] = function() require("telescope").extensions.repo.list{} end,
-      ['r'] = function() require('telescope').extensions.frecency.frecency() end,
-      ['j'] = function() require'telescope'.extensions.projects.projects{} end,
+      ['f'] = {
+        function()
+          require('telescope.builtin').find_files()
+        end,
+        { desc = 'find file' },
+      },
+      ['e'] = {
+        function()
+          require('telescope.builtin').grep_string({})
+        end,
+        { desc = 'grep string' },
+      },
+      ['s'] = {
+        function()
+          require('telescope.builtin').spell_suggest()
+        end,
+        { desc = 'spell suggest' },
+      },
+      ['o'] = {
+        function()
+          require('telescope').extensions.repo.list({})
+        end,
+        { desc = 'list repos' },
+      },
+      ['r'] = {
+        function()
+          require('telescope').extensions.frecency.frecency()
+        end,
+        { desc = 'frecency' },
+      },
+      ['j'] = {
+        function()
+          require('telescope').extensions.projects.projects({})
+        end,
+        { desc = 'list projects' },
+      },
 
-      ['I'] = function() require'telescope'.extensions.gh.issues() end,
-      ['P'] = function() require'telescope'.extensions.gh.pull_request() end,
-      ['R'] = function() require'telescope'.extensions.gh.run() end,
-      ['G'] = function() require'telescope'.extensions.gh.gist() end,
+      ['I'] = {
+        function()
+          require('telescope').extensions.gh.issues()
+        end,
+        { desc = 'gh issues' },
+      },
+      ['P'] = {
+        function()
+          require('telescope').extensions.gh.pull_request()
+        end,
+        { desc = 'gh PRs' },
+      },
+      ['R'] = {
+        function()
+          require('telescope').extensions.gh.run()
+        end,
+        { desc = 'gh workflow run' },
+      },
+      ['G'] = {
+        function()
+          require('telescope').extensions.gh.gist()
+        end,
+        { desc = 'gh gists' },
+      },
 
-      ['z'] = function() require"telescope".extensions.zoxide.list{} end,
-      ['l'] = function() require"telescope".extensions.file_browser.file_browser() end,
+      ['z'] = {
+        function()
+          require('telescope').extensions.zoxide.list({})
+        end,
+        { desc = 'zoxide list' },
+      },
+      ['l'] = {
+        function()
+          require('telescope').extensions.file_browser.file_browser()
+        end,
+        { desc = 'file browse' },
+      },
     },
     ['<leader>q'] = {
-      f = '<cmd>FzfLua quickfix<cr>',
-      t = '<cmd>Telescope quickfix<cr>',
-      b = '<cmd>Trouble quickfix<cr>',
+      f = { '<cmd>FzfLua quickfix<cr>', { desc = 'quickfix fzflua' } },
+      t = { '<cmd>Telescope quickfix<cr>', { desc = 'quickfix telescope' } },
+      b = { '<cmd>Trouble quickfix<cr>', { desc = 'quickfix trouble' } },
     },
     ['<leader>l'] = {
       -- lsp
-      ['s'] = function() require('telescope.builtin').lsp_document_symbols() end,
-      ['S'] = function() require('telescope.builtin').lsp_workspace_symbols() end,
+      ['s'] = {
+        function()
+          require('telescope.builtin').lsp_document_symbols()
+        end,
+        { desc = 'lsp document symbols [telescope]' },
+      },
+      ['S'] = {
+        function()
+          require('telescope.builtin').lsp_workspace_symbols()
+        end,
+        { desc = 'lsp workspace symbols [telescope]' },
+      },
     },
     ['<leader>g'] = {
       -- git ops
-      ['f'] = '<Cmd>Telescope git_files<CR>',
-      ['s'] = '<cmd>Telescope git_status<cr>',
-      ['S'] = '<cmd>Telescope git_stash<cr>',
-      ['C'] = '<cmd>Telescope git_commits<cr>',
-      ['c'] = '<cmd>Telescope git_bcommits<cr>',
-      ['x'] = '<cmd>Telescope git_branches<cr>',
+      ['f'] = { '<Cmd>Telescope git_files<CR>', { desc = 'git files' } },
+      ['s'] = { '<cmd>Telescope git_status<cr>', { desc = 'git status' } },
+      ['S'] = { '<cmd>Telescope git_stash<cr>', { desc = 'git stash' } },
+      ['C'] = { '<cmd>Telescope git_commits<cr>', { desc = 'git commits' } },
+      ['c'] = { '<cmd>Telescope git_bcommits<cr>', { desc = 'git buf-local commits' } },
+      ['x'] = { '<cmd>Telescope git_branches<cr>', { desc = 'git branches' } },
     },
   }
 

@@ -138,19 +138,19 @@ end
 
 local lsp_global_maps = {
   n = {
-    ['<c-k>'] = function()
+    ['<c-k>'] = {function()
       vim.diagnostic.jump({ count = -1, float = true })
-    end,
-    ['<c-j>'] = function()
+    end, {desc = 'previous diagnostic'} },
+    ['<c-j>'] = {function()
       vim.diagnostic.jump({ count = 1, float = true })
-    end,
+    end, {desc = 'next diagnostic'} },
 
-    ['<space>dp'] = vim.diagnostic.open_float,
+    ['<space>dp'] = {vim.diagnostic.open_float, {desc = 'show diagnostic in float window'} },
     -- buffer local diagnostic
-    ['<space>q'] = vim.diagnostic.setloclist,
+    ['<space>q'] = { vim.diagnostic.setloclist, {desc = 'buf-local diagnostics to the location list'}},
     -- all diagnostic
-    ['<space>a'] = vim.diagnostic.setqflist,
-    ['<space>I'] = function()
+    ['<space>a'] = {vim.diagnostic.setqflist, {desc = 'all diagnostics to the quickfix list'}},
+    ['<space>I'] = {function()
       local enabled = vim.lsp.inlay_hint.is_enabled()
       vim.lsp.inlay_hint.enable(not enabled)
       if enabled then
@@ -158,7 +158,7 @@ local lsp_global_maps = {
       else
         vim.notify('inlay hint ENABLED', vim.log.levels.INFO)
       end
-    end,
+    end, {desc = 'GLOBAL toggle inlay hint'}},
   },
 }
 
@@ -217,54 +217,75 @@ local lsp_buf_maps = {
             bufnr = 0,
           }), { bufnr = 0 })
         end,
-        { desc = 'toggle inlay hint' },
+        { desc = 'BUF-LOCAL toggle inlay hint' },
       },
     },
 
     -- format whole buffer
-    ['<space>F'] = M.lsp_fmt,
+    ['<space>F'] = { M.lsp_fmt, { desc = 'format' } },
     -- LSP format motion
     -- same as `gq`, once setting formatexpr=v:lua.vim.lsp.formatexpr()
     -- I'd keep map `<cr>` to lsp format util find better usage
-    [';<cr>'] = function()
-      range_format_operator(M.lsp_fmt)
-    end,
-    [';<cr><cr>'] = function()
-      -- format current line
-      vim.cmd([[normal! v0o$]])
-      visual_range_fmt(M.lsp_fmt)
-    end,
-    ['g<cr>'] = function()
-      range_format_operator(M.selective_fmt)
-    end,
+    [';<cr>'] = {
+      function()
+        range_format_operator(M.lsp_fmt)
+      end,
+      { desc = 'format motion' },
+    },
+    [';<cr><cr>'] = {
+      function()
+        -- format current line
+        vim.cmd([[normal! v0o$]])
+        visual_range_fmt(M.lsp_fmt)
+      end,
+      { desc = 'format current line' },
+    },
+    ['g<cr>'] = {
+      function()
+        range_format_operator(M.selective_fmt)
+      end,
+      { desc = 'format motion selective' },
+    },
 
-    ['<space>s'] = [[<cmd>FzfLua lsp_document_symbols<cr>]],
-    ['<space>S'] = function()
-      require('telescope.builtin').lsp_workspace_symbols()
-    end,
+    ['<space>s'] = { [[<cmd>FzfLua lsp_document_symbols<cr>]], { desc = 'document symbols' } },
+    ['<space>S'] = {
+      function()
+        require('telescope.builtin').lsp_workspace_symbols()
+      end,
+      { desc = 'workspace symbols' },
+    },
 
     -- vim defaults
-    ['<space>gi'] = 'gi',
-    ['<space>gr'] = 'gr',
+    ['<space>gi'] = { 'gi', { desc = 'Insert text in the same position as where Insert mode was stopped' } },
+    ['<space>gr'] = { 'gr', { desc = 'Replace the virtual characters under the cursor with {char}' } },
   },
   i = {
     ['<c-g>'] = {
-      ['<cr>'] = function()
-        -- format current line
-        vim.cmd([[exe "normal! \<esc>v0o$"]])
-        visual_range_fmt(M.lsp_fmt)
-        vim.cmd([[normal! gi]])
-      end,
+      ['<cr>'] = {
+        function()
+          -- format current line
+          vim.cmd([[exe "normal! \<esc>v0o$"]])
+          visual_range_fmt(M.lsp_fmt)
+          vim.cmd([[normal! gi]])
+        end,
+        { desc = 'format current line' },
+      },
     },
   },
   x = {
-    ['<cr>'] = function()
-      visual_range_fmt(M.lsp_fmt)
-    end,
-    ['g<cr>'] = function()
-      visual_range_fmt(M.selective_fmt)
-    end,
-    ['<Leader>ca'] = vim.lsp.buf.code_action,
+    ['<cr>'] = {
+      function()
+        visual_range_fmt(M.lsp_fmt)
+      end,
+      { desc = 'range format' },
+    },
+    ['g<cr>'] = {
+      function()
+        visual_range_fmt(M.selective_fmt)
+      end,
+      { desc = 'selective range format' },
+    },
+    ['<Leader>ca'] = { vim.lsp.buf.code_action, { desc = 'code actions' } },
   },
 }
 
