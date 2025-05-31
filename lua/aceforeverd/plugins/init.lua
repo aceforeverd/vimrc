@@ -26,7 +26,7 @@ function M.lazy()
   -- bootstrap plugin manager
   local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
   if not vim.loop.fs_stat(lazypath) then
-    vim.api.nvim_notify('installing lazy.nvim to ' .. lazypath .. ' ...', vim.log.levels.INFO, {})
+    vim.notify('installing lazy.nvim to ' .. lazypath .. ' ...', vim.log.levels.INFO, {})
     vim.fn.system({
       'git',
       'clone',
@@ -146,28 +146,6 @@ M.plugin_list = {
     end,
     lazy = true,
   },
-  {
-    'folke/neodev.nvim',
-    config = function()
-      require('neodev').setup({
-        library = {
-          enabled = true,
-          plugins = {
-            'plenary.nvim',
-            'nvim-lspconfig',
-            'telescope.nvim',
-            'nvim-web-devicons',
-            'nui.nvim',
-          },
-        },
-        lspconfig = true,
-        pathStrict = true,
-      })
-    end,
-    cond = function()
-      return vim.fn.has('nvim-0.10') ~= 1
-    end,
-  },
 
   {
     "folke/lazydev.nvim",
@@ -177,9 +155,6 @@ M.plugin_list = {
         { path = "luvit-meta/library", words = { "vim%.uv" } },
       },
     },
-    cond = function()
-      return vim.fn.has('nvim-0.10') == 1
-    end,
   },
   { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 
@@ -863,14 +838,6 @@ M.plugin_list = {
     'gbprod/substitute.nvim',
     config = function()
       require('aceforeverd.plugins.enhance').substitute()
-    end,
-  },
-
-  {
-    'npxbr/glow.nvim',
-    ft = { 'markdown' },
-    config = function()
-      require('glow').setup({})
     end,
   },
 
