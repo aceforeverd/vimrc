@@ -69,6 +69,11 @@ function! aceforeverd#keymap#browse#open(uris) abort
     elseif len(a:uris) == 1
         call aceforeverd#keymap#browse#open(a:uris[0])
     else
+        if len(a:uris) == 0
+            echomsg "no url found"
+            return
+        endif
+
         if has('nvim-0.6.0')
             call v:lua.require'aceforeverd.keymap'.select_browse_plugin(a:uris)
         else

@@ -758,6 +758,7 @@ M.plugin_list = {
       'nvim-telescope/telescope-frecency.nvim',
       'kkharji/sqlite.lua',
       'nvim-tree/nvim-web-devicons',
+      'nvim-telescope/telescope-ui-select.nvim'
     },
   },
 
@@ -1068,19 +1069,12 @@ M.plugin_list = {
       require('aceforeverd.apperance').bufferline()
     end,
   },
+
   {
-    'stevearc/dressing.nvim',
-    config = function()
-      require('dressing').setup({
-        input = {
-          border = 'rounded',
-          win_options = {
-            winblend = 10,
-          },
-        },
-      })
-    end,
-    event = 'VeryLazy',
+    'folke/snacks.nvim',
+    opts = {
+      input = { enabled = true },
+    }
   },
 
   {
@@ -1181,10 +1175,6 @@ M.plugin_list = {
     cmd = { 'GrugFar' }
   },
 
-  {
-    'folke/snacks.nvim',
-    lazy = true,
-  }
 
 }
 

@@ -13,15 +13,6 @@ local extra_schemas = {
   ['https://json.schemastore.org/prometheus'] = { 'prometheus*.yml', 'prometheus*.yaml' },
 }
 
-M.lsp_cfg = {
-  settings = {
-    yaml = {
-      -- or setup with inlined schema: https://github.com/redhat-developer/yaml-language-server?tab=readme-ov-file#using-inlined-schema
-      -- format: # yaml-language-server: $schema=<urlToTheSchema>
-      schemas = extra_schemas,
-    },
-  },
-}
 
 local schemastore = [[https?://json.schemastore.org/]]
 
@@ -152,5 +143,21 @@ function M.select_schema()
   end)
 
 end
+
+M.lsp_cfg = {
+  on_attach = function(client, bufnr)
+    require('aceforeverd.lsp.common').on_attach(client, bufnr)
+
+    vim.api.nvim_buf_create_user_command(0,'YAMLSchema', M.get_schema, { nargs = 0 })
+    vim.api.nvim_buf_create_user_command(0, 'YAMLSchemaSelect', M.select_schema, { nargs = 0 })
+  end,
+  settings = {
+    yaml = {
+      -- or setup with inlined schema: https://github.com/redhat-developer/yaml-language-server?tab=readme-ov-file#using-inlined-schema
+      -- format: # yaml-language-server: $schema=<urlToTheSchema>
+      schemas = extra_schemas,
+    },
+  },
+}
 
 return M

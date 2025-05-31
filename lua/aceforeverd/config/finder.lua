@@ -56,6 +56,11 @@ function M.telescope()
         case_mode = 'smart_case',       -- or "ignore_case" or "respect_case"
         -- the default case_mode is "smart_case"
       },
+      ["ui-select"] = {
+        require("telescope.themes").get_dropdown {
+          -- even more opts
+        }
+      }
     },
   })
 
@@ -63,6 +68,8 @@ function M.telescope()
 
   -- telescope-frecency
   telescope.load_extension('frecency')
+
+  telescope.load_extension("ui-select")
 
   local map_opts = { noremap = true, silent = false }
 

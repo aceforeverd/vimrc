@@ -27,6 +27,8 @@ local html_cfg = {
   },
 }
 
+local no_cfg = 0
+
 return {
   clangd = function()
     local on_attach = general_lsp_config.on_attach
@@ -111,17 +113,17 @@ return {
       },
     },
   }),
-  bashls = nil,
-  pyright = nil,
-  neocmake = nil,
-  lemminx = nil,
-  vimls = nil,
-  dockerls = nil,
-  tailwindcss = nil,
-  ts_ls = nil,
-  -- remark_ls = nil,
-  taplo = nil,
-  jsonnet_ls = nil,
+  bashls = no_cfg,
+  pyright = no_cfg,
+  neocmake = no_cfg,
+  lemminx = no_cfg,
+  vimls = no_cfg,
+  dockerls = no_cfg,
+  tailwindcss = no_cfg,
+  ts_ls = no_cfg,
+  -- remark_ls = no_cfg,
+  taplo = no_cfg,
+  jsonnet_ls = no_cfg,
   docker_compose_language_service = {
     filetypes = { 'yaml.docker-compose' },
     root_dir = require('lspconfig.util').root_pattern('docker-compose*.yml', 'docker-compose*.yaml'),
