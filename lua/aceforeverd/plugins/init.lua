@@ -1045,6 +1045,13 @@ M.plugin_list = {
   },
 
   {
+    'luukvbaal/statuscol.nvim',
+    config = function ()
+      require('aceforeverd.apperance').statuscolumn()
+    end
+  },
+
+  {
     'nvim-neotest/neotest',
     lazy = true,
   },

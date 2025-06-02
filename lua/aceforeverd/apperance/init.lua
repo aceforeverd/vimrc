@@ -92,4 +92,6 @@ end
 
 M.lualine = require('aceforeverd.apperance.lualine').setup
 
+M.statuscolumn = require('aceforeverd.apperance.statuscolumn').setup
+
 return M
