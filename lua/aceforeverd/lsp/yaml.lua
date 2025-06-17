@@ -145,17 +145,42 @@ function M.select_schema()
 end
 
 M.lsp_cfg = {
+  -- Have to add this for yamlls to understand that we support line folding
+  capabilities = {
+    textDocument = {
+      foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+      },
+      completion = {
+        -- ? not sure, by default it should off
+        dynamicRegistration = true,
+      },
+    },
+  },
   on_attach = function(client, bufnr)
     require('aceforeverd.lsp.common').on_attach(client, bufnr)
+
+    -- require nvim 0.10
+    -- Neovim < 0.10 does not have dynamic registration for formatting
+    client.server_capabilities.documentFormattingProvider = true
 
     vim.api.nvim_buf_create_user_command(0,'YAMLSchema', M.get_schema, { nargs = 0 })
     vim.api.nvim_buf_create_user_command(0, 'YAMLSchemaSelect', M.select_schema, { nargs = 0 })
   end,
   settings = {
     yaml = {
+      hover = true,
+      format = {
+        enable = true,
+      },
       -- or setup with inlined schema: https://github.com/redhat-developer/yaml-language-server?tab=readme-ov-file#using-inlined-schema
       -- format: # yaml-language-server: $schema=<urlToTheSchema>
       schemas = extra_schemas,
+      schemaStore = {
+        enable = true,
+        url = "https://www.schemastore.org/api/json/catalog.json"
+      }
     },
   },
 }
