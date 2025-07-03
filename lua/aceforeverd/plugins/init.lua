@@ -332,6 +332,7 @@ M.plugin_list = {
     opts = {
       formatters_by_ft = {
         lua = { "stylua" },
+        nginx = { 'nginxfmt' },
         sh = { 'shfmt', 'shellharden' },
         python = { 'yapf' },
         cmake = { 'cmake_format' },

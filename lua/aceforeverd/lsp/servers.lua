@@ -36,10 +36,10 @@ return {
     local lsp_status = require('lsp-status')
 
     local clangd_handlers =
-      vim.tbl_deep_extend('error', general_lsp_config.handlers, lsp_status.extensions.clangd.setup())
+        vim.tbl_deep_extend('error', general_lsp_config.handlers, lsp_status.extensions.clangd.setup())
     -- use lsp-status's handler, disabling fidget
     clangd_handlers['$/progress'] =
-      require('lsp-status.util').mk_handler(require('lsp-status.messaging').progress_callback)
+        require('lsp-status.util').mk_handler(require('lsp-status.messaging').progress_callback)
 
     return {
       on_attach = function(client, bufnr)
@@ -114,7 +114,7 @@ return {
     },
   }),
   bashls = no_cfg,
-  pyright = no_cfg,
+  basedpyright = no_cfg,
   neocmake = no_cfg,
   lemminx = no_cfg,
   vimls = no_cfg,
@@ -129,4 +129,5 @@ return {
     root_dir = require('lspconfig.util').root_pattern('docker-compose*.yml', 'docker-compose*.yaml'),
   },
   diagnosticls = require('aceforeverd.lsp.diagnosticls').get_config(),
+  nginx_language_server = no_cfg,
 }
