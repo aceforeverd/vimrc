@@ -1160,6 +1160,19 @@ M.plugin_list = {
     cmd = { 'GrugFar' }
   },
 
+  {
+    "cuducos/yaml.nvim",
+    ft = { "yaml" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "folke/snacks.nvim",
+      "nvim-telescope/telescope.nvim",
+      "ibhagwan/fzf-lua"
+    },
+    config = function()
+      require("yaml_nvim").setup({ ft = { "yaml" } })
+    end
+  },
 
 }
 
