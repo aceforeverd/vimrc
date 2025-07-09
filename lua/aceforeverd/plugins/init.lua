@@ -58,13 +58,6 @@ M.plugin_list = {
 
   { 'nvim-lua/plenary.nvim' },
 
-  -- installer
-  {
-    'williamboman/mason.nvim',
-    dependencies = { 'williamboman/mason-lspconfig.nvim' },
-    lazy = true,
-  },
-
   {
     'SmiteshP/nvim-navic',
     config = function()
@@ -179,7 +172,6 @@ M.plugin_list = {
   {
     'neovim/nvim-lspconfig',
     dependencies = {
-      'williamboman/mason.nvim',
       'p00f/clangd_extensions.nvim',
       -- lsp enhance
       'b0o/schemastore.nvim',
@@ -189,6 +181,29 @@ M.plugin_list = {
     config = function()
       require('aceforeverd.lsp').setup()
     end,
+  },
+
+  -- installer
+  {
+    'williamboman/mason.nvim',
+    opts = {},
+    lazy = true,
+  },
+
+  {
+    "mason-org/mason-lspconfig.nvim",
+    opts = {
+      automatic_enable = {
+        exclude = {
+          'jdtls',
+          'gopls',
+        }
+      }
+    },
+    dependencies = {
+      "mason-org/mason.nvim",
+      "neovim/nvim-lspconfig",
+    },
   },
 
   {
@@ -1012,7 +1027,7 @@ M.plugin_list = {
     'goolord/alpha-nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     event = { 'VimEnter' },
-    config = function ()
+    config = function()
       local cfg = require('alpha.themes.startify')
       -- go https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something
       local logo = [[
@@ -1057,7 +1072,7 @@ M.plugin_list = {
 
   {
     'luukvbaal/statuscol.nvim',
-    config = function ()
+    config = function()
       require('aceforeverd.apperance').statuscolumn()
     end
   },
@@ -1108,7 +1123,7 @@ M.plugin_list = {
     'echasnovski/mini.nvim',
     config = function()
       -- align
-      require('mini.align').setup ({
+      require('mini.align').setup({
         mappings = {
           start = '<leader>ga',
           start_with_preview = '<leader>gA',
@@ -1144,8 +1159,8 @@ M.plugin_list = {
   {
     "chrisgrieser/nvim-rulebook",
     keys = {
-      { "<leader>ri", function() require('rulebook').ignoreRule() end, desc = 'ignore rule' },
-      { "<leader>rl", function() require('rulebook').lookupRule() end, desc = 'lookup rule' },
+      { "<leader>ri", function() require('rulebook').ignoreRule() end,        desc = 'ignore rule' },
+      { "<leader>rl", function() require('rulebook').lookupRule() end,        desc = 'lookup rule' },
       { "<leader>ry", function() require("rulebook").yankDiagnosticCode() end }
     }
   },
@@ -1173,7 +1188,11 @@ M.plugin_list = {
       require("yaml_nvim").setup({ ft = { "yaml" } })
     end
   },
-
+  {
+    "qvalentin/helm-ls.nvim",
+    ft = { "helm", "yaml.helm-values" },
+    opts = {},
+  }
 }
 
 return M

@@ -35,10 +35,6 @@ function M.setup()
     command! -range=% FormatS :lua require('aceforeverd.lsp.common').fmt_cmd(<range>, require('aceforeverd.lsp.common').selective_fmt)
     ]])
 
-  -- setup lsp installer just before other lsp configurations
-  -- so they will inherit lsp-insatller settings, picking up the correct lsp program
-  require('aceforeverd.lsp.installer').setup()
-
   -- general lsp setup for all
   vim.lsp.config('*', require('aceforeverd.lsp.common').general_cfg)
 
@@ -51,7 +47,6 @@ function M.setup()
       vim.lsp.config(name, cfg_override())
     else -- just assume no extra config apply
     end
-    vim.lsp.enable(name)
   end
 end
 
