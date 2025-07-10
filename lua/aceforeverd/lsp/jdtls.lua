@@ -15,6 +15,9 @@
 
 local M = {}
 
+--- get JDK major name by sdkman install directory
+---@param dir string
+---@return number|nil
 local function jdk_major_version(dir)
   local basename = vim.fs.basename(dir)
   local version = nil
@@ -23,7 +26,7 @@ local function jdk_major_version(dir)
     break
   end
 
-  return version
+  return tonumber(version)
 end
 
 local function get_mason_package(pkg_name)
@@ -44,7 +47,11 @@ end
 --- extract major version of java exe
 --- @return number|nil
 local function extract_jdk_major(java_exe)
-  local out = vim.fn.systemlist ({java_exe , '--version'})
+  if vim.uv.fs_stat(java_exe) == nil then
+    return nil
+  end
+
+  local out = vim.fn.systemlist({ java_exe, '--version' })
   if #out == 0 then
     return nil
   end
@@ -58,28 +65,66 @@ local function extract_jdk_major(java_exe)
 end
 
 --- valid if the java is sufficient to run jdtls
----@param java_exe string path to java
+---@param major number|nil jdk major version
 ---@return boolean
-local function valid_java_version(java_exe)
-  local major = extract_jdk_major(java_exe)
+local function valid_java_version(major)
   return major ~= nil and major >= 21
 end
+
+--- search system JDK
+---@return {path: string, major: number} | nil
+local function search_system_jdk()
+  local java_exe = ''
+  local java_home = os.getenv('JAVA_HOME')
+  if java_home ~= nil then
+    -- 2. search $JAVA_HOME
+    java_exe = java_home .. '/bin/java'
+  else
+    -- 3. search system
+    java_exe = vim.fn.exepath('java')
+    -- extract realpath for java home
+    java_home = vim.fs.dirname(vim.fs.dirname(vim.uv.fs_realpath(java_exe)))
+  end
+  if java_exe == nil then
+    return nil
+  end
+
+  local major = extract_jdk_major(java_exe)
+  if major == nil then
+    return nil
+  end
+  return { major = major, path = java_home }
+end
+
 
 --- search JDK sufficient running jdtls. Currently we looking for jdks in sdkamn and system wide
 --- @return string|nil # sufficient jdk path if found
 local function search_jdk_for_jdtls()
+  -- 1. search user sdkman installation
   local javas = vim.fn.glob('~/.sdkman/candidates/java/{21,22,23}*', true, true)
   if #javas > 0 then
     return javas[1]
   else
-    local java_home = os.getenv('JAVA_HOME')
-    if valid_java_version(java_home .. '/bin/java') then
-      return java_home
+    local stat = search_system_jdk()
+    if stat ~= nil and valid_java_version(stat.major) then
+      return stat.path
     end
-
   end
 
   return nil
+end
+
+--- generate the runtime name for jdtls
+---@param major number
+local function runtime_name(major)
+  -- https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+  -- name is NOT arbitrary, go link above and search 'enum ExecutionEnvironment'
+
+  if major == 8 then
+    return 'JavaSE-1.8'
+  end
+
+  return 'JavaSE-' .. major
 end
 
 local function search_jdk_runtimes()
@@ -87,23 +132,28 @@ local function search_jdk_runtimes()
   local sdkman_java_candidates = '~/.sdkman/candidates/java/'
   local paths = vim.fn.glob(sdkman_java_candidates .. '*', true, true)
   for _, jdk_path in ipairs(paths) do
-    -- https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
-    -- name is NOT arbitrary, go link above and search 'enum ExecutionEnvironment'
-
     local version = jdk_major_version(jdk_path)
-    if version == '8' then
-      table.insert(runtimes, { name = 'JavaSE-1.8', path = jdk_path })
-    elseif version ~= nil then
-      table.insert(runtimes, { name = 'JavaSE-' .. version, path = jdk_path })
+    if version ~= nil then
+      table.insert(runtimes, { name = runtime_name(version), path = jdk_path })
     end
   end
 
-  if vim.fn.executable('java-config') == 1 then
-    -- system default
-    local system_default = vim.fn.system({ 'java-config', '-O' })
-    if vim.v.shell_error == 0 and system_default ~= nil then
-      local ver = extract_jdk_major(string.gsub(system_default, '%s+', '') .. '/bin/java')
-      table.insert(runtimes, { name = 'JavaSE-' .. ver, path = string.gsub(system_default, '%s+$', '') })
+  if #runtimes == 0 then
+    -- system jdk as fallback
+    if vim.fn.executable('java-config') == 1 then
+      -- system default
+      local system_default = vim.fn.system({ 'java-config', '-O' })
+      if vim.v.shell_error == 0 and system_default ~= nil then
+        local ver = extract_jdk_major(string.gsub(system_default, '%s+', '') .. '/bin/java')
+        if ver ~= nil then
+          table.insert(runtimes, { name = runtime_name(ver), path = string.gsub(system_default, '%s+$', '') })
+        end
+      end
+    else
+      local stat = search_system_jdk()
+      if stat ~= nil then
+        table.insert(runtimes, { name = runtime_name(stat.major), path = stat.path })
+      end
     end
   end
 
@@ -202,6 +252,8 @@ function M.jdtls()
   if maybe_java_home == nil then
     vim.notify('no sufficient JDK found for jdtls, hint jdtls require jdk >= 21', vim.log.levels.WARN, {})
     return
+  else
+    vim.notify(string.format('selected JDK "%s" for jdtls', maybe_java_home), vim.log.levels.INFO, {})
   end
   local cmd = { 'jdtls', '-data', workspace_dir, '--java-executable', maybe_java_home .. '/bin/java' }
   local lombok_args = lombok_jvm_args(dir)
