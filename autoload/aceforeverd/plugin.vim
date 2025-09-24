@@ -153,7 +153,6 @@ function! aceforeverd#plugin#init() abort
     " run/debug/test
     call s:plugin_add('vim-test/vim-test')
     call s:plugin_add('skywind3000/asyncrun.vim')
-    call s:plugin_add('skywind3000/asynctasks.vim')
     call s:plugin_add('jpalardy/vim-slime')
     call s:plugin_add('preservim/vimux')
     call s:plugin_add('tmux-plugins/vim-tmux')

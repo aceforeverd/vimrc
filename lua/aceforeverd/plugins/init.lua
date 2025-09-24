@@ -361,27 +361,33 @@ M.plugin_list = {
   {
     "lewis6991/hover.nvim",
     config = function()
-      require('hover').setup({
-        init = function()
-          -- Require providers
-          require('hover.providers.lsp')
-          require('hover.providers.gh')
-          require('hover.providers.gh_user')
-          require('hover.providers.man')
-          require('hover.providers.dictionary')
-        end,
-        preview_opts = {
-          border = nil,
+      require('hover').config({
+        providers = {
+          'hover.providers.diagnostic',
+          'hover.providers.lsp',
+          'hover.providers.dap',
+          'hover.providers.man',
+          'hover.providers.dictionary',
+          -- Optional by default
+          'hover.providers.gh',
+          'hover.providers.gh_user',
+          -- 'hover.providers.jira',
+          -- 'hover.providers.fold_preview',
+          -- 'hover.providers.highlight',
         },
+
         -- Whether the contents of a currently open hover window should be moved
         -- to a :h preview-window when pressing the hover keymap.
         preview_window = false,
         title = true,
+        mouse_providers = {
+          'hover.providers.lsp',
+        },
       })
     end,
     keys = {
-      { '<leader>K', function() require('hover').hover() end, desc = 'hover.nvim' },
-      { '<leader>gK', function() require('hover').hover_select() end, desc = 'hover.nvim (select)' },
+      { ';K', function() require('hover').open() end, desc = 'hover.nvim (open)' },
+      { ';gK', function() require('hover').enter() end, desc = 'hover.nvim (enter)' },
     }
   },
 
@@ -1075,11 +1081,6 @@ M.plugin_list = {
     config = function()
       require('aceforeverd.apperance').statuscolumn()
     end
-  },
-
-  {
-    'nvim-neotest/neotest',
-    lazy = true,
   },
 
   {
