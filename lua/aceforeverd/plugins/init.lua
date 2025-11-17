@@ -353,6 +353,8 @@ M.plugin_list = {
         cmake = { 'cmake_format' },
         c = { 'clang-format' },
         cpp = { 'clang-format' },
+        json = { 'jq' },
+        yaml = { 'yq', 'yamlfmt' },
       },
     },
     cmd = { 'ConformInfo', 'Conform' }
