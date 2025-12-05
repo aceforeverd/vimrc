@@ -23,6 +23,8 @@ function M.setup()
     ignore_install = {
       -- https://github.com/alemuller/tree-sitter-make not active ?
       'make',
+      -- https://github.com/nvim-treesitter/nvim-treesitter/issues/8029
+      'ipkg',
     },
     highlight = {
       enable = true,
