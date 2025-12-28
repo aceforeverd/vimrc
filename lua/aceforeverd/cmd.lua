@@ -15,5 +15,11 @@ return {
       -- TODO: custom complete function
       { nargs = '+', desc = 'ast grep search', complete = 'dir' }
     )
+
+    vim.api.nvim_create_user_command(
+      'GitIgnoreM',
+      require('aceforeverd.gitignore').gitignore_selects,
+      { nargs = '*', desc = 'generate gitignore (multi-selects)', complete = 'filetype' }
+    )
   end,
 }
