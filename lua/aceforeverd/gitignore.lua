@@ -3,12 +3,23 @@ local M = {}
 local endpoint = 'https://www.toptal.com/developers/gitignore/api/'
 
 function M.gitignore_selects(opts)
+  local curl = require('plenary.curl')
+  local res = curl.get(endpoint .. 'list')
+  local content = ''
+  if res.status == 200 then
+    content = res.body
+  else
+    vim.notify(vim.inspect(res), vim.log.levels.WARN, {})
+    return
+  end
+  local available_options = vim.tbl_map(vim.trim, vim.split(content:gsub('\n', ','), ',', { trimempty = true }))
+
   -- Example: Using Telescope directly for multi-select
   require('telescope.pickers')
     .new({}, {
       prompt_title = 'GitIgnore Generator:',
       finder = require('telescope.finders').new_table({
-        results = { 'Item A', 'Item B', 'Item C' , 'c', 'c++'},
+        results = available_options,
       }),
       sorter = require('telescope.config').values.generic_sorter({}),
       attach_mappings = function(prompt_bufnr, map)
@@ -59,7 +70,7 @@ function M.gitignore(opts)
 
             -- Use schedule to send a notification back to the Neovim UI thread
             vim.schedule(function()
-              print('Async saved ignore content to: ' .. output_path)
+              print('saved ignore content for ' .. lang .. ' to: ' .. output_path)
             end)
           end
         else

@@ -28,6 +28,17 @@ function M.telescope()
           ['<C-/>'] = require('telescope.actions.generate').which_key({}),
           ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
           ['<c-n>'] = false, -- resevered key
+
+          -- toggle multi selections
+          ['<C-g><C-j>'] = function(opts)
+            require('telescope.actions').toggle_selection(opts)
+            require('telescope.actions').move_selection_next(opts)
+          end,
+          ['<C-g><C-k>'] = function(opts)
+            require('telescope.actions').toggle_selection(opts)
+            require('telescope.actions').move_selection_previous(opts)
+          end,
+
           -- disabled for conflicts with builtin mapping in some commands
           -- ['<C-l>'] = require('telescope.actions.layout').cycle_layout_next,
           ['<C-h>'] = require('telescope.actions.layout').cycle_layout_prev,
@@ -50,17 +61,17 @@ function M.telescope()
         show_unindexed = false,
       },
       fzf = {
-        fuzzy = true,                   -- false will only do exact matching
+        fuzzy = true, -- false will only do exact matching
         override_generic_sorter = true, -- override the generic sorter
-        override_file_sorter = true,    -- override the file sorter
-        case_mode = 'smart_case',       -- or "ignore_case" or "respect_case"
+        override_file_sorter = true, -- override the file sorter
+        case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
         -- the default case_mode is "smart_case"
       },
-      ["ui-select"] = {
-        require("telescope.themes").get_dropdown {
+      ['ui-select'] = {
+        require('telescope.themes').get_dropdown({
           -- even more opts
-        }
-      }
+        }),
+      },
     },
   })
 
@@ -69,7 +80,7 @@ function M.telescope()
   -- telescope-frecency
   telescope.load_extension('frecency')
 
-  telescope.load_extension("ui-select")
+  telescope.load_extension('ui-select')
 
   local map_opts = { noremap = true, silent = false }
 

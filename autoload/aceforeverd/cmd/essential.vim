@@ -14,7 +14,7 @@ function! s:gitignore(...) abort
     " comma(,) splited language list
     let lang = get(a:, 1, "")
     " put content after line number
-    let pos = get(a:, 2, 0)
+    let pos = get(a:, 2, line('.'))
 
     let @l = system('curl -s https://www.toptal.com/developers/gitignore/api/' . lang)
 
