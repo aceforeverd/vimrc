@@ -503,6 +503,7 @@ M.plugin_list = {
   {
     'RRethy/nvim-treesitter-textsubjects',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    lazy = true, -- upstream not up-to-date
     config = function()
       require('nvim-treesitter-textsubjects').configure({
         prev_selection = ',',
@@ -592,6 +593,7 @@ M.plugin_list = {
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
     },
+    lazy = true, -- require upstream work
     config = function()
       require('iswap').setup({
         autoswap = true, -- auto swap if there is only two params

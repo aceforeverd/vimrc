@@ -14,17 +14,37 @@
 
 local M = {}
 
+-- TODO: prompt install parser lazily if it not installed for current filetype ?
+local function selected_ts_langs()
+  local langs = require('nvim-treesitter').get_available()
+end
+
 -- new setup entry for nvim-treesitter on main branch
 function M.setup_next()
-  require'nvim-treesitter'.setup {
+  -- NOTE: require tree-sitter-cli exists on $PATH
+  --  run: cargo install --locked tree-sitter-cli
+  require('nvim-treesitter').setup({
     -- Directory to install parsers and queries to
-    install_dir = vim.fn.stdpath('data') .. '/site'
-  }
+    install_dir = vim.fn.stdpath('data') .. '/site',
+  })
 
   -- highlight, :help treesitter-highlight
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = { '*' },
+    callback = function(args)
+      local installed = require('nvim-treesitter').get_installed()
+      if vim.tbl_contains(installed, vim.bo[args.buf].filetype) == true then
+        vim.treesitter.start(args.buf)
 
-  -- folds
-  -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        -- only if additional legacy syntax is needed
+        -- vim.bo[args.buf].syntax = 'on'
+
+        -- folds
+        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+      end
+    end,
+  })
+
   --
   -- indent
   -- vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
@@ -229,16 +249,15 @@ function M.textobj()
   })
 
   -- swap
-  vim.keymap.set("n", "<M-l>", function()
-    require("nvim-treesitter-textobjects.swap").swap_next "@parameter.inner"
+  vim.keymap.set('n', '<M-l>', function()
+    require('nvim-treesitter-textobjects.swap').swap_next('@parameter.inner')
   end)
-  vim.keymap.set("n", "<M-h>", function()
-    require("nvim-treesitter-textobjects.swap").swap_previous "@parameter.outer"
+  vim.keymap.set('n', '<M-h>', function()
+    require('nvim-treesitter-textobjects.swap').swap_previous('@parameter.outer')
   end)
 
   -- moves
-  local ts_repeat_move = require "nvim-treesitter-textobjects.repeatable_move"
-
+  local ts_repeat_move = require('nvim-treesitter-textobjects.repeatable_move')
 end
 
 return M
