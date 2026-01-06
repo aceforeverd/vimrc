@@ -14,8 +14,44 @@
 
 local M = {}
 
-function M.setup()
+-- TODO: prompt install parser lazily if it not installed for current filetype ?
+local function selected_ts_langs()
+  local langs = require('nvim-treesitter').get_available()
+end
 
+-- new setup entry for nvim-treesitter on main branch
+function M.setup_next()
+  -- NOTE: require tree-sitter-cli exists on $PATH
+  --  run: cargo install --locked tree-sitter-cli
+  require('nvim-treesitter').setup({
+    -- Directory to install parsers and queries to
+    install_dir = vim.fn.stdpath('data') .. '/site',
+  })
+
+  -- highlight, :help treesitter-highlight
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = { '*' },
+    callback = function(args)
+      local installed = require('nvim-treesitter').get_installed()
+      if vim.tbl_contains(installed, vim.bo[args.buf].filetype) == true then
+        vim.treesitter.start(args.buf)
+
+        -- only if additional legacy syntax is needed
+        -- vim.bo[args.buf].syntax = 'on'
+
+        -- folds
+        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+      end
+    end,
+  })
+
+  --
+  -- indent
+  -- vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+end
+
+--- deprecated
+function M.setup()
   local hi_disable_fts = { 'yaml', 'coc-explorer', 'cmake' }
   local hi_max_filesize = 100 * 1024 -- 100 KB
   require('nvim-treesitter.configs').setup({
@@ -165,6 +201,180 @@ function M.setup()
 
   -- :set foldmethod=expr to enable fold with expr, default is manual
   vim.cmd([[set foldexpr=nvim_treesitter#foldexpr()]])
+end
+
+local textobj_maps = {
+  -- You can use the capture groups defined in textobjects.scm
+  select = {
+    -- select mappings
+    ['af'] = '@function.outer',
+    ['if'] = '@function.inner',
+    ['ac'] = '@class.outer',
+    ['ic'] = '@class.inner',
+    ['ar'] = '@parameter.outer',
+    ['ir'] = '@parameter.inner',
+    ['ak'] = '@block.outer',
+    ['ik'] = '@block.inner',
+    ['a;'] = '@statement.outer',
+  },
+  move = {
+    -- move mappings
+    -- - ]<op>: next (outer)
+    -- - [<op>: previous (outer)
+    -- - }<op>: next (inner)
+    -- - {<op>: previouse (inner)
+    --
+    -- where <op>:
+    -- - <char>: start
+    -- - <CHAR>: end
+    goto_next_start = {
+      ['}k'] = '@block.inner',
+      [']k'] = '@block.outer',
+      ['}g'] = '@call.inner',
+      [']g'] = '@call.outer',
+      ['}]'] = '@class.inner',
+      [']]'] = '@class.outer',
+      [']/'] = '@comment.outer',
+      ['}j'] = '@conditional.inner',
+      [']j'] = '@conditional.outer',
+      ['}m'] = '@function.inner',
+      [']m'] = '@function.outer',
+      ['}w'] = '@loop.inner',
+      [']w'] = '@loop.outer',
+      ['}r'] = '@parameter.inner',
+      [']r'] = '@parameter.outer',
+      ['];'] = '@statement.outer',
+    },
+    goto_next_end = {
+      ['}K'] = '@block.inner',
+      [']K'] = '@block.outer',
+      ['}G'] = '@call.inner',
+      [']G'] = '@call.outer',
+      ['}['] = '@class.inner',
+      [']['] = '@class.outer',
+      ['}/'] = '@comment.outer',
+      ['}J'] = '@conditional.inner',
+      [']J'] = '@conditional.outer',
+      ['}M'] = '@function.inner',
+      [']M'] = '@function.outer',
+      ['}W'] = '@loop.inner',
+      [']W'] = '@loop.outer',
+      ['}R'] = '@parameter.inner',
+      [']R'] = '@parameter.outer',
+      ['};'] = '@statement.outer',
+    },
+    goto_previous_start = {
+      ['{k'] = '@block.inner',
+      ['[k'] = '@block.outer',
+      ['{g'] = '@call.inner',
+      ['[g'] = '@call.outer',
+      ['{['] = '@class.inner',
+      ['[['] = '@class.outer',
+      ['[/'] = '@comment.outer',
+      ['{j'] = '@conditional.inner',
+      ['[j'] = '@conditional.outer',
+      ['{m'] = '@function.inner',
+      ['[m'] = '@function.outer',
+      ['{w'] = '@loop.inner',
+      ['[w'] = '@loop.outer',
+      ['{r'] = '@parameter.inner',
+      ['[r'] = '@parameter.outer',
+      ['[;'] = '@statement.outer',
+    },
+    goto_previous_end = {
+      ['{K'] = '@block.inner',
+      ['[K'] = '@block.outer',
+      ['{G'] = '@call.inner',
+      ['[G'] = '@call.outer',
+      ['{]'] = '@class.inner',
+      ['[]'] = '@class.outer',
+      ['{/'] = '@comment.outer',
+      ['{J'] = '@conditional.inner',
+      ['[J'] = '@conditional.outer',
+      ['{M'] = '@function.inner',
+      ['[M'] = '@function.outer',
+      ['{W'] = '@loop.inner',
+      ['[W'] = '@loop.outer',
+      ['{R'] = '@parameter.inner',
+      ['[R'] = '@parameter.outer',
+      ['{;'] = '@statement.outer',
+    },
+  },
+}
+
+function M.textobj()
+  require('nvim-treesitter-textobjects').setup({
+    select = {
+      -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true,
+
+      -- customize the selection behavior (default is charwise 'v')
+      --
+      -- Can also be a function which gets passed a table with the keys
+      -- * query_string: eg '@function.inner'
+      -- * method: eg 'v' or 'o'
+      -- and should return the mode ('v', 'V', or '<c-v>') or a table
+      -- mapping query_strings to modes.
+      selection_modes = {
+        ['@parameter.outer'] = 'v', -- charwise
+        ['@function.outer'] = 'V', -- linewise
+        -- ['@class.outer'] = '<c-v>', -- blockwise
+      },
+      -- If you set this to `true` (default is `false`) then any textobject is
+      -- extended to include preceding or succeeding whitespace. Succeeding
+      -- whitespace has priority in order to act similarly to eg the built-in
+      -- `ap`.
+      --
+      -- Can also be a function which gets passed a table with the keys
+      -- * query_string: eg '@function.inner'
+      -- * selection_mode: eg 'v'
+      -- and should return true of false
+      include_surrounding_whitespace = false,
+    },
+
+    move = {
+      -- whether to set jumps in the jumplist
+      set_jumps = true,
+    },
+  })
+
+  -- select maps
+  for key, value in pairs(textobj_maps.select) do
+    vim.keymap.set({ 'x', 'o' }, key, function()
+      require('nvim-treesitter-textobjects.select').select_textobject(value, 'textobjects')
+    end, { desc = value })
+  end
+
+  -- swap
+  vim.keymap.set('n', '<M-l>', function()
+    require('nvim-treesitter-textobjects.swap').swap_next('@parameter.inner')
+  end)
+  vim.keymap.set('n', '<M-h>', function()
+    require('nvim-treesitter-textobjects.swap').swap_previous('@parameter.outer')
+  end)
+
+  -- moves
+  for key, query in pairs(textobj_maps.move.goto_next_start) do
+    vim.keymap.set({ 'n', 'x', 'o' }, key, function()
+      require('nvim-treesitter-textobjects.move').goto_next_start(query, 'textobjects')
+    end, { desc = 'next start ' .. query })
+  end
+  for lhs, query in pairs(textobj_maps.move.goto_next_end) do
+    vim.keymap.set({ 'n', 'x', 'o' }, lhs, function()
+      require('nvim-treesitter-textobjects.move').goto_next_end(query, 'textobjects')
+    end, { desc = 'next end ' .. query })
+  end
+  for lhs, query in pairs(textobj_maps.move.goto_previous_start) do
+    vim.keymap.set({ 'n', 'x', 'o' }, lhs, function()
+      require('nvim-treesitter-textobjects.move').goto_previous_start(query, 'textobjects')
+    end, { desc = 'previouse start ' .. query })
+  end
+  for lhs, query in pairs(textobj_maps.move.goto_previous_end) do
+    vim.keymap.set({ 'n', 'x', 'o' }, lhs, function()
+      require('nvim-treesitter-textobjects.move').goto_previous_end(query, 'textobjects')
+    end, { desc = 'previouse end ' .. query })
+  end
+  local ts_repeat_move = require('nvim-treesitter-textobjects.repeatable_move')
 end
 
 return M

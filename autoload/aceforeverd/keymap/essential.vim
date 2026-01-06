@@ -13,6 +13,7 @@ function!  aceforeverd#keymap#essential#setup() abort
 
     " in case can't go back with t/T/f/F
     nnoremap ,, ,
+    nnoremap ;; ;
     " vim default ;, is not necessary with clever-f
     " NOTE: ; may used for other maps
 

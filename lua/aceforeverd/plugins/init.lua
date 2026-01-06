@@ -478,13 +478,19 @@ M.plugin_list = {
 
   {
     'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
+    lazy = false,
+    branch = 'main',
     build = ':TSUpdate',
     config = function()
-      require('aceforeverd.config').treesitter()
+      require('aceforeverd.config.treesitter').setup_next()
     end,
+  },
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    branch = 'main',
+    config = function()
+      require('aceforeverd.config.treesitter').textobj()
+    end
   },
   {
     'RRethy/nvim-treesitter-endwise',
@@ -497,6 +503,7 @@ M.plugin_list = {
   {
     'RRethy/nvim-treesitter-textsubjects',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    lazy = true, -- upstream not up-to-date
     config = function()
       require('nvim-treesitter-textsubjects').configure({
         prev_selection = ',',
@@ -586,6 +593,7 @@ M.plugin_list = {
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
     },
+    lazy = true, -- require upstream work
     config = function()
       require('iswap').setup({
         autoswap = true, -- auto swap if there is only two params
