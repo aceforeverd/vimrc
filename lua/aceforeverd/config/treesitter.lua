@@ -19,6 +19,16 @@ local function selected_ts_langs()
   local langs = require('nvim-treesitter').get_available()
 end
 
+local function enable(bufnr)
+  vim.treesitter.start(bufnr)
+
+  -- only if additional legacy syntax is needed
+  -- vim.bo[args.buf].syntax = 'on'
+
+  -- folds
+  -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+end
+
 -- new setup entry for nvim-treesitter on main branch
 function M.setup_next()
   -- NOTE: require tree-sitter-cli exists on $PATH
@@ -28,22 +38,51 @@ function M.setup_next()
     install_dir = vim.fn.stdpath('data') .. '/site',
   })
 
+  -- TODO: remember install favor for each language, don't re-prompt.
+  --   it will refresh on nvim restart
+  -- TODO: persistent on disk ?
+  local install_favors = {}
+
   -- highlight, :help treesitter-highlight
   vim.api.nvim_create_autocmd('FileType', {
     pattern = { '*' },
     callback = function(args)
       local installed = require('nvim-treesitter').get_installed()
-      if vim.tbl_contains(installed, vim.bo[args.buf].filetype) == true then
-        vim.treesitter.start(args.buf)
-
-        -- only if additional legacy syntax is needed
-        -- vim.bo[args.buf].syntax = 'on'
-
-        -- folds
-        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+      local available = require('nvim-treesitter').get_available()
+      local ft = vim.bo[args.buf].filetype
+      if vim.tbl_contains(installed, ft) == true then
+        enable(args.buf)
+      elseif vim.tbl_contains(available, ft) == true then
+        vim.schedule(function()
+          vim.ui.select({ 'yes', 'no' }, {
+            prompt = 'install TS parser for ' .. ft .. '?',
+          }, function(choice)
+            if choice ~= nil and choice == 'yes' then
+              require('nvim-treesitter').install({ ft }):wait(60000 * 2) -- wait 2 min
+              enable(args.buf)
+            end
+          end)
+        end)
       end
     end,
   })
+
+  -- commands
+  vim.api.nvim_create_user_command('TSGetInstalled', function()
+    local installed = require('nvim-treesitter').get_installed()
+    vim.notify(vim.inspect(installed), vim.log.levels.INFO, {})
+  end, { desc = 'Get installed TS parsers' })
+  vim.api.nvim_create_user_command('TSGetAvailable', function()
+    local installed = require('nvim-treesitter').get_available()
+    vim.notify(vim.inspect(installed), vim.log.levels.INFO, {})
+  end, { desc = 'Get available TS parsers' })
+
+  -- TODO: verbose treesitter info for current buf, outputs:
+  --   1. used parser path
+  vim.api.nvim_create_user_command('TSDebug', function()
+    local ft = vim.api.nvim_buf_get_option(0, "filetype")
+    local runtimes = vim.fn.nvim_get_runtime_file("parser", true)
+  end, { desc = 'Get available TS parsers' })
 
   --
   -- indent
