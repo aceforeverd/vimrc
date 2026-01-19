@@ -38,10 +38,9 @@ function M.setup_next()
     install_dir = vim.fn.stdpath('data') .. '/site',
   })
 
-  -- TODO: remember install favor for each language, don't re-prompt.
-  --   it will refresh on nvim restart
   -- TODO: persistent on disk ?
   local install_favors = {}
+  local async = require('nvim-treesitter.async')
 
   -- highlight, :help treesitter-highlight
   vim.api.nvim_create_autocmd('FileType', {
@@ -53,13 +52,27 @@ function M.setup_next()
       if vim.tbl_contains(installed, ft) == true then
         enable(args.buf)
       elseif vim.tbl_contains(available, ft) == true then
+        -- parser available but not installed
+
+        -- prefer not install in this session ?
+        if vim.tbl_contains( install_favors, ft) == true then
+          return
+        end
+
         vim.schedule(function()
           vim.ui.select({ 'yes', 'no' }, {
             prompt = 'install TS parser for ' .. ft .. '?',
           }, function(choice)
-            if choice ~= nil and choice == 'yes' then
-              require('nvim-treesitter').install({ ft }):wait(60000 * 2) -- wait 2 min
-              enable(args.buf)
+            if choice == nil then
+              return
+            elseif choice == 'yes' then
+              async.arun(function()
+                async.await(require('nvim-treesitter').install({ ft }))
+                enable(args.buf)
+              end)
+            elseif choice == 'no' then
+              -- memorize in current neovim session
+              table.insert(install_favors, ft)
             end
           end)
         end)
@@ -80,8 +93,8 @@ function M.setup_next()
   -- TODO: verbose treesitter info for current buf, outputs:
   --   1. used parser path
   vim.api.nvim_create_user_command('TSDebug', function()
-    local ft = vim.api.nvim_buf_get_option(0, "filetype")
-    local runtimes = vim.fn.nvim_get_runtime_file("parser", true)
+    local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+    local runtimes = vim.fn.nvim_get_runtime_file('parser', true)
   end, { desc = 'Get available TS parsers' })
 
   --
