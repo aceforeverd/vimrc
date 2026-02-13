@@ -18,6 +18,9 @@ function! aceforeverd#tags#setup() abort
                 \   'default': 'fd',
                 \ }
                 \ }
+
+    " ensure vim & neovim shared the same tag files
+    let g:gutentags_cache_dir = expand('~/.cache/vim/gutentags')
 endfunction
 
 let s:cs_cmds = [
