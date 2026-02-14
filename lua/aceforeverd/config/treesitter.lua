@@ -14,11 +14,6 @@
 
 local M = {}
 
--- TODO: prompt install parser lazily if it not installed for current filetype ?
-local function selected_ts_langs()
-  local langs = require('nvim-treesitter').get_available()
-end
-
 local function enable(bufnr)
   vim.treesitter.start(bufnr)
 
@@ -93,7 +88,7 @@ function M.setup_next()
   -- TODO: verbose treesitter info for current buf, outputs:
   --   1. used parser path
   vim.api.nvim_create_user_command('TSDebug', function()
-    local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+    local ft = vim.api.nvim_get_option_value( 'filetype')
     local runtimes = vim.fn.nvim_get_runtime_file('parser', true)
   end, { desc = 'Get available TS parsers' })
 
