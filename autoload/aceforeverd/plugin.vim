@@ -244,6 +244,7 @@ function! s:config_plugins() abort
     PackAdd! cfilter
     " early load colorschem, ref https://github.com/sainnhe/gruvbox-material/issues/60
     PackAdd! sonokai
+    PackAdd! everforest
 
     let g:sleuth_go_heuristics = 0
 
