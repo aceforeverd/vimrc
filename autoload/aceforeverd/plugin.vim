@@ -235,6 +235,11 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('kkoomen/vim-doge', {'type': 'opt', 'do': 'packadd vim-doge | call doge#install()'})
 endfunction
 
+function! aceforeverd#plugin#list() abort
+    call aceforeverd#plugin#init()
+    return minpac#getpluglist()
+endfunction
+
 function! s:config_plugins() abort
     " no matchit & matchparen
     let g:loaded_matchit = 1
