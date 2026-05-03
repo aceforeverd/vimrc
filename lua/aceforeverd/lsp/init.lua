@@ -48,6 +48,9 @@ function M.setup()
     else -- just assume no extra config apply
     end
   end
+
+  -- always enabled LSPs
+  vim.lsp.enable({ 'clangd' })
 end
 
 function M.go()

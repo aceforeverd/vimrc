@@ -6,6 +6,11 @@ function M.gitignore_selects(opts)
   local curl = require('plenary.curl')
   local res = curl.get(endpoint .. 'list')
   local content = ''
+  -- res:
+  --  exit    = "The shell process exit code." (number)
+  --  status  = "The https response status." (number)
+  --  headers = "The https response headers." (array)
+  --  body    = "The http response body." (string)
   if res.status == 200 then
     content = res.body
   else
