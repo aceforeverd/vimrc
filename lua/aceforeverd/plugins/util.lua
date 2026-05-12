@@ -1,6 +1,8 @@
 local base = 'https://api.github.com/repos/'
 local curl_timeout = 10000
 
+local check_cache = {}
+
 local function get_github_token()
   local token = os.getenv('GITHUB_TOKEN')
   if token and token ~= '' then
@@ -87,10 +89,10 @@ local function show_results_ui(plugin_repos)
         top_align = 'center',
       },
     },
-    position = '50%',
+    position = '60%',
     size = {
       width = '80%',
-      height = '60%',
+      height = '80%',
     },
   })
 
@@ -98,6 +100,16 @@ local function show_results_ui(plugin_repos)
 
   popup:on(event.BufLeave, function()
     popup:unmount()
+  end)
+
+  popup:on(event.VimResized, function()
+    popup:update_layout({
+      position = '60%',
+      size = {
+        width = '80%',
+        height = '80%',
+      },
+    })
   end)
 
   local bufnr = popup.bufnr
@@ -108,30 +120,78 @@ local function show_results_ui(plugin_repos)
   local total = #plugin_repos
   local finished = 0
   local archived_repos = {}
+  local line_to_res = {}
 
   local function update_view()
     local lines = {
       string.format('Progress: %d/%d', finished, total),
       '',
     }
+    line_to_res = {}
 
+    local sorted_results = {}
     for _, res in ipairs(results) do
       local status_text = ''
-      local hl_group = ''
+      local hl_group = 'Comment'
+      local sort_weight = 1
+
       if res.status == 'checking' then
-        status_text = 'Checking...'
-        hl_group = 'Comment'
-      elseif res.status == 'ok' then
-        status_text = 'OK'
-        hl_group = 'DiagnosticInfo'
+        status_text = '⟳ Checking...'
+        sort_weight = 1
       elseif res.status == 'archived' then
-        status_text = 'ARCHIVED'
+        status_text = '󰈺 ARCHIVED'
         hl_group = 'DiagnosticWarn'
+        sort_weight = 2
       elseif res.status == 'error' then
-        status_text = 'ERROR: ' .. res.err_msg
+        status_text = '✗ ERROR: ' .. res.err_msg
         hl_group = 'DiagnosticError'
+        sort_weight = 3
+      elseif res.status == 'ok' then
+        status_text = '✓ OK'
+        hl_group = 'DiagnosticInfo'
+        sort_weight = 4
+        if res.pushed_at then
+          local year, month, day = res.pushed_at:match("(%d%d%d%d)-(%d%d)-(%d%d)")
+          if year and month and day then
+            local pushed_time = os.time({year=tonumber(year), month=tonumber(month), day=tonumber(day)})
+            local current_time = os.time()
+            local diff_days = os.difftime(current_time, pushed_time) / (24 * 3600)
+            status_text = string.format('✓ OK (Last update: %s-%s-%s)', year, month, day)
+            if diff_days <= 365 then
+              hl_group = 'DiagnosticOk'
+            else
+              hl_group = 'DiagnosticWarn'
+            end
+          end
+        end
       end
-      table.insert(lines, string.format('%-40s %s', res.repo, status_text))
+      res.computed_hl = hl_group
+      res.computed_text = status_text
+      res.sort_weight = sort_weight
+      table.insert(sorted_results, res)
+    end
+
+    table.sort(sorted_results, function(a, b)
+      if a.sort_weight ~= b.sort_weight then
+        return a.sort_weight < b.sort_weight
+      end
+      if a.sort_weight == 4 then
+        local date_a = a.pushed_at or "9999-99-99"
+        local date_b = b.pushed_at or "9999-99-99"
+        if date_a ~= date_b then
+          return date_a < date_b
+        end
+      end
+      return a.repo < b.repo
+    end)
+
+    for _, res in ipairs(sorted_results) do
+      table.insert(lines, string.format('%-40s %s', res.repo, res.computed_text))
+      line_to_res[#lines] = res
+
+      if res.expanded then
+        table.insert(lines, '  └─ URL: https://github.com/' .. res.repo)
+      end
     end
 
     if finished == total then
@@ -155,41 +215,62 @@ local function show_results_ui(plugin_repos)
       vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
 
       -- Add highlights
-      for i, res in ipairs(results) do
-        local hl = 'Comment'
-        if res.status == 'ok' then
-          hl = 'DiagnosticInfo'
-        elseif res.status == 'archived' then
-          hl = 'DiagnosticWarn'
-        elseif res.status == 'error' then
-          hl = 'DiagnosticError'
+      local line_num = 3
+      for _, res in ipairs(sorted_results) do
+        local hl = res.computed_hl or 'Comment'
+        vim.api.nvim_buf_add_highlight(bufnr, -1, hl, line_num - 1, 41, -1)
+        line_num = line_num + 1
+        if res.expanded then
+          vim.api.nvim_buf_add_highlight(bufnr, -1, 'Comment', line_num - 1, 0, -1)
+          line_num = line_num + 1
         end
-        vim.api.nvim_buf_add_highlight(bufnr, -1, hl, i + 1, 41, -1)
       end
 
       vim.api.nvim_set_option_value('modifiable', false, { buf = bufnr })
     end)
   end
 
+  vim.keymap.set('n', '<CR>', function()
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local row = cursor[1]
+    local res = line_to_res[row]
+    if res then
+      res.expanded = not res.expanded
+      update_view()
+    end
+  end, { buffer = bufnr, silent = true })
+
   for i, repo in ipairs(plugin_repos) do
-    results[i] = { repo = repo, status = 'checking' }
+    if check_cache[repo] then
+      results[i] = { repo = repo, status = check_cache[repo].status, err_msg = check_cache[repo].err_msg, pushed_at = check_cache[repo].pushed_at }
+      finished = finished + 1
+      if check_cache[repo].status == 'archived' then
+        table.insert(archived_repos, repo)
+      end
+    else
+      results[i] = { repo = repo, status = 'checking' }
+    end
   end
   update_view()
 
   for i, repo in ipairs(plugin_repos) do
-    check_archived_async(repo, function(stats)
-      finished = finished + 1
-      if stats.err_msg then
-        results[i].status = 'error'
-        results[i].err_msg = stats.err_msg
-      elseif stats.archived then
-        results[i].status = 'archived'
-        table.insert(archived_repos, repo)
-      else
-        results[i].status = 'ok'
-      end
-      update_view()
-    end)
+    if not check_cache[repo] then
+      check_archived_async(repo, function(stats)
+        finished = finished + 1
+        if stats.err_msg then
+          results[i].status = 'error'
+          results[i].err_msg = stats.err_msg
+        elseif stats.archived then
+          results[i].status = 'archived'
+          table.insert(archived_repos, repo)
+        else
+          results[i].status = 'ok'
+          results[i].pushed_at = stats.pushed_at
+        end
+        check_cache[repo] = { status = results[i].status, err_msg = results[i].err_msg, pushed_at = results[i].pushed_at }
+        update_view()
+      end)
+    end
   end
 end
 
