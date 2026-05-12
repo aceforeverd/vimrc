@@ -216,12 +216,15 @@ local function show_results_ui(plugin_repos)
 
       -- Add highlights
       local line_num = 3
+      local ns = vim.api.nvim_create_namespace('archived')
       for _, res in ipairs(sorted_results) do
         local hl = res.computed_hl or 'Comment'
-        vim.api.nvim_buf_add_highlight(bufnr, -1, hl, line_num - 1, 41, -1)
+        local col_len = lines[line_num] and #lines[line_num] or 41
+        vim.api.nvim_buf_set_extmark(bufnr, ns, line_num - 1, 41, { end_col = col_len, hl_group = hl })
         line_num = line_num + 1
         if res.expanded then
-          vim.api.nvim_buf_add_highlight(bufnr, -1, 'Comment', line_num - 1, 0, -1)
+          local exp_len = lines[line_num] and #lines[line_num] or 0
+          vim.api.nvim_buf_set_extmark(bufnr, ns, line_num - 1, 0, { end_col = exp_len, hl_group = 'Comment' })
           line_num = line_num + 1
         end
       end
@@ -240,41 +243,54 @@ local function show_results_ui(plugin_repos)
     end
   end, { buffer = bufnr, silent = true })
 
-  for i, repo in ipairs(plugin_repos) do
-    if check_cache[repo] then
-      results[i] = { repo = repo, status = check_cache[repo].status, err_msg = check_cache[repo].err_msg, pushed_at = check_cache[repo].pushed_at }
-      finished = finished + 1
-      if check_cache[repo].status == 'archived' then
-        table.insert(archived_repos, repo)
-      end
-    else
-      results[i] = { repo = repo, status = 'checking' }
-    end
-  end
-  update_view()
-
-  for i, repo in ipairs(plugin_repos) do
-    if not check_cache[repo] then
-      check_archived_async(repo, function(stats)
+  local function start_checks()
+    results = {}
+    finished = 0
+    archived_repos = {}
+    
+    for i, repo in ipairs(plugin_repos) do
+      if check_cache[repo] then
+        results[i] = { repo = repo, status = check_cache[repo].status, err_msg = check_cache[repo].err_msg, pushed_at = check_cache[repo].pushed_at }
         finished = finished + 1
-        if stats.err_msg then
-          results[i].status = 'error'
-          results[i].err_msg = stats.err_msg
-        elseif stats.archived then
-          results[i].status = 'archived'
+        if check_cache[repo].status == 'archived' then
           table.insert(archived_repos, repo)
-        else
-          results[i].status = 'ok'
-          results[i].pushed_at = stats.pushed_at
         end
-        check_cache[repo] = { status = results[i].status, err_msg = results[i].err_msg, pushed_at = results[i].pushed_at }
-        update_view()
-      end)
+      else
+        results[i] = { repo = repo, status = 'checking' }
+      end
+    end
+    update_view()
+
+    for i, repo in ipairs(plugin_repos) do
+      if not check_cache[repo] then
+        check_archived_async(repo, function(stats)
+          finished = finished + 1
+          if stats.err_msg then
+            results[i].status = 'error'
+            results[i].err_msg = stats.err_msg
+          elseif stats.archived then
+            results[i].status = 'archived'
+            table.insert(archived_repos, repo)
+          else
+            results[i].status = 'ok'
+            results[i].pushed_at = stats.pushed_at
+          end
+          check_cache[repo] = { status = results[i].status, err_msg = results[i].err_msg, pushed_at = results[i].pushed_at }
+          update_view()
+        end)
+      end
     end
   end
+
+  vim.keymap.set('n', 'R', function()
+    for k in pairs(check_cache) do check_cache[k] = nil end
+    start_checks()
+  end, { buffer = bufnr, silent = true })
+
+  start_checks()
 end
 
-function GetOldPlugins()
+function CheckPluginHealth()
   local plugin_repos = {}
 
   -- minpac plugins (legacy support as per original script)
@@ -312,5 +328,5 @@ function GetOldPlugins()
 end
 
 return {
-  GetOldPlugins = GetOldPlugins,
+  CheckPluginHealth = CheckPluginHealth,
 }
