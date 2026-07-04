@@ -186,7 +186,6 @@ function! aceforeverd#plugin#init() abort
 
     " ft plugins
     call s:plugin_add('HerringtonDarkholme/yats.vim')
-    call s:plugin_add('ziglang/zig.vim')
     call s:plugin_add('gentoo/gentoo-syntax')
     call s:plugin_add('chrisbra/csv.vim')
     call s:plugin_add('rust-lang/rust.vim')

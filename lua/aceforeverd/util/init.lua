@@ -28,5 +28,7 @@ function M.detect_root(patterns)
   end
 end
 
+M.check_plugin_health = require('aceforeverd.util.plugin_health').check_plugin_health
+
 
 return M

@@ -68,8 +68,6 @@ function M.setup()
   -- keymap guideline
   -- <space>xxx   -> view-only operators
   -- <leader>xxx  -> possibly write operators
-
-  vim.api.nvim_create_user_command('CheckPluginHealth', [[lua require('aceforeverd.plugins.util').CheckPluginHealth()]], {})
 end
 
 return M

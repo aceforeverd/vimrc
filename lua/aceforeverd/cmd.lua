@@ -21,5 +21,11 @@ return {
       require('aceforeverd.gitignore').gitignore_selects,
       { nargs = '*', desc = 'generate gitignore (multi-selects)', complete = 'filetype' }
     )
+
+    vim.api.nvim_create_user_command(
+      'CheckPluginHealth',
+      require('aceforeverd.util').check_plugin_health,
+      { desc = 'check all plugin health'}
+    )
   end,
 }
