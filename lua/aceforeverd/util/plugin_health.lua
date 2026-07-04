@@ -204,16 +204,17 @@ local function show_results_ui(plugin_repos)
     end
 
     if finished == total then
-      table.insert(lines, 1, 'Summary:')
+      -- TODO: move this summary into top. Notice update_view rely on some magic line idx to draw
+      table.insert(lines, '')
+      table.insert(lines, 'Summary:')
       if #archived_repos > 0 then
-        table.insert(lines, 1, 'Archived plugins found:')
+        table.insert(lines, 'Archived plugins found:')
         for _, repo in ipairs(archived_repos) do
-          table.insert(lines, 1, '  - ' .. repo)
+          table.insert(lines, '  - ' .. repo)
         end
       else
-        table.insert(lines, 1, 'No archived plugins found.')
+        table.insert(lines, 'No archived plugins found.')
       end
-      table.insert(lines, 1, '')
     end
 
     vim.schedule(function()
