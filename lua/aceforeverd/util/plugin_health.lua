@@ -1,11 +1,8 @@
--- TODO:
--- 1. run the check in the background even popup is hide
--- 2. show & hide the popup
-
 local default_base = 'https://api.github.com/repos/'
 local default_curl_timeout = 10000
 local default_curl_parallel = 20
 
+local scoped_task = nil
 
 --- check if a plugin repo is archived, or long time no update
 ---@param repo string path to repo, format: 'username/repo'
@@ -17,8 +14,6 @@ local function check_archived_async(repo, timeout, token, callback)
   end
 
   local curl = require('plenary.curl')
-  -- local async = require('plenary.async')
-  -- local token = get_github_token()
   local headers = {
     ['Accept'] = 'application/vnd.github.v3+json',
   }
@@ -129,9 +124,11 @@ function Task:init_ui()
 
   popup:mount()
 
-  popup:on(event.BufLeave, function()
-    popup:unmount()
-  end)
+  local bufnr = popup.bufnr
+  vim.api.nvim_set_option_value('modifiable', false, { buf = bufnr })
+
+  self.ui.bufnr = bufnr
+  self.ui.popup = popup
 
   popup:on(event.VimResized, function()
     popup:update_layout({
@@ -143,12 +140,10 @@ function Task:init_ui()
     })
   end)
 
-  local bufnr = popup.bufnr
-  vim.api.nvim_set_option_value('modifiable', false, { buf = bufnr })
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'q', ':q<CR>', { noremap = true, silent = true })
-
-  self.ui.bufnr = bufnr
-  self.ui.popup = popup
+  popup:on(event.QuitPre, function()
+    self.ui.bufnr = -1
+    scoped_task = nil
+  end)
 
   vim.keymap.set('n', '<CR>', function()
     local cursor = vim.api.nvim_win_get_cursor(0)
@@ -166,7 +161,7 @@ function Task:init_ui()
     if self.ui.popup then
       self.ui.popup:hide()
     end
-  end)
+  end, { buffer = bufnr, silent = true })
 end
 
 -- start fetch & draw the UI
@@ -176,8 +171,17 @@ function Task:start()
   self:start_check()
 end
 
+function Task:is_ui_valid()
+  return self.ui.popup ~= nil and self.ui.bufnr ~= -1 and vim.api.nvim_buf_is_valid(self.ui.bufnr)
+end
+
 function Task:resume_ui()
-  self.ui.popup:show()
+  if not self:is_ui_valid() then
+    self:init_ui()
+  else
+    self.ui.popup:show()
+  end
+  self:update_view()
 end
 
 function Task:restart_check()
@@ -333,11 +337,12 @@ function Task:update_view()
   end
 
   vim.schedule(function()
-    local bufnr = self.ui.bufnr
-    if not vim.api.nvim_buf_is_valid(bufnr) then
-      vim.notify('internal error, bufnr lost', vim.log.levels.ERROR)
+    if not self:is_ui_valid() then
+      vim.notify('internal error: popui corrupted', vim.log.levels.ERROR)
       return
     end
+
+    local bufnr = self.ui.bufnr
     vim.api.nvim_set_option_value('modifiable', true, { buf = bufnr })
     vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
 
@@ -376,8 +381,6 @@ local function get_github_token()
 
   return nil
 end
-
-local scoped_task = nil
 
 local function check_plugin_health()
   if scoped_task ~= nil then
