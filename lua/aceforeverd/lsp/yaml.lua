@@ -17,7 +17,7 @@ local schemastore = [[https?://json.schemastore.org/]]
 
 --- check yamlls is up and ready for current buffer
 --- @param bufnr number
---- @return table | nil
+--- @return vim.lsp.Client | nil
 function M.get_yamlls(bufnr)
   local clients = vim.lsp.get_clients({ bufnr = bufnr, name = 'yamlls' })
   if #clients == 0 then
@@ -37,7 +37,7 @@ local function get_schema_data(bufnr)
     return nil
   end
 
-  local resp, err = yamlls_client.request_sync('yaml/get/jsonSchema', { vim.uri_from_bufnr(0) }, 100, 0)
+  local resp, err = yamlls_client:request_sync('yaml/get/jsonSchema', { vim.uri_from_bufnr(0) }, 100, 0)
   if err then
     return nil
   end
@@ -108,7 +108,7 @@ function M.select_schema()
 
   local cur_sc = M.get_schema()
 
-  local resp, err = yamlls_client.request_sync('yaml/get/all/jsonSchemas', {})
+  local resp, err = yamlls_client:request_sync('yaml/get/all/jsonSchemas', {})
   if err then
     vim.notify(err, vim.log.levels.WARN, {})
     return
@@ -163,7 +163,7 @@ function M.select_schema()
 
       client.settings.yaml.schemas = schemas
 
-      client.notify('workspace/didChangeConfiguration', {
+      client:notify('workspace/didChangeConfiguration', {
         settings = client.settings,
       })
     end
