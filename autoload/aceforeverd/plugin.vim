@@ -188,7 +188,6 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('HerringtonDarkholme/yats.vim')
     call s:plugin_add('gentoo/gentoo-syntax')
     call s:plugin_add('chrisbra/csv.vim')
-    call s:plugin_add('rust-lang/rust.vim')
     call s:plugin_add('rhysd/vim-llvm')
     call s:plugin_add('vim-ruby/vim-ruby')
     call s:plugin_add('lervag/vimtex', {'type': 'opt'})
