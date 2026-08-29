@@ -775,7 +775,6 @@ M.plugin_list = {
       'nvim-telescope/telescope-frecency.nvim',
       'kkharji/sqlite.lua',
       'nvim-tree/nvim-web-devicons',
-      'nvim-telescope/telescope-ui-select.nvim'
     },
   },
 
@@ -1083,7 +1082,19 @@ M.plugin_list = {
     'folke/snacks.nvim',
     opts = {
       input = { enabled = true },
-    }
+      picker = { enabled = true },
+      notifier = { enabled = true, level = vim.log.levels.INFO, top_down = false, },
+    },
+    config = function(_, opts)
+      require('snacks').setup(opts)
+
+      vim.api.nvim_create_user_command('SPicker', function()
+        require('snacks').picker()
+      end, {})
+      vim.api.nvim_create_user_command('SNotifyHistory', function()
+        require('snacks').notifier.show_history()
+      end, {})
+    end,
   },
 
   {
