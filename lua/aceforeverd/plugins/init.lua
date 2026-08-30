@@ -76,17 +76,6 @@ M.plugin_list = {
     end,
   },
 
-  {
-    'SmiteshP/nvim-navbuddy',
-    dependencies = {
-      'SmiteshP/nvim-navic',
-      'MunifTanjim/nui.nvim',
-    },
-    opts = { lsp = { auto_attach = true } },
-    cmd = { 'Navbuddy' },
-    keys = { { '<space>v', '<cmd>Navbuddy<cr>', desc = 'navbuddy' } }
-  },
-
   -- {
   --   'Bekaboo/dropbar.nvim',
   --   dependencies = {
@@ -312,7 +301,7 @@ M.plugin_list = {
       'nvim-lua/plenary.nvim',
     },
     config = function()
-      require('aceforeverd.plugins.null-ls').setup()
+      require('aceforeverd.config.null-ls').setup()
     end,
   },
 
@@ -768,9 +757,7 @@ M.plugin_list = {
       'nvim-telescope/telescope-fzf-native.nvim',
 
       'nvim-telescope/telescope-symbols.nvim',
-      'nvim-telescope/telescope-file-browser.nvim',
       'nvim-telescope/telescope-github.nvim',
-      'cljoly/telescope-repo.nvim',
       'jvgrootveld/telescope-zoxide',
       'nvim-telescope/telescope-frecency.nvim',
       'kkharji/sqlite.lua',
@@ -858,17 +845,6 @@ M.plugin_list = {
   },
 
   {
-    'sindrets/diffview.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      require('diffview').setup({
-        enhanced_diff_hl = true,
-      })
-    end,
-    cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
-  },
-
-  {
     'gbprod/yanky.nvim',
     config = function()
       require('aceforeverd.plugins.enhance').yanky()
@@ -930,54 +906,13 @@ M.plugin_list = {
   },
 
   {
-    'ruifm/gitlinker.nvim',
-    config = function()
-      require('gitlinker').setup({
-        opts = {
-          remote = 'upstream',
-        },
-      })
-    end,
+    "linrongbin16/gitlinker.nvim",
+    cmd = "GitLink",
+    opts = {},
     keys = {
-      { '<leader>gy', mode = { 'n', 'v' }, desc = 'permalink to given range' },
-      {
-        '<leader>gY',
-        function()
-          require('gitlinker').get_repo_url()
-        end,
-        { silent = true },
-        desc = 'Repo url',
-      },
-      {
-        '<leader>gb',
-        function()
-          require('gitlinker').get_buf_range_url(
-            'n',
-            { action_callback = require('gitlinker.actions').open_in_browser }
-          )
-        end,
-        mode = 'n',
-        desc = 'Browse permalink of current line',
-      },
-      {
-        '<leader>gb',
-        function()
-          require('gitlinker').get_buf_range_url(
-            'v',
-            { action_callback = require('gitlinker.actions').open_in_browser }
-          )
-        end,
-        mode = 'v',
-        desc = 'Browse permalink of range',
-      },
-      {
-        '<leader>gB',
-        function()
-          require('gitlinker').get_repo_url({ action_callback = require('gitlinker.actions').open_in_browser })
-        end,
-        { silent = true },
-        desc = 'Browse repo',
-      },
+      -- see also :GBrowse / Snacks gitbrowse
+      { "<leader>gy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Yank git link" },
+      { "<leader>gY", "<cmd>GitLink!<cr>", mode = { "n", "v" }, desc = "Open git link" },
     },
   },
 
@@ -1084,16 +1019,10 @@ M.plugin_list = {
       input = { enabled = true },
       picker = { enabled = true },
       notifier = { enabled = true, level = vim.log.levels.INFO, top_down = false, },
+      gitbrowse = {},
     },
     config = function(_, opts)
-      require('snacks').setup(opts)
-
-      vim.api.nvim_create_user_command('SPicker', function()
-        require('snacks').picker()
-      end, {})
-      vim.api.nvim_create_user_command('SNotifyHistory', function()
-        require('snacks').notifier.show_history()
-      end, {})
+      require('aceforeverd.config.snacks').snacks(opts)
     end,
   },
 
@@ -1197,19 +1126,6 @@ M.plugin_list = {
     cmd = { 'GrugFar' }
   },
 
-  {
-    "cuducos/yaml.nvim",
-    ft = { "yaml" },
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "folke/snacks.nvim",
-      "nvim-telescope/telescope.nvim",
-      "ibhagwan/fzf-lua"
-    },
-    config = function()
-      require("yaml_nvim").setup({ ft = { "yaml" } })
-    end
-  },
   {
     "qvalentin/helm-ls.nvim",
     ft = { "helm", "yaml.helm-values" },

@@ -119,12 +119,6 @@ function M.telescope()
         end,
         { desc = 'spell suggest' },
       },
-      ['o'] = {
-        function()
-          require('telescope').extensions.repo.list({})
-        end,
-        { desc = 'list repos' },
-      },
       ['r'] = {
         function()
           require('telescope').extensions.frecency.frecency()
@@ -168,12 +162,6 @@ function M.telescope()
           require('telescope').extensions.zoxide.list({})
         end,
         { desc = 'zoxide list' },
-      },
-      ['l'] = {
-        function()
-          require('telescope').extensions.file_browser.file_browser()
-        end,
-        { desc = 'file browse' },
       },
     },
     ['<leader>q'] = {
