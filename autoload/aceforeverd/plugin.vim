@@ -198,11 +198,6 @@ function! aceforeverd#plugin#init() abort
     " vimL
     call s:plugin_add('tweekmonster/helpful.vim')
 
-    call s:plugin_add('iamcco/markdown-preview.nvim', {
-                \ 'type': 'opt',
-                \ 'do': '!./app/install.sh'
-                \ })
-
     call s:plugin_add('k-takata/minpac', {'type': 'opt'})
 
     " vim only
@@ -395,14 +390,8 @@ function! s:config_plugins() abort
     let g:markdown_fenced_languages = ['html', 'json', 'javascript', 'c', 'bash=sh', 'vim', 'help']
     let g:mkdp_auto_close = 0
 
-    " markdown local settings
-    function! s:mk_hook() abort
-        packadd markdown-preview.nvim
-        map <buffer> <leader>mp <Plug>MarkdownPreview
-    endfunction
     augroup gp_markdown
         autocmd!
-        autocmd FileType markdown,rmd,pandoc.markdown :call s:mk_hook()
         autocmd FileType markdown,rmd,pandoc.markdown,gitcommit setlocal spell
     augroup END
 

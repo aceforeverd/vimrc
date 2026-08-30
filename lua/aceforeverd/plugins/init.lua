@@ -174,7 +174,7 @@ M.plugin_list = {
 
   -- installer
   {
-    'williamboman/mason.nvim',
+    'mason-org/mason.nvim',
     opts = {},
     lazy = true,
   },
@@ -578,6 +578,24 @@ M.plugin_list = {
   },
 
   {
+    'brianhuster/live-preview.nvim',
+    ft = { 'markdown', 'html', 'asciidoc', 'svg' },
+    cmd = 'LivePreview',
+    keys = {
+      { '<leader>mp', '<cmd>LivePreview start<cr>', desc = 'live preview in browser' },
+    },
+    config = function()
+      require('livepreview.config').set({
+        port = 5500,
+        browser = 'default',
+        sync_scroll = true,
+        address = '127.0.0.1',
+        picker = 'fzf-lua', -- or 'telescope' / 'snacks.picker' / 'mini.pick'; "" auto-detects
+      })
+    end,
+  },
+
+  {
     'mizlan/iswap.nvim',
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
@@ -930,7 +948,7 @@ M.plugin_list = {
 
   {
     'ibhagwan/fzf-lua',
-    dependencies = { 'vijaymarupudi/nvim-fzf', 'nvim-tree/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('fzf-lua').setup({ winopts = { width = 0.9 } })
 
