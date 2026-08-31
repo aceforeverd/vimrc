@@ -111,7 +111,6 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('tpope/vim-obsession')
     call s:plugin_add('tpope/vim-tbone')
     call s:plugin_add('tpope/vim-dadbod')
-    call s:plugin_add('tpope/vim-projectionist')
     call s:plugin_add('tpope/vim-sleuth')
     call s:plugin_add('tpope/vim-apathy')
     call s:plugin_add('tpope/vim-characterize')
@@ -132,7 +131,7 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('justinmk/vim-gtfo')
 
     " motion
-    call s:plugin_add('rhysd/clever-f.vim')
+    call s:plugin_add('rhysd/clever-f.vim', {'rev': '6a3ac5e3688598af9411ab741737f98c47370c22'})
     call s:plugin_add('justinmk/vim-sneak')
     call s:plugin_add('andymass/vim-matchup')
     call s:plugin_add('chaoren/vim-wordmotion', {'type': 'opt'})
@@ -141,7 +140,6 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('editorconfig/editorconfig-vim', {'name': 'editorconfig', 'type': 'opt'})
     call s:plugin_add('dstein64/vim-startuptime')
     call s:plugin_add('AndrewRadev/bufferize.vim')
-    call s:plugin_add('tyru/open-browser.vim')
     call s:plugin_add('wincent/ferret')
     call s:plugin_add('ojroques/vim-oscyank')
     call s:plugin_add('ludovicchabant/vim-gutentags')
@@ -155,7 +153,7 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('skywind3000/asyncrun.vim')
     call s:plugin_add('jpalardy/vim-slime')
     call s:plugin_add('preservim/vimux')
-    call s:plugin_add('tmux-plugins/vim-tmux')
+    call s:plugin_add('tmux-plugins/vim-tmux', {'rev': 'cfe76281efc29890548cf9eedd42ad51c7a1faf0'})
     call s:plugin_add('christoomey/vim-tmux-navigator')
 
     " VCS
@@ -170,7 +168,6 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('junegunn/fzf.vim')
 
     call s:plugin_add('mbbill/undotree')
-    call s:plugin_add('jamessan/vim-gnupg')
 
     call s:plugin_add('tomtom/tcomment_vim')
     call s:plugin_add('chrisbra/recover.vim')
@@ -193,7 +190,7 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('lervag/vimtex', {'type': 'opt'})
     call s:plugin_add('fatih/vim-go', {'type': 'opt'})
     call s:plugin_add('neoclide/jsonc.vim')
-    call s:plugin_add('MTDL9/vim-log-highlighting')
+    call s:plugin_add('MTDL9/vim-log-highlighting', {'rev': '1037e26f3120e6a6a2c0c33b14a84336dee2a78f'})
 
     " vimL
     call s:plugin_add('tweekmonster/helpful.vim')
@@ -210,7 +207,7 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('neoclide/coc.nvim', {'type': 'opt',
                 \ 'rev': 'release' })
     call s:plugin_add('antoinemadec/coc-fzf', {'type': 'opt'})
-    call s:plugin_add('neoclide/coc-neco', {'type': 'opt'})
+    call s:plugin_add('neoclide/coc-neco', {'type': 'opt', 'rev': 'fe130c2c3b883f8b58f70f15bf36c73923faa3d9'})
     call s:plugin_add('airblade/vim-rooter', {'type': 'opt'})
 
     " auto pair
@@ -425,10 +422,6 @@ function! s:config_plugins() abort
         autocmd FileType vim,lua,help nnoremap <buffer> <leader>gh :call aceforeverd#completion#help()<cr>
     augroup END
 
-    " open-browser
-    command! OpenB execute 'normal <Plug>(openbrowser-open)'
-    vmap <Leader>os <Plug>(openbrowser-search)
-
     " ferret
     let g:FerretMap = 0
     let g:FerretExecutableArguments = {
@@ -478,9 +471,6 @@ function! s:config_plugins() abort
 
     " vim-wordmotion
     let g:wordmotion_prefix = ';'
-
-    " zig
-    let g:zig_fmt_autosave = 0
 
     " llvm
     let g:llvm_ext_no_mapping = 0
