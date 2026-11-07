@@ -20,10 +20,18 @@ local function ast_grep_search(opts)
   local args = opts.fargs
   local pattern = args[1]
 
+  -- Brief syntax reference, more on https://ast-grep.github.io/guide/pattern-syntax
+  -- Variable literals have to be all uppercase
+  --* $AST, $META_VAR, $META_VAR1, $_, $_123: any single AST Node
+  --* $$$AST, $$$: zero or more AST Node
   local cmds = { 'ast-grep', 'run', '--heading', 'never', '--pattern', pattern }
+
+  -- By default, hidden files and directories are skipped
+  -- append --no-ignore hidden to include them, or add a hidden folder to search
   for i = 2, #args, 1 do
     table.insert(cmds, args[i])
   end
+  -- HINT: append --rewrite <PATTERN> --update-all to do replace
 
   local expr = string.format(
     'system([%s])',
