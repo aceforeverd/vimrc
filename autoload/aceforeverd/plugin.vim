@@ -220,8 +220,6 @@ function! aceforeverd#plugin#init() abort
     call s:plugin_add('chrisbra/unicode.vim')
 
     call s:plugin_add('voldikss/vim-translator')
-
-    call s:plugin_add('kkoomen/vim-doge', {'type': 'opt', 'do': 'packadd vim-doge | call doge#install()'})
 endfunction
 
 function! aceforeverd#plugin#list() abort
